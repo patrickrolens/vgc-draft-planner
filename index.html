@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VGC Draft Planner</title>
+<style>
+:root{
+  --bg:#0f1117;--bg2:#1a1d27;--bg3:#22263a;--border:#2e3248;
+  --text:#e8eaf6;--text2:#9095b8;--text3:#5a5f80;
+  --accent:#7c6ff7;--red:#e05555;--green:#4caf7d;--yellow:#f0c060;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+.type-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;}
+.t-Normal{background:#9199a1;color:#fff}.t-Fire{background:#e6724a;color:#fff}.t-Water{background:#539ddf;color:#fff}
+.t-Grass{background:#5bbd58;color:#fff}.t-Electric{background:#f3d23b;color:#333}.t-Ice{background:#74cfc0;color:#fff}
+.t-Fighting{background:#ce4069;color:#fff}.t-Poison{background:#ab6ac8;color:#fff}.t-Ground{background:#d97845;color:#fff}
+.t-Flying{background:#89aae3;color:#fff}.t-Psychic{background:#f97176;color:#fff}.t-Bug{background:#90c12c;color:#fff}
+.t-Rock{background:#c7b78b;color:#fff}.t-Ghost{background:#5269ac;color:#fff}.t-Dragon{background:#0b6dc3;color:#fff}
+.t-Dark{background:#5a5366;color:#fff}.t-Steel{background:#5a8ea1;color:#fff}.t-Fairy{background:#ec8fe6;color:#fff}
+
+nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1rem;position:sticky;top:0;z-index:100;}
+.nav-logo{font-size:15px;font-weight:700;color:var(--accent);padding:14px 16px 14px 0;margin-right:8px;border-right:1px solid var(--border);white-space:nowrap;}
+.nav-tab{padding:14px 16px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--text2);transition:all 0.15s;white-space:nowrap;}
+.nav-tab:hover{color:var(--text);}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+.view{display:none;padding:1.5rem;max-width:1400px;margin:0 auto;}
+.view.active{display:block;}
+
+.draft-layout{display:grid;grid-template-columns:1fr 360px;gap:1.5rem;align-items:start;}
+@media(max-width:960px){.draft-layout{grid-template-columns:1fr;}}
+.draft-team{display:flex;flex-direction:column;gap:8px;}
+.draft-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.toolbar-btn{background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;font-size:12px;padding:5px 12px;}
+.toolbar-btn:hover{color:var(--text);border-color:var(--accent);}
+
+/* SLOT */
+.draft-slot{background:var(--bg2);border:1px solid var(--border);border-radius:10px;display:flex;align-items:flex-start;gap:12px;padding:10px 14px;transition:border-color 0.15s,opacity 0.15s;}
+.draft-slot.drag-over{border-color:var(--accent);background:rgba(124,111,247,0.08);}
+.draft-slot.dragging{opacity:0.4;}
+.slot-sprite-empty{width:72px;height:72px;border:1px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:22px;cursor:pointer;transition:border-color 0.15s,color 0.15s;}
+.slot-sprite-empty:hover{border-color:var(--accent);color:var(--accent);}
+/* Slot popover */
+.slot-popover{position:absolute;z-index:300;background:var(--bg2);border:1px solid var(--accent);border-radius:10px;padding:8px;width:280px;box-shadow:0 8px 24px rgba(0,0,0,0.4);}
+.slot-popover input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 12px 8px 32px;color:var(--text);font-size:13px;outline:none;}
+.slot-popover input:focus{border-color:var(--accent);}
+.slot-popover input::placeholder{color:var(--text3);}
+.slot-popover-icon{position:absolute;left:20px;top:22px;color:var(--text3);font-size:13px;pointer-events:none;}
+.slot-popover-results{max-height:220px;overflow-y:auto;margin-top:6px;}
+.slot-pop-item{display:flex;align-items:center;gap:8px;padding:6px 8px;cursor:pointer;border-radius:6px;transition:background 0.1s;}
+.slot-pop-item:hover,.slot-pop-item.highlighted{background:var(--bg3);}
+.slot-pop-item.already-in{opacity:0.4;pointer-events:none;}
+.slot-pop-item.illegal-r .slot-pop-sprite{opacity:0.35;filter:grayscale(80%);}
+.slot-pop-sprite{width:32px;height:32px;image-rendering:auto;flex-shrink:0;}
+.slot-pop-name{font-size:12px;font-weight:600;}
+.slot-pop-sub{font-size:10px;color:var(--text2);margin-top:1px;display:flex;gap:4px;align-items:center;}
+.slot-pop-pts{font-size:11px;font-weight:700;margin-left:auto;flex-shrink:0;}
+.drag-handle{cursor:grab;color:var(--text3);font-size:14px;padding:0 2px;flex-shrink:0;padding-top:22px;touch-action:none;user-select:none;}
+.drag-handle:active{cursor:grabbing;}
+.draft-slot.illegal-slot{border-color:#3d2525;}
+.draft-slot:hover{border-color:#3e4460;}
+.slot-num{font-size:11px;color:var(--text3);font-weight:600;width:16px;text-align:center;flex-shrink:0;padding-top:4px;}
+
+/* sprite + points column */
+.slot-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;gap:2px;width:72px;}
+.slot-sprite{width:72px;height:72px;image-rendering:auto;display:block;}
+.slot-sprite.illegal-img{opacity:0.3;filter:grayscale(90%);}
+.illegal-badge{background:var(--red);color:#fff;font-size:8px;font-weight:700;letter-spacing:0.5px;padding:1px 6px;border-radius:3px;text-transform:uppercase;}
+.slot-pts-display{font-size:20px;font-weight:700;color:#fff;line-height:1;}
+.slot-pts-display.illegal-pts{color:var(--red);font-size:13px;}
+
+
+/* slot body */
+.slot-body{flex:1;min-width:0;}
+/* each info row is flex: left content + right-aligned matchup badges */
+.slot-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-top:4px;}
+.slot-row:first-child{margin-top:0;}
+.slot-row-left{display:flex;flex-wrap:wrap;gap:4px;flex:1;min-width:0;}
+.slot-row-right{display:flex;flex-wrap:wrap;gap:3px;justify-content:flex-end;flex-shrink:0;max-width:45%;}
+.slot-name{font-size:14px;font-weight:700;}
+.slot-name.illegal-name{color:var(--text3);}
+.ability-tag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:12px;background:rgba(124,111,247,0.15);color:#a89df9;border:1px solid rgba(124,111,247,0.3);}
+.slot-bst{font-size:11px;color:var(--text3);}
+
+/* compact stat numbers */
+.slot-stats-compact{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;}
+.stat-num{font-size:10px;color:var(--text2);}
+.stat-num span{color:var(--text);font-weight:600;}
+
+/* matchup badges — compact right-aligned */
+.tm-weak-sm{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(224,85,85,0.2);color:var(--red);border:1px solid rgba(224,85,85,0.3);white-space:nowrap;}
+.tm-resist-sm{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(76,175,125,0.12);color:var(--green);border:1px solid rgba(76,175,125,0.25);white-space:nowrap;}
+.tm-immune-sm{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(90,83,102,0.25);color:#888;border:1px solid rgba(90,83,102,0.35);white-space:nowrap;}
+
+.slot-moves{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;}
+.move-tag{font-size:10px;background:var(--bg3);border:1px solid var(--border);padding:1px 6px;border-radius:3px;color:var(--text2);}
+
+/* right controls */
+.slot-right{display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;}
+.slot-remove{background:none;border:none;color:var(--text3);cursor:pointer;font-size:20px;line-height:1;padding:3px 5px;border-radius:4px;}
+.slot-remove:hover{color:var(--red);background:rgba(224,85,85,0.1);}
+.slot-expand{background:none;border:1px solid var(--border);color:var(--text3);cursor:pointer;font-size:11px;padding:3px 7px;border-radius:4px;white-space:nowrap;}
+.slot-expand:hover{color:var(--text);border-color:var(--accent);}
+
+/* EXPANDED PANEL */
+.slot-expanded-panel{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+.slot-expanded-panel.open{display:flex;flex-direction:column;gap:12px;}
+.expanded-top{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;}
+.radar-large-wrap{flex-shrink:0;}
+.stat-bars-large{flex:1;min-width:160px;display:flex;flex-direction:column;gap:5px;background:var(--bg3);border-radius:8px;padding:10px;}
+.stat-bar-row{display:flex;align-items:center;gap:6px;}
+.stat-bar-label{font-size:10px;font-weight:600;width:28px;text-align:right;flex-shrink:0;}
+.stat-bar-bg{flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;}
+.stat-bar-fill{height:100%;border-radius:4px;}
+.stat-bar-val{font-size:10px;color:var(--text2);width:28px;text-align:right;flex-shrink:0;}
+/* expanded matchup rows */
+.tm-exp-section{display:flex;flex-direction:column;gap:5px;}
+.tm-exp-row{display:flex;align-items:flex-start;gap:8px;}
+.tm-exp-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;width:64px;flex-shrink:0;padding-top:3px;}
+.tm-exp-label.weak-lbl{color:var(--red);}
+.tm-exp-label.resist-lbl{color:var(--green);}
+.tm-exp-label.immune-lbl{color:#888;}
+.tm-exp-types{display:flex;flex-wrap:wrap;gap:3px;}
+
+/* SEARCH */
+.search-box{position:relative;margin-bottom:10px;}
+.search-box input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px 10px 36px;color:var(--text);font-size:14px;outline:none;}
+.search-box input:focus{border-color:var(--accent);}
+.search-box input::placeholder{color:var(--text3);}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none;}
+.search-results{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:200;background:var(--bg2);border:1px solid var(--border);border-radius:8px;max-height:320px;overflow-y:auto;display:none;}
+.search-results.open{display:block;}
+.sr-item{display:flex;align-items:center;gap:10px;padding:8px 12px;cursor:pointer;transition:background 0.1s;border-bottom:1px solid var(--border);}
+.sr-item:last-child{border-bottom:none;}
+.sr-item:hover,.sr-item.highlighted{background:var(--bg3);}
+.sr-item.already-in{opacity:0.4;pointer-events:none;}
+.sr-item.illegal-r .sr-sprite{opacity:0.35;filter:grayscale(80%);}
+.sr-sprite{width:36px;height:36px;image-rendering:auto;flex-shrink:0;}
+.sr-name{font-size:13px;font-weight:600;}
+.sr-sub{font-size:11px;color:var(--text2);margin-top:2px;display:flex;gap:5px;align-items:center;}
+.sr-pts{font-size:11px;font-weight:700;margin-left:auto;flex-shrink:0;}
+
+/* SIDEBAR */
+.sidebar{display:flex;flex-direction:column;gap:12px;}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;}
+.card-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:12px;}
+.points-display{text-align:center;margin-bottom:10px;}
+.pts-num{font-size:36px;font-weight:700;color:var(--accent);line-height:1;}
+.pts-lbl{font-size:12px;color:var(--text2);margin-top:2px;}
+.pts-bar-bg{background:var(--bg3);border-radius:4px;height:6px;overflow:hidden;margin-top:10px;}
+.pts-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width 0.3s,background 0.3s;}
+.pts-bar-fill.warn{background:var(--yellow);}
+.pts-bar-fill.over{background:var(--red);}
+.pts-limit-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+.pts-limit-lbl{font-size:11px;color:var(--text3);}
+.pts-limit-inp{background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:13px;font-weight:600;width:70px;text-align:center;padding:3px 6px;outline:none;}
+.pts-limit-inp:focus{border-color:var(--accent);}
+.tm-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;}
+.tm-cell{text-align:center;padding:4px 2px;border-radius:4px;transition:filter 0.1s;cursor:pointer;}
+.tm-cell:hover{filter:brightness(1.15);}
+.tm-cell.tm-pinned{filter:brightness(1.25);outline:2px solid #fff;outline-offset:-2px;}
+.tmt{font-size:11px;line-height:1;font-weight:700;}
+.tmv{font-size:10px;font-weight:600;line-height:1.5;color:var(--text2);}
+.c-immune{background:rgba(90,83,102,0.3)}.c-immune .tmv{color:#888}
+.c-r2{background:rgba(76,175,125,0.15)}.c-r2 .tmv{color:var(--green)}
+.c-r4{background:rgba(76,175,125,0.25)}.c-r4 .tmv{color:#6fe0a8}
+.c-n{background:var(--bg3)}.c-n .tmv{color:var(--text3)}
+.c-w2{background:rgba(240,192,96,0.15)}.c-w2 .tmv{color:var(--yellow)}
+.c-w4{background:rgba(224,85,85,0.2)}.c-w4 .tmv{color:var(--red)}
+/* Expanded TM view */
+.tm-exp-row{display:flex;align-items:center;gap:6px;padding:3px 0;}
+.tm-exp-badge{display:flex;align-items:center;justify-content:space-between;border-radius:5px;padding:4px 8px;flex:1;cursor:pointer;transition:filter 0.1s;}
+.tm-exp-badge:hover{filter:brightness(1.15);}
+.tm-exp-badge.tm-pinned{outline:2px solid #fff;outline-offset:-2px;filter:brightness(1.25);}
+.tm-exp-name{font-size:11px;font-weight:700;}
+.tm-exp-ratio{font-size:11px;font-weight:700;}
+.tm-section-divider{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);padding:6px 0 2px;border-top:1px solid var(--border);margin-top:2px;}
+.tm-section-divider:first-child{border-top:none;padding-top:0;}
+.speed-tiers{display:flex;flex-direction:column;gap:3px;}
+.speed-row{display:flex;align-items:center;gap:6px;padding:3px 6px;border-radius:4px;}
+.speed-lbl{width:55px;font-size:10px;font-weight:600;text-align:right;flex-shrink:0;}
+.speed-icons{display:flex;flex-wrap:wrap;gap:2px;flex:1;}
+.util-section{margin-bottom:0;padding:8px 0;border-top:1px solid rgba(255,255,255,0.08);}
+.util-section:first-child{border-top:none;padding-top:0;}
+.util-section-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);margin-bottom:5px;}
+.util-row{display:flex;align-items:center;margin-bottom:1px;border-radius:3px;}
+.util-row:nth-child(even){background:rgba(255,255,255,0.03);}
+.util-mn{font-size:11px;color:var(--text2);width:110px;flex-shrink:0;padding:2px 4px;}
+.util-mn-none{color:var(--text3);}
+.util-icons{display:flex;flex-wrap:wrap;gap:2px;padding:2px 0;}
+
+/* INDEX */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;align-items:center;position:sticky;top:50px;z-index:50;background:var(--bg);padding:8px 0;}
+.fi{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:7px 12px;color:var(--text);font-size:13px;outline:none;}
+.fi-multi-wrap{position:relative;}
+.fi-multi-display{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:7px 12px;color:var(--text);font-size:13px;cursor:pointer;white-space:nowrap;user-select:none;min-width:110px;}
+.fi-multi-display:hover{border-color:var(--accent);}
+.fi-multi-display.active{border-color:var(--accent);color:var(--accent);}
+.fi-arrow{font-size:10px;margin-left:4px;}
+.fi-multi-dropdown{display:none;position:absolute;top:calc(100% + 4px);left:0;z-index:200;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:6px;min-width:160px;max-height:260px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,0.4);}
+.fi-multi-dropdown.open{display:block;}
+.fi-multi-opt{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:4px;cursor:pointer;font-size:12px;color:var(--text2);}
+.fi-multi-opt:hover{background:var(--bg3);}
+.fi-multi-opt input{accent-color:var(--accent);flex-shrink:0;}
+.fi-multi-opt.checked{color:var(--text);}
+.fi-multi-section{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);padding:6px 8px 2px;margin-top:4px;border-top:1px solid var(--border);}
+.fi-multi-section:first-child{border-top:none;margin-top:0;}
+.fi:focus{border-color:var(--accent);}
+.fi::placeholder{color:var(--text3);}
+select.fi option{background:var(--bg2);}
+.res-count{font-size:12px;color:var(--text3);margin-left:auto;}
+.idx-wrap{}
+.idx-tbl{width:100%;border-collapse:collapse;font-size:13px;}
+/* sticky header offset = nav height (56px) */
+.idx-tbl th{background:var(--bg2);padding:8px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);border-bottom:1px solid var(--border);cursor:pointer;white-space:nowrap;position:sticky;top:0;z-index:10;box-shadow:0 1px 0 var(--border);}
+.idx-tbl th:hover{color:var(--text);}
+.idx-tbl th.sa::after{content:" ▲";}
+.idx-tbl th.sd::after{content:" ▼";}
+/* first data row gets extra top padding to clear the sticky header */
+.idx-tbl tbody tr:first-child td{padding-top:14px;}
+.idx-tbl td{padding:6px 10px;border-bottom:1px solid rgba(46,50,72,0.5);vertical-align:middle;}
+.idx-tbl tr.illegal td{opacity:0.38;}
+.idx-tbl tr.data-row{cursor:pointer;}
+.idx-tbl tr.data-row:hover td{background:var(--bg2);}
+.idx-tbl tr.data-row.expanded td{background:var(--bg2);}
+.idx-exp-row td{background:var(--bg3) !important;padding:12px 14px;}
+.idx-exp-row.illegal td{opacity:0.5;}
+.idx-expanded{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;}
+.idx-exp-radar{flex-shrink:0;}
+.idx-exp-stats{flex:1;min-width:160px;display:flex;flex-direction:column;gap:5px;background:var(--bg3);border-radius:8px;padding:10px;}
+.idx-exp-right{flex:1;min-width:200px;display:flex;flex-direction:column;gap:10px;}
+.idx-exp-section-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);margin-bottom:4px;}
+.idx-exp-tm{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px;}
+.idx-exp-moves{display:flex;flex-wrap:wrap;gap:4px;}
+.idx-tbl tr:hover td{background:var(--bg2);}
+.tbl-sprite{width:40px;height:40px;image-rendering:pixelated;display:block;}
+
+/* POOL */
+.pool-header{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem;flex-wrap:wrap;}
+.pool-search{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:7px 12px;color:var(--text);font-size:13px;outline:none;width:200px;}
+.pool-search:focus{border-color:var(--accent);}
+.pool-search::placeholder{color:var(--text3);}
+.pool-grid{display:flex;flex-direction:column;gap:24px;}
+.pool-tier-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.pool-tier-pts{font-size:22px;font-weight:700;color:var(--accent);}
+.pool-tier-lbl{font-size:12px;color:var(--text3);}
+.pool-tier-cnt{font-size:12px;color:var(--text3);margin-left:auto;}
+.pool-pokemon{display:flex;flex-wrap:wrap;gap:8px;}
+.pool-mon{display:flex;flex-direction:column;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:5px;width:68px;cursor:pointer;transition:border-color 0.15s;}
+.pool-mon:hover{border-color:var(--accent);}
+.pool-mon img{width:40px;height:40px;image-rendering:pixelated;}
+.pool-mon-name{font-size:9px;color:var(--text2);text-align:center;margin-top:3px;line-height:1.2;word-break:break-word;}
+
+::-webkit-scrollbar{width:6px;height:6px;}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 20px;font-size:13px;color:var(--text);box-shadow:0 4px 16px rgba(0,0,0,0.4);z-index:9999;opacity:0;transition:opacity 0.2s;pointer-events:none;}
+.toast.show{opacity:1;}
+.toast.toast-warn{border-color:var(--yellow);color:var(--yellow);}
+.toast.toast-ok{border-color:var(--green);color:var(--green);}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+@media(max-width:600px){.view{padding:1rem 0.75rem;}nav{overflow-x:auto;}.nav-tab{font-size:12px;padding:12px 10px;}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">⚡ VGC Draft</div>
+  <div class="nav-tab active" onclick="showView('draft')">Draft Builder</div>
+  <div class="nav-tab" onclick="showView('index')">Pokédex Index</div>
+  <div class="nav-tab" onclick="showView('pool')">Draft Pool</div>
+</nav>
+
+<div id="view-draft" class="view active">
+  <div class="draft-layout">
+    <div>
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="draft-search" placeholder="Search Pokémon to add to your team..." autocomplete="off"/>
+        <div class="search-results" id="search-results"></div>
+      </div>
+      <div class="draft-toolbar">
+        <button class="toolbar-btn" onclick="expandAll()">▼ Expand all</button>
+        <button class="toolbar-btn" onclick="collapseAll()">▲ Collapse all</button>
+      </div>
+      <div class="draft-team" id="draft-team"></div>
+    </div>
+    <div class="sidebar">
+      <div class="card">
+        <div class="card-title">Points</div>
+        <div class="points-display"><div class="pts-num" id="pts-used">0</div><div class="pts-lbl">points used</div></div>
+        <div class="pts-bar-bg"><div class="pts-bar-fill" id="pts-bar"></div></div>
+        <div class="pts-limit-row"><span class="pts-limit-lbl">Limit:</span><input class="pts-limit-inp" type="number" id="pts-limit" value="200" min="1"/></div>
+      </div>
+      <div class="card" id="tm-card">
+        <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none" onclick="toggleTmExpand()">
+          <span>Type Matchups</span>
+          <span id="tm-expand-icon" style="font-size:13px;color:var(--text3)">▼</span>
+        </div>
+        <div id="tm-grid" class="tm-grid"></div>
+        <div id="tm-expanded" style="display:none"></div>
+      </div>
+      <div class="card"><div class="card-title">Speed Tiers</div><div class="speed-tiers" id="speed-tiers"></div></div>
+      <div class="card"><div class="card-title">Utility Coverage</div><div id="util-tracker"></div></div>
+    </div>
+  </div>
+</div>
+
+<div id="view-index" class="view">
+  <div class="filters">
+    <input class="fi" type="text" id="idx-search" placeholder="Search name..." style="width:180px"/>
+    <div class="fi-multi-wrap" id="idx-type-wrap">
+      <div class="fi-multi-display" id="idx-type-display" onclick="toggleMultiDropdown('idx-type')">All Types <span class="fi-arrow">▾</span></div>
+      <div class="fi-multi-dropdown" id="idx-type-dropdown"></div>
+    </div>
+    <select class="fi" id="idx-ability"><option value="">All Abilities</option></select>
+    <select class="fi" id="idx-pts-min"><option value="">Min Pts</option></select>
+    <select class="fi" id="idx-pts-max"><option value="">Max Pts</option></select>
+    <div class="fi-multi-wrap" id="idx-move-wrap">
+      <div class="fi-multi-display" id="idx-move-display" onclick="toggleMultiDropdown('idx-move')">All Moves <span class="fi-arrow">▾</span></div>
+      <div class="fi-multi-dropdown" id="idx-move-dropdown"></div>
+    </div>
+    <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);cursor:pointer">
+      <input type="checkbox" id="idx-legal-only" style="accent-color:var(--accent)"> Legal only
+    </label>
+    <span class="res-count" id="idx-count"></span>
+  </div>
+  <div class="idx-wrap">
+    <table class="idx-tbl">
+      <thead><tr>
+        <th onclick="sortIdx('id')" data-col="id">#</th>
+        <th style="cursor:default"></th>
+        <th onclick="sortIdx('name')" data-col="name">Name</th>
+        <th onclick="sortIdx('type1')" data-col="type1">Type</th>
+        <th onclick="sortIdx('points')" data-col="points">Pts</th>
+        <th onclick="sortIdx('hp')" data-col="hp">HP</th>
+        <th onclick="sortIdx('atk')" data-col="atk">Atk</th>
+        <th onclick="sortIdx('def')" data-col="def">Def</th>
+        <th onclick="sortIdx('spa')" data-col="spa">SpA</th>
+        <th onclick="sortIdx('spd')" data-col="spd">SpD</th>
+        <th onclick="sortIdx('spe')" data-col="spe">Spe</th>
+        <th onclick="sortIdx('bst')" data-col="bst">BST</th>
+        <th style="cursor:default">Abilities</th>
+      </tr></thead>
+      <tbody id="idx-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="view-pool" class="view">
+  <div class="pool-header">
+    <h2>Draft Pool</h2>
+    <input class="pool-search" type="text" id="pool-search" placeholder="Search..."/>
+    <span style="font-size:12px;color:var(--text3)" id="pool-count"></span>
+  </div>
+  <div class="pool-grid" id="pool-grid"></div>
+</div>
+
+<div id="slot-backdrop" style="display:none;position:fixed;inset:0;z-index:299" onclick="closeSlotPopover()"></div>
+<div id="slot-popover" class="slot-popover" style="display:none">
+  <span class="slot-popover-icon">🔍</span>
+  <input type="text" id="slot-pop-input" placeholder="Search Pokémon..." autocomplete="off" oninput="renderPopoverResults(this.value)">
+  <div class="slot-popover-results" id="slot-pop-results"></div>
+</div>
+
+<script>
+let POKEMON_DATA = [];
+function initApp() {
+  initFilters();renderTeam();renderSidebar();renderIdx();renderPool();initDragAndDrop();initSlotPopover();updateStickyOffset();window.addEventListener('resize',updateStickyOffset);
+}
+async function loadPokemonData() {
+  const response = await fetch('pokemon.json');
+  POKEMON_DATA = await response.json();
+  initApp();
+}
+
+// ── SPRITES ───────────────────────────────────────────────────────────────────
+// Draft Builder: ./sprites/ (Home-style art) primary → ./icons/ fallback
+// Index + Pool:  ./icons/ (PC icons) primary → ./sprites/ fallback
+
+function localId(id) {
+  const m = id.match(/^(\d+)(.*)$/);
+  if (!m) return id;
+  const num = parseInt(m[1]);
+  const padded = num >= 1000 ? String(num) : String(num).padStart(3, '0');
+  return padded + m[2];
+}
+
+function spriteUrl(mon) {
+  if (!mon.id) return '';
+  return './sprites/' + localId(mon.id) + '.png';
+}
+
+function iconUrl(mon) {
+  if (!mon.id) return '';
+  return './icons/' + localId(mon.id) + '.png';
+}
+
+function setSpriteFallback(img) {
+  // sprites → icons fallback
+  img.onerror = function() {
+    if (this.src.includes('./sprites/')) {
+      this.onerror = function() { this.onerror = null; this.style.opacity = '0.1'; };
+      this.src = this.src.replace('./sprites/', './icons/');
+    } else {
+      this.onerror = null; this.style.opacity = '0.1';
+    }
+  };
+}
+
+function setIconFallback(img) {
+  // icons → sprites fallback
+  img.onerror = function() {
+    if (this.src.includes('./icons/')) {
+      this.onerror = function() { this.onerror = null; this.style.opacity = '0.1'; };
+      this.src = this.src.replace('./icons/', './sprites/');
+    } else {
+      this.onerror = null; this.style.opacity = '0.1';
+    }
+  };
+}
+
+// ── TYPE ENGINE ────────────────────────────────────────────────────────────────
+const TYPES=["Normal","Fire","Water","Grass","Electric","Ice","Fighting","Poison","Ground","Flying","Psychic","Bug","Rock","Ghost","Dragon","Dark","Steel","Fairy"];
+// Gen 6+ type chart — Ghost vs Fighting is 1x (not 0x), Normal still immune to Ghost
+const TC={
+  Normal:{Ghost:0,Rock:0.5,Steel:0.5},
+  Fire:{Fire:0.5,Water:0.5,Grass:2,Ice:2,Bug:2,Rock:0.5,Dragon:0.5,Steel:2},
+  Water:{Fire:2,Water:0.5,Grass:0.5,Ground:2,Rock:2,Dragon:0.5},
+  Grass:{Fire:0.5,Water:2,Grass:0.5,Poison:0.5,Ground:2,Flying:0.5,Bug:0.5,Rock:2,Dragon:0.5,Steel:0.5},
+  Electric:{Water:2,Grass:0.5,Electric:0.5,Ground:0,Flying:2,Dragon:0.5},
+  Ice:{Fire:0.5,Water:0.5,Grass:2,Ice:0.5,Ground:2,Flying:2,Dragon:2,Steel:0.5},
+  Fighting:{Normal:2,Ice:2,Poison:0.5,Flying:0.5,Psychic:0.5,Bug:0.5,Rock:2,Ghost:0,Dark:2,Steel:2,Fairy:0.5},
+  Poison:{Grass:2,Poison:0.5,Ground:0.5,Rock:0.5,Ghost:0.5,Steel:0,Fairy:2},
+  Ground:{Fire:2,Electric:2,Grass:0.5,Poison:2,Flying:0,Bug:0.5,Rock:2,Steel:2},
+  Flying:{Electric:0.5,Grass:2,Fighting:2,Bug:2,Rock:0.5,Steel:0.5},
+  Psychic:{Fighting:2,Poison:2,Psychic:0.5,Dark:0,Steel:0.5},
+  Bug:{Fire:0.5,Grass:2,Fighting:0.5,Poison:0.5,Flying:0.5,Psychic:2,Ghost:0.5,Dark:2,Steel:0.5,Fairy:0.5},
+  Rock:{Fire:2,Ice:2,Fighting:0.5,Ground:0.5,Flying:2,Bug:2,Steel:0.5},
+  // Ghost: removed Fighting:0 (Gen 6 change), kept Normal:0
+  Ghost:{Normal:0,Poison:0.5,Bug:0.5,Ghost:2,Dark:0.5},
+  Dragon:{Dragon:2,Steel:0.5,Fairy:0},
+  Dark:{Fighting:0.5,Psychic:2,Ghost:2,Dark:0.5,Fairy:0.5},
+  Steel:{Fire:0.5,Water:0.5,Electric:0.5,Ice:2,Rock:2,Steel:0.5,Fairy:2},
+  Fairy:{Fire:0.5,Fighting:2,Poison:0.5,Dragon:2,Dark:2,Steel:0.5},
+};
+
+function abilityMods(ab){
+  switch(ab){
+    case"Levitate":return{Ground:0};case"Flash Fire":return{Fire:0};
+    case"Water Absorb":case"Storm Drain":return{Water:0};
+    case"Volt Absorb":case"Lightning Rod":case"Motor Drive":return{Electric:0};
+    case"Sap Sipper":return{Grass:0};case"Earth Eater":return{Ground:0};
+    case"Well-Baked Body":return{Fire:0};case"Dry Skin":return{Water:0,Fire:1.25};
+    case"Heatproof":return{Fire:0.5};case"Thick Fat":return{Fire:0.5,Ice:0.5};
+    case"Purifying Salt":return{Ghost:0.5};case"Wonder Guard":return"__wg__";
+    default:return{};
+  }
+}
+
+function calcMatchups(mon){
+  let m={};
+  TYPES.forEach(atk=>{
+    let v=1,c=TC[atk]||{};
+    if(mon.type1&&c[mon.type1]!==undefined)v*=c[mon.type1];
+    if(mon.type2&&c[mon.type2]!==undefined)v*=c[mon.type2];
+    m[atk]=v;
+  });
+  let best={},wg=false;
+  (mon.abilities||[]).forEach(ab=>{
+    const mod=abilityMods(ab);
+    if(mod==="__wg__"){wg=true;return;}
+    Object.entries(mod).forEach(([t,v])=>{if(best[t]===undefined||v<best[t])best[t]=v;});
+  });
+  if(wg)TYPES.forEach(t=>{if(m[t]<=1)m[t]=0;});
+  Object.entries(best).forEach(([t,v])=>{m[t]=v===0?0:Math.round(m[t]*v*1000)/1000;});
+  return m;
+}
+
+function getMatchupGroups(mon){
+  const m=calcMatchups(mon);
+  const weak=[],resist=[],immune=[];
+  TYPES.forEach(t=>{
+    if(m[t]===0)immune.push(t);
+    else if(m[t]<1)resist.push(t);
+    else if(m[t]>=2)weak.push(t);
+  });
+  return{weak,resist,immune};
+}
+
+// ── RADAR ──────────────────────────────────────────────────────────────────────
+const SK=["hp","atk","def","spe","spd","spa"]; // radar order (in-game)
+const BAR_SK=["hp","atk","def","spa","spd","spe"]; // bar chart order (original)
+const BAR_SL=["HP","Atk","Def","SpA","SpD","Spe"];
+const BAR_SC=["#e05555","#f08040","#f0c060","#7c6ff7","#539ddf","#4caf7d"];
+const SL=["HP","Atk","Def","Spe","SpD","SpA"];
+const SC=["#e05555","#f08040","#f0c060","#4caf7d","#539ddf","#7c6ff7"];
+
+function statScale(v){
+  const bps=[[0,0],[50,0.22],[100,0.50],[150,0.78],[170,0.88],[255,1.0]];
+  for(let i=1;i<bps.length;i++){
+    if(v<=bps[i][0]){
+      const t=(v-bps[i-1][0])/(bps[i][0]-bps[i-1][0]);
+      return bps[i-1][1]+t*(bps[i][1]-bps[i-1][1]);
+    }
+  }
+  return 1;
+}
+
+function drawRadar(canvas,mon,size){
+  canvas.width=size;canvas.height=size;
+  const ctx=canvas.getContext("2d");
+  const cx=size/2,cy=size/2,r=size*0.36,n=6;
+  ctx.clearRect(0,0,size,size);
+  [50,100,150].forEach(ref=>{
+    const f=statScale(ref);
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const a=i*2*Math.PI/n-Math.PI/2;
+      i===0?ctx.moveTo(cx+Math.cos(a)*r*f,cy+Math.sin(a)*r*f):ctx.lineTo(cx+Math.cos(a)*r*f,cy+Math.sin(a)*r*f);
+    }
+    ctx.closePath();ctx.strokeStyle="rgba(46,50,72,0.9)";ctx.lineWidth=0.7;ctx.stroke();
+  });
+  for(let i=0;i<n;i++){
+    const a=i*2*Math.PI/n-Math.PI/2;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);
+    ctx.strokeStyle="rgba(46,50,72,0.9)";ctx.lineWidth=0.7;ctx.stroke();
+    if(size>=160){
+      ctx.fillStyle=SC[i];ctx.font="bold 10px 'Segoe UI',sans-serif";
+      ctx.textAlign="center";ctx.textBaseline="middle";
+      ctx.fillText(SL[i],cx+Math.cos(a)*(r+14),cy+Math.sin(a)*(r+14));
+    }
+  }
+  const vals=SK.map(k=>statScale(mon.stats[k]));
+  ctx.beginPath();
+  vals.forEach((v,i)=>{
+    const a=i*2*Math.PI/n-Math.PI/2;
+    i===0?ctx.moveTo(cx+Math.cos(a)*r*v,cy+Math.sin(a)*r*v):ctx.lineTo(cx+Math.cos(a)*r*v,cy+Math.sin(a)*r*v);
+  });
+  ctx.closePath();ctx.fillStyle="rgba(124,111,247,0.2)";ctx.fill();
+  ctx.strokeStyle="#7c6ff7";ctx.lineWidth=1.5;ctx.stroke();
+  vals.forEach((v,i)=>{
+    const a=i*2*Math.PI/n-Math.PI/2;
+    ctx.beginPath();ctx.arc(cx+Math.cos(a)*r*v,cy+Math.sin(a)*r*v,size>=160?3:2,0,2*Math.PI);
+    ctx.fillStyle=SC[i];ctx.fill();
+  });
+}
+
+function largeStatBars(mon){
+  return BAR_SK.map(function(k,i){
+    const v=mon.stats[k],pct=Math.round(statScale(v)*100);
+    return '<div class="stat-bar-row">'
+      +'<span class="stat-bar-label" style="color:'+BAR_SC[i]+'">'+BAR_SL[i]+'</span>'
+      +'<div class="stat-bar-bg"><div class="stat-bar-fill" style="width:'+pct+'%;background:'+BAR_SC[i]+'"></div></div>'
+      +'<span class="stat-bar-val">'+v+'</span>'
+      +'</div>';
+  }).join('');
+}
+
+// ── DRAFT STATE ────────────────────────────────────────────────────────────────
+const TS=10;
+let team=new Array(TS).fill(null);
+let expanded=new Set();
+let srResults=[];
+
+function getLimit(){return parseInt(document.getElementById("pts-limit").value)||200;}
+function getLegalPts(){return team.filter(m=>m&&m.legal).reduce((s,p)=>s+(p.points||0),0);}
+function addToTeam(mon){
+  if(team.some(m=>m&&m.id===mon.id))return;
+  const slot=team.findIndex(s=>s===null);
+  if(slot===-1)return;
+  team[slot]=mon;renderTeam();renderSidebar();closeSearch();closeSlotPopover();
+  document.getElementById("draft-search").value="";
+  if(pinnedType) applyMatchupHighlight(pinnedType);
+}
+function removeFromTeam(i){
+  team[i]=null;expanded.delete(i);renderTeam();renderSidebar();
+  if(pinnedType) applyMatchupHighlight(pinnedType);
+}
+function toggleExpand(i){expanded.has(i)?expanded.delete(i):expanded.add(i);renderTeam();}
+function expandAll(){team.forEach((_,i)=>{if(team[i])expanded.add(i);});renderTeam();}
+function collapseAll(){expanded.clear();renderTeam();}
+
+function speedTierColor(spe){
+  if(spe<=30)  return "#7c4dff";
+  if(spe<=50)  return "#2979ff";
+  if(spe<=70)  return "#00bcd4";
+  if(spe<=90)  return "#4caf50";
+  if(spe<=110) return "#ffeb3b";
+  if(spe<=130) return "#ff9800";
+  return "#f44336";
+}
+
+function renderTeam(){
+  const el=document.getElementById("draft-team");
+  el.innerHTML="";
+  for(let i=0;i<TS;i++){
+    const mon=team[i];
+    const d=document.createElement("div");
+    d.className="draft-slot"+(mon&&!mon.legal?" illegal-slot":"");
+    d.dataset.slotIdx=i;
+    if(mon){
+      const exp=expanded.has(i);
+      const moves=(mon.moves||[]).slice(0,8).map(m=>`<span class="move-tag">${m}</span>`).join("");
+      const abilities=(mon.abilities||[]).map(a=>`<span class="ability-tag">${a}</span>`).join("");
+      const ptsDisp=mon.legal
+        ?`<div class="slot-pts-display">${mon.points}</div>`
+        :`<div class="slot-pts-display illegal-pts">Illegal</div>`;
+
+      // Compact matchup badges — weaknesses on name row, resists/immunities on type row
+      const {weak,resist,immune}=getMatchupGroups(mon);
+      const weakBadges=weak.map(t=>`<span class="tm-weak-sm">▲ ${t}</span>`).join("");
+      const resistBadges=resist.map(t=>`<span class="tm-resist-sm">▼ ${t}</span>`).join("");
+      const immuneBadges=immune.map(t=>`<span class="tm-immune-sm">✕ ${t}</span>`).join("");
+
+      // Expanded matchup rows
+      const expWeak=weak.length?`<div class="tm-exp-types" style="margin-bottom:4px">${weak.map(t=>`<span class="tm-weak-sm">▲ ${t}</span>`).join("")}</div>`:"";
+      const expRes=resist.length?`<div class="tm-exp-types" style="margin-bottom:4px">${resist.map(t=>`<span class="tm-resist-sm">▼ ${t}</span>`).join("")}</div>`:"";
+      const expImm=immune.length?`<div class="tm-exp-types">${immune.map(t=>`<span class="tm-immune-sm">✕ ${t}</span>`).join("")}</div>`:"";
+
+      // Compact stat numbers
+      const statNums=BAR_SK.map(function(k,j){
+        if(k==="spe"){
+          var sc=speedTierColor(mon.stats[k]);
+          return '<span class="stat-num" style="background:'+sc+'22;border:1px solid '+sc+'55;border-radius:3px;padding:1px 5px">'+BAR_SL[j]+' <span style="color:'+sc+';font-weight:700">'+mon.stats[k]+'</span></span>';
+        }
+        return '<span class="stat-num">'+BAR_SL[j]+' <span>'+mon.stats[k]+'</span></span>';
+      }).join("");
+
+      d.setAttribute('draggable','true');
+      d.dataset.slotIdx=i;
+      d.innerHTML=`
+        <span class="drag-handle" title="Drag to reorder">⠿</span>
+        <span class="slot-num">${i+1}</span>
+        <div class="slot-left">
+          <img class="slot-sprite${mon.legal?"":" illegal-img"}" id="spr-${i}" src="${spriteUrl(mon)}" alt="${mon.name}">
+          ${ptsDisp}
+        </div>
+        <div class="slot-body">
+          <div class="slot-row">
+            <div class="slot-row-left"><span class="slot-name${mon.legal?"":" illegal-name"}">${mon.name}</span></div>
+            <div class="slot-row-right">${weakBadges}</div>
+          </div>
+          <div class="slot-row">
+            <div class="slot-row-left">
+              <span class="type-badge t-${mon.type1}">${mon.type1}</span>
+              ${mon.type2?`<span class="type-badge t-${mon.type2}">${mon.type2}</span>`:""}
+            </div>
+            <div class="slot-row-right">${resistBadges}${immuneBadges}</div>
+          </div>
+          ${abilities?`<div class="slot-row"><div class="slot-row-left">${abilities}</div></div>`:""}
+          <div class="slot-bst" style="margin-top:4px">BST ${mon.stats.bst}</div>
+          <div class="slot-stats-compact">${statNums}</div>
+          ${moves?`<div class="slot-moves">${moves}</div>`:""}
+          <div class="slot-expanded-panel${exp?" open":""}">
+            <div class="expanded-top">
+              <div class="radar-large-wrap"><canvas id="rl-${i}" width="180" height="180"></canvas></div>
+              <div class="stat-bars-large">${largeStatBars(mon)}</div>
+            </div>
+          </div>
+        </div>
+        <div class="slot-right">
+          <button class="slot-remove" onclick="removeFromTeam(${i})">×</button>
+          <button class="slot-expand" onclick="toggleExpand(${i})">${exp?"▲":"▼"}</button>
+        </div>`;
+      el.appendChild(d);
+      const sprEl=document.getElementById("spr-"+i);
+      setSpriteFallback(sprEl);
+      if(exp) drawRadar(document.getElementById("rl-"+i),mon,180);
+    } else {
+      const slotI = i;
+      d.innerHTML=`
+        <span class="drag-handle" title="Drag to reorder">⠿</span>
+        <span class="slot-num">${i+1}</span>
+        <div class="slot-sprite-empty" onclick="openSlotPopoverByIdx(${i}, this)">+</div>
+        <div class="slot-body" style="color:var(--text3);font-size:13px;padding-top:22px">Click <strong style="color:var(--text2)">+</strong> to add a Pokémon</div>`;
+      el.appendChild(d);
+    }
+  }
+}
+
+// ── DRAG AND DROP ─────────────────────────────────────────────────────────────
+// Works for both mouse (HTML5 drag) and touch (pointer events)
+let dragSrcIdx = null;
+
+function initDragAndDrop(){
+  const teamEl = document.getElementById('draft-team');
+
+  // Mouse drag events (HTML5 draggable)
+  // Only allow drag when initiated from the handle
+  teamEl.addEventListener('mousedown', function(e){
+    const t = e.target.closest ? e.target : e.target.parentElement;
+    if(!t) return;
+    const handle = t.closest('.drag-handle');
+    if(handle){
+      const slot = handle.closest('.draft-slot');
+      if(slot) slot.setAttribute('draggable','true');
+    }
+  });
+  teamEl.addEventListener('dragstart', function(e){
+    const t = e.target.closest ? e.target : e.target.parentElement;
+    if(!t) return;
+    const slot = t.closest('.draft-slot');
+    if(!slot || !t.closest('.drag-handle') && slot.getAttribute('draggable')!=='true') return;
+    dragSrcIdx = parseInt(slot.dataset.slotIdx);
+    slot.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  teamEl.addEventListener('dragend', function(e){
+    document.querySelectorAll('.draft-slot').forEach(function(s){
+      s.classList.remove('dragging','drag-over');
+      s.removeAttribute('draggable');
+    });
+  });
+  teamEl.addEventListener('dragover', function(e){
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    const slot = e.target.closest('.draft-slot');
+    if(!slot) return;
+    document.querySelectorAll('.draft-slot').forEach(function(s){s.classList.remove('drag-over');});
+    slot.classList.add('drag-over');
+  });
+  teamEl.addEventListener('dragleave', function(e){
+    const slot = e.target.closest('.draft-slot');
+    if(slot) slot.classList.remove('drag-over');
+  });
+  teamEl.addEventListener('drop', function(e){
+    e.preventDefault();
+    const slot = e.target.closest('.draft-slot');
+    if(!slot) return;
+    const destIdx = parseInt(slot.dataset.slotIdx);
+    if(dragSrcIdx === null || dragSrcIdx === destIdx) return;
+    // Move or swap
+    const tmp = team[dragSrcIdx];
+    team[dragSrcIdx] = team[destIdx]; // null if dest was empty
+    team[destIdx] = tmp;
+    // Preserve expanded state
+    const srcExp = expanded.has(dragSrcIdx);
+    const dstExp = expanded.has(destIdx);
+    srcExp ? expanded.add(destIdx) : expanded.delete(destIdx);
+    dstExp ? expanded.add(dragSrcIdx) : expanded.delete(dragSrcIdx);
+    dragSrcIdx = null;
+    renderTeam(); renderSidebar();
+  });
+
+  // Touch drag (pointer events for mobile)
+  let touchDragSrc = null;
+  let touchClone = null;
+  let touchOffX = 0, touchOffY = 0;
+
+  teamEl.addEventListener('pointerdown', function(e){
+    if(e.pointerType === 'mouse') return; // handled by HTML5 drag
+    const handle = e.target.closest('.drag-handle');
+    if(!handle) return;
+    const slot = handle.closest('.draft-slot');
+    if(!slot) return;
+    touchDragSrc = parseInt(slot.dataset.slotIdx);
+    const rect = slot.getBoundingClientRect();
+    touchOffX = e.clientX - rect.left;
+    touchOffY = e.clientY - rect.top;
+    // Create visual clone
+    touchClone = slot.cloneNode(true);
+    touchClone.style.cssText = 'position:fixed;width:'+rect.width+'px;opacity:0.85;pointer-events:none;z-index:9999;border-radius:10px;background:var(--bg2);border:2px solid var(--accent);left:'+(e.clientX-touchOffX)+'px;top:'+(e.clientY-touchOffY)+'px;';
+    document.body.appendChild(touchClone);
+    slot.classList.add('dragging');
+    e.preventDefault();
+  }, {passive:false});
+
+  document.addEventListener('pointermove', function(e){
+    if(!touchClone) return;
+    touchClone.style.left = (e.clientX-touchOffX)+'px';
+    touchClone.style.top  = (e.clientY-touchOffY)+'px';
+    // Highlight target
+    document.querySelectorAll('.draft-slot').forEach(function(s){s.classList.remove('drag-over');});
+    touchClone.style.display='none';
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    touchClone.style.display='';
+    const target = el && el.closest('.draft-slot');
+    if(target) target.classList.add('drag-over');
+  });
+
+  document.addEventListener('pointerup', function(e){
+    if(!touchClone) return;
+    touchClone.remove(); touchClone = null;
+    document.querySelectorAll('.draft-slot').forEach(function(s){s.classList.remove('dragging','drag-over');});
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    const target = el && el.closest('.draft-slot');
+    if(target && touchDragSrc !== null){
+      const destIdx = parseInt(target.dataset.slotIdx);
+      if(touchDragSrc !== destIdx){
+        const tmp = team[touchDragSrc];
+        team[touchDragSrc] = team[destIdx]; // null if dest was empty
+        team[destIdx] = tmp;
+        const srcExp = expanded.has(touchDragSrc);
+        const dstExp = expanded.has(destIdx);
+        srcExp ? expanded.add(destIdx) : expanded.delete(destIdx);
+        dstExp ? expanded.add(touchDragSrc) : expanded.delete(touchDragSrc);
+        renderTeam(); renderSidebar();
+      }
+    }
+    touchDragSrc = null;
+  });
+}
+
+// ── SIDEBAR ────────────────────────────────────────────────────────────────────
+function renderSidebar(){renderPoints();renderTypeMatchups();renderSpeedTiers();renderUtility();}
+function renderPoints(){
+  const used=getLegalPts(),limit=getLimit();
+  document.getElementById("pts-used").textContent=used;
+  const pct=Math.min(100,(used/limit)*100);
+  const bar=document.getElementById("pts-bar");
+  bar.style.width=pct+"%";
+  bar.className="pts-bar-fill"+(pct>=100?" over":pct>=80?" warn":"");
+}
+const TA={Normal:"Nrm",Fire:"Fir",Water:"Wat",Grass:"Grs",Electric:"Ele",Ice:"Ice",Fighting:"Fgt",Poison:"Psn",Ground:"Gnd",Flying:"Fly",Psychic:"Psy",Bug:"Bug",Rock:"Rck",Ghost:"Gst",Dragon:"Drg",Dark:"Drk",Steel:"Stl",Fairy:"Fry"};
+// Type colors matching badge classes
+const TYPE_COLORS={
+  Normal:"#9199a1",Fire:"#e6724a",Water:"#539ddf",Grass:"#5bbd58",
+  Electric:"#f3d23b",Ice:"#74cfc0",Fighting:"#ce4069",Poison:"#ab6ac8",
+  Ground:"#d97845",Flying:"#89aae3",Psychic:"#f97176",Bug:"#90c12c",
+  Rock:"#c7b78b",Ghost:"#5269ac",Dragon:"#0b6dc3",Dark:"#5a5366",
+  Steel:"#5a8ea1",Fairy:"#ec8fe6"
+};
+const TYPE_TEXT_DARK=new Set(["Electric","Ice","Rock","Fairy","Normal","Flying","Bug"]);
+
+let tmExpanded=false;
+
+function toggleTmExpand(){
+  tmExpanded=!tmExpanded;
+  document.getElementById("tm-expand-icon").textContent=tmExpanded?"▲":"▼";
+  renderTypeMatchups();
+}
+
+function renderTypeMatchups(){
+  const active=team.filter(Boolean);
+  const grid=document.getElementById("tm-grid");
+  const expEl=document.getElementById("tm-expanded");
+  if(!active.length){
+    grid.style.display="grid";
+    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--text3);font-size:12px;padding:8px">Add Pokémon to see matchups</div>';
+    if(expEl) expEl.innerHTML="";
+    return;
+  }
+  const typeData=TYPES.map(function(atk){
+    const vals=active.map(function(m){return calcMatchups(m)[atk];});
+    const wN=vals.filter(function(v){return v>=2;}).length;
+    const iN=vals.filter(function(v){return v===0;}).length;
+    const rN=vals.filter(function(v){return v>0&&v<1;}).length;
+    const riN=rN+iN;
+    const bg=TYPE_COLORS[atk]||"#888";
+    const textCol=TYPE_TEXT_DARK.has(atk)?"#333":"#fff";
+    const tooltip=atk+": "+wN+" weak, "+rN+" resist, "+iN+" immune";
+    const score=wN-riN;
+    return {atk:atk,wN:wN,rN:rN,iN:iN,riN:riN,bg:bg,textCol:textCol,tooltip:tooltip,score:score};
+  });
+
+  if(!tmExpanded){
+    grid.style.display="grid";
+    if(expEl) expEl.style.display="none";
+    grid.innerHTML=typeData.map(function(d){
+      var pinCls=pinnedType===d.atk?" tm-pinned":"";
+      var textCol=TYPE_TEXT_DARK.has(d.atk)?"#333":"#fff";
+      return '<div class="tm-cell'+pinCls+'" data-type="'+d.atk+'" style="background:'+d.bg+'" title="'+d.tooltip+'">'
+        +'<div class="tmt" style="color:'+textCol+'">'+TA[d.atk]+'</div>'
+        +'<div class="tmv" style="color:'+textCol+'">'+d.wN+':'+d.riN+'</div>'
+        +'</div>';
+    }).join("");
+    grid.querySelectorAll(".tm-cell").forEach(function(cell){
+      var atk=cell.dataset.type;
+      cell.addEventListener("mouseenter",function(){hoverMatchup(atk);});
+      cell.addEventListener("mouseleave",function(){leaveMatchup(atk);});
+      cell.addEventListener("click",function(){toggleMatchup(atk);});
+    });
+    updatePinnedVisual();
+    return;
+  }
+  // Expanded view
+  grid.style.display="none";
+  if(expEl) expEl.style.display="block";
+  const sorted=[].concat(typeData).sort(function(a,b){
+    if(a.score!==b.score) return a.score-b.score;
+    return b.riN-a.riN;
+  });
+  const strong=sorted.filter(function(d){return d.score<0;});
+  const neutral=sorted.filter(function(d){return d.score===0;});
+  const weak=sorted.filter(function(d){return d.score>0;});
+
+  function badgeHTML(d){
+    const pinCls=pinnedType===d.atk?" tm-pinned":"";
+    const parts=[];
+    if(d.wN) parts.push(d.wN+"W");
+    if(d.rN) parts.push(d.rN+"R");
+    if(d.iN) parts.push(d.iN+"I");
+    const detail=parts.join(" · ")||"—";
+    return '<div class="tm-exp-row">'
+      +'<div class="tm-exp-badge'+pinCls+'" data-type="'+d.atk+'" style="background:'+d.bg+'" title="'+d.tooltip+'">'
+      +'<span class="tm-exp-name" style="color:'+d.textCol+'">'+d.atk+'</span>'
+      +'<span class="tm-exp-ratio" style="color:'+d.textCol+'">'+d.wN+':'+d.riN+'</span>'
+      +'</div>'
+      +'<span style="font-size:10px;color:var(--text3);flex-shrink:0;width:60px;text-align:right">'+detail+'</span>'
+      +'</div>';
+  }
+  function sectionHTML(label,items){
+    if(!items.length) return "";
+    return '<div class="tm-section-divider">'+label+'</div>'+items.map(badgeHTML).join("");
+  }
+  expEl.innerHTML=sectionHTML("Strong",strong)+sectionHTML("Neutral",neutral)+sectionHTML("Weak",weak);
+  expEl.querySelectorAll("[data-type]").forEach(function(el){
+    const atk=el.dataset.type;
+    el.addEventListener("mouseenter",function(){hoverMatchup(atk);});
+    el.addEventListener("mouseleave",function(){leaveMatchup(atk);});
+    el.addEventListener("click",function(){toggleMatchup(atk);});
+  });
+  updatePinnedVisual();
+}
+
+
+// Type matchup highlight state
+let pinnedType = null; // locked by click
+let hoveredType = null; // temporary on hover
+
+function applyMatchupHighlight(atk){
+  const cards=document.querySelectorAll(".draft-slot");
+  cards.forEach((card,i)=>{
+    const mon=team[i];
+    if(!mon){card.style.outline="";card.style.backgroundColor="";return;}
+    const v=calcMatchups(mon)[atk];
+    if(v>=2){
+      card.style.outline="2px solid var(--red)";
+      card.style.backgroundColor="rgba(224,85,85,0.08)";
+    } else if(v===0){
+      card.style.outline="2px solid var(--text3)";
+      card.style.backgroundColor="rgba(90,90,90,0.08)";
+    } else if(v<1){
+      card.style.outline="2px solid var(--green)";
+      card.style.backgroundColor="rgba(76,175,125,0.08)";
+    } else {
+      card.style.outline="";
+      card.style.backgroundColor="";
+    }
+  });
+}
+
+function clearMatchupHighlight(){
+  document.querySelectorAll(".draft-slot").forEach(c=>{
+    c.style.outline="";
+    c.style.backgroundColor="";
+  });
+}
+
+function hoverMatchup(atk){
+  hoveredType=atk;
+  if(!pinnedType) applyMatchupHighlight(atk);
+}
+
+function leaveMatchup(atk){
+  hoveredType=null;
+  if(!pinnedType) clearMatchupHighlight();
+}
+
+function updatePinnedVisual(){
+  // Remove tm-pinned from all cells in both compact and expanded views
+  document.querySelectorAll(".tm-cell,.tm-exp-badge").forEach(function(c){
+    c.classList.remove("tm-pinned");
+  });
+  if(!pinnedType) return;
+  // Re-apply to whichever elements are currently visible
+  document.querySelectorAll(".tm-cell,.tm-exp-badge").forEach(function(c){
+    if(c.dataset.type === pinnedType) c.classList.add("tm-pinned");
+  });
+}
+
+function toggleMatchup(atk){
+  if(pinnedType===atk){
+    pinnedType=null;
+    clearMatchupHighlight();
+  } else {
+    pinnedType=atk;
+    applyMatchupHighlight(atk);
+  }
+  updatePinnedVisual();
+}
+
+// Pin only clears by clicking same type or a different type
+function renderSpeedTiers(){
+  const SPEED_TIERS=[
+    {l:"≤30",    a:0,   b:30,   col:"#7c4dff"},
+    {l:"31–50",  a:31,  b:50,   col:"#2979ff"},
+    {l:"51–70",  a:51,  b:70,   col:"#00bcd4"},
+    {l:"71–90",  a:71,  b:90,   col:"#4caf50"},
+    {l:"91–110", a:91,  b:110,  col:"#ffeb3b"},
+    {l:"111–130",a:111, b:130,  col:"#ff9800"},
+    {l:">130",   a:131, b:9999, col:"#f44336"},
+  ];
+  const mons=team.filter(Boolean);
+  var out="";
+  SPEED_TIERS.forEach(function(t){
+    const inT=mons.filter(function(m){return m.stats.spe>=t.a&&m.stats.spe<=t.b;})
+      .sort(function(a,b){return a.stats.spe-b.stats.spe;});
+    var icons="";
+    inT.forEach(function(m){
+      icons+='<img src="'+iconUrl(m)+'" title="'+m.name+' ('+m.stats.spe+')" '
+        +'style="width:24px;height:24px;image-rendering:pixelated;flex-shrink:0" '
+        +'onerror="this.style.opacity=0.2">';
+    });
+    var rowStyle=inT.length
+      ?"background:"+t.col+"22;border-left:3px solid "+t.col
+      :"border-left:3px solid transparent";
+    out+='<div class="speed-row" style="'+rowStyle+'">'
+      +'<span class="speed-lbl" style="color:'+t.col+'">'+t.l+'</span>'
+      +'<div class="speed-icons">'+icons+'</div>'
+      +'</div>';
+  });
+  document.getElementById("speed-tiers").innerHTML=out;
+}
+
+const UG=[
+  {label:"Speed Control",moves:["Tailwind","Trick Room","Electroweb","Icy Wind","Bulldoze"]},
+  {label:"Redirection",moves:["Follow Me","Rage Powder","Ally Switch"]},
+  {label:"Screens",moves:["Aurora Veil","Reflect","Light Screen"]},
+  {label:"Priority",moves:["Sucker Punch","Fake Out","Aqua Jet","Shadow Sneak","Vacuum Wave","Quick Attack","E-Speed","Bullet Punch","Ice Shard","Mach Punch","Accelerock","Water Shuriken"]},
+  {label:"Status",moves:["Thunder Wave","Nuzzle","Will-o-Wisp","Sleep Powder","Spore","Yawn"]},
+  {label:"Power Nerfs",moves:["Snarl","Struggle Bug","Breaking Swipe"]},
+  {label:"Misc",moves:["Helping Hand","Quick Guard","Wide Guard","Haze","Taunt"]},
+];
+function renderUtility(){
+  const mons=team.filter(Boolean);
+  var out="";
+  UG.forEach(function(g){
+    var rows="";
+    g.moves.forEach(function(mv){
+      const hav=mons.filter(function(m){return (m.moves||[]).includes(mv);});
+      var icons="";
+      hav.forEach(function(m){
+        icons+='<img src="'+iconUrl(m)+'" title="'+m.name+'" '
+          +'style="width:22px;height:22px;image-rendering:pixelated;flex-shrink:0" '
+          +'onerror="this.style.opacity=0.2">';
+      });
+      var mnCls=hav.length?"util-mn":"util-mn util-mn-none";
+      rows+='<div class="util-row">'
+        +'<span class="'+mnCls+'">'+mv+'</span>'
+        +'<div class="util-icons">'+icons+'</div>'
+        +'</div>';
+    });
+    out+='<div class="util-section">'
+      +'<div class="util-section-title">'+g.label+'</div>'
+      +rows
+      +'</div>';
+  });
+  document.getElementById("util-tracker").innerHTML=out;
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+let toastTimer = null;
+function showToast(msg, type){
+  var t = document.getElementById('toast');
+  if(!t){ t = document.createElement('div'); t.id='toast'; t.className='toast'; document.body.appendChild(t); }
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' toast-'+type : '');
+  if(toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+// ── SEARCH ─────────────────────────────────────────────────────────────────────
+function doSearch(q){
+  q=q.trim().toLowerCase();
+  if(!q){closeSearch();return;}
+  srResults=POKEMON_DATA.filter(p=>p.name.toLowerCase().includes(q)||p.id.toLowerCase().startsWith(q)).slice(0,18);
+  const el=document.getElementById("search-results");
+  if(!srResults.length){el.innerHTML=`<div style="padding:12px;color:var(--text3);font-size:13px">No results</div>`;el.classList.add("open");return;}
+  el.innerHTML=srResults.map((p,i)=>{
+    const inTeam=team.some(m=>m&&m.id===p.id);
+    return `<div class="sr-item ${!p.legal?"illegal-r":""} ${inTeam?"already-in":""}" onmousedown="if(!${inTeam})addToTeam(srResults[${i}])">
+      <img class="sr-sprite" src="${spriteUrl(p)}" alt="${p.name}">
+      <div><div class="sr-name">${p.name}</div>
+        <div class="sr-sub">
+          <span class="type-badge t-${p.type1}" style="font-size:9px;padding:1px 5px">${p.type1}</span>
+          ${p.type2?`<span class="type-badge t-${p.type2}" style="font-size:9px;padding:1px 5px">${p.type2}</span>`:""}
+        </div>
+      </div>
+      <span class="sr-pts" style="color:${p.legal?"var(--yellow)":"var(--red)"};margin-left:auto">${p.legal?p.points+" pts":"Illegal"}</span>
+    </div>`;
+  }).join("");
+  el.classList.add("open");
+}
+function closeSearch(){
+  document.getElementById("search-results").classList.remove("open");
+  highlightedResultIdx = -1;
+}
+
+let highlightedResultIdx = -1;
+
+function updateSearchHighlight(){
+  document.querySelectorAll('.sr-item').forEach(function(el,i){
+    el.classList.toggle('highlighted', i === highlightedResultIdx);
+  });
+}
+
+document.getElementById("draft-search").addEventListener("input",function(e){
+  highlightedResultIdx = -1;
+  doSearch(e.target.value);
+});
+document.getElementById("draft-search").addEventListener("keydown",function(e){
+  const items = document.querySelectorAll('.sr-item:not(.already-in)');
+  if(e.key === "ArrowDown"){
+    e.preventDefault();
+    highlightedResultIdx = Math.min(highlightedResultIdx+1, items.length-1);
+    updateSearchHighlight();
+  } else if(e.key === "ArrowUp"){
+    e.preventDefault();
+    highlightedResultIdx = Math.max(highlightedResultIdx-1, 0);
+    updateSearchHighlight();
+  } else if(e.key === "Enter"){
+    e.preventDefault();
+    const idx = highlightedResultIdx >= 0 ? highlightedResultIdx : 0;
+    if(srResults[idx]) addToTeam(srResults[idx]);
+  } else if(e.key === "Escape"){
+    closeSearch();
+  }
+});
+document.getElementById("draft-search").addEventListener("blur",()=>setTimeout(closeSearch,150));
+document.getElementById("pts-limit").addEventListener("input",renderPoints);
+
+// ── INDEX ──────────────────────────────────────────────────────────────────────
+let idxSort={col:"id",dir:1};
+let lazyObs=null;
+// Multi-select state
+const idxSelectedTypes = new Set();
+const idxSelectedMoves = new Set();
+
+function toggleMultiDropdown(id){
+  const dd = document.getElementById(id+'-dropdown');
+  const disp = document.getElementById(id+'-display');
+  const isOpen = dd.classList.contains('open');
+  // Close all dropdowns first
+  document.querySelectorAll('.fi-multi-dropdown').forEach(function(d){ d.classList.remove('open'); });
+  document.querySelectorAll('.fi-multi-display').forEach(function(d){ d.classList.remove('open'); });
+  if(!isOpen){ dd.classList.add('open'); disp.classList.add('open'); }
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('mousedown', function(e){
+  if(!e.target.closest('.fi-multi-wrap')){
+    document.querySelectorAll('.fi-multi-dropdown').forEach(function(d){ d.classList.remove('open'); });
+    document.querySelectorAll('.fi-multi-display').forEach(function(d){ d.classList.remove('open'); });
+  }
+});
+
+function updateMultiDisplay(id, selected, allLabel){
+  const disp = document.getElementById(id+'-display');
+  if(selected.size === 0){
+    disp.innerHTML = allLabel+' <span class="fi-arrow">▾</span>';
+    disp.classList.remove('active');
+  } else {
+    disp.innerHTML = [...selected].join(', ')+' <span class="fi-arrow">▾</span>';
+    disp.classList.add('active');
+  }
+}
+
+function initFilters(){
+  // Type multi-select
+  const typeDd = document.getElementById('idx-type-dropdown');
+  TYPES.forEach(function(t){
+    const opt = document.createElement('div');
+    opt.className = 'fi-multi-opt';
+    opt.innerHTML = '<input type="checkbox" id="idx-type-'+t+'"><span class="type-badge t-'+t+'" style="font-size:10px;padding:1px 6px">'+t+'</span>';
+    opt.querySelector('input').addEventListener('change', function(){
+      if(this.checked) idxSelectedTypes.add(t); else idxSelectedTypes.delete(t);
+      opt.classList.toggle('checked', this.checked);
+      updateMultiDisplay('idx-type', idxSelectedTypes, 'All Types');
+      renderIdx();
+    });
+    typeDd.appendChild(opt);
+  });
+
+  // Ability single-select
+  const abSet=new Set(); POKEMON_DATA.forEach(p=>p.abilities.forEach(a=>abSet.add(a)));
+  const aS=document.getElementById("idx-ability");
+  [...abSet].sort().forEach(a=>{const o=document.createElement("option");o.value=a;o.textContent=a;aS.appendChild(o);});
+
+  // Points min/max
+  const ptsVals=[...new Set(POKEMON_DATA.filter(p=>p.legal).map(p=>p.points))].sort((a,b)=>a-b);
+  const pMin=document.getElementById("idx-pts-min");
+  const pMax=document.getElementById("idx-pts-max");
+  ptsVals.forEach(function(v){
+    const o1=document.createElement("option"); o1.value=v; o1.textContent=v+' pts'; pMin.appendChild(o1);
+    const o2=document.createElement("option"); o2.value=v; o2.textContent=v+' pts'; pMax.appendChild(o2);
+  });
+
+  // Move multi-select (grouped by category)
+  const moveDd = document.getElementById('idx-move-dropdown');
+  UG.forEach(function(g){
+    const sec = document.createElement('div');
+    sec.className = 'fi-multi-section';
+    sec.textContent = g.label;
+    moveDd.appendChild(sec);
+    g.moves.forEach(function(mv){
+      const opt = document.createElement('div');
+      opt.className = 'fi-multi-opt';
+      opt.innerHTML = '<input type="checkbox" id="idx-move-'+mv.replace(/\s/g,'-')+'"><span>'+mv+'</span>';
+      opt.querySelector('input').addEventListener('change', function(){
+        if(this.checked) idxSelectedMoves.add(mv); else idxSelectedMoves.delete(mv);
+        opt.classList.toggle('checked', this.checked);
+        updateMultiDisplay('idx-move', idxSelectedMoves, 'All Moves');
+        renderIdx();
+      });
+      moveDd.appendChild(opt);
+    });
+  });
+
+  ["idx-search","idx-ability","idx-pts-min","idx-pts-max"].forEach(function(id){
+    document.getElementById(id).addEventListener("input",renderIdx);
+  });
+  document.getElementById("idx-legal-only").addEventListener("change",renderIdx);
+}
+function getFiltered(){
+  const q=document.getElementById("idx-search").value.trim().toLowerCase();
+  const ab=document.getElementById("idx-ability").value;
+  const pmin=document.getElementById("idx-pts-min").value;
+  const pmax=document.getElementById("idx-pts-max").value;
+  const lo=document.getElementById("idx-legal-only").checked;
+  return POKEMON_DATA.filter(function(p){
+    if(q&&!p.name.toLowerCase().includes(q))return false;
+    // Type multi-select: match if pokemon has ANY of the selected types
+    if(idxSelectedTypes.size>0&&!idxSelectedTypes.has(p.type1)&&!idxSelectedTypes.has(p.type2))return false;
+    if(ab&&!p.abilities.includes(ab))return false;
+    if(pmin&&(!p.legal||p.points<parseInt(pmin)))return false;
+    if(pmax&&(!p.legal||p.points>parseInt(pmax)))return false;
+    // Move multi-select: match if pokemon has ALL of the selected moves
+    if(idxSelectedMoves.size>0){
+      for(var mv of idxSelectedMoves){ if(!(p.moves||[]).includes(mv))return false; }
+    }
+    if(lo&&!p.legal)return false;
+    return true;
+  });
+}
+function sortIdx(col){
+  if(idxSort.col===col)idxSort.dir*=-1;else{idxSort.col=col;idxSort.dir=1;}
+  document.querySelectorAll(".idx-tbl th[data-col]").forEach(th=>{
+    th.classList.remove("sa","sd");
+    if(th.dataset.col===col)th.classList.add(idxSort.dir===1?"sa":"sd");
+  });
+  renderIdx();
+}
+// Set table header sticky offset to match nav height
+function updateStickyOffset(){
+  const nav = document.querySelector('nav');
+  const filters = document.querySelector('.filters');
+  if(nav && filters){
+    const navH = nav.getBoundingClientRect().height;
+    const filtersH = filters.getBoundingClientRect().height;
+    const top = navH + filtersH + 8;
+    document.querySelectorAll('.idx-tbl th').forEach(function(th){
+      th.style.top = top + 'px';
+    });
+  }
+}
+
+let idxExpandedId = null;
+
+function buildIdxExpanded(p){
+  // Stat bars
+  var bars = BAR_SK.map(function(k,i){
+    var v=p.stats[k], pct=Math.round(statScale(v)*100);
+    return '<div class="stat-bar-row">'
+      +'<span class="stat-bar-label" style="color:'+BAR_SC[i]+'">'+BAR_SL[i]+'</span>'
+      +'<div class="stat-bar-bg"><div class="stat-bar-fill" style="width:'+pct+'%;background:'+BAR_SC[i]+'"></div></div>'
+      +'<span class="stat-bar-val">'+v+'</span>'
+      +'</div>';
+  }).join('');
+
+  // Type matchups
+  var mup = calcMatchups(p);
+  var weak=[], resist=[], immune=[];
+  TYPES.forEach(function(t){
+    if(mup[t]===0) immune.push(t);
+    else if(mup[t]<1) resist.push(t);
+    else if(mup[t]>=2) weak.push(t);
+  });
+  var tmHTML = '';
+  if(weak.length) tmHTML += '<div class="idx-exp-tm" style="margin-bottom:4px">'+weak.map(function(t){return '<span class="tm-weak-sm">▲ '+t+'</span>';}).join('')+'</div>';
+  if(resist.length) tmHTML += '<div class="idx-exp-tm" style="margin-bottom:4px">'+resist.map(function(t){return '<span class="tm-resist-sm">▼ '+t+'</span>';}).join('')+'</div>';
+  if(immune.length) tmHTML += '<div class="idx-exp-tm">'+immune.map(function(t){return '<span class="tm-immune-sm">✕ '+t+'</span>';}).join('')+'</div>';
+
+  // Utility moves
+  var movesHTML = (p.moves||[]).length
+    ? (p.moves||[]).map(function(m){return '<span class="move-tag">'+m+'</span>';}).join('')
+    : '<span style="color:var(--text3);font-size:11px">None</span>';
+
+  return '<td colspan="13">'
+    +'<div class="idx-expanded">'
+      +'<div class="idx-exp-radar"><canvas id="idx-radar-'+p.id.replace(/[^a-z0-9]/gi,'_')+'" width="160" height="160"></canvas></div>'
+      +'<div class="idx-exp-stats">'+bars+'</div>'
+      +'<div class="idx-exp-right">'
+        +'<div><div class="idx-exp-section-title">Type Matchups</div>'+tmHTML+'</div>'
+        +'<div><div class="idx-exp-section-title">Utility Moves</div><div class="idx-exp-moves">'+movesHTML+'</div></div>'
+      +'</div>'
+    +'</div>'
+    +'</td>';
+}
+
+function renderIdx(){
+  let data=getFiltered();
+  const{col,dir}=idxSort;
+  data.sort(function(a,b){
+    let av,bv;
+    if(col==="id"){av=parseFloat(a.id)||a.id;bv=parseFloat(b.id)||b.id;}
+    else if(["hp","atk","def","spa","spd","spe","bst"].includes(col)){av=a.stats[col];bv=b.stats[col];}
+    else if(col==="points"){av=a.points!=null?a.points:9999;bv=b.points!=null?b.points:9999;}
+    else{av=(a[col]||"").toLowerCase();bv=(b[col]||"").toLowerCase();}
+    return av<bv?-dir:av>bv?dir:0;
+  });
+  document.getElementById("idx-count").textContent=data.length+" Pokémon";
+
+  var rows = "";
+  data.forEach(function(p){
+    var isExp = idxExpandedId === p.id;
+    rows += '<tr class="data-row '+(p.legal?"":"illegal")+(isExp?" expanded":"")
+      +'" data-id="'+p.id+'">'
+      +'<td>'+p.id+'</td>'
+      +'<td><img class="tbl-sprite" data-src="'+iconUrl(p)+'" alt="'+p.name+'"></td>'
+      +'<td style="font-weight:600">'+p.name+'</td>'
+      +'<td><span class="type-badge t-'+p.type1+'">'+p.type1+'</span>'
+        +(p.type2?'<span class="type-badge t-'+p.type2+'" style="margin-left:3px">'+p.type2+'</span>':'')+'</td>'
+      +'<td style="font-weight:600;color:'+(p.legal?'var(--yellow)':'var(--text3)')+'">'+(p.legal?p.points:'—')+'</td>'
+      +'<td>'+p.stats.hp+'</td><td>'+p.stats.atk+'</td><td>'+p.stats.def+'</td>'
+      +'<td>'+p.stats.spa+'</td><td>'+p.stats.spd+'</td><td>'+p.stats.spe+'</td>'
+      +'<td style="font-weight:600">'+p.stats.bst+'</td>'
+      +'<td style="color:var(--text2);font-size:12px">'+p.abilities.join(", ")+'</td>'
+      +'</tr>';
+    if(isExp){
+      rows += '<tr class="idx-exp-row '+(p.legal?"":"illegal")+'">'+buildIdxExpanded(p)+'</tr>';
+    }
+  });
+  document.getElementById("idx-body").innerHTML = rows;
+
+  // Click to expand/collapse
+  document.querySelectorAll("#idx-body tr.data-row").forEach(function(row){
+    row.addEventListener("click", function(){
+      var id = this.dataset.id;
+      idxExpandedId = (idxExpandedId === id) ? null : id;
+      renderIdx();
+      // Draw radar after render
+      if(idxExpandedId){
+        var p = POKEMON_DATA.find(function(x){return x.id===idxExpandedId;});
+        if(p){
+          var canvasId = "idx-radar-"+p.id.replace(/[^a-z0-9]/gi,'_');
+          var canvas = document.getElementById(canvasId);
+          if(canvas) drawRadar(canvas, p, 160);
+        }
+      }
+    });
+  });
+
+  // Lazy load icons
+  if(lazyObs)lazyObs.disconnect();
+  lazyObs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting)return;
+      var img=e.target;
+      img.src=img.dataset.src;
+      setIconFallback(img);
+      lazyObs.unobserve(img);
+    });
+  },{rootMargin:"300px"});
+  document.querySelectorAll("#idx-body img[data-src]").forEach(function(img){lazyObs.observe(img);});
+}
+
+// ── POOL ───────────────────────────────────────────────────────────────────────
+let poolObs=null;
+function renderPool(filter){
+  const q=(filter||"").trim().toLowerCase();
+  const legal=POKEMON_DATA.filter(p=>p.legal&&(!q||p.name.toLowerCase().includes(q)));
+  const byPts={};
+  legal.forEach(p=>{if(!byPts[p.points])byPts[p.points]=[];byPts[p.points].push(p);});
+  Object.values(byPts).forEach(arr=>arr.sort((a,b)=>a.name.localeCompare(b.name)));
+  const tiers=Object.keys(byPts).map(Number).sort((a,b)=>b-a);
+  document.getElementById("pool-count").textContent=legal.length+" legal Pokémon";
+  document.getElementById("pool-grid").innerHTML=tiers.map(function(pts){
+    const mons=byPts[pts].map(function(p){
+      return '<div class="pool-mon" data-name="'+p.name+'">'
+        +'<img data-src="'+iconUrl(p)+'" alt="'+p.name+'" style="width:40px;height:40px;image-rendering:pixelated">'
+        +'<div class="pool-mon-name">'+p.name+'</div>'
+        +'</div>';
+    }).join("");
+    return '<div class="pool-tier">'
+      +'<div class="pool-tier-hdr">'
+      +'<span class="pool-tier-pts">'+pts+'</span><span class="pool-tier-lbl">points</span>'
+      +'<span class="pool-tier-cnt">'+byPts[pts].length+' Pokémon</span>'
+      +'</div>'
+      +'<div class="pool-pokemon">'+mons+'</div>'
+      +'</div>';
+  }).join("");
+  // Attach click events via JS
+  document.querySelectorAll("#pool-grid .pool-mon").forEach(function(el){
+    el.addEventListener("click", function(){
+      const name = this.dataset.name;
+      const mon = POKEMON_DATA.find(function(p){ return p.name === name; });
+      if(!mon) return;
+      // Check if already on team
+      if(team.some(function(m){ return m && m.id === mon.id; })){
+        showToast(mon.name + ' is already on your team.', 'warn');
+        return;
+      }
+      // Check if team is full
+      const slot = team.findIndex(function(s){ return s === null; });
+      if(slot === -1){
+        showToast('Your team is full! Remove a Pokémon first.', 'warn');
+        return;
+      }
+      team[slot] = mon;
+      renderTeam(); renderSidebar();
+      showToast(mon.name + ' added to slot ' + (slot + 1) + '.', 'ok');
+    });
+  });
+  if(poolObs)poolObs.disconnect();
+  poolObs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.src=e.target.dataset.src;setIconFallback(e.target);poolObs.unobserve(e.target);}
+    });
+  },{rootMargin:"400px"});
+  document.querySelectorAll("#pool-grid img[data-src]").forEach(function(img){poolObs.observe(img);});
+}
+document.getElementById("pool-search").addEventListener("input",e=>renderPool(e.target.value));
+
+// ── SLOT POPOVER ──────────────────────────────────────────────────────────────
+let popoverTargetSlot = null;
+let justOpened = false;
+let popoverHlIdx = -1;
+let popoverResults = [];
+
+function openSlotPopoverByIdx(slotIdx, el){
+  var anchor = el || document.querySelector('[data-slotidx="'+slotIdx+'"]');
+  openSlotPopover(slotIdx, anchor || el);
+}
+
+function openSlotPopover(slotIdx, anchorEl){
+  popoverTargetSlot = slotIdx;
+  popoverHlIdx = -1;
+  popoverResults = [];
+  const pop = document.getElementById('slot-popover');
+  const input = document.getElementById('slot-pop-input');
+  const results = document.getElementById('slot-pop-results');
+  input.value = '';
+  results.innerHTML = '';
+  pop.style.display = 'block';
+  document.getElementById('slot-backdrop').style.display = 'block';
+  justOpened = true;
+  setTimeout(function(){ justOpened = false; }, 50);
+
+  // Position: right of anchor, or below if near right edge
+  const rect = anchorEl.getBoundingClientRect();
+  const scrollY = window.scrollY||window.pageYOffset;
+  const scrollX = window.scrollX||window.pageXOffset;
+  var left = rect.right + scrollX + 8;
+  var top  = rect.top  + scrollY;
+  if(left + 284 > window.innerWidth + scrollX - 8){
+    left = rect.left + scrollX;
+    top  = rect.bottom + scrollY + 8;
+  }
+  pop.style.left = left+'px';
+  pop.style.top  = top+'px';
+  setTimeout(function(){ input.focus(); }, 30);
+}
+
+function closeSlotPopover(){
+  const pop = document.getElementById('slot-popover');
+  if(!pop) return;
+  pop.style.display = 'none';
+  var bd=document.getElementById('slot-backdrop'); if(bd) bd.style.display='none';
+  popoverTargetSlot = null;
+  popoverHlIdx = -1;
+  popoverResults = [];
+}
+
+function renderPopoverResults(q){
+  q = q.trim().toLowerCase();
+  const resultsEl = document.getElementById('slot-pop-results');
+  if(!q){ resultsEl.innerHTML=''; popoverResults=[]; return; }
+  popoverResults = POKEMON_DATA.filter(function(p){
+    return p.name.toLowerCase().includes(q)||p.id.toLowerCase().startsWith(q);
+  }).slice(0,12);
+  if(!popoverResults.length){
+    resultsEl.innerHTML='<div style="padding:10px;color:var(--text3);font-size:12px">No results</div>';
+    return;
+  }
+  var h='';
+  popoverResults.forEach(function(p,i){
+    const inTeam=team.some(function(m){return m&&m.id===p.id;});
+    var cls='';
+    if(inTeam) cls+=' already-in';
+    if(!p.legal) cls+=' illegal-r';
+    h+='<div class="slot-pop-item'+cls+'" data-idx="'+i+'">'
+      +'<img class="slot-pop-sprite" src="'+spriteUrl(p)+'" alt="'+p.name+'">'
+      +'<div>'
+        +'<div class="slot-pop-name">'+p.name+'</div>'
+        +'<div class="slot-pop-sub">'
+          +'<span class="type-badge t-'+p.type1+'" style="font-size:9px;padding:1px 4px">'+p.type1+'</span>'
+          +(p.type2?'<span class="type-badge t-'+p.type2+'" style="font-size:9px;padding:1px 4px">'+p.type2+'</span>':'')
+        +'</div>'
+      +'</div>'
+      +'<span class="slot-pop-pts" style="color:'+(p.legal?'var(--yellow)':'var(--red)')+';">'
+        +(p.legal?p.points+' pts':'Illegal')+'</span>'
+      +'</div>';
+  });
+  resultsEl.innerHTML=h;
+  // Use mousedown + stopPropagation so document mousedown doesn't close before click fires
+  resultsEl.querySelectorAll('.slot-pop-item:not(.already-in)').forEach(function(el){
+    el.addEventListener('mousedown', function(e){
+      e.stopPropagation();
+      const idx=parseInt(el.dataset.idx);
+      if(popoverResults[idx]) addToSlot(popoverTargetSlot, popoverResults[idx]);
+    });
+  });
+  updatePopoverHighlight();
+}
+
+function updatePopoverHighlight(){
+  document.querySelectorAll('.slot-pop-item').forEach(function(el,i){
+    el.classList.toggle('highlighted', i===popoverHlIdx);
+  });
+}
+
+function addToSlot(slotIdx, mon){
+  if(slotIdx===null||slotIdx===undefined) return;
+  if(team.some(function(m){return m&&m.id===mon.id;})) return;
+  team[slotIdx]=mon;
+  closeSlotPopover();
+  renderTeam(); renderSidebar();
+}
+
+function initSlotPopover(){
+  const input=document.getElementById('slot-pop-input');
+  const pop=document.getElementById('slot-popover');
+
+  // Prevent clicks inside popover from bubbling to document close handler
+  pop.addEventListener('mousedown', function(e){ e.stopPropagation(); });
+
+  input.addEventListener('input', function(){
+    popoverHlIdx=-1;
+    renderPopoverResults(this.value);
+  });
+  input.addEventListener('keydown', function(e){
+    const items=document.querySelectorAll('.slot-pop-item:not(.already-in)');
+    if(e.key==='ArrowDown'){
+      e.preventDefault();
+      popoverHlIdx=Math.min(popoverHlIdx+1,items.length-1);
+      updatePopoverHighlight();
+    } else if(e.key==='ArrowUp'){
+      e.preventDefault();
+      popoverHlIdx=Math.max(popoverHlIdx-1,0);
+      updatePopoverHighlight();
+    } else if(e.key==='Enter'){
+      e.preventDefault();
+      const idx=popoverHlIdx>=0?popoverHlIdx:0;
+      if(popoverResults[idx]) addToSlot(popoverTargetSlot,popoverResults[idx]);
+    } else if(e.key==='Escape'){
+      closeSlotPopover();
+    }
+  });
+
+  // Close on any click outside the popover
+  // Use both mousedown and click to catch all cases
+  function outsideClickHandler(e){
+    if(justOpened) return;
+    // If clicking another + button, let its onclick handle opening - just close current
+    const t = e.target.closest ? e.target : e.target.parentElement;
+    if(t && t.closest('.slot-sprite-empty')){
+      closeSlotPopover();
+      return;
+    }
+    if(pop.style.display!=='none' && !pop.contains(e.target)){
+      closeSlotPopover();
+    }
+  }
+  document.addEventListener('click', outsideClickHandler);
+
+  // Close when main search bar is focused
+  document.getElementById('draft-search').addEventListener('focus', function(){
+    closeSlotPopover();
+  });
+}
+
+// ── VIEW ─────────────────────────────────────────────────────────────────────── ───────────────────────────────────────────────────────────────────────
+function showView(name){
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
+  document.getElementById("view-"+name).classList.add("active");
+  const lbl={draft:"draft b",index:"pokédex",pool:"pool"};
+  document.querySelectorAll(".nav-tab").forEach(t=>{if(t.textContent.toLowerCase().includes(lbl[name]))t.classList.add("active");});
+  if(name==='index') updateStickyOffset();
+}
+
+
+loadPokemonData();
+</script></body>
+</html>
