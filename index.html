@@ -91,7 +91,9 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 
 /* matchup badges — compact right-aligned */
 .tm-weak-sm{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(224,85,85,0.2);color:var(--red);border:1px solid rgba(224,85,85,0.3);white-space:nowrap;}
+.tm-weak-sm.tm-4x{background:rgba(224,85,85,0.38);border-color:rgba(224,85,85,0.65);color:#ff8080;}
 .tm-resist-sm{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(76,175,125,0.12);color:var(--green);border:1px solid rgba(76,175,125,0.25);white-space:nowrap;}
+.tm-resist-sm.tm-quarter{background:rgba(76,175,125,0.25);border-color:rgba(76,175,125,0.5);color:#7fffbb;}
 .tm-immune-sm{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(90,83,102,0.25);color:#888;border:1px solid rgba(90,83,102,0.35);white-space:nowrap;}
 
 .slot-moves{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;}
@@ -250,7 +252,7 @@ select.fi option{background:var(--bg2);}
 </head>
 <body>
 <nav>
-  <div class="nav-logo">⚡ VGC Draft</div>
+  <div class="nav-logo"><img id="nav-logo-icon" src="" alt="" style="width:28px;height:28px;image-rendering:pixelated;vertical-align:middle;margin-right:6px;margin-bottom:2px"> VGC Draft</div>
   <div class="nav-tab active" onclick="showView('draft')">Draft Builder</div>
   <div class="nav-tab" onclick="showView('index')">Pokédex Index</div>
   <div class="nav-tab" onclick="showView('pool')">Draft Pool</div>
@@ -352,6 +354,16 @@ select.fi option{background:var(--bg2);}
 let POKEMON_DATA = [];
 function initApp() {
   initFilters();renderTeam();renderSidebar();renderIdx();renderPool();initDragAndDrop();initSlotPopover();updateStickyOffset();window.addEventListener('resize',updateStickyOffset);
+  // (l) Random Pokémon icon in nav
+  const legalMons = POKEMON_DATA.filter(p => p.legal);
+  if(legalMons.length){
+    const pick = legalMons[Math.floor(Math.random()*legalMons.length)];
+    const navIcon = document.getElementById('nav-logo-icon');
+    navIcon.src = iconUrl(pick);
+    navIcon.alt = pick.name;
+    navIcon.title = pick.name;
+    navIcon.onerror = function(){ this.style.display='none'; };
+  }
 }
 async function loadPokemonData() {
   const response = await fetch('pokemon.json');
@@ -381,26 +393,29 @@ function iconUrl(mon) {
   return './icons/' + localId(mon.id) + '.png';
 }
 
+// Pokéball data URI used as the final fallback when no sprite/icon is found
+const POKEBALL_FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%23e05555' stroke='%23333' stroke-width='1.5'/%3E%3Cpath d='M1 20h38' stroke='%23333' stroke-width='2'/%3E%3Crect x='1' y='18' width='38' height='4' fill='%23333'/%3E%3Ccircle cx='20' cy='20' r='7' fill='%23fff' stroke='%23333' stroke-width='1.5'/%3E%3Ccircle cx='20' cy='20' r='3.5' fill='%23e8eaf6' stroke='%23333' stroke-width='1'/%3E%3C/svg%3E";
+
 function setSpriteFallback(img) {
-  // sprites → icons fallback
+  // sprites → icons → Pokéball fallback
   img.onerror = function() {
     if (this.src.includes('./sprites/')) {
-      this.onerror = function() { this.onerror = null; this.style.opacity = '0.1'; };
+      this.onerror = function() { this.onerror = null; this.src = POKEBALL_FALLBACK; this.style.opacity='0.5'; };
       this.src = this.src.replace('./sprites/', './icons/');
     } else {
-      this.onerror = null; this.style.opacity = '0.1';
+      this.onerror = null; this.src = POKEBALL_FALLBACK; this.style.opacity='0.5';
     }
   };
 }
 
 function setIconFallback(img) {
-  // icons → sprites fallback
+  // icons → sprites → Pokéball fallback
   img.onerror = function() {
     if (this.src.includes('./icons/')) {
-      this.onerror = function() { this.onerror = null; this.style.opacity = '0.1'; };
+      this.onerror = function() { this.onerror = null; this.src = POKEBALL_FALLBACK; this.style.opacity='0.5'; };
       this.src = this.src.replace('./icons/', './sprites/');
     } else {
-      this.onerror = null; this.style.opacity = '0.1';
+      this.onerror = null; this.src = POKEBALL_FALLBACK; this.style.opacity='0.5';
     }
   };
 }
@@ -464,9 +479,9 @@ function getMatchupGroups(mon){
   const m=calcMatchups(mon);
   const weak=[],resist=[],immune=[];
   TYPES.forEach(t=>{
-    if(m[t]===0)immune.push(t);
-    else if(m[t]<1)resist.push(t);
-    else if(m[t]>=2)weak.push(t);
+    if(m[t]===0)immune.push({type:t,val:0});
+    else if(m[t]<1)resist.push({type:t,val:m[t]});
+    else if(m[t]>=2)weak.push({type:t,val:m[t]});
   });
   return{weak,resist,immune};
 }
@@ -585,9 +600,9 @@ function renderTeam(){
   for(let i=0;i<TS;i++){
     const mon=team[i];
     const d=document.createElement("div");
-    d.className="draft-slot"+(mon&&!mon.legal?" illegal-slot":"");
     if(mon){
       const exp=expanded.has(i);
+      d.className="draft-slot"+(mon&&!mon.legal&&!exp?" illegal-slot":"");
       const moves=(mon.moves||[]).slice(0,8).map(m=>`<span class="move-tag">${m}</span>`).join("");
       const abilities=(mon.abilities||[]).map(a=>`<span class="ability-tag">${a}</span>`).join("");
       const ptsDisp=mon.legal
@@ -596,9 +611,9 @@ function renderTeam(){
 
       // Compact matchup badges — weaknesses on name row, resists/immunities on type row
       const {weak,resist,immune}=getMatchupGroups(mon);
-      const weakBadges=weak.map(t=>`<span class="tm-weak-sm">▲ ${t}</span>`).join("");
-      const resistBadges=resist.map(t=>`<span class="tm-resist-sm">▼ ${t}</span>`).join("");
-      const immuneBadges=immune.map(t=>`<span class="tm-immune-sm">✕ ${t}</span>`).join("");
+      const weakBadges=weak.map(t=>`<span class="tm-weak-sm${t.val>=4?' tm-4x':''}" title="${t.val}x weakness">▲${t.val>=4?'4':'2'} ${t.type}</span>`).join("");
+      const resistBadges=resist.map(t=>`<span class="tm-resist-sm${t.val<=0.25?' tm-quarter':''}" title="${t.val}x resistance">▼${t.val<=0.25?'¼':'½'} ${t.type}</span>`).join("");
+      const immuneBadges=immune.map(t=>`<span class="tm-immune-sm">✕ ${t.type}</span>`).join("");
 
       // Compact stat numbers
       const statNums=BAR_SK.map(function(k,j){
@@ -650,6 +665,7 @@ function renderTeam(){
       setSpriteFallback(sprEl);
       if(exp) drawRadar(document.getElementById("rl-"+i),mon,180);
     } else {
+      d.className="draft-slot";
       const slotI = i;
       d.innerHTML=`
         <span class="drag-handle" title="Drag to reorder">⠿</span>
@@ -1225,7 +1241,7 @@ function updateStickyOffset(){
   }
 }
 
-let idxExpandedId = null;
+let idxExpandedIds = new Set();
 
 function buildIdxExpanded(p){
   // Stat bars
@@ -1242,14 +1258,14 @@ function buildIdxExpanded(p){
   const mup = calcMatchups(p);
   const weak=[], resist=[], immune=[];
   TYPES.forEach(function(t){
-    if(mup[t]===0) immune.push(t);
-    else if(mup[t]<1) resist.push(t);
-    else if(mup[t]>=2) weak.push(t);
+    if(mup[t]===0) immune.push({type:t,val:0});
+    else if(mup[t]<1) resist.push({type:t,val:mup[t]});
+    else if(mup[t]>=2) weak.push({type:t,val:mup[t]});
   });
   let tmHTML = '';
-  if(weak.length) tmHTML += '<div class="idx-exp-tm" style="margin-bottom:4px">'+weak.map(function(t){return '<span class="tm-weak-sm">▲ '+t+'</span>';}).join('')+'</div>';
-  if(resist.length) tmHTML += '<div class="idx-exp-tm" style="margin-bottom:4px">'+resist.map(function(t){return '<span class="tm-resist-sm">▼ '+t+'</span>';}).join('')+'</div>';
-  if(immune.length) tmHTML += '<div class="idx-exp-tm">'+immune.map(function(t){return '<span class="tm-immune-sm">✕ '+t+'</span>';}).join('')+'</div>';
+  if(weak.length) tmHTML += '<div class="idx-exp-tm" style="margin-bottom:4px">'+weak.map(function(t){return '<span class="tm-weak-sm'+(t.val>=4?' tm-4x':'')+'">▲'+(t.val>=4?'4':'2')+' '+t.type+'</span>';}).join('')+'</div>';
+  if(resist.length) tmHTML += '<div class="idx-exp-tm" style="margin-bottom:4px">'+resist.map(function(t){return '<span class="tm-resist-sm'+(t.val<=0.25?' tm-quarter':'')+'">▼'+(t.val<=0.25?'¼':'½')+' '+t.type+'</span>';}).join('')+'</div>';
+  if(immune.length) tmHTML += '<div class="idx-exp-tm">'+immune.map(function(t){return '<span class="tm-immune-sm">✕ '+t.type+'</span>';}).join('')+'</div>';
 
   // Utility moves
   const movesHTML = (p.moves||[]).length
@@ -1296,13 +1312,20 @@ function renderIdx(){
   });
   document.getElementById("idx-count").textContent=data.length+" Pokémon";
 
+  // Snapshot already-loaded icon srcs to avoid flicker on re-render
+  const loadedIcons = {};
+  document.querySelectorAll("#idx-body img.tbl-icon[src]").forEach(function(img){
+    const alt = img.alt;
+    if(alt && img.src && !img.src.endsWith('undefined')) loadedIcons[alt] = img.src;
+  });
+
   let rows = "";
   data.forEach(function(p){
-    const isExp = idxExpandedId === p.id;
+    const isExp = idxExpandedIds.has(p.id);
     rows += '<tr class="data-row '+(p.legal?"":"illegal")+(isExp?" expanded":"")
       +'" data-id="'+p.id+'">'
       +'<td>'+p.id+'</td>'
-      +'<td><img class="tbl-icon" data-src="'+iconUrl(p)+'" alt="'+p.name+'"></td>'
+      +'<td><img class="tbl-icon" '+(loadedIcons[p.name]?'src="'+loadedIcons[p.name]+'"':'data-src="'+iconUrl(p)+'"')+' alt="'+p.name+'"></td>'
       +'<td style="font-weight:600">'+p.name+'</td>'
       +'<td><span class="type-badge t-'+p.type1+'">'+p.type1+'</span>'
         +(p.type2?'<span class="type-badge t-'+p.type2+'" style="margin-left:3px">'+p.type2+'</span>':'')+'</td>'
@@ -1318,25 +1341,31 @@ function renderIdx(){
   });
   document.getElementById("idx-body").innerHTML = rows;
 
-  // Click to expand/collapse
+  // Apply fallback to already-loaded icons (they skip lazy load since they have src not data-src)
+  document.querySelectorAll("#idx-body img.tbl-icon[src]").forEach(function(img){
+    setIconFallback(img);
+  });
+
+  // Click to expand/collapse — now toggles within a Set
   document.querySelectorAll("#idx-body tr.data-row").forEach(function(row){
     row.addEventListener("click", function(){
       const id = this.dataset.id;
-      idxExpandedId = (idxExpandedId === id) ? null : id;
+      if(idxExpandedIds.has(id)) idxExpandedIds.delete(id);
+      else idxExpandedIds.add(id);
       renderIdx();
-      // Draw radar after render
-      if(idxExpandedId){
-        const p = POKEMON_DATA.find(function(x){return x.id===idxExpandedId;});
+      // Draw radars for all expanded rows
+      idxExpandedIds.forEach(function(eid){
+        const p = POKEMON_DATA.find(function(x){return x.id===eid;});
         if(p){
           const canvasId = "idx-radar-"+p.id.replace(/[^a-z0-9]/gi,'_');
           const canvas = document.getElementById(canvasId);
           if(canvas) drawRadar(canvas, p, 160);
         }
-      }
+      });
     });
   });
 
-  // Lazy load icons
+  // Lazy load icons that don't yet have a src
   if(lazyObs)lazyObs.disconnect();
   lazyObs = createLazyObserver("#idx-body", "400px");
 }
