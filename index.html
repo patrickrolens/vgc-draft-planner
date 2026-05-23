@@ -668,6 +668,15 @@ let dragSrcIdx = null;
 function initDragAndDrop(){
   const teamEl = document.getElementById('draft-team');
 
+  function swapSlots(srcIdx, destIdx){
+    const tmp = team[srcIdx];
+    team[srcIdx] = team[destIdx];
+    team[destIdx] = tmp;
+    const srcExp = expanded.has(srcIdx);
+    const dstExp = expanded.has(destIdx);
+    srcExp ? expanded.add(destIdx) : expanded.delete(destIdx);
+    dstExp ? expanded.add(srcIdx) : expanded.delete(srcIdx);
+}
   // Mouse drag events (HTML5 draggable)
   // Only allow drag when initiated from the handle
   teamEl.addEventListener('mousedown', function(e){
@@ -713,14 +722,7 @@ function initDragAndDrop(){
     const destIdx = parseInt(slot.dataset.slotIdx);
     if(dragSrcIdx === null || dragSrcIdx === destIdx) return;
     // Move or swap
-    const tmp = team[dragSrcIdx];
-    team[dragSrcIdx] = team[destIdx]; // null if dest was empty
-    team[destIdx] = tmp;
-    // Preserve expanded state
-    const srcExp = expanded.has(dragSrcIdx);
-    const dstExp = expanded.has(destIdx);
-    srcExp ? expanded.add(destIdx) : expanded.delete(destIdx);
-    dstExp ? expanded.add(dragSrcIdx) : expanded.delete(dragSrcIdx);
+    swapSlots(dragSrcIdx, destIdx);
     dragSrcIdx = null;
     renderTeam(); renderSidebar();
   });
@@ -770,13 +772,7 @@ function initDragAndDrop(){
     if(target && touchDragSrc !== null){
       const destIdx = parseInt(target.dataset.slotIdx);
       if(touchDragSrc !== destIdx){
-        const tmp = team[touchDragSrc];
-        team[touchDragSrc] = team[destIdx]; // null if dest was empty
-        team[destIdx] = tmp;
-        const srcExp = expanded.has(touchDragSrc);
-        const dstExp = expanded.has(destIdx);
-        srcExp ? expanded.add(destIdx) : expanded.delete(destIdx);
-        dstExp ? expanded.add(touchDragSrc) : expanded.delete(touchDragSrc);
+        swapSlots(touchDragSrc, destIdx);
         renderTeam(); renderSidebar();
       }
     }
