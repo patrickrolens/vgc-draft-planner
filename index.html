@@ -564,14 +564,19 @@ function toggleExpand(i){expanded.has(i)?expanded.delete(i):expanded.add(i);rend
 function expandAll(){team.forEach((_,i)=>{if(team[i])expanded.add(i);});renderTeam();}
 function collapseAll(){expanded.clear();renderTeam();}
 
+const SPEED_TIERS=[
+    {l:"≤30",    a:0,   b:30,   col:"#7c4dff"},
+    {l:"31–50",  a:31,  b:50,   col:"#2979ff"},
+    {l:"51–70",  a:51,  b:70,   col:"#00bcd4"},
+    {l:"71–90",  a:71,  b:90,   col:"#4caf50"},
+    {l:"91–110", a:91,  b:110,  col:"#ffeb3b"},
+    {l:"111–130",a:111, b:130,  col:"#ff9800"},
+    {l:">130",   a:131, b:9999, col:"#f44336"},
+  ];
+
 function speedTierColor(spe){
-  if(spe<=30)  return "#7c4dff";
-  if(spe<=50)  return "#2979ff";
-  if(spe<=70)  return "#00bcd4";
-  if(spe<=90)  return "#4caf50";
-  if(spe<=110) return "#ffeb3b";
-  if(spe<=130) return "#ff9800";
-  return "#f44336";
+  const tier = SPEED_TIERS.find(t => spe >= t.a && spe <= t.b);
+  return tier ? tier.col : "#f44336";
 }
 
 function renderTeam(){
@@ -598,7 +603,7 @@ function renderTeam(){
       // Compact stat numbers
       const statNums=BAR_SK.map(function(k,j){
         if(k==="spe"){
-          var sc=speedTierColor(mon.stats[k]);
+          let sc=speedTierColor(mon.stats[k]);
           return '<span class="stat-num" style="background:'+sc+'22;border:1px solid '+sc+'55;border-radius:3px;padding:1px 5px">'+BAR_SL[j]+' <span style="color:'+sc+';font-weight:700">'+mon.stats[k]+'</span></span>';
         }
         return '<span class="stat-num">'+BAR_SL[j]+' <span>'+mon.stats[k]+'</span></span>';
@@ -835,15 +840,15 @@ function renderTypeMatchups(){
     grid.style.display="grid";
     if(expEl) expEl.style.display="none";
     grid.innerHTML=typeData.map(function(d){
-      var pinCls=pinnedType===d.atk?" tm-pinned":"";
-      var textCol=TYPE_TEXT_DARK.has(d.atk)?"#333":"#fff";
+      const pinCls=pinnedType===d.atk?" tm-pinned":"";
+      const textCol=TYPE_TEXT_DARK.has(d.atk)?"#333":"#fff";
       return '<div class="tm-cell'+pinCls+'" data-type="'+d.atk+'" style="background:'+d.bg+'" title="'+d.tooltip+'">'
         +'<div class="tmt" style="color:'+textCol+'">'+TA[d.atk]+'</div>'
         +'<div class="tmv" style="color:'+textCol+'">'+d.wN+':'+d.riN+'</div>'
         +'</div>';
     }).join("");
     grid.querySelectorAll(".tm-cell").forEach(function(cell){
-      var atk=cell.dataset.type;
+      const atk=cell.dataset.type;
       cell.addEventListener("mouseenter",function(){hoverMatchup(atk);});
       cell.addEventListener("mouseleave",function(){leaveMatchup(atk);});
       cell.addEventListener("click",function(){toggleMatchup(atk);});
@@ -960,27 +965,18 @@ function toggleMatchup(atk){
 
 // Pin only clears by clicking same type or a different type
 function renderSpeedTiers(){
-  const SPEED_TIERS=[
-    {l:"≤30",    a:0,   b:30,   col:"#7c4dff"},
-    {l:"31–50",  a:31,  b:50,   col:"#2979ff"},
-    {l:"51–70",  a:51,  b:70,   col:"#00bcd4"},
-    {l:"71–90",  a:71,  b:90,   col:"#4caf50"},
-    {l:"91–110", a:91,  b:110,  col:"#ffeb3b"},
-    {l:"111–130",a:111, b:130,  col:"#ff9800"},
-    {l:">130",   a:131, b:9999, col:"#f44336"},
-  ];//consolidate this later
   const mons=team.filter(Boolean);
-  var out="";
+  let out="";
   SPEED_TIERS.forEach(function(t){
     const inT=mons.filter(function(m){return m.stats.spe>=t.a&&m.stats.spe<=t.b;})
       .sort(function(a,b){return a.stats.spe-b.stats.spe;});
-    var icons="";
+    let icons="";
     inT.forEach(function(m){
       icons+='<img src="'+iconUrl(m)+'" title="'+m.name+' ('+m.stats.spe+')" '
         +'style="width:24px;height:24px;image-rendering:pixelated;flex-shrink:0" '
         +'onerror="this.style.opacity=0.2">';
     });
-    var rowStyle=inT.length
+    const rowStyle=inT.length
       ?"background:"+t.col+"22;border-left:3px solid "+t.col
       :"border-left:3px solid transparent";
     out+='<div class="speed-row" style="'+rowStyle+'">'
@@ -1002,18 +998,18 @@ const UG=[
 ];
 function renderUtility(){
   const mons=team.filter(Boolean);
-  var out="";
+  let out="";
   UG.forEach(function(g){
-    var rows="";
+    let rows="";
     g.moves.forEach(function(mv){
       const hav=mons.filter(function(m){return (m.moves||[]).includes(mv);});
-      var icons="";
+      let icons="";
       hav.forEach(function(m){
         icons+='<img src="'+iconUrl(m)+'" title="'+m.name+'" '
           +'style="width:22px;height:22px;image-rendering:pixelated;flex-shrink:0" '
           +'onerror="this.style.opacity=0.2">';
       });
-      var mnCls=hav.length?"util-mn":"util-mn util-mn-none";
+      const mnCls=hav.length?"util-mn":"util-mn util-mn-none";
       rows+='<div class="util-row">'
         +'<span class="'+mnCls+'">'+mv+'</span>'
         +'<div class="util-icons">'+icons+'</div>'
@@ -1030,7 +1026,7 @@ function renderUtility(){
 // ── TOAST ─────────────────────────────────────────────────────────────────────
 let toastTimer = null;
 function showToast(msg, type){
-  var t = document.getElementById('toast');
+  const t = document.getElementById('toast');
   if(!t){ t = document.createElement('div'); t.id='toast'; t.className='toast'; document.body.appendChild(t); }
   t.textContent = msg;
   t.className = 'toast show' + (type ? ' toast-'+type : '');
@@ -1205,7 +1201,7 @@ function getFiltered(){
     if(pmax&&(!p.legal||p.points>parseInt(pmax)))return false;
     // Move multi-select: match if pokemon has ALL of the selected moves
     if(idxSelectedMoves.size>0){
-      for(var mv of idxSelectedMoves){ if(!(p.moves||[]).includes(mv))return false; }
+      for(const mv of idxSelectedMoves){ if(!(p.moves||[]).includes(mv))return false; }
     }
     if(lo&&!p.legal)return false;
     return true;
@@ -1237,8 +1233,8 @@ let idxExpandedId = null;
 
 function buildIdxExpanded(p){
   // Stat bars
-  var bars = BAR_SK.map(function(k,i){
-    var v=p.stats[k], pct=Math.round(statScale(v)*100);
+  const bars = BAR_SK.map(function(k,i){
+    const v=p.stats[k], pct=Math.round(statScale(v)*100);
     return '<div class="stat-bar-row">'
       +'<span class="stat-bar-label" style="color:'+BAR_SC[i]+'">'+BAR_SL[i]+'</span>'
       +'<div class="stat-bar-bg"><div class="stat-bar-fill" style="width:'+pct+'%;background:'+BAR_SC[i]+'"></div></div>'
@@ -1247,20 +1243,20 @@ function buildIdxExpanded(p){
   }).join('');
 
   // Type matchups
-  var mup = calcMatchups(p);
-  var weak=[], resist=[], immune=[];
+  const mup = calcMatchups(p);
+  const weak=[], resist=[], immune=[];
   TYPES.forEach(function(t){
     if(mup[t]===0) immune.push(t);
     else if(mup[t]<1) resist.push(t);
     else if(mup[t]>=2) weak.push(t);
   });
-  var tmHTML = '';
+  let tmHTML = '';
   if(weak.length) tmHTML += '<div class="idx-exp-tm" style="margin-bottom:4px">'+weak.map(function(t){return '<span class="tm-weak-sm">▲ '+t+'</span>';}).join('')+'</div>';
   if(resist.length) tmHTML += '<div class="idx-exp-tm" style="margin-bottom:4px">'+resist.map(function(t){return '<span class="tm-resist-sm">▼ '+t+'</span>';}).join('')+'</div>';
   if(immune.length) tmHTML += '<div class="idx-exp-tm">'+immune.map(function(t){return '<span class="tm-immune-sm">✕ '+t+'</span>';}).join('')+'</div>';
 
   // Utility moves
-  var movesHTML = (p.moves||[]).length
+  const movesHTML = (p.moves||[]).length
     ? (p.moves||[]).map(function(m){return '<span class="move-tag">'+m+'</span>';}).join('')
     : '<span style="color:var(--text3);font-size:11px">None</span>';
 
@@ -1289,9 +1285,9 @@ function renderIdx(){
   });
   document.getElementById("idx-count").textContent=data.length+" Pokémon";
 
-  var rows = ""; // make let
+  let rows = "";
   data.forEach(function(p){
-    var isExp = idxExpandedId === p.id; // Make const
+    const isExp = idxExpandedId === p.id;
     rows += '<tr class="data-row '+(p.legal?"":"illegal")+(isExp?" expanded":"")
       +'" data-id="'+p.id+'">'
       +'<td>'+p.id+'</td>'
@@ -1314,15 +1310,15 @@ function renderIdx(){
   // Click to expand/collapse
   document.querySelectorAll("#idx-body tr.data-row").forEach(function(row){
     row.addEventListener("click", function(){
-      var id = this.dataset.id;
+      const id = this.dataset.id;
       idxExpandedId = (idxExpandedId === id) ? null : id;
       renderIdx();
       // Draw radar after render
       if(idxExpandedId){
-        var p = POKEMON_DATA.find(function(x){return x.id===idxExpandedId;});
+        const p = POKEMON_DATA.find(function(x){return x.id===idxExpandedId;});
         if(p){
-          var canvasId = "idx-radar-"+p.id.replace(/[^a-z0-9]/gi,'_');
-          var canvas = document.getElementById(canvasId);
+          const canvasId = "idx-radar-"+p.id.replace(/[^a-z0-9]/gi,'_');
+          const canvas = document.getElementById(canvasId);
           if(canvas) drawRadar(canvas, p, 160);
         }
       }
@@ -1334,7 +1330,7 @@ function renderIdx(){
   lazyObs=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
       if(!e.isIntersecting)return;
-      var img=e.target;
+      const img=e.target;
       img.src=img.dataset.src;
       setIconFallback(img);
       lazyObs.unobserve(img);
@@ -1407,7 +1403,7 @@ let popoverHlIdx = -1;
 let popoverResults = [];
 
 function openSlotPopoverByIdx(slotIdx, el){
-  var anchor = el || document.querySelector('[data-slotidx="'+slotIdx+'"]');
+  const anchor = el || document.querySelector('[data-slotidx="'+slotIdx+'"]');
   openSlotPopover(slotIdx, anchor);
 }
 
@@ -1429,8 +1425,8 @@ function openSlotPopover(slotIdx, anchorEl){
   const rect = anchorEl.getBoundingClientRect();
   const scrollY = window.scrollY||window.pageYOffset;
   const scrollX = window.scrollX||window.pageXOffset;
-  var left = rect.right + scrollX + 8;
-  var top  = rect.top  + scrollY;
+  let left = rect.right + scrollX + 8;
+  let top  = rect.top  + scrollY;
   if(left + 284 > window.innerWidth + scrollX - 8){
     left = rect.left + scrollX;
     top  = rect.bottom + scrollY + 8;
@@ -1444,7 +1440,7 @@ function closeSlotPopover(){
   const pop = document.getElementById('slot-popover');
   if(!pop) return;
   pop.style.display = 'none';
-  var bd=document.getElementById('slot-backdrop'); if(bd) bd.style.display='none';
+  const bd=document.getElementById('slot-backdrop'); if(bd) bd.style.display='none';
   popoverTargetSlot = null;
   popoverHlIdx = -1;
   popoverResults = [];
@@ -1461,10 +1457,10 @@ function renderPopoverResults(q){
     resultsEl.innerHTML='<div style="padding:10px;color:var(--text3);font-size:12px">No results</div>';
     return;
   }
-  var h='';
+  let h='';
   popoverResults.forEach(function(p,i){
     const inTeam=team.some(function(m){return m&&m.id===p.id;});
-    var cls='';
+    let cls='';
     if(inTeam) cls+=' already-in';
     if(!p.legal) cls+=' illegal-r';
     h+='<div class="slot-pop-item'+cls+'" data-idx="'+i+'">'
