@@ -1026,7 +1026,7 @@ function renderUtility(){
 // ── TOAST ─────────────────────────────────────────────────────────────────────
 let toastTimer = null;
 function showToast(msg, type){
-  const t = document.getElementById('toast');
+  let t = document.getElementById('toast');
   if(!t){ t = document.createElement('div'); t.id='toast'; t.className='toast'; document.body.appendChild(t); }
   t.textContent = msg;
   t.className = 'toast show' + (type ? ' toast-'+type : '');
