@@ -1268,6 +1268,21 @@ function buildIdxExpanded(p){
     +'</td>';
 }
 
+function createLazyObserver(containerSelector, rootMargin){
+  const obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.src = e.target.dataset.src;
+        setIconFallback(e.target);
+        obs.unobserve(e.target);
+      }
+    });
+  }, {rootMargin: rootMargin});
+  document.querySelectorAll(containerSelector+" img[data-src]")
+    .forEach(function(img){ obs.observe(img); });
+  return obs;
+}
+
 function renderIdx(){
   let data=getFiltered();
   const{col,dir}=idxSort;
@@ -1323,16 +1338,7 @@ function renderIdx(){
 
   // Lazy load icons
   if(lazyObs)lazyObs.disconnect();
-  lazyObs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(!e.isIntersecting)return;
-      const img=e.target;
-      img.src=img.dataset.src;
-      setIconFallback(img);
-      lazyObs.unobserve(img);
-    });
-  },{rootMargin:"300px"});
-  document.querySelectorAll("#idx-body img[data-src]").forEach(function(img){lazyObs.observe(img);});
+  lazyObs = createLazyObserver("#idx-body", "400px");
 }
 
 // ── POOL ───────────────────────────────────────────────────────────────────────
@@ -1382,13 +1388,8 @@ function renderPool(filter){
       showToast(mon.name + ' added to slot ' + (slot + 1) + '.', 'ok');
     });
   });
-  if(poolObs)poolObs.disconnect(); // consolidate with Index lazyObs
-  poolObs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){e.target.src=e.target.dataset.src;setIconFallback(e.target);poolObs.unobserve(e.target);}
-    });
-  },{rootMargin:"400px"});
-  document.querySelectorAll("#pool-grid img[data-src]").forEach(function(img){poolObs.observe(img);});
+  if(poolObs) poolObs.disconnect();
+  poolObs = createLazyObserver("#pool-grid", "400px");
 }
 document.getElementById("pool-search").addEventListener("input",e=>renderPool(e.target.value));
 
