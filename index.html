@@ -68,7 +68,6 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .slot-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;gap:2px;width:72px;}
 .slot-sprite{width:72px;height:72px;image-rendering:auto;display:block;}
 .slot-sprite.illegal-img{opacity:0.3;filter:grayscale(90%);}
-/*delete*/
 .slot-pts-display{font-size:20px;font-weight:700;color:#fff;line-height:1;}
 .slot-pts-display.illegal-pts{color:var(--red);font-size:13px;}
 
@@ -116,14 +115,6 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .stat-bar-bg{flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;}
 .stat-bar-fill{height:100%;border-radius:4px;}
 .stat-bar-val{font-size:10px;color:var(--text2);width:28px;text-align:right;flex-shrink:0;}
-/* expanded matchup rows */
-/*delete*//*.tm-exp-section{display:flex;flex-direction:column;gap:5px;}
-.tm-exp-row{display:flex;align-items:flex-start;gap:8px;}
-.tm-exp-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;width:64px;flex-shrink:0;padding-top:3px;}
-.tm-exp-label.weak-lbl{color:var(--red);}
-.tm-exp-label.resist-lbl{color:var(--green);}
-.tm-exp-label.immune-lbl{color:#888;}
-.tm-exp-types{display:flex;flex-wrap:wrap;gap:3px;}*/
 
 /* SEARCH */
 .search-box{position:relative;margin-bottom:10px;}
@@ -164,12 +155,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .tm-cell.tm-pinned{filter:brightness(1.25);outline:2px solid #fff;outline-offset:-2px;}
 .tmt{font-size:11px;line-height:1;font-weight:700;}
 .tmv{font-size:10px;font-weight:600;line-height:1.5;color:var(--text2);}
-/*delete.c-immune{background:rgba(90,83,102,0.3)}.c-immune .tmv{color:#888}
-.c-r2{background:rgba(76,175,125,0.15)}.c-r2 .tmv{color:var(--green)}
-.c-r4{background:rgba(76,175,125,0.25)}.c-r4 .tmv{color:#6fe0a8}
-.c-n{background:var(--bg3)}.c-n .tmv{color:var(--text3)}
-.c-w2{background:rgba(240,192,96,0.15)}.c-w2 .tmv{color:var(--yellow)}
-.c-w4{background:rgba(224,85,85,0.2)}.c-w4 .tmv{color:var(--red)}*/
+
 /* Expanded TM view */
 .tm-exp-row{display:flex;align-items:center;gap:6px;padding:3px 0;}
 .tm-exp-badge{display:flex;align-items:center;justify-content:space-between;border-radius:5px;padding:4px 8px;flex:1;cursor:pointer;transition:filter 0.1s;}
@@ -212,9 +198,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .fi::placeholder{color:var(--text3);}
 select.fi option{background:var(--bg2);}
 .res-count{font-size:12px;color:var(--text3);margin-left:auto;}
-/*delete.idx-wrap{}*/
 .idx-tbl{width:100%;border-collapse:collapse;font-size:13px;}
-/*delete sticky header offset = nav height (56px) */
 .idx-tbl th{background:var(--bg2);padding:8px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);border-bottom:1px solid var(--border);cursor:pointer;white-space:nowrap;position:sticky;top:0;z-index:10;box-shadow:0 1px 0 var(--border);}
 .idx-tbl th:hover{color:var(--text);}
 .idx-tbl th.sa::after{content:" ▲";}
@@ -423,7 +407,6 @@ function setIconFallback(img) {
 
 // ── TYPE ENGINE ────────────────────────────────────────────────────────────────
 const TYPES=["Normal","Fire","Water","Grass","Electric","Ice","Fighting","Poison","Ground","Flying","Psychic","Bug","Rock","Ghost","Dragon","Dark","Steel","Fairy"];
-///*delete Gen 6+ type chart — Ghost vs Fighting is 1x (not 0x), Normal still immune to Ghost
 const TC={
   Normal:{Ghost:0,Rock:0.5,Steel:0.5},
   Fire:{Fire:0.5,Water:0.5,Grass:2,Ice:2,Bug:2,Rock:0.5,Dragon:0.5,Steel:2},
@@ -438,7 +421,6 @@ const TC={
   Psychic:{Fighting:2,Poison:2,Psychic:0.5,Dark:0,Steel:0.5},
   Bug:{Fire:0.5,Grass:2,Fighting:0.5,Poison:0.5,Flying:0.5,Psychic:2,Ghost:0.5,Dark:2,Steel:0.5,Fairy:0.5},
   Rock:{Fire:2,Ice:2,Fighting:0.5,Ground:0.5,Flying:2,Bug:2,Steel:0.5},
-  ///*delete Ghost: removed Fighting:0 (Gen 6 change), kept Normal:0
   Ghost:{Normal:0,Psychic:2,Ghost:2,Dark:0.5},
   Dragon:{Dragon:2,Steel:0.5,Fairy:0},
   Dark:{Fighting:0.5,Psychic:2,Ghost:2,Dark:0.5,Fairy:0.5},
@@ -599,7 +581,6 @@ function renderTeam(){
     const mon=team[i];
     const d=document.createElement("div");
     d.className="draft-slot"+(mon&&!mon.legal?" illegal-slot":"");
-    /*deleted.dataset.slotIdx=i;*/
     if(mon){
       const exp=expanded.has(i);
       const moves=(mon.moves||[]).slice(0,8).map(m=>`<span class="move-tag">${m}</span>`).join("");
@@ -613,11 +594,6 @@ function renderTeam(){
       const weakBadges=weak.map(t=>`<span class="tm-weak-sm">▲ ${t}</span>`).join("");
       const resistBadges=resist.map(t=>`<span class="tm-resist-sm">▼ ${t}</span>`).join("");
       const immuneBadges=immune.map(t=>`<span class="tm-immune-sm">✕ ${t}</span>`).join("");
-
-      /*delete Expanded matchup rows
-      const expWeak=weak.length?`<div class="tm-exp-types" style="margin-bottom:4px">${weak.map(t=>`<span class="tm-weak-sm">▲ ${t}</span>`).join("")}</div>`:"";
-      const expRes=resist.length?`<div class="tm-exp-types" style="margin-bottom:4px">${resist.map(t=>`<span class="tm-resist-sm">▼ ${t}</span>`).join("")}</div>`:"";
-      const expImm=immune.length?`<div class="tm-exp-types">${immune.map(t=>`<span class="tm-immune-sm">✕ ${t}</span>`).join("")}</div>`:"";*/
 
       // Compact stat numbers
       const statNums=BAR_SK.map(function(k,j){
@@ -1414,7 +1390,7 @@ function renderPool(filter){
       showToast(mon.name + ' added to slot ' + (slot + 1) + '.', 'ok');
     });
   });
-  if(poolObs)poolObs.disconnect(); //consolidate with Index lazyObs
+  if(poolObs)poolObs.disconnect(); // consolidate with Index lazyObs
   poolObs=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
       if(e.isIntersecting){e.target.src=e.target.dataset.src;setIconFallback(e.target);poolObs.unobserve(e.target);}
