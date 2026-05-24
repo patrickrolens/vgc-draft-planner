@@ -70,6 +70,13 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .slot-sprite.illegal-img{opacity:0.3;filter:grayscale(90%);}
 .slot-pts-display{font-size:20px;font-weight:700;color:#fff;line-height:1;}
 .slot-pts-display.illegal-pts{color:var(--red);font-size:13px;}
+.slot-alt-form-btn{display:block;width:100%;padding:2px 4px;font-size:9px;font-weight:700;background:rgba(124,111,247,0.15);border:1px solid rgba(124,111,247,0.35);color:var(--accent);border-radius:3px;cursor:pointer;text-align:center;white-space:nowrap;transition:background 0.15s;}
+.slot-alt-form-btn:hover{background:rgba(124,111,247,0.28);}
+.slot-alt-form-btn.active{background:rgba(124,111,247,0.3);border-color:rgba(124,111,247,0.65);}
+.slot-alt-form-placeholder{height:21px;}
+.idx-alt-form-btn{font-size:10px;font-weight:700;padding:2px 8px;background:rgba(124,111,247,0.15);border:1px solid rgba(124,111,247,0.35);color:var(--accent);border-radius:3px;cursor:pointer;transition:background 0.15s;}
+.idx-alt-form-btn:hover{background:rgba(124,111,247,0.28);}
+.idx-alt-form-btn.active{background:rgba(124,111,247,0.3);border-color:rgba(124,111,247,0.65);}
 
 
 /* slot body */
@@ -547,7 +554,23 @@ function drawRadar(canvas,mon,size){
   });
 }
 
-function largeStatBars(mon){
+// Returns a display copy of mon with altForm overrides applied if active
+function getDisplayMon(mon){
+  if(!mon || !mon.altForm || !altFormActive.has(mon.id)) return mon;
+  return Object.assign({}, mon, {
+    name: mon.altForm.name,
+    type1: mon.altForm.type1,
+    type2: mon.altForm.type2,
+    stats: mon.altForm.stats
+  });
+}
+
+function toggleAltForm(id){
+  if(altFormActive.has(id)) altFormActive.delete(id);
+  else altFormActive.add(id);
+  renderTeam();
+  renderIdx();
+}
   return BAR_SK.map(function(k,i){
     const v=mon.stats[k],pct=Math.round(statScale(v)*100);
     return '<div class="stat-bar-row">'
@@ -562,6 +585,7 @@ function largeStatBars(mon){
 const TS=10;
 let team=new Array(TS).fill(null);
 let expanded=new Set();
+let altFormActive=new Set(); // tracks Pokémon IDs currently showing their alt form
 let srResults=[];
 
 function getLimit(){return parseInt(document.getElementById("pts-limit").value)||200;}
@@ -605,6 +629,9 @@ function renderTeam(){
     const d=document.createElement("div");
     if(mon){
       const exp=expanded.has(i);
+      const disp=getDisplayMon(mon);
+      const hasAlt=!!(mon.altForm);
+      const altActive=altFormActive.has(mon.id);
       d.className="draft-slot"+(mon&&!mon.legal&&!exp?" illegal-slot":"");
       const moves=(mon.moves||[]).slice(0,8).map(m=>`<span class="move-tag">${m}</span>`).join("");
       const abilities=(mon.abilities||[]).map(a=>`<span class="ability-tag">${a}</span>`).join("");
@@ -612,20 +639,24 @@ function renderTeam(){
         ?`<div class="slot-pts-display">${mon.points}</div>`
         :`<div class="slot-pts-display illegal-pts">Illegal</div>`;
 
-      // Compact matchup badges — weaknesses on name row, resists/immunities on type row
-      const {weak,resist,immune}=getMatchupGroups(mon);
+      // Compact matchup badges — use display mon for type matchups
+      const {weak,resist,immune}=getMatchupGroups(disp);
       const weakBadges=weak.map(t=>`<span class="tm-weak-sm${t.val>=4?' tm-4x':''}" title="${t.val}x weakness">${t.val>=4?'▲▲':'▲'} ${t.type}</span>`).join("");
       const resistBadges=resist.map(t=>`<span class="tm-resist-sm${t.val<=0.25?' tm-quarter':''}" title="${t.val}x resistance">${t.val<=0.25?'▼▼':'▼'} ${t.type}</span>`).join("");
       const immuneBadges=immune.map(t=>`<span class="tm-immune-sm">✕ ${t.type}</span>`).join("");
 
-      // Compact stat numbers
+      // Compact stat numbers — use display mon stats
       const statNums=BAR_SK.map(function(k,j){
         if(k==="spe"){
-          let sc=speedTierColor(mon.stats[k]);
-          return '<span class="stat-num" style="background:'+sc+'22;border:1px solid '+sc+'55;border-radius:3px;padding:1px 5px">'+BAR_SL[j]+' <span style="color:'+sc+';font-weight:700">'+mon.stats[k]+'</span></span>';
+          let sc=speedTierColor(disp.stats[k]);
+          return '<span class="stat-num" style="background:'+sc+'22;border:1px solid '+sc+'55;border-radius:3px;padding:1px 5px">'+BAR_SL[j]+' <span style="color:'+sc+';font-weight:700">'+disp.stats[k]+'</span></span>';
         }
-        return '<span class="stat-num">'+BAR_SL[j]+' <span>'+mon.stats[k]+'</span></span>';
+        return '<span class="stat-num">'+BAR_SL[j]+' <span>'+disp.stats[k]+'</span></span>';
       }).join("");
+
+      const changeFormBtn=hasAlt
+        ?`<button class="slot-alt-form-btn${altActive?' active':''}" onclick="toggleAltForm('${mon.id}')" title="${altActive?'Switch to base form':'Switch to '+mon.altForm.name}">${altActive?'◀ Base':'▶ Alt'}</button>`
+        :`<div class="slot-alt-form-placeholder"></div>`;
 
       d.setAttribute('draggable','true');
       d.dataset.slotIdx=i;
@@ -633,29 +664,30 @@ function renderTeam(){
         <span class="drag-handle" title="Drag to reorder">⠿</span>
         <span class="slot-num">${i+1}</span>
         <div class="slot-left">
-          <img class="slot-sprite${mon.legal?"":" illegal-img"}" id="spr-${i}" src="${spriteUrl(mon)}" alt="${mon.name}">
+          <img class="slot-sprite${mon.legal?"":" illegal-img"}" id="spr-${i}" src="${spriteUrl(disp)}" alt="${disp.name}">
+          ${changeFormBtn}
           ${ptsDisp}
         </div>
         <div class="slot-body">
           <div class="slot-row">
-            <div class="slot-row-left"><span class="slot-name${mon.legal?"":" illegal-name"}">${mon.name}</span></div>
+            <div class="slot-row-left"><span class="slot-name${mon.legal?"":" illegal-name"}">${disp.name}</span></div>
             <div class="slot-row-right">${weakBadges}</div>
           </div>
           <div class="slot-row">
             <div class="slot-row-left">
-              <span class="type-badge t-${mon.type1}">${mon.type1}</span>
-              ${mon.type2?`<span class="type-badge t-${mon.type2}">${mon.type2}</span>`:""}
+              <span class="type-badge t-${disp.type1}">${disp.type1}</span>
+              ${disp.type2?`<span class="type-badge t-${disp.type2}">${disp.type2}</span>`:""}
             </div>
             <div class="slot-row-right">${resistBadges}${immuneBadges}</div>
           </div>
           ${abilities?`<div class="slot-row"><div class="slot-row-left">${abilities}</div></div>`:""}
-          <div class="slot-bst" style="margin-top:4px">BST ${mon.stats.bst}</div>
+          <div class="slot-bst" style="margin-top:4px">BST ${disp.stats.bst}</div>
           <div class="slot-stats-compact">${statNums}</div>
           ${moves?`<div class="slot-moves">${moves}</div>`:""}
           <div class="slot-expanded-panel${exp?" open":""}">
             <div class="expanded-top">
               <div class="radar-large-wrap"><canvas id="rl-${i}" width="180" height="180"></canvas></div>
-              <div class="stat-bars-large">${largeStatBars(mon)}</div>
+              <div class="stat-bars-large">${largeStatBars(disp)}</div>
             </div>
           </div>
         </div>
@@ -666,7 +698,7 @@ function renderTeam(){
       el.appendChild(d);
       const sprEl=document.getElementById("spr-"+i);
       setSpriteFallback(sprEl);
-      if(exp) drawRadar(document.getElementById("rl-"+i),mon,180);
+      if(exp) drawRadar(document.getElementById("rl-"+i),disp,180);
     } else {
       d.className="draft-slot";
       const slotI = i;
@@ -1246,7 +1278,11 @@ function updateStickyOffset(){
 
 let idxExpandedIds = new Set();
 
-function buildIdxExpanded(p){
+function buildIdxExpanded(baseMon){
+  const p = getDisplayMon(baseMon);
+  const hasAlt = !!(baseMon.altForm);
+  const altActive = altFormActive.has(baseMon.id);
+
   // Stat bars
   const bars = BAR_SK.map(function(k,i){
     const v=p.stats[k], pct=Math.round(statScale(v)*100);
@@ -1257,7 +1293,7 @@ function buildIdxExpanded(p){
       +'</div>';
   }).join('');
 
-  // Type matchups
+  // Type matchups using display mon
   const mup = calcMatchups(p);
   const weak=[], resist=[], immune=[];
   TYPES.forEach(function(t){
@@ -1271,14 +1307,21 @@ function buildIdxExpanded(p){
   if(immune.length) tmHTML += '<div class="idx-exp-tm">'+immune.map(function(t){return '<span class="tm-immune-sm">✕ '+t.type+'</span>';}).join('')+'</div>';
 
   // Utility moves
-  const movesHTML = (p.moves||[]).length
-    ? (p.moves||[]).map(function(m){return '<span class="move-tag">'+m+'</span>';}).join('')
+  const movesHTML = (baseMon.moves||[]).length
+    ? (baseMon.moves||[]).map(function(m){return '<span class="move-tag">'+m+'</span>';}).join('')
     : '<span style="color:var(--text3);font-size:11px">None</span>';
+
+  // Change Form button — shown only if altForm exists
+  const altBtn = hasAlt
+    ? '<div style="margin-top:8px"><button class="idx-alt-form-btn'+(altActive?' active':'')+'" onclick="toggleAltForm(\''+baseMon.id+'\')">'
+        +(altActive?'◀ Base Form: '+baseMon.name:'▶ Alt Form: '+baseMon.altForm.name)
+      +'</button></div>'
+    : '';
 
   return '<td colspan="13">'
     +'<div class="idx-expanded">'
-      +'<div class="idx-exp-radar"><canvas id="idx-radar-'+p.id.replace(/[^a-z0-9]/gi,'_')+'" width="160" height="160"></canvas></div>'
-      +'<div class="idx-exp-stats">'+bars+'</div>'
+      +'<div class="idx-exp-radar"><canvas id="idx-radar-'+baseMon.id.replace(/[^a-z0-9]/gi,'_')+'" width="160" height="160"></canvas></div>'
+      +'<div class="idx-exp-stats">'+bars+altBtn+'</div>'
       +'<div class="idx-exp-right">'
         +'<div><div class="idx-exp-section-title">Type Matchups</div>'+tmHTML+'</div>'
         +'<div><div class="idx-exp-section-title">Utility Moves</div><div class="idx-exp-moves">'+movesHTML+'</div></div>'
@@ -1325,17 +1368,20 @@ function renderIdx(){
   let rows = "";
   data.forEach(function(p){
     const isExp = idxExpandedIds.has(p.id);
+    const disp = getDisplayMon(p);
+    // Icon: use loaded cache keyed by display name, fall back to data-src of display mon
+    const iconSrc = loadedIcons[disp.name] || (loadedIcons[p.name] && disp.name !== p.name ? null : loadedIcons[p.name]);
     rows += '<tr class="data-row '+(p.legal?"":"illegal")+(isExp?" expanded":"")
       +'" data-id="'+p.id+'">'
       +'<td>'+p.id+'</td>'
-      +'<td><img class="tbl-icon" '+(loadedIcons[p.name]?'src="'+loadedIcons[p.name]+'"':'data-src="'+iconUrl(p)+'"')+' alt="'+p.name+'"></td>'
-      +'<td style="font-weight:600">'+p.name+'</td>'
-      +'<td><span class="type-badge t-'+p.type1+'">'+p.type1+'</span>'
-        +(p.type2?'<span class="type-badge t-'+p.type2+'" style="margin-left:3px">'+p.type2+'</span>':'')+'</td>'
+      +'<td><img class="tbl-icon" '+(iconSrc?'src="'+iconSrc+'"':'data-src="'+iconUrl(disp)+'"')+' alt="'+disp.name+'"></td>'
+      +'<td style="font-weight:600">'+disp.name+'</td>'
+      +'<td><span class="type-badge t-'+disp.type1+'">'+disp.type1+'</span>'
+        +(disp.type2?'<span class="type-badge t-'+disp.type2+'" style="margin-left:3px">'+disp.type2+'</span>':'')+'</td>'
       +'<td style="font-weight:600;color:'+(p.legal?'var(--yellow)':'var(--text3)')+'">'+(p.legal?p.points:'—')+'</td>'
-      +'<td>'+p.stats.hp+'</td><td>'+p.stats.atk+'</td><td>'+p.stats.def+'</td>'
-      +'<td>'+p.stats.spa+'</td><td>'+p.stats.spd+'</td><td>'+p.stats.spe+'</td>'
-      +'<td style="font-weight:600">'+p.stats.bst+'</td>'
+      +'<td>'+disp.stats.hp+'</td><td>'+disp.stats.atk+'</td><td>'+disp.stats.def+'</td>'
+      +'<td>'+disp.stats.spa+'</td><td>'+disp.stats.spd+'</td><td>'+disp.stats.spe+'</td>'
+      +'<td style="font-weight:600">'+disp.stats.bst+'</td>'
       +'<td style="color:var(--text2);font-size:12px">'+p.abilities.join(", ")+'</td>'
       +'</tr>';
     if(isExp){
@@ -1358,11 +1404,12 @@ function renderIdx(){
       renderIdx();
       // Draw radars for all expanded rows
       idxExpandedIds.forEach(function(eid){
-        const p = POKEMON_DATA.find(function(x){return x.id===eid;});
-        if(p){
-          const canvasId = "idx-radar-"+p.id.replace(/[^a-z0-9]/gi,'_');
+        const baseMon = POKEMON_DATA.find(function(x){return x.id===eid;});
+        if(baseMon){
+          const disp = getDisplayMon(baseMon);
+          const canvasId = "idx-radar-"+baseMon.id.replace(/[^a-z0-9]/gi,'_');
           const canvas = document.getElementById(canvasId);
-          if(canvas) drawRadar(canvas, p, 160);
+          if(canvas) drawRadar(canvas, disp, 160);
         }
       });
     });
