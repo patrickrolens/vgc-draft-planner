@@ -34507,7 +34507,22 @@
         "bst": 450
       },
       "moves": [],
-      "fullLearnset": []
+      "fullLearnset": [],
+      "altForm": {
+        "name": "Cherrim-Sunshine",
+        "type1": "Grass",
+        "type2": null,
+        "stats": {
+          "hp": 70,
+          "atk": 60,
+          "def": 70,
+          "spa": 87,
+          "spd": 78,
+          "spe": 85,
+          "bst": 450
+        },
+        "spriteId": "421-s"
+      }
     },
     {
       "id": "422",
@@ -43887,7 +43902,22 @@
         "bst": 480
       },
       "moves": [],
-      "fullLearnset": []
+      "fullLearnset": [],
+      "altForm": {
+        "name": "Darmanitan-Zen",
+        "type1": "Fire",
+        "type2": "Psychic",
+        "stats": {
+          "hp": 105,
+          "atk": 30,
+          "def": 105,
+          "spa": 140,
+          "spd": 105,
+          "spe": 55,
+          "bst": 540
+        },
+        "spriteId": "555-z"
+      }
     },
     {
       "id": "555d",
@@ -43932,7 +43962,22 @@
         "bst": 480
       },
       "moves": [],
-      "fullLearnset": []
+      "fullLearnset": [],
+      "altForm": {
+        "name": "Darmanitan-Galar-Zen",
+        "type1": "Ice",
+        "type2": "Fire",
+        "stats": {
+          "hp": 105,
+          "atk": 160,
+          "def": 55,
+          "spa": 30,
+          "spd": 55,
+          "spe": 135,
+          "bst": 540
+        },
+        "spriteId": "555-gz"
+      }
     },
     {
       "id": "556",
@@ -50180,7 +50225,22 @@
         "tripleaxel",
         "uturn",
         "zenheadbutt"
-      ]
+      ],
+      "altForm": {
+        "name": "Meloetta-Pirouette",
+        "type1": "Normal",
+        "type2": "Fighting",
+        "stats": {
+          "hp": 100,
+          "atk": 128,
+          "def": 90,
+          "spa": 77,
+          "spd": 77,
+          "spe": 128,
+          "bst": 600
+        },
+        "spriteId": "648-p"
+      }
     },
     {
       "id": "648-p",
@@ -52522,7 +52582,22 @@
         "bst": 500
       },
       "moves": [],
-      "fullLearnset": []
+      "fullLearnset": [],
+      "altForm": {
+        "name": "Aegislash-Blade",
+        "type1": "Steel",
+        "type2": "Ghost",
+        "stats": {
+          "hp": 60,
+          "atk": 140,
+          "def": 50,
+          "spa": 140,
+          "spd": 50,
+          "spe": 60,
+          "bst": 500
+        },
+        "spriteId": "681-b"
+      }
     },
     {
       "id": "682",
@@ -54549,7 +54624,22 @@
         "bst": 600
       },
       "moves": [],
-      "fullLearnset": []
+      "fullLearnset": [],
+      "altForm": {
+        "name": "Zygarde-Complete",
+        "type1": "Dragon",
+        "type2": "Ground",
+        "stats": {
+          "hp": 216,
+          "atk": 100,
+          "def": 121,
+          "spa": 91,
+          "spd": 95,
+          "spe": 85,
+          "bst": 708
+        },
+        "spriteId": "718-c"
+      }
     },
     {
       "id": "718-10",
@@ -54572,7 +54662,22 @@
         "bst": 486
       },
       "moves": [],
-      "fullLearnset": []
+      "fullLearnset": [],
+      "altForm": {
+        "name": "Zygarde-Complete",
+        "type1": "Dragon",
+        "type2": "Ground",
+        "stats": {
+          "hp": 216,
+          "atk": 100,
+          "def": 121,
+          "spa": 91,
+          "spd": 95,
+          "spe": 85,
+          "bst": 708
+        },
+        "spriteId": "718-c"
+      }
     },
     {
       "id": "718-c",
@@ -57370,7 +57475,22 @@
         "bst": 175
       },
       "moves": [],
-      "fullLearnset": []
+      "fullLearnset": [],
+      "altForm": {
+        "name": "Wishiwashi-School",
+        "type1": "Water",
+        "type2": null,
+        "stats": {
+          "hp": 45,
+          "atk": 140,
+          "def": 130,
+          "spa": 140,
+          "spd": 135,
+          "spe": 40,
+          "bst": 630
+        },
+        "spriteId": "746-s"
+      }
     },
     {
       "id": "747",
@@ -59071,7 +59191,22 @@
         "terablast",
         "uturn",
         "zenheadbutt"
-      ]
+      ],
+      "altForm": {
+        "name": "Minior-Core",
+        "type1": "Rock",
+        "type2": "Flying",
+        "stats": {
+          "hp": 60,
+          "atk": 100,
+          "def": 60,
+          "spa": 100,
+          "spd": 60,
+          "spe": 120,
+          "bst": 500
+        },
+        "spriteId": "774-c"
+      }
     },
     {
       "id": "775",
@@ -63026,7 +63161,22 @@
         "venoshock",
         "voltswitch",
         "wildcharge"
-      ]
+      ],
+      "altForm": {
+        "name": "Toxtricity-Low-Key",
+        "type1": "Poison",
+        "type2": "Electric",
+        "stats": {
+          "hp": 75,
+          "atk": 98,
+          "def": 90,
+          "spa": 114,
+          "spd": 70,
+          "spe": 75,
+          "bst": 522
+        },
+        "spriteId": "849-l"
+      }
     },
     {
       "id": "849-l",
@@ -64617,7 +64767,22 @@
         "weatherball",
         "whirlpool",
         "zenheadbutt"
-      ]
+      ],
+      "altForm": {
+        "name": "Eiscue-Noice",
+        "type1": "Ice",
+        "type2": null,
+        "stats": {
+          "hp": 75,
+          "atk": 80,
+          "def": 70,
+          "spa": 65,
+          "spd": 50,
+          "spe": 130,
+          "bst": 470
+        },
+        "spriteId": "875-n"
+      }
     },
     {
       "id": "875-n",
@@ -64939,7 +65104,22 @@
         "uproar",
         "voltswitch",
         "wildcharge"
-      ]
+      ],
+      "altForm": {
+        "name": "Morpeko-Hangry",
+        "type1": "Electric",
+        "type2": "Dark",
+        "stats": {
+          "hp": 58,
+          "atk": 95,
+          "def": 58,
+          "spa": 70,
+          "spd": 58,
+          "spe": 97,
+          "bst": 436
+        },
+        "spriteId": "877-h"
+      }
     },
     {
       "id": "878",
@@ -65580,7 +65760,22 @@
         "thunderfang",
         "trailblaze",
         "wildcharge"
-      ]
+      ],
+      "altForm": {
+        "name": "Zacian-Crowned",
+        "type1": "Fairy",
+        "type2": "Steel",
+        "stats": {
+          "hp": 92,
+          "atk": 170,
+          "def": 115,
+          "spa": 80,
+          "spd": 115,
+          "spe": 148,
+          "bst": 720
+        },
+        "spriteId": "888-c"
+      }
     },
     {
       "id": "888-c",
@@ -65744,7 +65939,22 @@
         "trailblaze",
         "wideguard",
         "wildcharge"
-      ]
+      ],
+      "altForm": {
+        "name": "Zamazenta-Crowned",
+        "type1": "Fighting",
+        "type2": "Steel",
+        "stats": {
+          "hp": 92,
+          "atk": 130,
+          "def": 145,
+          "spa": 80,
+          "spd": 145,
+          "spe": 128,
+          "bst": 720
+        },
+        "spriteId": "889-c"
+      }
     },
     {
       "id": "889-c",
@@ -71995,7 +72205,22 @@
         "wavecrash",
         "whirlpool",
         "zenheadbutt"
-      ]
+      ],
+      "altForm": {
+        "name": "Palafin-Hero",
+        "type1": "Water",
+        "type2": null,
+        "stats": {
+          "hp": 100,
+          "atk": 160,
+          "def": 97,
+          "spa": 106,
+          "spd": 87,
+          "spe": 100,
+          "bst": 650
+        },
+        "spriteId": "964-h"
+      }
     },
     {
       "id": "964-h",
