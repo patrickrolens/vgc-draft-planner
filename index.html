@@ -359,6 +359,7 @@ select.fi option{background:var(--bg2);}
 
 <script>
 let POKEMON_DATA = [];
+let UG = [];
 
 // ── SPRITES ───────────────────────────────────────────────────────────────────
 // Draft Builder: ./sprites/ (Home-style art) primary → ./icons/ fallback
@@ -403,7 +404,9 @@ async function loadPokemonData() {
   // Pre-set Pokéball in nav immediately so something shows before data loads
   document.getElementById('nav-logo-icon').src = POKEBALL_FALLBACK;
   const response = await fetch('pokemon.json');
-  POKEMON_DATA = await response.json();
+  const data = await response.json();
+  POKEMON_DATA = data.pokemon;
+  UG = data.utilityGroups;
   initApp();
 }
 
@@ -1039,15 +1042,6 @@ function renderSpeedTiers(){
   document.getElementById("speed-tiers").innerHTML=out;
 }
 
-const UG=[
-  {label:"Speed Control",moves:["Tailwind","Trick Room","Electroweb","Icy Wind","Bulldoze"]},
-  {label:"Redirection",moves:["Follow Me","Rage Powder","Ally Switch"]},
-  {label:"Screens",moves:["Aurora Veil","Reflect","Light Screen"]},
-  {label:"Priority",moves:["Sucker Punch","Fake Out","Aqua Jet","Shadow Sneak","Vacuum Wave","Quick Attack","E-Speed","Bullet Punch","Ice Shard","Mach Punch","Accelerock","Water Shuriken"]},
-  {label:"Status",moves:["Thunder Wave","Nuzzle","Will-o-Wisp","Sleep Powder","Spore","Yawn"]},
-  {label:"Power Nerfs",moves:["Snarl","Struggle Bug","Breaking Swipe"]},
-  {label:"Misc",moves:["Helping Hand","Quick Guard","Wide Guard","Haze","Taunt"]},
-];
 function renderUtility(){
   const mons=team.filter(Boolean);
   let out="";
