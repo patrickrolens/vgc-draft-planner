@@ -304,7 +304,10 @@ select.fi option{background:var(--bg2);}
       <div class="fi-multi-display" id="idx-type-display" onclick="toggleMultiDropdown('idx-type')">All Types <span class="fi-arrow">▾</span></div>
       <div class="fi-multi-dropdown" id="idx-type-dropdown"></div>
     </div>
-    <select class="fi" id="idx-ability"><option value="">All Abilities</option></select>
+    <div class="fi-multi-wrap" id="idx-ability-wrap">
+      <div class="fi-multi-display" id="idx-ability-display" onclick="toggleMultiDropdown('idx-ability')">All Abilities <span class="fi-arrow">▾</span></div>
+      <div class="fi-multi-dropdown" id="idx-ability-dropdown"></div>
+    </div>
     <select class="fi" id="idx-pts-min"><option value="">Min Pts</option></select>
     <select class="fi" id="idx-pts-max"><option value="">Max Pts</option></select>
     <div class="fi-multi-wrap" id="idx-move-wrap">
@@ -1151,6 +1154,7 @@ let lazyObs=null;
 const idxSelectedTypes = new Set();
 const idxSelectedMoves = new Set();
 let idxTypeFilterAnd = false;
+let selectedAbility = '';
 
 function toggleMultiDropdown(id){
   const dd = document.getElementById(id+'-dropdown');
@@ -1232,9 +1236,48 @@ function initFilters(){
   typeDd.appendChild(typeGrid);
 
   // Ability single-select
-  const abSet=new Set(); POKEMON_DATA.forEach(p=>p.abilities.forEach(a=>abSet.add(a)));
-  const aS=document.getElementById("idx-ability");
-  [...abSet].sort().forEach(a=>{const o=document.createElement("option");o.value=a;o.textContent=a;aS.appendChild(o);});
+  const abSet = new Set();
+  POKEMON_DATA.forEach(p => p.abilities.forEach(a => abSet.add(a)));
+  const abList = [...abSet].sort();
+  const abDd = document.getElementById('idx-ability-dropdown');
+
+  const abSearch = document.createElement('input');
+  abSearch.type = 'text';
+  abSearch.placeholder = 'Search abilities...';
+  abSearch.style.cssText = 'width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:5px 8px;color:var(--text);font-size:12px;margin-bottom:6px;outline:none;';
+  abSearch.addEventListener('input', function(){
+    const q = this.value.trim().toLowerCase();
+    abDd.querySelectorAll('.ab-opt').forEach(function(opt){
+      opt.style.display = opt.dataset.ab.includes(q) ? '' : 'none';
+    });
+  });
+  abDd.appendChild(abSearch);
+
+  abList.forEach(function(a){
+    const opt = document.createElement('div');
+    opt.className = 'fi-multi-opt ab-opt';
+    opt.dataset.ab = a.toLowerCase();
+    opt.textContent = a;
+    opt.style.cssText = 'padding:5px 8px;border-radius:4px;cursor:pointer;font-size:12px;color:var(--text2);';
+    opt.addEventListener('click', function(){
+      if(selectedAbility === a){
+        selectedAbility = '';
+        opt.style.background = '';
+        opt.style.color = 'var(--text2)';
+        document.getElementById('idx-ability-display').innerHTML = 'All Abilities <span class="fi-arrow">▾</span>';
+        document.getElementById('idx-ability-display').classList.remove('active');
+      } else {
+        abDd.querySelectorAll('.ab-opt').forEach(o => { o.style.background=''; o.style.color='var(--text2)'; });
+        selectedAbility = a;
+        opt.style.background = 'var(--bg3)';
+        opt.style.color = 'var(--accent)';
+        document.getElementById('idx-ability-display').innerHTML = a + ' <span class="fi-arrow">▾</span>';
+        document.getElementById('idx-ability-display').classList.add('active');
+      }
+      renderIdx();
+    });
+    abDd.appendChild(opt);
+  });
 
   // Points min/max
   const ptsVals=[...new Set(POKEMON_DATA.filter(p=>p.legal).map(p=>p.points))].sort((a,b)=>a-b);
@@ -1266,14 +1309,14 @@ function initFilters(){
     });
   });
 
-  ["idx-search","idx-ability","idx-pts-min","idx-pts-max"].forEach(function(id){
+  ["idx-search","idx-pts-min","idx-pts-max"].forEach(function(id){
     document.getElementById(id).addEventListener("input",renderIdx);
   });
   document.getElementById("idx-legal-only").addEventListener("change",renderIdx);
 }
 function getFiltered(){
   const q=document.getElementById("idx-search").value.trim().toLowerCase();
-  const ab=document.getElementById("idx-ability").value;
+  const ab=selectedAbility;
   const pmin=document.getElementById("idx-pts-min").value;
   const pmax=document.getElementById("idx-pts-max").value;
   const lo=document.getElementById("idx-legal-only").checked;
