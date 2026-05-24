@@ -359,27 +359,6 @@ select.fi option{background:var(--bg2);}
 
 <script>
 let POKEMON_DATA = [];
-function initApp() {
-  initFilters();renderTeam();renderSidebar();renderIdx();renderPool();initDragAndDrop();initSlotPopover();updateStickyOffset();window.addEventListener('resize',updateStickyOffset);
-  // (l) Random Pokémon icon in nav
-  const legalMons = POKEMON_DATA.filter(p => p.legal);
-  if(legalMons.length){
-    const pick = legalMons[Math.floor(Math.random()*legalMons.length)];
-    const navIcon = document.getElementById('nav-logo-icon');
-    navIcon.onload = function(){ this.style.opacity='1'; };
-    navIcon.onerror = function(){ this.style.display='none'; };
-    navIcon.src = iconUrl(pick);
-    navIcon.alt = pick.name;
-    navIcon.title = pick.name;
-  }
-}
-async function loadPokemonData() {
-  // Pre-set Pokéball in nav immediately so something shows before data loads
-  document.getElementById('nav-logo-icon').src = POKEBALL_FALLBACK;
-  const response = await fetch('pokemon.json');
-  POKEMON_DATA = await response.json();
-  initApp();
-}
 
 // ── SPRITES ───────────────────────────────────────────────────────────────────
 // Draft Builder: ./sprites/ (Home-style art) primary → ./icons/ fallback
@@ -405,6 +384,28 @@ function iconUrl(mon) {
 
 // Pokéball data URI used as the final fallback when no sprite/icon is found
 const POKEBALL_FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%23e05555' stroke='%23333' stroke-width='1.5'/%3E%3Cpath d='M1.1 20 A19 19 0 0 0 38.9 20 Z' fill='%23fff'/%3E%3Crect x='1' y='18' width='38' height='4' fill='%23333'/%3E%3Ccircle cx='20' cy='20' r='7' fill='%23fff' stroke='%23333' stroke-width='1.5'/%3E%3Ccircle cx='20' cy='20' r='3.5' fill='%23e8eaf6' stroke='%23333' stroke-width='1'/%3E%3C/svg%3E";
+
+function initApp() {
+  initFilters();renderTeam();renderSidebar();renderIdx();renderPool();initDragAndDrop();initSlotPopover();updateStickyOffset();window.addEventListener('resize',updateStickyOffset);
+  // (l) Random Pokémon icon in nav
+  const legalMons = POKEMON_DATA.filter(p => p.legal);
+  if(legalMons.length){
+    const pick = legalMons[Math.floor(Math.random()*legalMons.length)];
+    const navIcon = document.getElementById('nav-logo-icon');
+    navIcon.onload = function(){ this.style.opacity='1'; };
+    navIcon.onerror = function(){ this.style.display='none'; };
+    navIcon.src = iconUrl(pick);
+    navIcon.alt = pick.name;
+    navIcon.title = pick.name;
+  }
+}
+async function loadPokemonData() {
+  // Pre-set Pokéball in nav immediately so something shows before data loads
+  document.getElementById('nav-logo-icon').src = POKEBALL_FALLBACK;
+  const response = await fetch('pokemon.json');
+  POKEMON_DATA = await response.json();
+  initApp();
+}
 
 function setSpriteFallback(img) {
   // sprites → icons → Pokéball fallback
@@ -571,6 +572,8 @@ function toggleAltForm(id){
   renderTeam();
   renderIdx();
 }
+
+function largeStatBars(mon){
   return BAR_SK.map(function(k,i){
     const v=mon.stats[k],pct=Math.round(statScale(v)*100);
     return '<div class="stat-bar-row">'
