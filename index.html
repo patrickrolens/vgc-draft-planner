@@ -1150,6 +1150,7 @@ let lazyObs=null;
 // Multi-select state
 const idxSelectedTypes = new Set();
 const idxSelectedMoves = new Set();
+let idxTypeFilterAnd = false;
 
 function toggleMultiDropdown(id){
   const dd = document.getElementById(id+'-dropdown');
@@ -1180,21 +1181,55 @@ function updateMultiDisplay(id, selected, allLabel){
   }
 }
 
+function setTypeFilterMode(mode){
+  idxTypeFilterAnd = (mode === 'and');
+  document.getElementById('type-mode-or').style.background = idxTypeFilterAnd ? 'transparent' : 'var(--accent)';
+  document.getElementById('type-mode-or').style.color = idxTypeFilterAnd ? 'var(--accent)' : '#fff';
+  document.getElementById('type-mode-and').style.background = idxTypeFilterAnd ? 'var(--accent)' : 'transparent';
+  document.getElementById('type-mode-and').style.color = idxTypeFilterAnd ? '#fff' : 'var(--accent)';
+  renderIdx();
+}
+
 function initFilters(){
   // Type multi-select
   const typeDd = document.getElementById('idx-type-dropdown');
+
+  // OR/AND toggle
+  const modeRow = document.createElement('div');
+  modeRow.style.cssText = 'display:flex;align-items:center;gap:0;margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:8px;';
+  modeRow.innerHTML = '<span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);margin-right:8px;">Match</span>'
+    + '<div style="display:inline-flex;border:1px solid var(--accent);border-radius:4px;overflow:hidden;">'
+    + '<button id="type-mode-or" onclick="setTypeFilterMode(\'or\')" style="padding:2px 12px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:var(--accent);color:#fff;">OR</button>'
+    + '<button id="type-mode-and" onclick="setTypeFilterMode(\'and\')" style="padding:2px 12px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:transparent;color:var(--accent);">AND</button>'
+    + '</div>';
+  typeDd.appendChild(modeRow);
+
+  // 3×6 type grid
+  const typeGrid = document.createElement('div');
+  typeGrid.style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);gap:4px;';
   TYPES.forEach(function(t){
     const opt = document.createElement('div');
-    opt.className = 'fi-multi-opt';
-    opt.innerHTML = '<input type="checkbox" id="idx-type-'+t+'"><span class="type-badge t-'+t+'" style="font-size:10px;padding:1px 6px">'+t+'</span>';
-    opt.querySelector('input').addEventListener('change', function(){
-      if(this.checked) idxSelectedTypes.add(t); else idxSelectedTypes.delete(t);
-      opt.classList.toggle('checked', this.checked);
+    opt.id = 'idx-type-chip-' + t;
+    opt.className = 'type-badge t-' + t;
+    opt.textContent = t;
+    opt.style.cssText = 'cursor:pointer;text-align:center;padding:3px 0;font-size:10px;opacity:0.45;transition:opacity 0.12s,outline 0.12s;';
+    opt.addEventListener('click', function(){
+      if(idxSelectedTypes.has(t)){
+        idxSelectedTypes.delete(t);
+        opt.style.opacity = '0.45';
+        opt.style.outline = '';
+      } else {
+        idxSelectedTypes.add(t);
+        opt.style.opacity = '1';
+        opt.style.outline = '2px solid #fff';
+        opt.style.outlineOffset = '-2px';
+      }
       updateMultiDisplay('idx-type', idxSelectedTypes, 'All Types');
       renderIdx();
     });
-    typeDd.appendChild(opt);
+    typeGrid.appendChild(opt);
   });
+  typeDd.appendChild(typeGrid);
 
   // Ability single-select
   const abSet=new Set(); POKEMON_DATA.forEach(p=>p.abilities.forEach(a=>abSet.add(a)));
@@ -1245,7 +1280,13 @@ function getFiltered(){
   return POKEMON_DATA.filter(function(p){
     if(q&&!p.name.toLowerCase().includes(q))return false;
     // Type multi-select: match if pokemon has ANY of the selected types
-    if(idxSelectedTypes.size>0&&!idxSelectedTypes.has(p.type1)&&!idxSelectedTypes.has(p.type2))return false;
+    if(idxSelectedTypes.size>0){
+      if(idxTypeFilterAnd){
+        for(const t of idxSelectedTypes){ if(p.type1!==t&&p.type2!==t) return false; }
+      } else {
+        if(!idxSelectedTypes.has(p.type1)&&!idxSelectedTypes.has(p.type2)) return false;
+      }
+    }
     if(ab&&!p.abilities.includes(ab))return false;
     if(pmin&&(!p.legal||p.points<parseInt(pmin)))return false;
     if(pmax&&(!p.legal||p.points>parseInt(pmax)))return false;
