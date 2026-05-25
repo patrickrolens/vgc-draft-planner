@@ -54,10 +54,11 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .modal-btn.danger{border-color:rgba(224,85,85,0.5);color:var(--red);}
 .modal-btn.danger:hover{background:rgba(224,85,85,0.1);}
 /* Team list in load modal */
-.team-list{display:flex;flex-direction:column;gap:6px;max-height:320px;overflow-y:auto;}
-.team-list-item{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;}
-.team-list-name{flex:1;font-size:13px;font-weight:600;}
-.team-list-date{font-size:11px;color:var(--text3);}
+.team-list{display:flex;flex-direction:column;gap:6px;max-height:360px;overflow-y:auto;margin-top:4px;}
+.team-list-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;}
+.team-list-item.active-team{border-color:rgba(124,111,247,0.6);background:rgba(124,111,247,0.08);}
+.team-list-name{flex:1;font-size:13px;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.team-list-date{font-size:11px;color:var(--text3);white-space:nowrap;}
 .team-list-empty{color:var(--text3);font-size:13px;text-align:center;padding:20px 0;}
 /* Paste modal */
 .paste-textarea{background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:10px 12px;font-size:12px;font-family:monospace;width:100%;min-height:320px;resize:vertical;outline:none;line-height:1.6;}
@@ -301,19 +302,23 @@ select.fi option{background:var(--bg2);}
         <button class="toolbar-btn" onclick="collapseAll()">▲ Collapse all</button>
         <div class="toolbar-spacer"></div>
         <button class="toolbar-btn toolbar-btn-accent" onclick="openPasteModal()">⇅ Import / Export</button>
-        <button class="toolbar-btn" onclick="openSaveModal()">💾 Save</button>
-        <button class="toolbar-btn" onclick="openLoadModal()">📂 Load</button>
+        <button class="toolbar-btn" onclick="openSaveLoadModal()">💾 Save / Load</button>
       </div>
 
-      <!-- Save team modal -->
-      <div class="modal-overlay hidden" id="save-modal" onclick="handleModalOverlayClick(event,'save-modal')">
-        <div class="modal-box" onclick="event.stopPropagation()">
-          <div class="modal-title">Save Team</div>
-          <input class="modal-input" type="text" id="save-name-input" placeholder="Team name…" maxlength="60"
-            onkeydown="if(event.key==='Enter')confirmSave()">
+      <!-- Combined Save/Load modal -->
+      <div class="modal-overlay hidden" id="saveload-modal" onclick="handleModalOverlayClick(event,'saveload-modal')">
+        <div class="modal-box" onclick="event.stopPropagation()" style="max-width:520px">
+          <div class="modal-title">Save / Load</div>
+          <!-- Save section -->
+          <div style="display:flex;gap:8px;align-items:center">
+            <input class="modal-input" type="text" id="save-name-input" placeholder="Team name…" maxlength="60" style="flex:1"
+              onkeydown="if(event.key==='Enter')confirmSave()">
+            <button class="modal-btn primary" onclick="confirmSave()" style="white-space:nowrap">Save</button>
+          </div>
+          <!-- Saved teams list -->
+          <div class="team-list" id="team-list"></div>
           <div class="modal-btn-row">
-            <button class="modal-btn" onclick="closeModal('save-modal')">Cancel</button>
-            <button class="modal-btn primary" onclick="confirmSave()">Save</button>
+            <button class="modal-btn" onclick="closeModal('saveload-modal')">Close</button>
           </div>
         </div>
       </div>
@@ -326,17 +331,6 @@ select.fi option{background:var(--bg2);}
           <div class="modal-btn-row">
             <button class="modal-btn" onclick="closeModal('overwrite-modal')">Cancel</button>
             <button class="modal-btn danger" onclick="confirmOverwrite()">Overwrite</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Load team modal -->
-      <div class="modal-overlay hidden" id="load-modal" onclick="handleModalOverlayClick(event,'load-modal')">
-        <div class="modal-box" onclick="event.stopPropagation()" style="max-width:520px">
-          <div class="modal-title">Load Team</div>
-          <div class="team-list" id="team-list"></div>
-          <div class="modal-btn-row">
-            <button class="modal-btn" onclick="closeModal('load-modal')">Close</button>
           </div>
         </div>
       </div>
@@ -516,13 +510,35 @@ function nextDefaultName(teams){
 }
 
 let _pendingOverwriteName = null;
+let _lastUsedTeamName = null;  // tracks most recently saved/loaded team name
 
-function openSaveModal(){
+function openSaveLoadModal(){
   const teams = getSavedTeams();
   const input = document.getElementById('save-name-input');
-  input.value = nextDefaultName(teams);
-  document.getElementById('save-modal').classList.remove('hidden');
+  // Default to last used name, or next available default
+  input.value = _lastUsedTeamName || nextDefaultName(teams);
+  refreshTeamList();
+  document.getElementById('saveload-modal').classList.remove('hidden');
   setTimeout(()=>{ input.select(); input.focus(); }, 50);
+}
+
+function refreshTeamList(){
+  const teams = getSavedTeams();
+  const list = document.getElementById('team-list');
+  if(!teams.length){
+    list.innerHTML = '<div class="team-list-empty">No saved teams yet.</div>';
+    return;
+  }
+  list.innerHTML = teams.map(function(t, i){
+    const isActive = _lastUsedTeamName && t.name === _lastUsedTeamName;
+    return '<div class="team-list-item' + (isActive ? ' active-team' : '') + '">'
+      + '<div class="team-list-name" title="' + t.name + '">' + t.name + '</div>'
+      + '<div class="team-list-date">' + t.savedAt + '</div>'
+      + '<button class="modal-btn" style="padding:3px 10px;font-size:11px;white-space:nowrap" onclick="saveIntoSlot(' + i + ')">Save</button>'
+      + '<button class="modal-btn primary" style="padding:3px 10px;font-size:11px" onclick="loadTeam(' + i + ')">Load</button>'
+      + '<button class="modal-btn danger" style="padding:3px 8px;font-size:11px" onclick="deleteTeam(' + i + ')">✕</button>'
+      + '</div>';
+  }).join('');
 }
 
 function confirmSave(){
@@ -534,11 +550,21 @@ function confirmSave(){
     _pendingOverwriteName = name;
     document.getElementById('overwrite-msg').textContent =
       `A team named "${name}" already exists. Overwrite it?`;
-    closeModal('save-modal');
     document.getElementById('overwrite-modal').classList.remove('hidden');
     return;
   }
   doSave(name);
+}
+
+// Save into an existing slot by index (the Save button on each row)
+function saveIntoSlot(i){
+  const teams = getSavedTeams();
+  const t = teams[i];
+  if(!t) return;
+  _pendingOverwriteName = t.name;
+  document.getElementById('overwrite-msg').textContent =
+    `Overwrite "${t.name}" with the current team?`;
+  document.getElementById('overwrite-modal').classList.remove('hidden');
 }
 
 function confirmOverwrite(){
@@ -559,26 +585,12 @@ function doSave(name){
   if(idx >= 0) teams[idx] = entry;
   else teams.push(entry);
   putSavedTeams(teams);
-  closeModal('save-modal');
+  _lastUsedTeamName = name;
+  // Update input to reflect the saved name and refresh list
+  const input = document.getElementById('save-name-input');
+  if(input) input.value = name;
+  refreshTeamList();
   showToast('Team "' + name + '" saved.', 'ok');
-}
-
-function openLoadModal(){
-  const teams = getSavedTeams();
-  const list = document.getElementById('team-list');
-  if(!teams.length){
-    list.innerHTML = '<div class="team-list-empty">No saved teams yet.</div>';
-  } else {
-    list.innerHTML = teams.map(function(t, i){
-      return '<div class="team-list-item">'
-        + '<div class="team-list-name">' + t.name + '</div>'
-        + '<div class="team-list-date">' + t.savedAt + '</div>'
-        + '<button class="modal-btn primary" style="padding:4px 12px;font-size:12px" onclick="loadTeam(' + i + ')">Load</button>'
-        + '<button class="modal-btn danger" style="padding:4px 10px;font-size:12px" onclick="deleteTeam(' + i + ')">✕</button>'
-        + '</div>';
-    }).join('');
-  }
-  document.getElementById('load-modal').classList.remove('hidden');
 }
 
 function loadTeam(i){
@@ -594,7 +606,12 @@ function loadTeam(i){
     const mon = POKEMON_DATA.find(p => p.id === slot.id);
     if(mon) team[idx] = slot.pasteData ? Object.assign({}, mon, {pasteData: slot.pasteData}) : mon;
   });
-  closeModal('load-modal');
+  _lastUsedTeamName = entry.name;
+  // Update input and refresh list to show active highlight
+  const input = document.getElementById('save-name-input');
+  if(input) input.value = entry.name;
+  refreshTeamList();
+  closeModal('saveload-modal');
   renderTeam(); renderSidebar(); saveSession();
   showToast('Team "' + entry.name + '" loaded.', 'ok');
 }
@@ -604,7 +621,10 @@ function deleteTeam(i){
   const name = teams[i].name;
   teams.splice(i, 1);
   putSavedTeams(teams);
-  openLoadModal(); // refresh list
+  if(_lastUsedTeamName === name) _lastUsedTeamName = null;
+  const input = document.getElementById('save-name-input');
+  if(input && input.value === name) input.value = nextDefaultName(getSavedTeams());
+  refreshTeamList();
   showToast('"' + name + '" deleted.', 'warn');
 }
 
@@ -662,15 +682,14 @@ function teamToPaste(){
     if(pd.gender) firstLine += ' (' + pd.gender + ')';
     if(pd.item)   firstLine += ' @ ' + pd.item;
     lines.push(firstLine);
-    if(pd.ability) lines.push('Ability: ' + pd.ability);
-    if(pd.level)   lines.push('Level: ' + pd.level);
-    if(pd.tera)    lines.push('Tera Type: ' + pd.tera);
-    if(pd.evs)     lines.push('EVs: ' + pd.evs);
-    if(pd.ivs)     lines.push('IVs: ' + pd.ivs);
-    if(pd.nature)  lines.push(pd.nature + ' Nature');
-    if(pd.moves && pd.moves.length){
-      pd.moves.forEach(function(m){ if(m) lines.push('- ' + m); });
-    }
+    lines.push('Ability: ' + (pd.ability || (mon.abilities[0]||'???')));
+    if(pd.level) lines.push('Level: ' + pd.level);
+    lines.push('Tera Type: ' + (pd.tera || disp.type1));
+    lines.push('EVs: ' + (pd.evs || '252 HP / 4 Def / 252 Spe'));
+    if(pd.ivs) lines.push('IVs: ' + pd.ivs);
+    lines.push((pd.nature||'Hardy') + ' Nature');
+    const moves = pd.moves || ['', '', '', ''];
+    moves.forEach(function(m){ lines.push('- ' + (m||'')); });
     return lines.join('\n');
   }).filter(Boolean).join('\n\n');
 }
