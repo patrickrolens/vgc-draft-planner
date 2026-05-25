@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprite Audit</title>
+<style>
+  :root {
+    --bg: #1a1a2e; --bg2: #16213e; --bg3: #0f3460;
+    --text: #e0e0e0; --text2: #aaa; --text3: #666;
+    --border: #2a2a4a; --red: #e05555; --green: #4caf7d;
+    --yellow: #f5c518; --accent: #7c6ff7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, sans-serif; font-size: 13px; }
+
+  .toolbar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg2); border-bottom: 1px solid var(--border);
+    padding: 10px 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .toolbar h1 { font-size: 15px; font-weight: 700; color: var(--accent); }
+  .toolbar input {
+    background: var(--bg3); border: 1px solid var(--border); border-radius: 4px;
+    color: var(--text); padding: 5px 10px; font-size: 12px; width: 200px;
+  }
+  .toolbar label { font-size: 12px; color: var(--text2); display: flex; align-items: center; gap: 5px; cursor: pointer; }
+  .toolbar input[type=checkbox] { width: auto; }
+  .count { font-size: 12px; color: var(--text3); margin-left: auto; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+  }
+  .card.missing-sprite { border-color: var(--red); }
+  .card.missing-icon   { border-color: #f5c518; }
+  .card.missing-both   { border-color: var(--red); background: rgba(224,85,85,0.07); }
+
+  .card-id   { font-size: 10px; color: var(--text3); align-self: flex-start; }
+  .card-name { font-size: 11px; font-weight: 600; text-align: center; }
+
+  .images {
+    display: flex; align-items: flex-end; gap: 12px; margin: 4px 0;
+  }
+  .img-wrap {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+  }
+  .img-label { font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .sprite-img {
+    width: 80px; height: 80px;
+    image-rendering: pixelated;
+    object-fit: contain;
+  }
+  .icon-img {
+    width: 32px; height: 32px;
+    image-rendering: pixelated;
+    object-fit: contain;
+  }
+
+  .missing-badge {
+    font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 3px;
+    background: rgba(224,85,85,0.2); color: var(--red); border: 1px solid rgba(224,85,85,0.4);
+  }
+  .ok-badge {
+    font-size: 9px; color: var(--green);
+  }
+
+  .status-row {
+    display: flex; gap: 6px; align-items: center; font-size: 10px; flex-wrap: wrap; justify-content: center;
+  }
+
+  /* Pokéball SVG fallback placeholder */
+  .pokeball {
+    width: 80px; height: 80px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.3;
+  }
+  .pokeball-sm {
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.3;
+  }
+
+  .legend {
+    display: flex; gap: 16px; padding: 8px 16px;
+    background: var(--bg2); border-bottom: 1px solid var(--border);
+    font-size: 11px; flex-wrap: wrap;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <h1>🔍 Sprite &amp; Icon Audit</h1>
+  <input type="text" id="search" placeholder="Filter by name or ID…" oninput="renderGrid()">
+  <label><input type="checkbox" id="show-missing-only" onchange="renderGrid()"> Missing only</label>
+  <label><input type="checkbox" id="show-missing-sprite" onchange="renderGrid()"> Missing sprite</label>
+  <label><input type="checkbox" id="show-missing-icon" onchange="renderGrid()"> Missing icon</label>
+  <span class="count" id="count"></span>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--red);opacity:0.6"></div> Missing both</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Missing sprite</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div> Missing icon</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--border)"></div> All present</div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const POKEBALL_SVG = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'>
+  <circle cx='20' cy='20' r='19' fill='%23e05555' stroke='%23333' stroke-width='1.5'/>
+  <path d='M1.1 20 A19 19 0 0 0 38.9 20 Z' fill='%23fff'/>
+  <rect x='1' y='18' width='38' height='4' fill='%23333'/>
+  <circle cx='20' cy='20' r='7' fill='%23fff' stroke='%23333' stroke-width='1.5'/>
+  <circle cx='20' cy='20' r='3.5' fill='%23e8eaf6' stroke='%23333' stroke-width='1'/>
+</svg>`;
+const POKEBALL_URL = 'data:image/svg+xml,' + POKEBALL_SVG;
+
+function localId(id) {
+  const m = id.match(/^(\d+)(.*)$/);
+  if (!m) return id;
+  const num = parseInt(m[1]);
+  const padded = num >= 1000 ? String(num) : String(num).padStart(3, '0');
+  return padded + m[2];
+}
+
+function spriteUrl(id) { return './sprites/' + localId(id) + '.png'; }
+function iconUrl(id)   { return './icons/'   + localId(id) + '.png'; }
+
+let allPokemon = [];
+// Track which images are missing
+const missingSprites = new Set();
+const missingIcons   = new Set();
+
+async function init() {
+  const res = await fetch('./pokemon.json');
+  const data = await res.json();
+  allPokemon = Array.isArray(data) ? data : data.pokemon;
+
+  // Pre-check all images using Image() objects before rendering
+  await Promise.all(allPokemon.map(p => {
+    const checks = [];
+
+    // Check sprite
+    checks.push(new Promise(resolve => {
+      const img = new Image();
+      img.onload  = resolve;
+      img.onerror = () => { missingSprites.add(p.id); resolve(); };
+      img.src = spriteUrl(p.id);
+    }));
+
+    // Check icon
+    checks.push(new Promise(resolve => {
+      const img = new Image();
+      img.onload  = resolve;
+      img.onerror = () => { missingIcons.add(p.id); resolve(); };
+      img.src = iconUrl(p.id);
+    }));
+
+    return Promise.all(checks);
+  }));
+
+  renderGrid();
+}
+
+function renderGrid() {
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  const missingOnly   = document.getElementById('show-missing-only').checked;
+  const missingSprite = document.getElementById('show-missing-sprite').checked;
+  const missingIcon   = document.getElementById('show-missing-icon').checked;
+
+  let filtered = allPokemon.filter(p => {
+    if (q && !p.name.toLowerCase().includes(q) && !p.id.toLowerCase().startsWith(q)) return false;
+    const ms = missingSprites.has(p.id);
+    const mi = missingIcons.has(p.id);
+    if (missingOnly   && !ms && !mi)  return false;
+    if (missingSprite && !ms)         return false;
+    if (missingIcon   && !mi)         return false;
+    return true;
+  });
+
+  document.getElementById('count').textContent =
+    `${filtered.length} / ${allPokemon.length} shown  •  ` +
+    `${missingSprites.size} missing sprites  •  ${missingIcons.size} missing icons`;
+
+  document.getElementById('grid').innerHTML = filtered.map(p => {
+    const ms = missingSprites.has(p.id);
+    const mi = missingIcons.has(p.id);
+    const cardClass = ms && mi ? 'missing-both' : ms ? 'missing-sprite' : mi ? 'missing-icon' : '';
+
+    const spriteHtml = ms
+      ? `<div class="pokeball"><img src="${POKEBALL_URL}" style="width:40px;height:40px;opacity:0.5"></div>`
+      : `<img class="sprite-img" src="${spriteUrl(p.id)}" alt="${p.name}">`;
+
+    const iconHtml = mi
+      ? `<div class="pokeball-sm"><img src="${POKEBALL_URL}" style="width:20px;height:20px;opacity:0.5"></div>`
+      : `<img class="icon-img" src="${iconUrl(p.id)}" alt="${p.name}">`;
+
+    return `
+      <div class="card ${cardClass}">
+        <div class="card-id">${p.id}</div>
+        <div class="card-name">${p.name}</div>
+        <div class="images">
+          <div class="img-wrap">
+            <div class="img-label">Sprite</div>
+            ${spriteHtml}
+          </div>
+          <div class="img-wrap">
+            <div class="img-label">Icon</div>
+            ${iconHtml}
+          </div>
+        </div>
+        <div class="status-row">
+          ${ms ? '<span class="missing-badge">No Sprite</span>' : '<span class="ok-badge">✓ Sprite</span>'}
+          ${mi ? '<span class="missing-badge">No Icon</span>'   : '<span class="ok-badge">✓ Icon</span>'}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+init();
+</script>
+</body>
+</html>
