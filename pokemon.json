@@ -64138,7 +64138,6 @@
     {
       "id": "924",
       "name": "Tandemaus",
-      "aliases": ["Muashold-Four"],
       "type1": "Normal",
       "type2": null,
       "points": 5,
@@ -64218,6 +64217,7 @@
     {
       "id": "925",
       "name": "Maushold",
+      "aliases": ["Maushold-Four"],
       "type1": "Normal",
       "type2": null,
       "points": 60,
