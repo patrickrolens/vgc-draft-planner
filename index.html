@@ -529,16 +529,20 @@ function refreshTeamList(){
     list.innerHTML = '<div class="team-list-empty">No saved teams yet.</div>';
     return;
   }
-  list.innerHTML = teams.map(function(t, i){
-    const isActive = _lastUsedTeamName && t.name === _lastUsedTeamName;
-    return '<div class="team-list-item' + (isActive ? ' active-team' : '') + '">'
-      + '<div class="team-list-name" title="' + t.name + '">' + t.name + '</div>'
-      + '<div class="team-list-date">' + t.savedAt + '</div>'
-      + '<button class="modal-btn" style="padding:3px 10px;font-size:11px;white-space:nowrap" onclick="saveIntoSlot(' + i + ')">Save</button>'
-      + '<button class="modal-btn primary" style="padding:3px 10px;font-size:11px" onclick="loadTeam(' + i + ')">Load</button>'
-      + '<button class="modal-btn danger" style="padding:3px 8px;font-size:11px" onclick="deleteTeam(' + i + ')">✕</button>'
-      + '</div>';
-  }).join('');
+  // Display newest-first (reverse order), but pass real index for operations
+  list.innerHTML = teams.map(function(t, i){ return {t, i}; })
+    .reverse()
+    .map(function(obj){
+      const {t, i} = obj;
+      const isActive = _lastUsedTeamName && t.name === _lastUsedTeamName;
+      return '<div class="team-list-item' + (isActive ? ' active-team' : '') + '">'
+        + '<div class="team-list-name" title="' + t.name + '">' + t.name + '</div>'
+        + '<div class="team-list-date">' + t.savedAt + '</div>'
+        + '<button class="modal-btn" style="padding:3px 10px;font-size:11px;white-space:nowrap" onclick="saveIntoSlot(' + i + ')">Save</button>'
+        + '<button class="modal-btn primary" style="padding:3px 10px;font-size:11px" onclick="loadTeam(' + i + ')">Load</button>'
+        + '<button class="modal-btn danger" style="padding:3px 8px;font-size:11px" onclick="deleteTeam(' + i + ')">✕</button>'
+        + '</div>';
+    }).join('');
 }
 
 function confirmSave(){
@@ -582,8 +586,8 @@ function doSave(name){
     slots: team.map(m => m ? {id: m.id, pasteData: m.pasteData||null} : null),
     altFormActive: [...altFormActive],
   };
-  if(idx >= 0) teams[idx] = entry;
-  else teams.push(entry);
+  if(idx >= 0) teams.splice(idx, 1);  // remove from current position
+  teams.push(entry);                   // always add at end (= top of reversed display)
   putSavedTeams(teams);
   _lastUsedTeamName = name;
   // Update input to reflect the saved name and refresh list
