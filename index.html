@@ -652,10 +652,21 @@ function teamToPaste(){
     const disp = getDisplayMon(mon);
     const pd = mon.pasteData || {};
     const lines = [];
-    lines.push(disp.name + (pd.item ? ' @ ' + pd.item : ''));
+    // First line: Nickname (Species) (Gender) @ Item
+    let firstLine = '';
+    if(pd.nickname){
+      firstLine = pd.nickname + ' (' + disp.name + ')';
+    } else {
+      firstLine = disp.name;
+    }
+    if(pd.gender) firstLine += ' (' + pd.gender + ')';
+    if(pd.item)   firstLine += ' @ ' + pd.item;
+    lines.push(firstLine);
     lines.push('Ability: ' + (pd.ability || (mon.abilities[0]||'???')));
+    if(pd.level) lines.push('Level: ' + pd.level);
     lines.push('Tera Type: ' + (pd.tera || disp.type1));
     lines.push('EVs: ' + (pd.evs || '252 HP / 4 Def / 252 Spe'));
+    if(pd.ivs) lines.push('IVs: ' + pd.ivs);
     lines.push((pd.nature||'Hardy') + ' Nature');
     const moves = pd.moves || ['', '', '', ''];
     moves.forEach(function(m){ lines.push('- ' + (m||'')); });
@@ -675,6 +686,8 @@ function parseFirstLine(firstLine){
 
   let remaining = firstLine;
   let item = null;
+  let gender = null;
+  let nickname = null;
 
   // Strip item
   const atIdx = remaining.indexOf(' @ ');
@@ -684,18 +697,23 @@ function parseFirstLine(firstLine){
   }
 
   // Strip gender marker — (M) or (F) at the end
-  remaining = remaining.replace(/\s*\([MF]\)\s*$/, '').trim();
+  const genderMatch = remaining.match(/^(.*)\s+\(([MF])\)\s*$/);
+  if(genderMatch){
+    remaining = genderMatch[1].trim();
+    gender = genderMatch[2];
+  }
 
   // Check for species in parentheses: Nickname (Species)
-  const parenMatch = remaining.match(/^.+\(([^)]+)\)\s*$/);
+  const parenMatch = remaining.match(/^(.+)\(([^)]+)\)\s*$/);
   let species;
   if(parenMatch){
-    species = parenMatch[1].trim();
+    nickname = parenMatch[1].trim() || null;
+    species = parenMatch[2].trim();
   } else {
     species = remaining;
   }
 
-  return {species, item};
+  return {species, item, nickname, gender};
 }
 
 function parsePaste(text){
@@ -703,13 +721,17 @@ function parsePaste(text){
   return blocks.map(function(block){
     const lines = block.split('\n').map(l => l.trim());
     const result = {raw: block};
-    const {species, item} = parseFirstLine(lines[0] || '');
+    const {species, item, nickname, gender} = parseFirstLine(lines[0] || '');
     result.name = species;
-    if(item) result.item = item;
+    if(item)     result.item     = item;
+    if(nickname) result.nickname = nickname;
+    if(gender)   result.gender   = gender;
     lines.slice(1).forEach(function(line){
       if(line.startsWith('Ability:'))   result.ability = line.slice(8).trim();
       if(line.startsWith('Tera Type:')) result.tera    = line.slice(10).trim();
       if(line.startsWith('EVs:'))       result.evs     = line.slice(4).trim();
+      if(line.startsWith('IVs:'))       result.ivs     = line.slice(4).trim();
+      if(line.startsWith('Level:'))     result.level   = line.slice(6).trim();
       if(line.match(/Nature$/))         result.nature  = line.replace(/\s*Nature$/,'').trim();
       if(line.startsWith('- '))         (result.moves = result.moves||[]).push(line.slice(2).trim());
     });
@@ -754,12 +776,16 @@ function applyPaste(){
     if(slotIdx >= TS) return;
 
     const pasteData = {
-      item:    block.item    || null,
-      ability: block.ability || null,
-      tera:    block.tera    || null,
-      evs:     block.evs     || null,
-      nature:  block.nature  || null,
-      moves:   block.moves   || [],
+      nickname: block.nickname || null,
+      gender:   block.gender   || null,
+      item:     block.item     || null,
+      ability:  block.ability  || null,
+      level:    block.level    || null,
+      tera:     block.tera     || null,
+      evs:      block.evs      || null,
+      ivs:      block.ivs      || null,
+      nature:   block.nature   || null,
+      moves:    block.moves    || [],
     };
     newTeam[slotIdx] = Object.assign({}, mon, {pasteData});
   });
