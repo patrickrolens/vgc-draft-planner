@@ -387,6 +387,10 @@ function iconUrl(mon) {
 const POKEBALL_FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%23e05555' stroke='%23333' stroke-width='1.5'/%3E%3Cpath d='M1.1 20 A19 19 0 0 0 38.9 20 Z' fill='%23fff'/%3E%3Crect x='1' y='18' width='38' height='4' fill='%23333'/%3E%3Ccircle cx='20' cy='20' r='7' fill='%23fff' stroke='%23333' stroke-width='1.5'/%3E%3Ccircle cx='20' cy='20' r='3.5' fill='%23e8eaf6' stroke='%23333' stroke-width='1'/%3E%3C/svg%3E";
 
 function initApp() {
+  // Build set of alt form IDs to exclude from Draft Builder search
+  POKEMON_DATA.forEach(function(p){
+    if(p.altForm && p.altForm.spriteId) altFormIds.add(p.altForm.spriteId);
+  });
   initFilters();renderTeam();renderSidebar();renderIdx();renderPool();initDragAndDrop();initSlotPopover();updateStickyOffset();window.addEventListener('resize',updateStickyOffset);
   // (l) Random Pokémon icon in nav
   const legalMons = POKEMON_DATA.filter(p => p.legal);
@@ -593,6 +597,7 @@ const TS=10;
 let team=new Array(TS).fill(null);
 let expanded=new Set();
 let altFormActive=new Set(); // tracks Pokémon IDs currently showing their alt form
+let altFormIds=new Set();   // IDs that are alt forms — excluded from Draft Builder search
 let srResults=[];
 
 function getLimit(){return parseInt(document.getElementById("pts-limit").value)||200;}
@@ -1085,7 +1090,7 @@ function showToast(msg, type){
 function doSearch(q){
   q=q.trim().toLowerCase();
   if(!q){closeSearch();return;}
-  srResults=POKEMON_DATA.filter(p=>p.name.toLowerCase().includes(q)||p.id.toLowerCase().startsWith(q)).slice(0,18);
+  srResults=POKEMON_DATA.filter(p=>!altFormIds.has(p.id)&&(p.name.toLowerCase().includes(q)||p.id.toLowerCase().startsWith(q))).slice(0,18);
   const el=document.getElementById("search-results");
   if(!srResults.length){el.innerHTML=`<div style="padding:12px;color:var(--text3);font-size:13px">No results</div>`;el.classList.add("open");return;}
   el.innerHTML=srResults.map((p,i)=>{
@@ -1596,7 +1601,7 @@ function renderPopoverResults(q){
   const resultsEl = document.getElementById('slot-pop-results');
   if(!q){ resultsEl.innerHTML=''; popoverResults=[]; return; }
   popoverResults = POKEMON_DATA.filter(function(p){
-    return p.name.toLowerCase().includes(q)||p.id.toLowerCase().startsWith(q);
+    return !altFormIds.has(p.id)&&(p.name.toLowerCase().includes(q)||p.id.toLowerCase().startsWith(q));
   }).slice(0,12);
   if(!popoverResults.length){
     resultsEl.innerHTML='<div style="padding:10px;color:var(--text3);font-size:12px">No results</div>';
