@@ -614,10 +614,31 @@ function deleteTeam(i){
 function buildNameLookup(){
   const map = {};
   POKEMON_DATA.forEach(function(p){
+    // Primary name
     map[normalize(p.name)] = p;
-    // Also map alt form names to base mon
+    // Aliases (e.g. Maushold-Four -> Maushold)
+    if(p.aliases){
+      p.aliases.forEach(function(a){ map[normalize(a)] = p; });
+    }
+    // Alt form names -> base mon with isAlt flag
     if(p.altForm){
       map[normalize(p.altForm.name)] = {base: p, isAlt: true};
+    }
+  });
+  // Also map altFormIds entries (entries in POKEMON_DATA that ARE alt forms)
+  // to their base form so importing "Aegislash-Blade" finds Aegislash
+  POKEMON_DATA.forEach(function(p){
+    if(altFormIds.has(p.id)){
+      // Find the base form (the one whose altForm.spriteId === p.id)
+      const base = POKEMON_DATA.find(function(b){
+        return b.altForm && b.altForm.spriteId === p.id;
+      });
+      if(base){
+        map[normalize(p.name)] = {base: base, isAlt: true};
+        if(p.aliases){
+          p.aliases.forEach(function(a){ map[normalize(a)] = {base: base, isAlt: true}; });
+        }
+      }
     }
   });
   return map;
@@ -642,16 +663,49 @@ function teamToPaste(){
   }).filter(Boolean).join('\n\n');
 }
 
+function parseFirstLine(firstLine){
+  // Handles all these formats:
+  //   Species @ Item
+  //   Species
+  //   Nickname (Species) @ Item
+  //   Nickname (Species)
+  //   Species (M) @ Item        <- gender, no nickname
+  //   Species (F)               <- gender, no nickname
+  //   Nickname (Species) (M) @ Item
+
+  let remaining = firstLine;
+  let item = null;
+
+  // Strip item
+  const atIdx = remaining.indexOf(' @ ');
+  if(atIdx >= 0){
+    item = remaining.slice(atIdx + 3).trim();
+    remaining = remaining.slice(0, atIdx).trim();
+  }
+
+  // Strip gender marker — (M) or (F) at the end
+  remaining = remaining.replace(/\s*\([MF]\)\s*$/, '').trim();
+
+  // Check for species in parentheses: Nickname (Species)
+  const parenMatch = remaining.match(/^.+\(([^)]+)\)\s*$/);
+  let species;
+  if(parenMatch){
+    species = parenMatch[1].trim();
+  } else {
+    species = remaining;
+  }
+
+  return {species, item};
+}
+
 function parsePaste(text){
   const blocks = text.trim().split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
   return blocks.map(function(block){
     const lines = block.split('\n').map(l => l.trim());
     const result = {raw: block};
-    // First line: Name @ Item or just Name
-    const firstLine = lines[0] || '';
-    const atIdx = firstLine.indexOf(' @ ');
-    result.name = atIdx >= 0 ? firstLine.slice(0, atIdx).trim() : firstLine.trim();
-    if(atIdx >= 0) result.item = firstLine.slice(atIdx + 3).trim();
+    const {species, item} = parseFirstLine(lines[0] || '');
+    result.name = species;
+    if(item) result.item = item;
     lines.slice(1).forEach(function(line){
       if(line.startsWith('Ability:'))   result.ability = line.slice(8).trim();
       if(line.startsWith('Tera Type:')) result.tera    = line.slice(10).trim();
@@ -688,6 +742,7 @@ function applyPaste(){
 
     let mon, slotIdx = i;
     if(match.isAlt){
+      // Alt form — use base, activate toggle
       mon = match.base;
       newAltActive.add(mon.id);
     } else {
@@ -724,7 +779,16 @@ function applyPaste(){
 
 // ── MODAL HELPERS ──────────────────────────────────────────────────────────────
 function closeModal(id){ document.getElementById(id).classList.add('hidden'); }
-function handleModalOverlayClick(e, id){ if(e.target.id===id) closeModal(id); }
+
+// Only close modal when both mousedown AND mouseup land on the overlay itself
+let _overlayMousedownId = null;
+document.addEventListener('mousedown', function(e){
+  const overlay = e.target.closest('.modal-overlay');
+  _overlayMousedownId = (overlay && overlay === e.target) ? overlay.id : null;
+});
+function handleModalOverlayClick(e, id){
+  if(_overlayMousedownId === id && e.target.id === id) closeModal(id);
+}
 
 function initApp() {
   // Build set of alt form IDs to exclude from Draft Builder search
