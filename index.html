@@ -36,6 +36,32 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .draft-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
 .toolbar-btn{background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;font-size:12px;padding:5px 12px;}
 .toolbar-btn:hover{color:var(--text);border-color:var(--accent);}
+.toolbar-btn.toolbar-btn-accent{border-color:rgba(124,111,247,0.4);color:var(--accent);}
+.toolbar-btn.toolbar-btn-accent:hover{background:rgba(124,111,247,0.12);}
+.toolbar-spacer{flex:1;}
+/* Modal overlay */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;display:flex;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay.hidden{display:none;}
+.modal-box{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;width:100%;max-width:480px;display:flex;flex-direction:column;gap:14px;}
+.modal-title{font-size:15px;font-weight:700;color:var(--text);}
+.modal-input{background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:8px 12px;font-size:13px;width:100%;outline:none;}
+.modal-input:focus{border-color:var(--accent);}
+.modal-btn-row{display:flex;gap:8px;justify-content:flex-end;}
+.modal-btn{padding:6px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text2);}
+.modal-btn:hover{color:var(--text);border-color:var(--accent);}
+.modal-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+.modal-btn.primary:hover{opacity:0.85;}
+.modal-btn.danger{border-color:rgba(224,85,85,0.5);color:var(--red);}
+.modal-btn.danger:hover{background:rgba(224,85,85,0.1);}
+/* Team list in load modal */
+.team-list{display:flex;flex-direction:column;gap:6px;max-height:320px;overflow-y:auto;}
+.team-list-item{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;}
+.team-list-name{flex:1;font-size:13px;font-weight:600;}
+.team-list-date{font-size:11px;color:var(--text3);}
+.team-list-empty{color:var(--text3);font-size:13px;text-align:center;padding:20px 0;}
+/* Paste modal */
+.paste-textarea{background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:10px 12px;font-size:12px;font-family:monospace;width:100%;min-height:320px;resize:vertical;outline:none;line-height:1.6;}
+.paste-textarea:focus{border-color:var(--accent);}
 
 /* SLOT */
 .draft-slot{background:var(--bg2);border:1px solid var(--border);border-radius:10px;display:flex;align-items:flex-start;gap:12px;padding:10px 14px;transition:border-color 0.15s,opacity 0.15s;}
@@ -273,6 +299,58 @@ select.fi option{background:var(--bg2);}
       <div class="draft-toolbar">
         <button class="toolbar-btn" onclick="expandAll()">▼ Expand all</button>
         <button class="toolbar-btn" onclick="collapseAll()">▲ Collapse all</button>
+        <div class="toolbar-spacer"></div>
+        <button class="toolbar-btn toolbar-btn-accent" onclick="openPasteModal()">⇅ Import / Export</button>
+        <button class="toolbar-btn" onclick="openSaveModal()">💾 Save</button>
+        <button class="toolbar-btn" onclick="openLoadModal()">📂 Load</button>
+      </div>
+
+      <!-- Save team modal -->
+      <div class="modal-overlay hidden" id="save-modal" onclick="handleModalOverlayClick(event,'save-modal')">
+        <div class="modal-box" onclick="event.stopPropagation()">
+          <div class="modal-title">Save Team</div>
+          <input class="modal-input" type="text" id="save-name-input" placeholder="Team name…" maxlength="60"
+            onkeydown="if(event.key==='Enter')confirmSave()">
+          <div class="modal-btn-row">
+            <button class="modal-btn" onclick="closeModal('save-modal')">Cancel</button>
+            <button class="modal-btn primary" onclick="confirmSave()">Save</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overwrite confirm modal -->
+      <div class="modal-overlay hidden" id="overwrite-modal" onclick="handleModalOverlayClick(event,'overwrite-modal')">
+        <div class="modal-box" onclick="event.stopPropagation()">
+          <div class="modal-title">Overwrite Team?</div>
+          <div style="font-size:13px;color:var(--text2)" id="overwrite-msg"></div>
+          <div class="modal-btn-row">
+            <button class="modal-btn" onclick="closeModal('overwrite-modal')">Cancel</button>
+            <button class="modal-btn danger" onclick="confirmOverwrite()">Overwrite</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Load team modal -->
+      <div class="modal-overlay hidden" id="load-modal" onclick="handleModalOverlayClick(event,'load-modal')">
+        <div class="modal-box" onclick="event.stopPropagation()" style="max-width:520px">
+          <div class="modal-title">Load Team</div>
+          <div class="team-list" id="team-list"></div>
+          <div class="modal-btn-row">
+            <button class="modal-btn" onclick="closeModal('load-modal')">Close</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Import/Export paste modal -->
+      <div class="modal-overlay hidden" id="paste-modal" onclick="handleModalOverlayClick(event,'paste-modal')">
+        <div class="modal-box" onclick="event.stopPropagation()" style="max-width:560px">
+          <div class="modal-title">Import / Export</div>
+          <textarea class="paste-textarea" id="paste-textarea" spellcheck="false" placeholder="Paste Poképaste text here, or edit the current team below…"></textarea>
+          <div class="modal-btn-row">
+            <button class="modal-btn" onclick="closeModal('paste-modal')">Cancel</button>
+            <button class="modal-btn primary" onclick="applyPaste()">Apply</button>
+          </div>
+        </div>
       </div>
       <div class="draft-team" id="draft-team"></div>
     </div>
@@ -386,11 +464,277 @@ function iconUrl(mon) {
 // Pokéball data URI used as the final fallback when no sprite/icon is found
 const POKEBALL_FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%23e05555' stroke='%23333' stroke-width='1.5'/%3E%3Cpath d='M1.1 20 A19 19 0 0 0 38.9 20 Z' fill='%23fff'/%3E%3Crect x='1' y='18' width='38' height='4' fill='%23333'/%3E%3Ccircle cx='20' cy='20' r='7' fill='%23fff' stroke='%23333' stroke-width='1.5'/%3E%3Ccircle cx='20' cy='20' r='3.5' fill='%23e8eaf6' stroke='%23333' stroke-width='1'/%3E%3C/svg%3E";
 
+// ── STORAGE KEYS ──────────────────────────────────────────────────────────────
+const LS_TEAMS   = 'vgcdraft_teams';
+const LS_SESSION = 'vgcdraft_session';
+
+// ── SESSION PERSISTENCE ────────────────────────────────────────────────────────
+function saveSession(){
+  try {
+    const state = {
+      team: team.map(m => m ? {id: m.id, pasteData: m.pasteData||null} : null),
+      altFormActive: [...altFormActive],
+      expanded: [...expanded],
+    };
+    localStorage.setItem(LS_SESSION, JSON.stringify(state));
+  } catch(e){}
+}
+
+function restoreSession(){
+  try {
+    const raw = localStorage.getItem(LS_SESSION);
+    if(!raw) return;
+    const state = JSON.parse(raw);
+    if(state.altFormActive) state.altFormActive.forEach(id => altFormActive.add(id));
+    if(state.expanded) state.expanded.forEach(i => expanded.add(i));
+    if(state.team){
+      state.team.forEach(function(entry, i){
+        if(!entry) return;
+        const mon = POKEMON_DATA.find(p => p.id === entry.id);
+        if(mon){
+          team[i] = mon;
+          if(entry.pasteData) team[i] = Object.assign({}, mon, {pasteData: entry.pasteData});
+        }
+      });
+    }
+  } catch(e){}
+}
+
+// ── SAVE / LOAD ────────────────────────────────────────────────────────────────
+function getSavedTeams(){
+  try { return JSON.parse(localStorage.getItem(LS_TEAMS)||'[]'); } catch(e){ return []; }
+}
+function putSavedTeams(teams){
+  localStorage.setItem(LS_TEAMS, JSON.stringify(teams));
+}
+
+function nextDefaultName(teams){
+  let n = 1;
+  const names = new Set(teams.map(t => t.name));
+  while(names.has('Team ' + n)) n++;
+  return 'Team ' + n;
+}
+
+let _pendingOverwriteName = null;
+
+function openSaveModal(){
+  const teams = getSavedTeams();
+  const input = document.getElementById('save-name-input');
+  input.value = nextDefaultName(teams);
+  document.getElementById('save-modal').classList.remove('hidden');
+  setTimeout(()=>{ input.select(); input.focus(); }, 50);
+}
+
+function confirmSave(){
+  const name = document.getElementById('save-name-input').value.trim();
+  if(!name) return;
+  const teams = getSavedTeams();
+  const existing = teams.find(t => t.name === name);
+  if(existing){
+    _pendingOverwriteName = name;
+    document.getElementById('overwrite-msg').textContent =
+      `A team named "${name}" already exists. Overwrite it?`;
+    closeModal('save-modal');
+    document.getElementById('overwrite-modal').classList.remove('hidden');
+    return;
+  }
+  doSave(name);
+}
+
+function confirmOverwrite(){
+  closeModal('overwrite-modal');
+  if(_pendingOverwriteName) doSave(_pendingOverwriteName);
+  _pendingOverwriteName = null;
+}
+
+function doSave(name){
+  const teams = getSavedTeams();
+  const idx = teams.findIndex(t => t.name === name);
+  const entry = {
+    name,
+    savedAt: new Date().toLocaleDateString(),
+    slots: team.map(m => m ? {id: m.id, pasteData: m.pasteData||null} : null),
+    altFormActive: [...altFormActive],
+  };
+  if(idx >= 0) teams[idx] = entry;
+  else teams.push(entry);
+  putSavedTeams(teams);
+  closeModal('save-modal');
+  showToast('Team "' + name + '" saved.', 'ok');
+}
+
+function openLoadModal(){
+  const teams = getSavedTeams();
+  const list = document.getElementById('team-list');
+  if(!teams.length){
+    list.innerHTML = '<div class="team-list-empty">No saved teams yet.</div>';
+  } else {
+    list.innerHTML = teams.map(function(t, i){
+      return '<div class="team-list-item">'
+        + '<div class="team-list-name">' + t.name + '</div>'
+        + '<div class="team-list-date">' + t.savedAt + '</div>'
+        + '<button class="modal-btn primary" style="padding:4px 12px;font-size:12px" onclick="loadTeam(' + i + ')">Load</button>'
+        + '<button class="modal-btn danger" style="padding:4px 10px;font-size:12px" onclick="deleteTeam(' + i + ')">✕</button>'
+        + '</div>';
+    }).join('');
+  }
+  document.getElementById('load-modal').classList.remove('hidden');
+}
+
+function loadTeam(i){
+  const teams = getSavedTeams();
+  const entry = teams[i];
+  if(!entry) return;
+  team = new Array(TS).fill(null);
+  expanded.clear();
+  altFormActive.clear();
+  if(entry.altFormActive) entry.altFormActive.forEach(id => altFormActive.add(id));
+  entry.slots.forEach(function(slot, idx){
+    if(!slot) return;
+    const mon = POKEMON_DATA.find(p => p.id === slot.id);
+    if(mon) team[idx] = slot.pasteData ? Object.assign({}, mon, {pasteData: slot.pasteData}) : mon;
+  });
+  closeModal('load-modal');
+  renderTeam(); renderSidebar(); saveSession();
+  showToast('Team "' + entry.name + '" loaded.', 'ok');
+}
+
+function deleteTeam(i){
+  const teams = getSavedTeams();
+  const name = teams[i].name;
+  teams.splice(i, 1);
+  putSavedTeams(teams);
+  openLoadModal(); // refresh list
+  showToast('"' + name + '" deleted.', 'warn');
+}
+
+// ── POKEPASTE IMPORT / EXPORT ──────────────────────────────────────────────────
+
+// Build reverse lookup: showdown-normalised name -> pokemon entry
+function buildNameLookup(){
+  const map = {};
+  POKEMON_DATA.forEach(function(p){
+    map[normalize(p.name)] = p;
+    // Also map alt form names to base mon
+    if(p.altForm){
+      map[normalize(p.altForm.name)] = {base: p, isAlt: true};
+    }
+  });
+  return map;
+}
+function normalize(s){ return s.toLowerCase().replace(/[^a-z0-9]/g,''); }
+let _nameLookup = null;
+
+function teamToPaste(){
+  return team.map(function(mon){
+    if(!mon) return null;
+    const disp = getDisplayMon(mon);
+    const pd = mon.pasteData || {};
+    const lines = [];
+    lines.push(disp.name + (pd.item ? ' @ ' + pd.item : ''));
+    lines.push('Ability: ' + (pd.ability || (mon.abilities[0]||'???')));
+    lines.push('Tera Type: ' + (pd.tera || disp.type1));
+    lines.push('EVs: ' + (pd.evs || '252 HP / 4 Def / 252 Spe'));
+    lines.push((pd.nature||'Hardy') + ' Nature');
+    const moves = pd.moves || ['', '', '', ''];
+    moves.forEach(function(m){ lines.push('- ' + (m||'')); });
+    return lines.join('\n');
+  }).filter(Boolean).join('\n\n');
+}
+
+function parsePaste(text){
+  const blocks = text.trim().split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
+  return blocks.map(function(block){
+    const lines = block.split('\n').map(l => l.trim());
+    const result = {raw: block};
+    // First line: Name @ Item or just Name
+    const firstLine = lines[0] || '';
+    const atIdx = firstLine.indexOf(' @ ');
+    result.name = atIdx >= 0 ? firstLine.slice(0, atIdx).trim() : firstLine.trim();
+    if(atIdx >= 0) result.item = firstLine.slice(atIdx + 3).trim();
+    lines.slice(1).forEach(function(line){
+      if(line.startsWith('Ability:'))   result.ability = line.slice(8).trim();
+      if(line.startsWith('Tera Type:')) result.tera    = line.slice(10).trim();
+      if(line.startsWith('EVs:'))       result.evs     = line.slice(4).trim();
+      if(line.match(/Nature$/))         result.nature  = line.replace(/\s*Nature$/,'').trim();
+      if(line.startsWith('- '))         (result.moves = result.moves||[]).push(line.slice(2).trim());
+    });
+    return result;
+  });
+}
+
+function openPasteModal(){
+  document.getElementById('paste-textarea').value = teamToPaste();
+  document.getElementById('paste-modal').classList.remove('hidden');
+  setTimeout(()=> document.getElementById('paste-textarea').focus(), 50);
+}
+
+function applyPaste(){
+  if(!_nameLookup) _nameLookup = buildNameLookup();
+  const text = document.getElementById('paste-textarea').value;
+  const blocks = parsePaste(text);
+
+  let unrecognized = 0;
+  const newTeam = new Array(TS).fill(null);
+  const newAltActive = new Set();
+
+  const toProcess = blocks.slice(0, 10);
+  const excess = blocks.length > 10;
+
+  toProcess.forEach(function(block, i){
+    const key = normalize(block.name);
+    const match = _nameLookup[key];
+    if(!match){ unrecognized++; return; }
+
+    let mon, slotIdx = i;
+    if(match.isAlt){
+      mon = match.base;
+      newAltActive.add(mon.id);
+    } else {
+      mon = match;
+    }
+
+    // Find first empty slot at or after i
+    while(slotIdx < TS && newTeam[slotIdx]) slotIdx++;
+    if(slotIdx >= TS) return;
+
+    const pasteData = {
+      item:    block.item    || null,
+      ability: block.ability || null,
+      tera:    block.tera    || null,
+      evs:     block.evs     || null,
+      nature:  block.nature  || null,
+      moves:   block.moves   || [],
+    };
+    newTeam[slotIdx] = Object.assign({}, mon, {pasteData});
+  });
+
+  team = newTeam;
+  altFormActive.clear();
+  newAltActive.forEach(id => altFormActive.add(id));
+  expanded.clear();
+
+  closeModal('paste-modal');
+  renderTeam(); renderSidebar(); saveSession();
+
+  if(excess) showToast('More than 10 entries detected. Excess entries discarded.', 'warn');
+  if(unrecognized) showToast(unrecognized + ' unrecognized Pokémon failed to import.', 'warn');
+  if(!excess && !unrecognized) showToast('Team imported successfully.', 'ok');
+}
+
+// ── MODAL HELPERS ──────────────────────────────────────────────────────────────
+function closeModal(id){ document.getElementById(id).classList.add('hidden'); }
+function handleModalOverlayClick(e, id){ if(e.target.id===id) closeModal(id); }
+
 function initApp() {
   // Build set of alt form IDs to exclude from Draft Builder search
   POKEMON_DATA.forEach(function(p){
     if(p.altForm && p.altForm.spriteId) altFormIds.add(p.altForm.spriteId);
   });
+  // Build name lookup for paste import
+  _nameLookup = buildNameLookup();
+  // Restore last session silently
+  restoreSession();
   initFilters();renderTeam();renderSidebar();renderIdx();renderPool();initDragAndDrop();initSlotPopover();updateStickyOffset();window.addEventListener('resize',updateStickyOffset);
   // (l) Random Pokémon icon in nav
   const legalMons = POKEMON_DATA.filter(p => p.legal);
@@ -579,6 +923,7 @@ function toggleAltForm(id){
   else altFormActive.add(id);
   renderTeam();
   renderIdx();
+  saveSession();
 }
 
 function largeStatBars(mon){
@@ -609,10 +954,12 @@ function addToTeam(mon){
   team[slot]=mon;renderTeam();renderSidebar();closeSearch();closeSlotPopover();
   document.getElementById("draft-search").value="";
   if(pinnedType) applyMatchupHighlight(pinnedType);
+  saveSession();
 }
 function removeFromTeam(i){
   team[i]=null;expanded.delete(i);renderTeam();renderSidebar();
   if(pinnedType) applyMatchupHighlight(pinnedType);
+  saveSession();
 }
 function toggleExpand(i){expanded.has(i)?expanded.delete(i):expanded.add(i);renderTeam();}
 function expandAll(){team.forEach((_,i)=>{if(team[i])expanded.add(i);});renderTeam();}
@@ -787,7 +1134,7 @@ function initDragAndDrop(){
     // Move or swap
     swapSlots(dragSrcIdx, destIdx);
     dragSrcIdx = null;
-    renderTeam(); renderSidebar();
+    renderTeam(); renderSidebar(); saveSession();
   });
 
   // Touch drag (pointer events for mobile)
@@ -836,7 +1183,7 @@ function initDragAndDrop(){
       const destIdx = parseInt(target.dataset.slotIdx);
       if(touchDragSrc !== destIdx){
         swapSlots(touchDragSrc, destIdx);
-        renderTeam(); renderSidebar();
+        renderTeam(); renderSidebar(); saveSession();
       }
     }
     touchDragSrc = null;
