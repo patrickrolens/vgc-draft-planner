@@ -2112,6 +2112,7 @@ function addToSlot(slotIdx, mon){
   team[slotIdx]=mon;
   closeSlotPopover();
   renderTeam(); renderSidebar();
+  saveSession();
 }
 
 function initSlotPopover(){
