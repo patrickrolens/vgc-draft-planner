@@ -686,14 +686,15 @@ function teamToPaste(){
     if(pd.gender) firstLine += ' (' + pd.gender + ')';
     if(pd.item)   firstLine += ' @ ' + pd.item;
     lines.push(firstLine);
-    lines.push('Ability: ' + (pd.ability || (mon.abilities[0]||'???')));
-    if(pd.level) lines.push('Level: ' + pd.level);
-    lines.push('Tera Type: ' + (pd.tera || disp.type1));
-    lines.push('EVs: ' + (pd.evs || '252 HP / 4 Def / 252 Spe'));
-    if(pd.ivs) lines.push('IVs: ' + pd.ivs);
-    lines.push((pd.nature||'Hardy') + ' Nature');
-    const moves = pd.moves || ['', '', '', ''];
-    moves.forEach(function(m){ lines.push('- ' + (m||'')); });
+    if(pd.ability) lines.push('Ability: ' + pd.ability);
+    if(pd.level)   lines.push('Level: ' + pd.level);
+    if(pd.tera)    lines.push('Tera Type: ' + pd.tera);
+    if(pd.evs)     lines.push('EVs: ' + pd.evs);
+    if(pd.ivs)     lines.push('IVs: ' + pd.ivs);
+    if(pd.nature)  lines.push(pd.nature + ' Nature');
+    if(pd.moves && pd.moves.length){
+      pd.moves.forEach(function(m){ if(m) lines.push('- ' + m); });
+    }
     return lines.join('\n');
   }).filter(Boolean).join('\n\n');
 }
