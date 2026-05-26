@@ -134,6 +134,8 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .slot-right{display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;}
 .slot-remove{background:none;border:none;color:var(--text3);cursor:pointer;font-size:20px;line-height:1;padding:3px 5px;border-radius:4px;}
 .slot-remove:hover{color:var(--red);background:rgba(224,85,85,0.1);}
+.slot-undo{background:none;border:1px solid var(--border);border-radius:4px;color:var(--text3);cursor:pointer;font-size:10px;font-weight:600;padding:2px 6px;white-space:nowrap;transition:color 0.15s,border-color 0.15s;}
+.slot-undo:hover{color:var(--accent);border-color:var(--accent);}
 .slot-expand{background:none;border:1px solid var(--border);color:var(--text3);cursor:pointer;font-size:11px;padding:3px 7px;border-radius:4px;white-space:nowrap;}
 .slot-expand:hover{color:var(--text);border-color:var(--accent);}
 
@@ -605,6 +607,7 @@ function loadTeam(i){
   const entry = teams[i];
   if(!entry) return;
   team = new Array(TS).fill(null);
+  slotHistory = new Array(TS).fill(null);
   expanded.clear();
   altFormActive.clear();
   if(entry.altFormActive) entry.altFormActive.forEach(id => altFormActive.add(id));
@@ -819,6 +822,7 @@ function applyPaste(){
   });
 
   team = newTeam;
+  slotHistory = new Array(TS).fill(null);
   altFormActive.clear();
   newAltActive.forEach(id => altFormActive.add(id));
   expanded.clear();
@@ -1061,6 +1065,7 @@ let team=new Array(TS).fill(null);
 let expanded=new Set();
 let altFormActive=new Set(); // tracks Pokémon IDs currently showing their alt form
 let altFormIds=new Set();   // IDs that are alt forms — excluded from Draft Builder search
+let slotHistory=new Array(TS).fill(null); // last removed mon per slot, for undo
 let srResults=[];
 
 function getLimit(){return parseInt(document.getElementById("pts-limit").value)||200;}
@@ -1083,13 +1088,22 @@ function addToTeam(mon){
   if(team.some(m=>m&&m.id===mon.id))return;
   const slot=team.findIndex(s=>s===null);
   if(slot===-1)return;
-  team[slot]=mon;renderTeam();renderSidebar();closeSearch();closeSlotPopover();
+  team[slot]=mon;slotHistory[slot]=null;renderTeam();renderSidebar();closeSearch();closeSlotPopover();
   document.getElementById("draft-search").value="";
   if(pinnedType) applyMatchupHighlight(pinnedType);
   saveSession();
 }
 function removeFromTeam(i){
+  slotHistory[i]=team[i]; // save for undo
   team[i]=null;expanded.delete(i);renderTeam();renderSidebar();
+  if(pinnedType) applyMatchupHighlight(pinnedType);
+  saveSession();
+}
+function undoRemove(i){
+  if(!slotHistory[i]) return;
+  team[i]=slotHistory[i];
+  slotHistory[i]=null;
+  renderTeam();renderSidebar();
   if(pinnedType) applyMatchupHighlight(pinnedType);
   saveSession();
 }
@@ -1193,11 +1207,15 @@ function renderTeam(){
     } else {
       d.className="draft-slot";
       const slotI = i;
+      const hist = slotHistory[i];
       d.innerHTML=`
         <span class="drag-handle" title="Drag to reorder">⠿</span>
         <span class="slot-num">${i+1}</span>
         <div class="slot-sprite-empty" onclick="openSlotPopoverByIdx(${i}, this)">+</div>
-        <div class="slot-body" style="color:var(--text3);font-size:13px;padding-top:22px">Click <strong style="color:var(--text2)">+</strong> to add a Pokémon</div>`;
+        <div class="slot-body" style="color:var(--text3);font-size:13px;padding-top:22px">Click <strong style="color:var(--text2)">+</strong> to add a Pokémon</div>
+        <div class="slot-right">
+          ${hist ? `<button class="slot-undo" onclick="undoRemove(${i})" title="Restore ${hist.name}">↩ ${hist.name}</button>` : ''}
+        </div>`;
       el.appendChild(d);
     }
   }
@@ -1218,7 +1236,11 @@ function initDragAndDrop(){
     const dstExp = expanded.has(destIdx);
     srcExp ? expanded.add(destIdx) : expanded.delete(destIdx);
     dstExp ? expanded.add(srcIdx) : expanded.delete(srcIdx);
-}
+    // Swap history — but only for empty slots (filled slots always have null history)
+    const tmpHist = slotHistory[srcIdx];
+    slotHistory[srcIdx] = slotHistory[destIdx];
+    slotHistory[destIdx] = tmpHist;
+  }
   // Mouse drag events (HTML5 draggable)
   // Only allow drag when initiated from the handle
   teamEl.addEventListener('mousedown', function(e){
@@ -2016,6 +2038,7 @@ function renderPool(filter){
         return;
       }
       team[slot] = mon;
+      slotHistory[slot] = null;
       renderTeam(); renderSidebar(); saveSession();
       showToast(mon.name + ' added to slot ' + (slot + 1) + '.', 'ok');
     });
@@ -2126,7 +2149,7 @@ function updatePopoverHighlight(){
 function addToSlot(slotIdx, mon){
   if(slotIdx===null||slotIdx===undefined) return;
   if(team.some(function(m){return m&&m.id===mon.id;})) return;
-  team[slotIdx]=mon;
+  team[slotIdx]=mon;slotHistory[slotIdx]=null;
   closeSlotPopover();
   renderTeam(); renderSidebar();
   saveSession();
