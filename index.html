@@ -151,10 +151,12 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 
 /* SEARCH */
 .search-box{position:relative;margin-bottom:10px;}
-.search-box input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px 10px 36px;color:var(--text);font-size:14px;outline:none;}
+.search-box input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 44px 10px 36px;color:var(--text);font-size:14px;outline:none;}
 .search-box input:focus{border-color:var(--accent);}
 .search-box input::placeholder{color:var(--text3);}
 .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none;}
+.random-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--text3);padding:2px;line-height:1;transition:color 0.15s;}
+.random-btn:hover{color:var(--accent);}
 .search-results{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:200;background:var(--bg2);border:1px solid var(--border);border-radius:8px;max-height:320px;overflow-y:auto;display:none;}
 .search-results.open{display:block;}
 .sr-item{display:flex;align-items:center;gap:10px;padding:8px 12px;cursor:pointer;transition:background 0.1s;border-bottom:1px solid var(--border);}
@@ -295,6 +297,7 @@ select.fi option{background:var(--bg2);}
       <div class="search-box">
         <span class="search-icon">🔍</span>
         <input type="text" id="draft-search" placeholder="Search Pokémon to add to your team..." autocomplete="off"/>
+        <button class="random-btn" onclick="pickRandom()" title="Add a random Pokémon">🎲</button>
         <div class="search-results" id="search-results"></div>
       </div>
       <div class="draft-toolbar">
@@ -1062,6 +1065,17 @@ let srResults=[];
 
 function getLimit(){return parseInt(document.getElementById("pts-limit").value)||200;}
 function getLegalPts(){return team.filter(m=>m&&m.legal).reduce((s,p)=>s+(p.points||0),0);}
+function pickRandom(){
+  // Same eligibility as the search: not an alt form, not already on the team
+  const alreadyOnTeam = new Set(team.filter(Boolean).map(m => m.id));
+  const eligible = POKEMON_DATA.filter(function(p){
+    return !altFormIds.has(p.id) && !alreadyOnTeam.has(p.id);
+  });
+  if(!eligible.length){ showToast('No eligible Pokémon to add.', 'warn'); return; }
+  const pick = eligible[Math.floor(Math.random() * eligible.length)];
+  addToTeam(pick);
+}
+
 function addToTeam(mon){
   if(team.some(m=>m&&m.id===mon.id))return;
   const slot=team.findIndex(s=>s===null);
@@ -1999,7 +2013,7 @@ function renderPool(filter){
         return;
       }
       team[slot] = mon;
-      renderTeam(); renderSidebar();
+      renderTeam(); renderSidebar(); saveSession();
       showToast(mon.name + ' added to slot ' + (slot + 1) + '.', 'ok');
     });
   });
