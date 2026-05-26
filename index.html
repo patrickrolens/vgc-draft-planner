@@ -1206,6 +1206,7 @@ function renderTeam(){
       if(exp) drawRadar(document.getElementById("rl-"+i),disp,180);
     } else {
       d.className="draft-slot";
+      d.dataset.slotIdx=i;
       const slotI = i;
       const hist = slotHistory[i];
       d.innerHTML=`
