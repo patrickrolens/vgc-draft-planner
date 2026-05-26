@@ -1080,8 +1080,9 @@ function getLegalPts(){return team.filter(m=>m&&m.legal).reduce((s,p)=>s+(p.poin
 function pickRandom(){
   // Same eligibility as the search: not an alt form, not already on the team
   const alreadyOnTeam = new Set(team.filter(Boolean).map(m => m.id));
+  const legalOnly=document.getElementById('draft-legal-only').checked;
   const eligible = POKEMON_DATA.filter(function(p){
-    return !altFormIds.has(p.id) && !alreadyOnTeam.has(p.id);
+    return !altFormIds.has(p.id) && !alreadyOnTeam.has(p.id) && (!legalOnly||p.legal);
   });
   if(!eligible.length){ showToast('No eligible Pokémon to add.', 'warn'); return; }
   const pick = eligible[Math.floor(Math.random() * eligible.length)];
