@@ -152,10 +152,12 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .stat-bar-val{font-size:10px;color:var(--text2);width:28px;text-align:right;flex-shrink:0;}
 
 /* SEARCH */
-.search-box{position:relative;margin-bottom:10px;}
+.search-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.search-box{position:relative;flex:1;}
 .search-box input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 44px 10px 36px;color:var(--text);font-size:14px;outline:none;}
 .search-box input:focus{border-color:var(--accent);}
 .search-box input::placeholder{color:var(--text3);}
+.search-legal-label{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);cursor:pointer;white-space:nowrap;}
 .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none;}
 .random-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--text3);padding:2px;line-height:1;transition:color 0.15s;}
 .random-btn:hover{color:var(--accent);}
@@ -296,11 +298,16 @@ select.fi option{background:var(--bg2);}
 <div id="view-draft" class="view active">
   <div class="draft-layout">
     <div>
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="draft-search" placeholder="Search Pokémon to add to your team..." autocomplete="off"/>
-        <button class="random-btn" onclick="pickRandom()" title="Add a random Pokémon">🎲</button>
-        <div class="search-results" id="search-results"></div>
+      <div class="search-row">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="draft-search" placeholder="Search Pokémon to add to your team..." autocomplete="off"/>
+          <button class="random-btn" onclick="pickRandom()" title="Add a random Pokémon">🎲</button>
+          <div class="search-results" id="search-results"></div>
+        </div>
+        <label class="search-legal-label">
+          <input type="checkbox" id="draft-legal-only" style="accent-color:var(--accent)"> Legal only
+        </label>
       </div>
       <div class="draft-toolbar">
         <button class="toolbar-btn" onclick="expandAll()">▼ Expand all</button>
@@ -1592,7 +1599,8 @@ function showToast(msg, type){
 function doSearch(q){
   q=q.trim().toLowerCase();
   if(!q){closeSearch();return;}
-  srResults=POKEMON_DATA.filter(p=>!altFormIds.has(p.id)&&(p.name.toLowerCase().includes(q)||p.id.toLowerCase().startsWith(q))).slice(0,18);
+  const legalOnly=document.getElementById('draft-legal-only').checked;
+  srResults=POKEMON_DATA.filter(p=>!altFormIds.has(p.id)&&(!legalOnly||p.legal)&&(p.name.toLowerCase().includes(q)||p.id.toLowerCase().startsWith(q))).slice(0,18);
   const el=document.getElementById("search-results");
   if(!srResults.length){el.innerHTML=`<div style="padding:12px;color:var(--text3);font-size:13px">No results</div>`;el.classList.add("open");return;}
   el.innerHTML=srResults.map((p,i)=>{
@@ -1646,6 +1654,9 @@ document.getElementById("draft-search").addEventListener("keydown",function(e){
   }
 });
 document.getElementById("draft-search").addEventListener("blur",()=>setTimeout(closeSearch,150));
+document.getElementById("draft-legal-only").addEventListener("change",function(){
+  doSearch(document.getElementById("draft-search").value);
+});
 document.getElementById("pts-limit").addEventListener("input",renderPoints);
 
 // ── INDEX ──────────────────────────────────────────────────────────────────────
@@ -2104,7 +2115,8 @@ function renderPopoverResults(q){
   const resultsEl = document.getElementById('slot-pop-results');
   if(!q){ resultsEl.innerHTML=''; popoverResults=[]; return; }
   popoverResults = POKEMON_DATA.filter(function(p){
-    return !altFormIds.has(p.id)&&(p.name.toLowerCase().includes(q)||p.id.toLowerCase().startsWith(q));
+    const legalOnly=document.getElementById('draft-legal-only').checked;
+    return !altFormIds.has(p.id)&&(!legalOnly||p.legal)&&(p.name.toLowerCase().includes(q)||p.id.toLowerCase().startsWith(q));
   }).slice(0,12);
   if(!popoverResults.length){
     resultsEl.innerHTML='<div style="padding:10px;color:var(--text3);font-size:12px">No results</div>';
