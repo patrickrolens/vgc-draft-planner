@@ -20253,6 +20253,7 @@
     {
       "id": "351",
       "name": "Castform",
+      "aliases": ["Castform-Sunny","Castform-Rainy","Castform-Snowy"],
       "type1": "Normal",
       "type2": null,
       "points": null,
@@ -25388,6 +25389,7 @@
     {
       "id": "412",
       "name": "Burmy",
+      "aliases": ["Burmy-Sandy","Burmy-Trash"],
       "type1": "Bug",
       "type2": null,
       "points": null,
@@ -25910,6 +25912,7 @@
     {
       "id": "422",
       "name": "Shellos",
+      "aliases": ["Shellos-East"],
       "type1": "Water",
       "type2": null,
       "points": 5,
@@ -25991,6 +25994,7 @@
     {
       "id": "423",
       "name": "Gastrodon",
+      "aliases": ["Gastrodon-East"],
       "type1": "Water",
       "type2": "Ground",
       "points": 35,
@@ -31911,6 +31915,7 @@
     {
       "id": "493",
       "name": "Arceus",
+      "aliases": ["Arceus-Bug","Arceus-Dark","Arceus-Dragon","Arceus-Electric","Arceus-Fairy","Arceus-Fighting","Arceus-Fire","Arceus-Flying","Arceus-Ghost","Arceus-Grass","Arceus-Ground","Arceus-Ice","Arceus-Poison","Arceus-Psychic","Arceus-Rock","Arceus-Steel","Arceus-Water"],
       "type1": "Normal",
       "type2": null,
       "points": null,
@@ -34697,6 +34702,7 @@
     {
       "id": "550",
       "name": "Basculin",
+      "aliases": ["Basculin-Blue-Striped"],
       "type1": "Water",
       "type2": null,
       "points": 10,
@@ -36762,6 +36768,7 @@
     {
       "id": "585",
       "name": "Deerling",
+      "aliases": ["Deerling-Summer","Deerling-Autumn","Deerling-Winter"],
       "type1": "Normal",
       "type2": "Grass",
       "points": 5,
@@ -41241,6 +41248,7 @@
     {
       "id": "647",
       "name": "Keldeo",
+      "aliases": ["Keldeo-Resolute"],
       "type1": "Water",
       "type2": "Fighting",
       "points": 45,
@@ -41539,6 +41547,7 @@
     {
       "id": "649",
       "name": "Genesect",
+      "aliases": ["Genesect-Douse","Genesect-Shock","Genesect-Burn","Genesect-Chill"],
       "type1": "Bug",
       "type2": "Steel",
       "points": null,
@@ -42813,6 +42822,7 @@
     {
       "id": "666",
       "name": "Vivillon",
+      "aliases": ["Vivillon-Icy Snow","Vivillon-Polar","Vivillon-Tundra","Vivillon-Continental","Vivillon-Garden","Vivillon-Elegant","Vivillon-Modern","Vivillon-Marine","Vivillon-Archipelago","Vivillon-High Plains","Vivillon-Sandstorm","Vivillon-River","Vivillon-Monsoon","Vivillon-Savanna","Vivillon-Sun","Vivillon-Ocean","Vivillon-Jungle","Vivillon-Fancy","Vivillon-Pokeball"],
       "type1": "Bug",
       "type2": "Flying",
       "points": 25,
@@ -45395,6 +45405,7 @@
     {
       "id": "710",
       "name": "Pumpkaboo",
+      "aliases": ["Pumpkaboo-Small","Pumpkaboo-Large","Pumpkaboo-Super"],
       "type1": "Ghost",
       "type2": "Grass",
       "points": null,
@@ -45419,6 +45430,7 @@
     {
       "id": "711",
       "name": "Gourgeist",
+      "aliases": ["Gourgeist-Small","Gourgeist-Large","Gourgeist-Super"],
       "type1": "Ghost",
       "type2": "Grass",
       "points": null,
@@ -45759,6 +45771,7 @@
     {
       "id": "716",
       "name": "Xerneas",
+      "aliases": ["Xerneas-Neutral"],
       "type1": "Fairy",
       "type2": null,
       "points": null,
@@ -50296,7 +50309,8 @@
     {
       "id": "773",
       "name": "Silvally",
-      "type1": "RKS",
+      "aliases": ["Silvally-Bug","Silvally-Dark","Silvally-Dragon","Silvally-Electric","Silvally-Fairy","Silvally-Fighting","Silvally-Fire","Silvally-Flying","Silvally-Ghost","Silvally-Grass","Silvally-Ground","Silvally-Ice","Silvally-Poison","Silvally-Psychic","Silvally-Rock","Silvally-Steel","Silvally-Water"],
+      "type1": "Normal",
       "type2": null,
       "points": null,
       "legal": false,
@@ -50318,6 +50332,7 @@
     {
       "id": "774",
       "name": "Minior",
+      "aliases": ["Minior-Meteor"],
       "type1": "Rock",
       "type2": "Flying",
       "points": 10,
@@ -50391,6 +50406,7 @@
       ],
       "altForm": {
         "name": "Minior-Core",
+        "aliases": ["Minior-Orange","Minior-Yellow","Minior-Green","Minior-Blue","Minior-Indigo","Minior-Violet"],
         "type1": "Rock",
         "type2": "Flying",
         "stats": {
@@ -50540,6 +50556,7 @@
     {
       "id": "778",
       "name": "Mimikyu",
+      "aliases": ["Mimikyu-Busted"],
       "type1": "Ghost",
       "type2": "Fairy",
       "points": 45,
@@ -51682,6 +51699,7 @@
     {
       "id": "801",
       "name": "Magearna",
+      "aliases": ["Magearna-Original"],
       "type1": "Steel",
       "type2": "Fairy",
       "points": null,
@@ -54004,6 +54022,7 @@
     {
       "id": "845",
       "name": "Cramorant",
+      "aliases": ["Cramorant-Gulping","Cramorant-Gorging"],
       "type1": "Flying",
       "type2": "Water",
       "points": 10,
@@ -54577,6 +54596,7 @@
     {
       "id": "854",
       "name": "Sinistea",
+      "aliases": ["Sinistea-Antique"],
       "type1": "Ghost",
       "type2": null,
       "points": 5,
@@ -54647,6 +54667,7 @@
     {
       "id": "855",
       "name": "Polteageist",
+      "aliases": ["Polteageist-Antique"],
       "type1": "Ghost",
       "type2": null,
       "points": 15,
@@ -55469,6 +55490,7 @@
     {
       "id": "869",
       "name": "Alcremie",
+      "aliases": ["Alcremie-Ruby-Cream","Alcremie-Matcha-Cream","Alcremie-Mint-Cream","Alcremie-Lemon-Cream","Alcremie-Ruby-Swirl","Alcremie-Caramel-Swirl","Alcremie-Rainbow-Swirl"],
       "type1": "Fairy",
       "type2": null,
       "points": 15,
@@ -61864,6 +61886,7 @@
     {
       "id": "982",
       "name": "Dudunsparce",
+      "aliases": ["Dudunsparce-Three-Segment"],
       "type1": "Normal",
       "type2": null,
       "points": 15,
@@ -64661,6 +64684,7 @@
     {
       "id": "978",
       "name": "Tatsugiri",
+      "aliases": ["Tatsugiri-Droopy","Tatsugiri-Stretchy"],
       "type1": "Dragon",
       "type2": "Water",
       "points": 25,
@@ -65323,6 +65347,7 @@
     {
       "id": "931",
       "name": "Squawkabilly",
+      "aliases": ["Squawkabilly-Blue","Squawkabilly-Yellow","Squawkabilly-White"],
       "type1": "Normal",
       "type2": "Flying",
       "points": 15,
@@ -66534,6 +66559,7 @@
     {
       "id": "999",
       "name": "Gimmighoul",
+      "aliases": ["Gimmighoul-Roaming"],
       "type1": "Ghost",
       "type2": null,
       "points": 5,
@@ -69380,7 +69406,7 @@
     },
     {
       "id": "128-p",
-      "name": "Tauros-Paldea",
+      "name": "Tauros-Paldea-Combat",
       "type1": "Fighting",
       "type2": null,
       "points": 20,
@@ -69457,7 +69483,7 @@
     },
     {
       "id": "128-b",
-      "name": "Tauros-Paldea-Fire",
+      "name": "Tauros-Paldea-Blaze",
       "type1": "Fighting",
       "type2": "Fire",
       "points": 30,
@@ -69540,7 +69566,7 @@
     },
     {
       "id": "128-a",
-      "name": "Tauros-Paldea-Water",
+      "name": "Tauros-Paldea-Aqua",
       "type1": "Fighting",
       "type2": "Water",
       "points": 35,
@@ -69623,6 +69649,7 @@
     {
       "id": "893",
       "name": "Zarude",
+      "aliases": ["Zarude-Dada"],
       "type1": "Grass",
       "type2": "Dark",
       "points": 40,
@@ -69955,6 +69982,7 @@
     {
       "id": "1012",
       "name": "Poltchageist",
+      "aliases": ["Poltchageist-Artisan"],
       "type1": "Grass",
       "type2": "Ghost",
       "points": 10,
@@ -70021,6 +70049,7 @@
     {
       "id": "1013",
       "name": "Sinistcha",
+      "aliases": ["Sinistcha-Masterpiece"],
       "type1": "Grass",
       "type2": "Ghost",
       "points": 50,
@@ -71010,7 +71039,7 @@
       ]
     },
     {
-      "id": "1024",
+      "id": "1024-n",
       "name": "Terapagos",
       "type1": "Normal",
       "type2": null,
@@ -80237,6 +80266,7 @@
     {
       "id": "774-c",
       "name": "Minior-Core",
+      "aliases": ["Minior-Orange","Minior-Yellow","Minior-Green","Minior-Blue","Minior-Indigo","Minior-Violet"],
       "type1": "Rock",
       "type2": "Flying",
       "abilities": [
