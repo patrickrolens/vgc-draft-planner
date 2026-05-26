@@ -1074,6 +1074,9 @@ function pickRandom(){
   if(!eligible.length){ showToast('No eligible Pokémon to add.', 'warn'); return; }
   const pick = eligible[Math.floor(Math.random() * eligible.length)];
   addToTeam(pick);
+  const slot = team.findIndex(m => m && m.id === pick.id);
+  if(slot !== -1) showToast(pick.name + ' added to slot ' + (slot + 1) + '.', 'ok');
+  else showToast('Your team is full! Remove a Pokémon first.', 'warn');
 }
 
 function addToTeam(mon){
