@@ -1550,6 +1550,7 @@
     {
       "id": "115-m",
       "name": "Mega Kangaskhan",
+      "baseForm": "115",
       "type1": "Normal",
       "type2": null,
       "points": null,
@@ -2147,6 +2148,7 @@
     {
       "id": "127-m",
       "name": "Mega Pinsir",
+      "baseForm": "127",
       "type1": "Bug",
       "type2": "Flying",
       "points": null,
@@ -2375,6 +2377,7 @@
     {
       "id": "130-m",
       "name": "Mega Gyarados",
+      "baseForm": "130",
       "type1": "Water",
       "type2": "Dark",
       "points": null,
@@ -3122,6 +3125,7 @@
     {
       "id": "142-m",
       "name": "Mega Aerodactyl",
+      "baseForm": "142",
       "type1": "Rock",
       "type2": "Flying",
       "points": null,
@@ -3910,6 +3914,7 @@
     {
       "id": "150-mx",
       "name": "Mega Mewtwo X",
+      "baseForm": "150",
       "type1": "Psychic",
       "type2": "Fighting",
       "points": null,
@@ -4045,6 +4050,7 @@
     {
       "id": "150-my",
       "name": "Mega Mewtwo Y",
+      "baseForm": "150",
       "type1": "Psychic",
       "type2": null,
       "points": null,
@@ -6567,6 +6573,7 @@
     {
       "id": "181-m",
       "name": "Mega Ampharos",
+      "baseForm": "181",
       "type1": "Electric",
       "type2": "Dragon",
       "points": null,
@@ -8950,6 +8957,7 @@
     {
       "id": "208-m",
       "name": "Mega Steelix",
+      "baseForm": "208",
       "type1": "Ground",
       "type2": "Steel",
       "points": null,
@@ -9385,6 +9393,7 @@
     {
       "id": "212-m",
       "name": "Mega Scizor",
+      "baseForm": "212",
       "type1": "Bug",
       "type2": "Steel",
       "points": null,
@@ -9599,6 +9608,7 @@
     {
       "id": "214-m",
       "name": "Mega Heracross",
+      "baseForm": "214",
       "type1": "Bug",
       "type2": "Fighting",
       "points": null,
@@ -10814,6 +10824,7 @@
     {
       "id": "229-m",
       "name": "Mega Houndoom",
+      "baseForm": "229",
       "type1": "Dark",
       "type2": "Fire",
       "points": null,
@@ -12364,6 +12375,7 @@
     {
       "id": "248-m",
       "name": "Mega Tyranitar",
+      "baseForm": "248",
       "type1": "Rock",
       "type2": "Dark",
       "points": null,
@@ -12985,6 +12997,7 @@
     {
       "id": "254-m",
       "name": "Mega Sceptile",
+      "baseForm": "254",
       "type1": "Grass",
       "type2": "Dragon",
       "points": null,
@@ -13367,6 +13380,7 @@
     {
       "id": "257-m",
       "name": "Mega Blaziken",
+      "baseForm": "257",
       "type1": "Fire",
       "type2": "Fighting",
       "points": null,
@@ -13733,6 +13747,7 @@
     {
       "id": "260-m",
       "name": "Mega Swampert",
+      "baseForm": "260",
       "type1": "Water",
       "type2": "Ground",
       "points": null,
@@ -15291,6 +15306,7 @@
     {
       "id": "282-m",
       "name": "Mega Gardevoir",
+      "baseForm": "282",
       "type1": "Psychic",
       "type2": "Fairy",
       "points": null,
@@ -16720,6 +16736,7 @@
     {
       "id": "302-m",
       "name": "Mega Sableye",
+      "baseForm": "302",
       "type1": "Dark",
       "type2": "Ghost",
       "points": null,
@@ -16867,6 +16884,7 @@
     {
       "id": "303-m",
       "name": "Mega Mawile",
+      "baseForm": "303",
       "type1": "Steel",
       "type2": "Fairy",
       "points": null,
@@ -16961,6 +16979,7 @@
     {
       "id": "306-m",
       "name": "Mega Aggron",
+      "baseForm": "306",
       "type1": "Steel",
       "type2": null,
       "points": null,
@@ -17191,6 +17210,7 @@
     {
       "id": "308-m",
       "name": "Mega Medicham",
+      "baseForm": "308",
       "type1": "Psychic",
       "type2": "Fighting",
       "points": null,
@@ -17341,6 +17361,7 @@
     {
       "id": "310-m",
       "name": "Mega Manectric",
+      "baseForm": "310",
       "type1": "Electric",
       "type2": null,
       "points": null,
@@ -17963,6 +17984,7 @@
     {
       "id": "319-m",
       "name": "Mega Sharpedo",
+      "baseForm": "319",
       "type1": "Water",
       "type2": "Dark",
       "points": null,
@@ -18222,6 +18244,7 @@
     {
       "id": "323-m",
       "name": "Mega Camerupt",
+      "baseForm": "323",
       "type1": "Fire",
       "type2": "Ground",
       "points": null,
@@ -19268,6 +19291,7 @@
     {
       "id": "334-m",
       "name": "Mega Altaria",
+      "baseForm": "334",
       "type1": "Dragon",
       "type2": "Fairy",
       "points": null,
@@ -20253,7 +20277,11 @@
     {
       "id": "351",
       "name": "Castform",
-      "aliases": ["Castform-Sunny","Castform-Rainy","Castform-Snowy"],
+      "aliases": [
+        "Castform-Sunny",
+        "Castform-Rainy",
+        "Castform-Snowy"
+      ],
       "type1": "Normal",
       "type2": null,
       "points": null,
@@ -20479,6 +20507,7 @@
     {
       "id": "354-m",
       "name": "Mega Banette",
+      "baseForm": "354",
       "type1": "Ghost",
       "type2": null,
       "points": null,
@@ -20946,6 +20975,7 @@
     {
       "id": "359-m",
       "name": "Mega Absol",
+      "baseForm": "359",
       "type1": "Dark",
       "type2": null,
       "points": null,
@@ -21146,6 +21176,7 @@
     {
       "id": "362-m",
       "name": "Mega Glalie",
+      "baseForm": "362",
       "type1": "Ice",
       "type2": null,
       "points": null,
@@ -21693,6 +21724,7 @@
     {
       "id": "373-m",
       "name": "Mega Salamence",
+      "baseForm": "373",
       "type1": "Dragon",
       "type2": "Flying",
       "points": null,
@@ -22000,6 +22032,7 @@
     {
       "id": "376-m",
       "name": "Mega Metagross",
+      "baseForm": "376",
       "type1": "Steel",
       "type2": "Psychic",
       "points": null,
@@ -22446,6 +22479,7 @@
     {
       "id": "380-m",
       "name": "Mega Latias",
+      "baseForm": "380",
       "type1": "Dragon",
       "type2": "Psychic",
       "points": null,
@@ -22664,6 +22698,7 @@
     {
       "id": "381-m",
       "name": "Mega Latios",
+      "baseForm": "381",
       "type1": "Dragon",
       "type2": "Psychic",
       "points": null,
@@ -22845,6 +22880,7 @@
     {
       "id": "382-p",
       "name": "Kyogre-Primal",
+      "baseForm": "382",
       "type1": "Water",
       "type2": null,
       "points": null,
@@ -23015,6 +23051,7 @@
     {
       "id": "383-p",
       "name": "Groudon-Primal",
+      "baseForm": "383",
       "type1": "Ground",
       "type2": "Fire",
       "points": null,
@@ -23216,6 +23253,7 @@
     {
       "id": "384-m",
       "name": "Mega Rayquaza",
+      "baseForm": "384",
       "type1": "Dragon",
       "type2": "Flying",
       "points": null,
@@ -25389,7 +25427,10 @@
     {
       "id": "412",
       "name": "Burmy",
-      "aliases": ["Burmy-Sandy","Burmy-Trash"],
+      "aliases": [
+        "Burmy-Sandy",
+        "Burmy-Trash"
+      ],
       "type1": "Bug",
       "type2": null,
       "points": null,
@@ -25912,7 +25953,9 @@
     {
       "id": "422",
       "name": "Shellos",
-      "aliases": ["Shellos-East"],
+      "aliases": [
+        "Shellos-East"
+      ],
       "type1": "Water",
       "type2": null,
       "points": 5,
@@ -25994,7 +26037,9 @@
     {
       "id": "423",
       "name": "Gastrodon",
-      "aliases": ["Gastrodon-East"],
+      "aliases": [
+        "Gastrodon-East"
+      ],
       "type1": "Water",
       "type2": "Ground",
       "points": 35,
@@ -26404,6 +26449,7 @@
     {
       "id": "428-m",
       "name": "Mega Lopunny",
+      "baseForm": "428",
       "type1": "Normal",
       "type2": "Fighting",
       "points": null,
@@ -27647,6 +27693,7 @@
     {
       "id": "445-m",
       "name": "Mega Garchomp",
+      "baseForm": "445",
       "type1": "Dragon",
       "type2": "Ground",
       "points": null,
@@ -28034,6 +28081,7 @@
     {
       "id": "448-m",
       "name": "Mega Lucario",
+      "baseForm": "448",
       "type1": "Fighting",
       "type2": "Steel",
       "points": null,
@@ -28912,6 +28960,7 @@
     {
       "id": "460-m",
       "name": "Mega Abomasnow",
+      "baseForm": "460",
       "type1": "Grass",
       "type2": "Ice",
       "points": null,
@@ -30235,6 +30284,7 @@
     {
       "id": "475-m",
       "name": "Mega Gallade",
+      "baseForm": "475",
       "type1": "Psychic",
       "type2": "Fighting",
       "points": null,
@@ -31915,7 +31965,25 @@
     {
       "id": "493",
       "name": "Arceus",
-      "aliases": ["Arceus-Bug","Arceus-Dark","Arceus-Dragon","Arceus-Electric","Arceus-Fairy","Arceus-Fighting","Arceus-Fire","Arceus-Flying","Arceus-Ghost","Arceus-Grass","Arceus-Ground","Arceus-Ice","Arceus-Poison","Arceus-Psychic","Arceus-Rock","Arceus-Steel","Arceus-Water"],
+      "aliases": [
+        "Arceus-Bug",
+        "Arceus-Dark",
+        "Arceus-Dragon",
+        "Arceus-Electric",
+        "Arceus-Fairy",
+        "Arceus-Fighting",
+        "Arceus-Fire",
+        "Arceus-Flying",
+        "Arceus-Ghost",
+        "Arceus-Grass",
+        "Arceus-Ground",
+        "Arceus-Ice",
+        "Arceus-Poison",
+        "Arceus-Psychic",
+        "Arceus-Rock",
+        "Arceus-Steel",
+        "Arceus-Water"
+      ],
       "type1": "Normal",
       "type2": null,
       "points": null,
@@ -33746,6 +33814,7 @@
     {
       "id": "531-m",
       "name": "Mega Audino",
+      "baseForm": "531",
       "type1": "Normal",
       "type2": "Fairy",
       "points": null,
@@ -34702,7 +34771,9 @@
     {
       "id": "550",
       "name": "Basculin",
-      "aliases": ["Basculin-Blue-Striped"],
+      "aliases": [
+        "Basculin-Blue-Striped"
+      ],
       "type1": "Water",
       "type2": null,
       "points": 10,
@@ -36768,7 +36839,11 @@
     {
       "id": "585",
       "name": "Deerling",
-      "aliases": ["Deerling-Summer","Deerling-Autumn","Deerling-Winter"],
+      "aliases": [
+        "Deerling-Summer",
+        "Deerling-Autumn",
+        "Deerling-Winter"
+      ],
       "type1": "Normal",
       "type2": "Grass",
       "points": 5,
@@ -41248,7 +41323,9 @@
     {
       "id": "647",
       "name": "Keldeo",
-      "aliases": ["Keldeo-Resolute"],
+      "aliases": [
+        "Keldeo-Resolute"
+      ],
       "type1": "Water",
       "type2": "Fighting",
       "points": 45,
@@ -41547,7 +41624,12 @@
     {
       "id": "649",
       "name": "Genesect",
-      "aliases": ["Genesect-Douse","Genesect-Shock","Genesect-Burn","Genesect-Chill"],
+      "aliases": [
+        "Genesect-Douse",
+        "Genesect-Shock",
+        "Genesect-Burn",
+        "Genesect-Chill"
+      ],
       "type1": "Bug",
       "type2": "Steel",
       "points": null,
@@ -42822,7 +42904,27 @@
     {
       "id": "666",
       "name": "Vivillon",
-      "aliases": ["Vivillon-Icy Snow","Vivillon-Polar","Vivillon-Tundra","Vivillon-Continental","Vivillon-Garden","Vivillon-Elegant","Vivillon-Modern","Vivillon-Marine","Vivillon-Archipelago","Vivillon-High Plains","Vivillon-Sandstorm","Vivillon-River","Vivillon-Monsoon","Vivillon-Savanna","Vivillon-Sun","Vivillon-Ocean","Vivillon-Jungle","Vivillon-Fancy","Vivillon-Pokeball"],
+      "aliases": [
+        "Vivillon-Icy Snow",
+        "Vivillon-Polar",
+        "Vivillon-Tundra",
+        "Vivillon-Continental",
+        "Vivillon-Garden",
+        "Vivillon-Elegant",
+        "Vivillon-Modern",
+        "Vivillon-Marine",
+        "Vivillon-Archipelago",
+        "Vivillon-High Plains",
+        "Vivillon-Sandstorm",
+        "Vivillon-River",
+        "Vivillon-Monsoon",
+        "Vivillon-Savanna",
+        "Vivillon-Sun",
+        "Vivillon-Ocean",
+        "Vivillon-Jungle",
+        "Vivillon-Fancy",
+        "Vivillon-Pokeball"
+      ],
       "type1": "Bug",
       "type2": "Flying",
       "points": 25,
@@ -45405,7 +45507,11 @@
     {
       "id": "710",
       "name": "Pumpkaboo",
-      "aliases": ["Pumpkaboo-Small","Pumpkaboo-Large","Pumpkaboo-Super"],
+      "aliases": [
+        "Pumpkaboo-Small",
+        "Pumpkaboo-Large",
+        "Pumpkaboo-Super"
+      ],
       "type1": "Ghost",
       "type2": "Grass",
       "points": null,
@@ -45430,7 +45536,11 @@
     {
       "id": "711",
       "name": "Gourgeist",
-      "aliases": ["Gourgeist-Small","Gourgeist-Large","Gourgeist-Super"],
+      "aliases": [
+        "Gourgeist-Small",
+        "Gourgeist-Large",
+        "Gourgeist-Super"
+      ],
       "type1": "Ghost",
       "type2": "Grass",
       "points": null,
@@ -45771,7 +45881,9 @@
     {
       "id": "716",
       "name": "Xerneas",
-      "aliases": ["Xerneas-Neutral"],
+      "aliases": [
+        "Xerneas-Neutral"
+      ],
       "type1": "Fairy",
       "type2": null,
       "points": null,
@@ -46005,6 +46117,7 @@
     {
       "id": "719-m",
       "name": "Mega Diancie",
+      "baseForm": "719",
       "type1": "Rock",
       "type2": "Fairy",
       "points": null,
@@ -50309,11 +50422,8 @@
     {
       "id": "773",
       "name": "Silvally",
-      "aliases": ["Silvally-Bug","Silvally-Dark","Silvally-Dragon","Silvally-Electric","Silvally-Fairy","Silvally-Fighting","Silvally-Fire","Silvally-Flying","Silvally-Ghost","Silvally-Grass","Silvally-Ground","Silvally-Ice","Silvally-Poison","Silvally-Psychic","Silvally-Rock","Silvally-Steel","Silvally-Water"],
-      "type1": "Normal",
+      "type1": "RKS",
       "type2": null,
-      "points": null,
-      "legal": false,
       "abilities": [
         "RKS System"
       ],
@@ -50326,13 +50436,35 @@
         "spe": 95,
         "bst": 570
       },
+      "legal": false,
       "moves": [],
-      "fullLearnset": []
+      "fullLearnset": [],
+      "aliases": [
+        "Silvally-Bug",
+        "Silvally-Dark",
+        "Silvally-Dragon",
+        "Silvally-Electric",
+        "Silvally-Fairy",
+        "Silvally-Fighting",
+        "Silvally-Fire",
+        "Silvally-Flying",
+        "Silvally-Ghost",
+        "Silvally-Grass",
+        "Silvally-Ground",
+        "Silvally-Ice",
+        "Silvally-Poison",
+        "Silvally-Psychic",
+        "Silvally-Rock",
+        "Silvally-Steel",
+        "Silvally-Water"
+      ]
     },
     {
       "id": "774",
       "name": "Minior",
-      "aliases": ["Minior-Meteor"],
+      "aliases": [
+        "Minior-Meteor"
+      ],
       "type1": "Rock",
       "type2": "Flying",
       "points": 10,
@@ -50406,7 +50538,14 @@
       ],
       "altForm": {
         "name": "Minior-Core",
-        "aliases": ["Minior-Orange","Minior-Yellow","Minior-Green","Minior-Blue","Minior-Indigo","Minior-Violet"],
+        "aliases": [
+          "Minior-Orange",
+          "Minior-Yellow",
+          "Minior-Green",
+          "Minior-Blue",
+          "Minior-Indigo",
+          "Minior-Violet"
+        ],
         "type1": "Rock",
         "type2": "Flying",
         "stats": {
@@ -50556,7 +50695,9 @@
     {
       "id": "778",
       "name": "Mimikyu",
-      "aliases": ["Mimikyu-Busted"],
+      "aliases": [
+        "Mimikyu-Busted"
+      ],
       "type1": "Ghost",
       "type2": "Fairy",
       "points": 45,
@@ -51699,7 +51840,9 @@
     {
       "id": "801",
       "name": "Magearna",
-      "aliases": ["Magearna-Original"],
+      "aliases": [
+        "Magearna-Original"
+      ],
       "type1": "Steel",
       "type2": "Fairy",
       "points": null,
@@ -54022,7 +54165,10 @@
     {
       "id": "845",
       "name": "Cramorant",
-      "aliases": ["Cramorant-Gulping","Cramorant-Gorging"],
+      "aliases": [
+        "Cramorant-Gulping",
+        "Cramorant-Gorging"
+      ],
       "type1": "Flying",
       "type2": "Water",
       "points": 10,
@@ -54596,7 +54742,9 @@
     {
       "id": "854",
       "name": "Sinistea",
-      "aliases": ["Sinistea-Antique"],
+      "aliases": [
+        "Sinistea-Antique"
+      ],
       "type1": "Ghost",
       "type2": null,
       "points": 5,
@@ -54667,7 +54815,9 @@
     {
       "id": "855",
       "name": "Polteageist",
-      "aliases": ["Polteageist-Antique"],
+      "aliases": [
+        "Polteageist-Antique"
+      ],
       "type1": "Ghost",
       "type2": null,
       "points": 15,
@@ -55490,7 +55640,15 @@
     {
       "id": "869",
       "name": "Alcremie",
-      "aliases": ["Alcremie-Ruby-Cream","Alcremie-Matcha-Cream","Alcremie-Mint-Cream","Alcremie-Lemon-Cream","Alcremie-Ruby-Swirl","Alcremie-Caramel-Swirl","Alcremie-Rainbow-Swirl"],
+      "aliases": [
+        "Alcremie-Ruby-Cream",
+        "Alcremie-Matcha-Cream",
+        "Alcremie-Mint-Cream",
+        "Alcremie-Lemon-Cream",
+        "Alcremie-Ruby-Swirl",
+        "Alcremie-Caramel-Swirl",
+        "Alcremie-Rainbow-Swirl"
+      ],
       "type1": "Fairy",
       "type2": null,
       "points": 15,
@@ -61886,7 +62044,9 @@
     {
       "id": "982",
       "name": "Dudunsparce",
-      "aliases": ["Dudunsparce-Three-Segment"],
+      "aliases": [
+        "Dudunsparce-Three-Segment"
+      ],
       "type1": "Normal",
       "type2": null,
       "points": 15,
@@ -64240,7 +64400,9 @@
     {
       "id": "925",
       "name": "Maushold",
-      "aliases": ["Maushold-Four"],
+      "aliases": [
+        "Maushold-Four"
+      ],
       "type1": "Normal",
       "type2": null,
       "points": 60,
@@ -64684,7 +64846,10 @@
     {
       "id": "978",
       "name": "Tatsugiri",
-      "aliases": ["Tatsugiri-Droopy","Tatsugiri-Stretchy"],
+      "aliases": [
+        "Tatsugiri-Droopy",
+        "Tatsugiri-Stretchy"
+      ],
       "type1": "Dragon",
       "type2": "Water",
       "points": 25,
@@ -65347,7 +65512,11 @@
     {
       "id": "931",
       "name": "Squawkabilly",
-      "aliases": ["Squawkabilly-Blue","Squawkabilly-Yellow","Squawkabilly-White"],
+      "aliases": [
+        "Squawkabilly-Blue",
+        "Squawkabilly-Yellow",
+        "Squawkabilly-White"
+      ],
       "type1": "Normal",
       "type2": "Flying",
       "points": 15,
@@ -66559,7 +66728,9 @@
     {
       "id": "999",
       "name": "Gimmighoul",
-      "aliases": ["Gimmighoul-Roaming"],
+      "aliases": [
+        "Gimmighoul-Roaming"
+      ],
       "type1": "Ghost",
       "type2": null,
       "points": 5,
@@ -69409,8 +69580,6 @@
       "name": "Tauros-Paldea-Combat",
       "type1": "Fighting",
       "type2": null,
-      "points": 20,
-      "legal": true,
       "abilities": [
         "Intimidate",
         "Anger Point",
@@ -69425,6 +69594,7 @@
         "spe": 100,
         "bst": 490
       },
+      "legal": false,
       "moves": [
         "Bulldoze"
       ],
@@ -69486,8 +69656,6 @@
       "name": "Tauros-Paldea-Blaze",
       "type1": "Fighting",
       "type2": "Fire",
-      "points": 30,
-      "legal": true,
       "abilities": [
         "Intimidate",
         "Anger Point",
@@ -69502,6 +69670,7 @@
         "spe": 100,
         "bst": 490
       },
+      "legal": false,
       "moves": [
         "Bulldoze",
         "Will-O-Wisp"
@@ -69569,8 +69738,6 @@
       "name": "Tauros-Paldea-Aqua",
       "type1": "Fighting",
       "type2": "Water",
-      "points": 35,
-      "legal": true,
       "abilities": [
         "Intimidate",
         "Anger Point",
@@ -69585,6 +69752,7 @@
         "spe": 100,
         "bst": 490
       },
+      "legal": false,
       "moves": [
         "Aqua Jet",
         "Bulldoze"
@@ -69649,7 +69817,9 @@
     {
       "id": "893",
       "name": "Zarude",
-      "aliases": ["Zarude-Dada"],
+      "aliases": [
+        "Zarude-Dada"
+      ],
       "type1": "Grass",
       "type2": "Dark",
       "points": 40,
@@ -69982,7 +70152,9 @@
     {
       "id": "1012",
       "name": "Poltchageist",
-      "aliases": ["Poltchageist-Artisan"],
+      "aliases": [
+        "Poltchageist-Artisan"
+      ],
       "type1": "Grass",
       "type2": "Ghost",
       "points": 10,
@@ -70049,7 +70221,9 @@
     {
       "id": "1013",
       "name": "Sinistcha",
-      "aliases": ["Sinistcha-Masterpiece"],
+      "aliases": [
+        "Sinistcha-Masterpiece"
+      ],
       "type1": "Grass",
       "type2": "Ghost",
       "points": 50,
@@ -71040,11 +71214,9 @@
     },
     {
       "id": "1024-n",
-      "name": "Terapagos",
+      "name": "Terapagos-Normal",
       "type1": "Normal",
       "type2": null,
-      "points": null,
-      "legal": false,
       "abilities": [
         "Tera Shift"
       ],
@@ -71057,6 +71229,7 @@
         "spe": 60,
         "bst": 450
       },
+      "legal": false,
       "moves": [],
       "fullLearnset": [
         "ancientpower",
@@ -71578,6 +71751,7 @@
     {
       "id": "003-m",
       "name": "Mega Venusaur",
+      "baseForm": "003",
       "type1": "Grass",
       "type2": "Poison",
       "abilities": [
@@ -71928,6 +72102,7 @@
     {
       "id": "006-mx",
       "name": "Mega Charizard X",
+      "baseForm": "006",
       "type1": "Fire",
       "type2": "Dragon",
       "abilities": [
@@ -72024,6 +72199,7 @@
     {
       "id": "006-my",
       "name": "Mega Charizard Y",
+      "baseForm": "006",
       "type1": "Fire",
       "type2": "Flying",
       "abilities": [
@@ -72368,6 +72544,7 @@
     {
       "id": "009-m",
       "name": "Mega Blastoise",
+      "baseForm": "009",
       "type1": "Water",
       "type2": null,
       "abilities": [
@@ -72586,6 +72763,7 @@
     {
       "id": "015-m",
       "name": "Mega Beedrill",
+      "baseForm": "015",
       "type1": "Bug",
       "type2": "Poison",
       "abilities": [
@@ -72676,6 +72854,7 @@
     {
       "id": "018-m",
       "name": "Mega Pidgeot",
+      "baseForm": "018",
       "type1": "Normal",
       "type2": "Flying",
       "abilities": [
@@ -76725,6 +76904,7 @@
     {
       "id": "065-m",
       "name": "Mega Alakazam",
+      "baseForm": "065",
       "type1": "Psychic",
       "type2": null,
       "abilities": [
@@ -77971,6 +78151,7 @@
     {
       "id": "080-m",
       "name": "Mega Slowbro",
+      "baseForm": "080",
       "type1": "Water",
       "type2": "Psychic",
       "abilities": [
@@ -79417,6 +79598,7 @@
     {
       "id": "094-m",
       "name": "Mega Gengar",
+      "baseForm": "094",
       "type1": "Ghost",
       "type2": "Poison",
       "abilities": [
@@ -80266,7 +80448,14 @@
     {
       "id": "774-c",
       "name": "Minior-Core",
-      "aliases": ["Minior-Orange","Minior-Yellow","Minior-Green","Minior-Blue","Minior-Indigo","Minior-Violet"],
+      "aliases": [
+        "Minior-Orange",
+        "Minior-Yellow",
+        "Minior-Green",
+        "Minior-Blue",
+        "Minior-Indigo",
+        "Minior-Violet"
+      ],
       "type1": "Rock",
       "type2": "Flying",
       "abilities": [
@@ -80433,6 +80622,1016 @@
         "voltswitch",
         "wildcharge"
       ]
+    },
+    {
+      "id": "1024",
+      "name": "Terapagos",
+      "type1": "Normal",
+      "type2": null,
+      "abilities": [
+        "Tera Shell"
+      ],
+      "stats": {
+        "hp": 95,
+        "atk": 95,
+        "def": 110,
+        "spa": 105,
+        "spd": 110,
+        "spe": 85,
+        "bst": 600
+      },
+      "altForm": {
+        "name": "Terapagos-Stellar",
+        "type1": "Normal",
+        "type2": null,
+        "abilities": ["Teraform Zero"],
+        "stats": {
+          "hp": 160,
+          "atk": 105,
+          "def": 110,
+          "spa": 130,
+          "spd": 110,
+          "spe": 85,
+          "bst": 700
+        },
+        "spriteId": "1024-s"
+      },
+      "legal": false
+    },
+    {
+      "id": "483-o",
+      "name": "Dialga-Origin",
+      "type1": "Steel",
+      "type2": "Dragon",
+      "abilities": [
+        "Pressure",
+        "Telepathy"
+      ],
+      "stats": {
+        "hp": 100,
+        "atk": 100,
+        "def": 120,
+        "spa": 150,
+        "spd": 120,
+        "spe": 90,
+        "bst": 680
+      },
+      "legal": false
+    },
+    {
+      "id": "484-o",
+      "name": "Palkia-Origin",
+      "type1": "Water",
+      "type2": "Dragon",
+      "abilities": [
+        "Pressure",
+        "Telepathy"
+      ],
+      "stats": {
+        "hp": 90,
+        "atk": 100,
+        "def": 100,
+        "spa": 150,
+        "spd": 120,
+        "spe": 120,
+        "bst": 680
+      },
+      "legal": false
+    },
+    {
+      "id": "550-w",
+      "name": "Basculin-White-Striped",
+      "type1": "Water",
+      "type2": null,
+      "abilities": [
+        "Rattled",
+        "Adaptability",
+        "Mold Breaker"
+      ],
+      "stats": {
+        "hp": 70,
+        "atk": 92,
+        "def": 65,
+        "spa": 80,
+        "spd": 55,
+        "spe": 98,
+        "bst": 460
+      },
+      "legal": false
+    },
+    {
+      "id": "1024-t",
+      "name": "Terapagos-Terastal",
+      "type1": "Normal",
+      "type2": null,
+      "abilities": [
+        "Tera Shell"
+      ],
+      "stats": {
+        "hp": 95,
+        "atk": 95,
+        "def": 110,
+        "spa": 105,
+        "spd": 110,
+        "spe": 85,
+        "bst": 600
+      },
+      "legal": false
+    },
+    {
+      "id": "1024-s",
+      "name": "Terapagos-Stellar",
+      "type1": "Normal",
+      "type2": null,
+      "abilities": [
+        "Teraform Zero"
+      ],
+      "stats": {
+        "hp": 160,
+        "atk": 105,
+        "def": 110,
+        "spa": 130,
+        "spd": 110,
+        "spe": 85,
+        "bst": 700
+      },
+      "legal": false
+    },
+    {
+      "id": "026-mx",
+      "name": "Mega Raichu X",
+      "baseForm": "026",
+      "type1": "Electric",
+      "type2": null,
+      "abilities": [],
+      "stats": {
+        "hp": 60,
+        "atk": 135,
+        "def": 95,
+        "spa": 90,
+        "spd": 95,
+        "spe": 110,
+        "bst": 585
+      },
+      "legal": false
+    },
+    {
+      "id": "026-my",
+      "name": "Mega Raichu Y",
+      "baseForm": "026",
+      "type1": "Electric",
+      "type2": null,
+      "abilities": [],
+      "stats": {
+        "hp": 60,
+        "atk": 100,
+        "def": 55,
+        "spa": 160,
+        "spd": 80,
+        "spe": 130,
+        "bst": 585
+      },
+      "legal": false
+    },
+    {
+      "id": "036-m",
+      "name": "Mega Clefable",
+      "baseForm": "036",
+      "type1": "Fairy",
+      "type2": "Flying",
+      "abilities": [
+        "Magic Bounce"
+      ],
+      "stats": {
+        "hp": 95,
+        "atk": 80,
+        "def": 93,
+        "spa": 135,
+        "spd": 110,
+        "spe": 70,
+        "bst": 583
+      },
+      "legal": false
+    },
+    {
+      "id": "071-m",
+      "name": "Mega Victreebel",
+      "baseForm": "071",
+      "type1": "Grass",
+      "type2": "Poison",
+      "abilities": [
+        "Innards Out"
+      ],
+      "stats": {
+        "hp": 80,
+        "atk": 125,
+        "def": 85,
+        "spa": 135,
+        "spd": 95,
+        "spe": 70,
+        "bst": 590
+      },
+      "legal": false
+    },
+    {
+      "id": "121-m",
+      "name": "Mega Starmie",
+      "baseForm": "121",
+      "type1": "Water",
+      "type2": "Psychic",
+      "abilities": [
+        "Huge Power"
+      ],
+      "stats": {
+        "hp": 60,
+        "atk": 100,
+        "def": 105,
+        "spa": 130,
+        "spd": 105,
+        "spe": 120,
+        "bst": 620
+      },
+      "legal": false
+    },
+    {
+      "id": "149-m",
+      "name": "Mega Dragonite",
+      "baseForm": "149",
+      "type1": "Dragon",
+      "type2": "Flying",
+      "abilities": [
+        "Multiscale"
+      ],
+      "stats": {
+        "hp": 91,
+        "atk": 124,
+        "def": 115,
+        "spa": 145,
+        "spd": 125,
+        "spe": 100,
+        "bst": 700
+      },
+      "legal": false
+    },
+    {
+      "id": "154-m",
+      "name": "Mega Meganium",
+      "baseForm": "154",
+      "type1": "Grass",
+      "type2": "Fairy",
+      "abilities": [
+        "Mega Sol"
+      ],
+      "stats": {
+        "hp": 80,
+        "atk": 92,
+        "def": 115,
+        "spa": 143,
+        "spd": 115,
+        "spe": 80,
+        "bst": 625
+      },
+      "legal": false
+    },
+    {
+      "id": "160-m",
+      "name": "Mega Feraligatr",
+      "baseForm": "160",
+      "type1": "Water",
+      "type2": "Dragon",
+      "abilities": [
+        "Dragonize"
+      ],
+      "stats": {
+        "hp": 85,
+        "atk": 160,
+        "def": 125,
+        "spa": 89,
+        "spd": 93,
+        "spe": 78,
+        "bst": 630
+      },
+      "legal": false
+    },
+    {
+      "id": "227-m",
+      "name": "Mega Skarmory",
+      "baseForm": "227",
+      "type1": "Steel",
+      "type2": "Flying",
+      "abilities": [
+        "Stalwart"
+      ],
+      "stats": {
+        "hp": 65,
+        "atk": 140,
+        "def": 110,
+        "spa": 40,
+        "spd": 100,
+        "spe": 110,
+        "bst": 565
+      },
+      "legal": false
+    },
+    {
+      "id": "358-m",
+      "name": "Mega Chimecho",
+      "baseForm": "358",
+      "type1": "Psychic",
+      "type2": "Steel",
+      "abilities": [
+        "Levitate"
+      ],
+      "stats": {
+        "hp": 75,
+        "atk": 50,
+        "def": 110,
+        "spa": 135,
+        "spd": 120,
+        "spe": 65,
+        "bst": 555
+      },
+      "legal": false
+    },
+    {
+      "id": "359-mz",
+      "name": "Mega Absol Z",
+      "baseForm": "359",
+      "type1": "Dark",
+      "type2": "Ghost",
+      "abilities": [],
+      "stats": {
+        "hp": 65,
+        "atk": 154,
+        "def": 60,
+        "spa": 75,
+        "spd": 60,
+        "spe": 151,
+        "bst": 565
+      },
+      "legal": false
+    },
+    {
+      "id": "398-m",
+      "name": "Mega Staraptor",
+      "baseForm": "398",
+      "type1": "Fighting",
+      "type2": "Flying",
+      "abilities": [],
+      "stats": {
+        "hp": 85,
+        "atk": 140,
+        "def": 100,
+        "spa": 60,
+        "spd": 90,
+        "spe": 110,
+        "bst": 585
+      },
+      "legal": false
+    },
+    {
+      "id": "445-mz",
+      "name": "Mega Garchomp Z",
+      "baseForm": "445",
+      "type1": "Dragon",
+      "type2": null,
+      "abilities": [],
+      "stats": {
+        "hp": 108,
+        "atk": 130,
+        "def": 85,
+        "spa": 141,
+        "spd": 85,
+        "spe": 151,
+        "bst": 700
+      },
+      "legal": false
+    },
+    {
+      "id": "448-mz",
+      "name": "Mega Lucario Z",
+      "baseForm": "448",
+      "type1": "Fighting",
+      "type2": "Steel",
+      "abilities": [],
+      "stats": {
+        "hp": 70,
+        "atk": 100,
+        "def": 70,
+        "spa": 164,
+        "spd": 70,
+        "spe": 151,
+        "bst": 625
+      },
+      "legal": false
+    },
+    {
+      "id": "478-m",
+      "name": "Mega Froslass",
+      "baseForm": "478",
+      "type1": "Ice",
+      "type2": "Ghost",
+      "abilities": [
+        "Snow Warning"
+      ],
+      "stats": {
+        "hp": 70,
+        "atk": 80,
+        "def": 70,
+        "spa": 140,
+        "spd": 100,
+        "spe": 120,
+        "bst": 580
+      },
+      "legal": false
+    },
+    {
+      "id": "485-m",
+      "name": "Mega Heatran",
+      "baseForm": "485",
+      "type1": "Fire",
+      "type2": "Steel",
+      "abilities": [],
+      "stats": {
+        "hp": 91,
+        "atk": 120,
+        "def": 106,
+        "spa": 175,
+        "spd": 141,
+        "spe": 67,
+        "bst": 700
+      },
+      "legal": false
+    },
+    {
+      "id": "491-m",
+      "name": "Mega Darkrai",
+      "baseForm": "491",
+      "type1": "Dark",
+      "type2": null,
+      "abilities": [],
+      "stats": {
+        "hp": 70,
+        "atk": 120,
+        "def": 130,
+        "spa": 165,
+        "spd": 130,
+        "spe": 85,
+        "bst": 700
+      },
+      "legal": false
+    },
+    {
+      "id": "500-m",
+      "name": "Mega Emboar",
+      "baseForm": "500",
+      "type1": "Fire",
+      "type2": "Fighting",
+      "abilities": [
+        "Mold Breaker"
+      ],
+      "stats": {
+        "hp": 110,
+        "atk": 148,
+        "def": 75,
+        "spa": 110,
+        "spd": 110,
+        "spe": 75,
+        "bst": 628
+      },
+      "legal": false
+    },
+    {
+      "id": "530-m",
+      "name": "Mega Excadrill",
+      "baseForm": "530",
+      "type1": "Ground",
+      "type2": "Steel",
+      "abilities": [
+        "Piercing Drill"
+      ],
+      "stats": {
+        "hp": 110,
+        "atk": 165,
+        "def": 100,
+        "spa": 65,
+        "spd": 65,
+        "spe": 103,
+        "bst": 608
+      },
+      "legal": false
+    },
+    {
+      "id": "545-m",
+      "name": "Mega Scolipede",
+      "baseForm": "545",
+      "type1": "Bug",
+      "type2": "Poison",
+      "abilities": [],
+      "stats": {
+        "hp": 60,
+        "atk": 140,
+        "def": 149,
+        "spa": 75,
+        "spd": 99,
+        "spe": 62,
+        "bst": 585
+      },
+      "legal": false
+    },
+    {
+      "id": "560-m",
+      "name": "Mega Scrafty",
+      "baseForm": "560",
+      "type1": "Dark",
+      "type2": "Fighting",
+      "abilities": [],
+      "stats": {
+        "hp": 65,
+        "atk": 130,
+        "def": 135,
+        "spa": 55,
+        "spd": 135,
+        "spe": 68,
+        "bst": 588
+      },
+      "legal": false
+    },
+    {
+      "id": "604-m",
+      "name": "Mega Eelektross",
+      "baseForm": "604",
+      "type1": "Electric",
+      "type2": null,
+      "abilities": [],
+      "stats": {
+        "hp": 85,
+        "atk": 145,
+        "def": 80,
+        "spa": 135,
+        "spd": 90,
+        "spe": 80,
+        "bst": 615
+      },
+      "legal": false
+    },
+    {
+      "id": "609-m",
+      "name": "Mega Chandelure",
+      "baseForm": "609",
+      "type1": "Ghost",
+      "type2": "Fire",
+      "abilities": [
+        "Infiltrator"
+      ],
+      "stats": {
+        "hp": 60,
+        "atk": 75,
+        "def": 110,
+        "spa": 175,
+        "spd": 110,
+        "spe": 90,
+        "bst": 620
+      },
+      "legal": false
+    },
+    {
+      "id": "623-m",
+      "name": "Mega Golurk",
+      "baseForm": "623",
+      "type1": "Ground",
+      "type2": "Ghost",
+      "abilities": [
+        "Unseen Fist"
+      ],
+      "stats": {
+        "hp": 89,
+        "atk": 159,
+        "def": 105,
+        "spa": 70,
+        "spd": 105,
+        "spe": 55,
+        "bst": 583
+      },
+      "legal": false
+    },
+    {
+      "id": "652-m",
+      "name": "Mega Chesnaught",
+      "baseForm": "652",
+      "type1": "Grass",
+      "type2": "Fighting",
+      "abilities": [
+        "Bulletproof"
+      ],
+      "stats": {
+        "hp": 88,
+        "atk": 137,
+        "def": 172,
+        "spa": 74,
+        "spd": 115,
+        "spe": 44,
+        "bst": 630
+      },
+      "legal": false
+    },
+    {
+      "id": "655-m",
+      "name": "Mega Delphox",
+      "baseForm": "655",
+      "type1": "Fire",
+      "type2": "Psychic",
+      "abilities": [
+        "Levitate"
+      ],
+      "stats": {
+        "hp": 75,
+        "atk": 69,
+        "def": 72,
+        "spa": 159,
+        "spd": 125,
+        "spe": 134,
+        "bst": 634
+      },
+      "legal": false
+    },
+    {
+      "id": "658-m",
+      "name": "Mega Greninja",
+      "baseForm": "658",
+      "type1": "Water",
+      "type2": "Dark",
+      "abilities": [
+        "Protean"
+      ],
+      "stats": {
+        "hp": 72,
+        "atk": 125,
+        "def": 77,
+        "spa": 133,
+        "spd": 81,
+        "spe": 142,
+        "bst": 630
+      },
+      "legal": false
+    },
+    {
+      "id": "668-m",
+      "name": "Mega Pyroar",
+      "baseForm": "668",
+      "type1": "Fire",
+      "type2": "Normal",
+      "abilities": [],
+      "stats": {
+        "hp": 86,
+        "atk": 88,
+        "def": 92,
+        "spa": 129,
+        "spd": 86,
+        "spe": 126,
+        "bst": 607
+      },
+      "legal": false
+    },
+    {
+      "id": "670-m",
+      "name": "Mega Floette",
+      "baseForm": "670",
+      "type1": "Fairy",
+      "type2": null,
+      "abilities": [
+        "Fairy Aura"
+      ],
+      "stats": {
+        "hp": 74,
+        "atk": 85,
+        "def": 87,
+        "spa": 155,
+        "spd": 148,
+        "spe": 102,
+        "bst": 651
+      },
+      "legal": false
+    },
+    {
+      "id": "678-m",
+      "name": "Mega Meowstic-M",
+      "baseForm": "678",
+      "type1": "Psychic",
+      "type2": null,
+      "abilities": [
+        "Trace"
+      ],
+      "stats": {
+        "hp": 74,
+        "atk": 48,
+        "def": 76,
+        "spa": 143,
+        "spd": 101,
+        "spe": 124,
+        "bst": 566
+      },
+      "legal": false
+    },
+    {
+      "id": "678-mf",
+      "name": "Mega Meowstic-F",
+      "baseForm": "678-f",
+      "type1": "Psychic",
+      "type2": null,
+      "abilities": [
+        "Trace"
+      ],
+      "stats": {
+        "hp": 74,
+        "atk": 48,
+        "def": 76,
+        "spa": 143,
+        "spd": 101,
+        "spe": 124,
+        "bst": 566
+      },
+      "legal": false
+    },
+    {
+      "id": "687-m",
+      "name": "Mega Malamar",
+      "baseForm": "687",
+      "type1": "Dark",
+      "type2": "Psychic",
+      "abilities": [],
+      "stats": {
+        "hp": 86,
+        "atk": 102,
+        "def": 88,
+        "spa": 98,
+        "spd": 120,
+        "spe": 88,
+        "bst": 582
+      },
+      "legal": false
+    },
+    {
+      "id": "689-m",
+      "name": "Mega Barbaracle",
+      "baseForm": "689",
+      "type1": "Rock",
+      "type2": "Fighting",
+      "abilities": [],
+      "stats": {
+        "hp": 72,
+        "atk": 140,
+        "def": 130,
+        "spa": 64,
+        "spd": 106,
+        "spe": 88,
+        "bst": 600
+      },
+      "legal": false
+    },
+    {
+      "id": "691-m",
+      "name": "Mega Dragalge",
+      "baseForm": "691",
+      "type1": "Poison",
+      "type2": "Dragon",
+      "abilities": [],
+      "stats": {
+        "hp": 65,
+        "atk": 85,
+        "def": 105,
+        "spa": 132,
+        "spd": 163,
+        "spe": 44,
+        "bst": 594
+      },
+      "legal": false
+    },
+    {
+      "id": "701-m",
+      "name": "Mega Hawlucha",
+      "baseForm": "701",
+      "type1": "Fighting",
+      "type2": "Flying",
+      "abilities": [
+        "No Guard"
+      ],
+      "stats": {
+        "hp": 78,
+        "atk": 137,
+        "def": 100,
+        "spa": 74,
+        "spd": 93,
+        "spe": 118,
+        "bst": 600
+      },
+      "legal": false
+    },
+    {
+      "id": "718-m",
+      "name": "Mega Zygarde",
+      "baseForm": "718",
+      "type1": "Dragon",
+      "type2": "Ground",
+      "abilities": [],
+      "stats": {
+        "hp": 216,
+        "atk": 70,
+        "def": 91,
+        "spa": 216,
+        "spd": 85,
+        "spe": 100,
+        "bst": 778
+      },
+      "legal": false
+    },
+    {
+      "id": "740-m",
+      "name": "Mega Crabominable",
+      "baseForm": "740",
+      "type1": "Fighting",
+      "type2": "Ice",
+      "abilities": [
+        "Iron Fist"
+      ],
+      "stats": {
+        "hp": 97,
+        "atk": 157,
+        "def": 122,
+        "spa": 62,
+        "spd": 107,
+        "spe": 33,
+        "bst": 578
+      },
+      "legal": false
+    },
+    {
+      "id": "768-m",
+      "name": "Mega Golisopod",
+      "baseForm": "768",
+      "type1": "Bug",
+      "type2": "Steel",
+      "abilities": [],
+      "stats": {
+        "hp": 75,
+        "atk": 150,
+        "def": 175,
+        "spa": 70,
+        "spd": 120,
+        "spe": 40,
+        "bst": 630
+      },
+      "legal": false
+    },
+    {
+      "id": "780-m",
+      "name": "Mega Drampa",
+      "baseForm": "780",
+      "type1": "Normal",
+      "type2": "Dragon",
+      "abilities": [
+        "Berserk"
+      ],
+      "stats": {
+        "hp": 78,
+        "atk": 85,
+        "def": 110,
+        "spa": 160,
+        "spd": 116,
+        "spe": 36,
+        "bst": 585
+      },
+      "legal": false
+    },
+    {
+      "id": "801-m",
+      "name": "Mega Magearna",
+      "baseForm": "801",
+      "type1": "Steel",
+      "type2": "Fairy",
+      "abilities": [],
+      "stats": {
+        "hp": 80,
+        "atk": 125,
+        "def": 115,
+        "spa": 170,
+        "spd": 115,
+        "spe": 95,
+        "bst": 700
+      },
+      "legal": false
+    },
+    {
+      "id": "807-m",
+      "name": "Mega Zeraora",
+      "baseForm": "807",
+      "type1": "Electric",
+      "type2": null,
+      "abilities": [],
+      "stats": {
+        "hp": 88,
+        "atk": 157,
+        "def": 75,
+        "spa": 147,
+        "spd": 80,
+        "spe": 153,
+        "bst": 700
+      },
+      "legal": false
+    },
+    {
+      "id": "870-m",
+      "name": "Mega Falinks",
+      "baseForm": "870",
+      "type1": "Fighting",
+      "type2": null,
+      "abilities": [],
+      "stats": {
+        "hp": 65,
+        "atk": 135,
+        "def": 135,
+        "spa": 70,
+        "spd": 65,
+        "spe": 100,
+        "bst": 570
+      },
+      "legal": false
+    },
+    {
+      "id": "952-m",
+      "name": "Mega Scovillain",
+      "baseForm": "952",
+      "type1": "Grass",
+      "type2": "Fire",
+      "abilities": [
+        "Spicy Spray"
+      ],
+      "stats": {
+        "hp": 65,
+        "atk": 138,
+        "def": 85,
+        "spa": 138,
+        "spd": 85,
+        "spe": 75,
+        "bst": 586
+      },
+      "legal": false
+    },
+    {
+      "id": "970-m",
+      "name": "Mega Glimmora",
+      "baseForm": "970",
+      "type1": "Rock",
+      "type2": "Poison",
+      "abilities": [
+        "Adaptability"
+      ],
+      "stats": {
+        "hp": 83,
+        "atk": 90,
+        "def": 105,
+        "spa": 150,
+        "spd": 96,
+        "spe": 101,
+        "bst": 625
+      },
+      "legal": false
+    },
+    {
+      "id": "978-m",
+      "name": "Mega Tatsugiri",
+      "baseForm": "978",
+      "type1": "Dragon",
+      "type2": "Water",
+      "abilities": [],
+      "stats": {
+        "hp": 68,
+        "atk": 65,
+        "def": 90,
+        "spa": 135,
+        "spd": 125,
+        "spe": 92,
+        "bst": 575
+      },
+      "legal": false
+    },
+    {
+      "id": "998-m",
+      "name": "Mega Baxcalibur",
+      "baseForm": "998",
+      "type1": "Dragon",
+      "type2": "Ice",
+      "abilities": [],
+      "stats": {
+        "hp": 115,
+        "atk": 175,
+        "def": 117,
+        "spa": 105,
+        "spd": 101,
+        "spe": 87,
+        "bst": 700
+      },
+      "legal": false
     }
   ]
 }

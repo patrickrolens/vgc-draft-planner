@@ -480,6 +480,7 @@ function saveSession(){
     const state = {
       team: team.map(m => m ? {id: m.id, pasteData: m.pasteData||null} : null),
       altFormActive: [...altFormActive],
+      megaBaseActive: [...megaBaseActive],
       expanded: [...expanded],
     };
     localStorage.setItem(LS_SESSION, JSON.stringify(state));
@@ -492,6 +493,7 @@ function restoreSession(){
     if(!raw) return;
     const state = JSON.parse(raw);
     if(state.altFormActive) state.altFormActive.forEach(id => altFormActive.add(id));
+    if(state.megaBaseActive) state.megaBaseActive.forEach(id => megaBaseActive.add(id));
     if(state.expanded) state.expanded.forEach(i => expanded.add(i));
     if(state.team){
       state.team.forEach(function(entry, i){
@@ -597,6 +599,7 @@ function doSave(name){
     savedAt: new Date().toLocaleDateString(),
     slots: team.map(m => m ? {id: m.id, pasteData: m.pasteData||null} : null),
     altFormActive: [...altFormActive],
+    megaBaseActive: [...megaBaseActive],
   };
   if(idx >= 0) teams.splice(idx, 1);  // remove from current position
   teams.push(entry);                   // always add at end (= top of reversed display)
@@ -617,7 +620,9 @@ function loadTeam(i){
   slotHistory = new Array(TS).fill(null);
   expanded.clear();
   altFormActive.clear();
+  megaBaseActive.clear();
   if(entry.altFormActive) entry.altFormActive.forEach(id => altFormActive.add(id));
+  if(entry.megaBaseActive) entry.megaBaseActive.forEach(id => megaBaseActive.add(id));
   entry.slots.forEach(function(slot, idx){
     if(!slot) return;
     const mon = POKEMON_DATA.find(p => p.id === slot.id);
@@ -1041,7 +1046,12 @@ function drawRadar(canvas,mon,size){
 
 // Returns a display copy of mon with altForm overrides applied if active
 function getDisplayMon(mon){
-  if(!mon || !mon.altForm || !altFormActive.has(mon.id)) return mon;
+  if(!mon) return mon;
+  if(mon.baseForm && megaBaseActive.has(mon.id)){
+    const base = POKEMON_DATA.find(p => p.id === mon.baseForm);
+    if(base) return Object.assign({}, base, {id: mon.id}); // keep slot identity
+  }
+  if(!mon.altForm || !altFormActive.has(mon.id)) return mon;
   return Object.assign({}, mon, {
     name: mon.altForm.name,
     type1: mon.altForm.type1,
@@ -1051,10 +1061,22 @@ function getDisplayMon(mon){
   });
 }
 
+// user can toggle between base and alt forms like Palafin -> Palafin-Hero
 function toggleAltForm(id){
   if(altFormActive.has(id)) altFormActive.delete(id);
   else altFormActive.add(id);
   renderTeam();
+  renderSidebar();
+  renderIdx();
+  saveSession();
+}
+
+// same as toggleAltForm but for Mega
+function toggleMegaBase(id){
+  if(megaBaseActive.has(id)) megaBaseActive.delete(id);
+  else megaBaseActive.add(id);
+  renderTeam();
+  renderSidebar();
   renderIdx();
   saveSession();
 }
@@ -1076,6 +1098,7 @@ let team=new Array(TS).fill(null);
 let expanded=new Set();
 let altFormActive=new Set(); // tracks Pokémon IDs currently showing their alt form
 let altFormIds=new Set();   // IDs that are alt forms — excluded from Draft Builder search
+let megaBaseActive = new Set(); // Handles Megas/Primals. This lets you toggle from Mega to Base from a selected Mega but not from Base to Mega if the original selection was Base
 let slotHistory=new Array(TS).fill(null); // last removed mon per slot, for undo
 let srResults=[];
 
@@ -1149,6 +1172,8 @@ function renderTeam(){
       const disp=getDisplayMon(mon);
       const hasAlt=!!(mon.altForm);
       const altActive=altFormActive.has(mon.id);
+      const hasMegaBase=!!(mon.baseForm);
+      const megaBaseShowing = megaBaseActive.has(mon.id);
       d.className="draft-slot"+(mon&&!mon.legal&&!exp?" illegal-slot":"");
       const moves=(mon.moves||[]).slice(0,8).map(m=>`<span class="move-tag">${m}</span>`).join("");
       const abilities=(mon.abilities||[]).map(a=>`<span class="ability-tag">${a}</span>`).join("");
@@ -1171,9 +1196,11 @@ function renderTeam(){
         return '<span class="stat-num">'+BAR_SL[j]+' <span>'+disp.stats[k]+'</span></span>';
       }).join("");
 
-      const changeFormBtn=hasAlt
-        ?`<button class="slot-alt-form-btn${altActive?' active':''}" onclick="toggleAltForm('${mon.id}')" title="${altActive?'Switch to base form':'Switch to '+mon.altForm.name}">${altActive?'◀ Base':'▶ Alt'}</button>`
-        :`<div class="slot-alt-form-placeholder"></div>`;
+      const changeFormBtn = hasMegaBase
+      ? `<button class="slot-alt-form-btn${megaBaseShowing?' active':''}" onclick="toggleMegaBase('${mon.id}')" title="${megaBaseShowing?'Switch to Mega form':'Switch to base form'}">${megaBaseShowing?'▶ Mega':'◀ Base'}</button>`
+      : hasAlt
+        ? `<button class="slot-alt-form-btn${altActive?' active':''}" onclick="toggleAltForm('${mon.id}')" title="${altActive?'Switch to base form':'Switch to '+mon.altForm.name}">${altActive?'◀ Base':'▶ Alt'}</button>`
+        : `<div class="slot-alt-form-placeholder"></div>`;
 
       d.setAttribute('draggable','true');
       d.dataset.slotIdx=i;
