@@ -689,9 +689,8 @@ function teamToPaste(){
     const disp = getDisplayMon(mon);
     const pd = mon.pasteData || {};
     // Use preserved alias name if the mon was imported as something like "Sinistcha-Masterpiece"
-    const speciesName = (pd.importedAs && _nameLookup && _nameLookup[normalize(pd.importedAs)] 
-      && (_nameLookup[normalize(pd.importedAs)] === mon || _nameLookup[normalize(pd.importedAs)].base === mon || _nameLookup[normalize(pd.importedAs)] === mon.base))
-      ? pd.importedAs : disp.name;
+    const speciesName = (pd.importedAs && _nameLookup && _nameLookup[normalize(pd.importedAs)])
+    ? pd.importedAs : disp.name;
     const lines = [];
     // First line: Nickname (Species) (Gender) @ Item
     let firstLine = '';
