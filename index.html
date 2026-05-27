@@ -1574,7 +1574,7 @@ function renderSpeedTiers(){
     inT.forEach(function(m){
       icons+='<img src="'+iconUrl(m)+'" title="'+m.name+' ('+m.stats.spe+')" '
         +'style="width:24px;height:24px;image-rendering:pixelated;flex-shrink:0" '
-        +'onerror="this.style.opacity=0.2">';
+        +'onerror="this.onerror=function(){this.onerror=null;this.src=POKEBALL_FALLBACK;this.style.opacity=0.5;};this.src=\''+spriteUrl(m)+'\';">';
     });
     const rowStyle=inT.length
       ?"background:"+t.col+"22;border-left:3px solid "+t.col
@@ -1599,7 +1599,7 @@ function renderUtility(){
         const disp=getDisplayMon(m);
         icons+='<img src="'+iconUrl(disp)+'" title="'+disp.name+'" '
           +'style="width:22px;height:22px;image-rendering:pixelated;flex-shrink:0" '
-          +'onerror="this.style.opacity=0.2">';
+          +'onerror="this.onerror=function(){this.onerror=null;this.src=POKEBALL_FALLBACK;this.style.opacity=0.5;};this.src=\''+spriteUrl(m)+'\';">';
       });
       const mnCls=hav.length?"util-mn":"util-mn util-mn-none";
       rows+='<div class="util-row">'
