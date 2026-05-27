@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tier Editor</title>
+<style>
+:root {
+  --bg:#0f1117; --bg2:#1a1d27; --bg3:#22263a; --border:#2e3248;
+  --text:#e8eaf6; --text2:#9095b8; --text3:#5a5f80;
+  --accent:#7c6ff7; --red:#e05555; --green:#4caf7d; --yellow:#f0c060;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 13px; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── NAV ── */
+nav {
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 1rem;
+  position: sticky; top: 0; z-index: 100;
+}
+.nav-logo {
+  font-size: 15px; font-weight: 700; color: var(--accent);
+  padding: 14px 16px 14px 0; margin-right: 8px;
+  border-right: 1px solid var(--border); white-space: nowrap;
+}
+
+/* ── TOOLBAR ── */
+.toolbar {
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  padding: 10px 16px; display: flex; align-items: center;
+  gap: 10px; flex-wrap: wrap; position: sticky; top: 49px; z-index: 90;
+}
+.toolbar-search {
+  position: relative; flex: 1; min-width: 180px; max-width: 320px;
+}
+.toolbar-search input {
+  width: 100%; background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 6px; padding: 7px 32px 7px 32px;
+  color: var(--text); font-size: 13px; outline: none;
+}
+.toolbar-search input:focus { border-color: var(--accent); }
+.toolbar-search input::placeholder { color: var(--text3); }
+.toolbar-search .si { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text3); pointer-events: none; }
+.toolbar-search .sc { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text3); cursor: pointer; font-size: 14px; padding: 0; line-height: 1; display: none; }
+.toolbar-search .sc.visible { display: block; }
+.toolbar-search .sc:hover { color: var(--text); }
+
+.tbtn {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text2); cursor: pointer; font-size: 12px; font-weight: 600;
+  padding: 6px 13px; white-space: nowrap; transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.tbtn:hover { color: var(--text); border-color: var(--accent); }
+.tbtn.accent { border-color: rgba(124,111,247,0.5); color: var(--accent); }
+.tbtn.accent:hover { background: rgba(124,111,247,0.1); }
+.tbtn.green-btn { border-color: rgba(76,175,125,0.5); color: var(--green); }
+.tbtn.green-btn:hover { background: rgba(76,175,125,0.1); }
+.tbtn.active { background: rgba(124,111,247,0.15); border-color: var(--accent); color: var(--accent); }
+
+.toolbar-sep { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; }
+.toolbar-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+
+/* ── MAIN ── */
+.main { padding: 16px; max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; gap: 6px; }
+
+/* ── TIER LANE ── */
+.tier-lane {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden; transition: border-color 0.15s;
+}
+.tier-lane.drag-target { border-color: var(--accent); background: rgba(124,111,247,0.04); }
+.tier-lane.illegal-lane { border-color: rgba(224,85,85,0.25); }
+.tier-lane.zero-lane { border-color: rgba(90,83,102,0.4); }
+.tier-lane.hidden-lane { display: none; }
+
+.tier-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; border-bottom: 1px solid var(--border);
+  cursor: pointer; user-select: none;
+}
+.tier-header:hover { background: rgba(255,255,255,0.02); }
+
+.tier-pts {
+  font-size: 20px; font-weight: 700; color: var(--accent); min-width: 40px;
+}
+.tier-pts.illegal-pts { color: var(--red); font-size: 14px; font-weight: 700; letter-spacing: 0.5px; }
+.tier-pts.zero-pts { color: var(--text3); }
+
+.tier-label { font-size: 11px; color: var(--text3); font-weight: 600; }
+.tier-count { font-size: 12px; color: var(--text3); margin-left: 6px; }
+.tier-collapse-icon { font-size: 11px; color: var(--text3); margin-left: 4px; }
+.tier-spacer { flex: 1; }
+
+.tier-delete-wrap { display: flex; align-items: center; gap: 6px; }
+.tier-delete-btn {
+  background: none; border: none; color: var(--text3); cursor: pointer;
+  font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px;
+  border: 1px solid transparent; transition: all 0.15s; white-space: nowrap;
+}
+.tier-delete-btn:hover { color: var(--red); border-color: rgba(224,85,85,0.4); }
+.tier-delete-btn.confirming { color: var(--red); border-color: rgba(224,85,85,0.6); background: rgba(224,85,85,0.08); }
+.tier-delete-cancel {
+  background: none; border: 1px solid var(--border); border-radius: 4px;
+  color: var(--text3); cursor: pointer; font-size: 11px; font-weight: 600;
+  padding: 3px 8px; transition: all 0.15s;
+}
+.tier-delete-cancel:hover { color: var(--text); }
+
+.tier-body {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  padding: 10px 12px; min-height: 58px;
+  transition: min-height 0.15s;
+}
+.tier-body.collapsed { display: none; }
+.tier-body.empty-body { align-items: center; }
+.tier-empty-msg { font-size: 11px; color: var(--text3); font-style: italic; }
+.tier-drop-zone {
+  flex: 1; min-width: 60px; min-height: 38px;
+  border: 2px dashed transparent; border-radius: 6px;
+  transition: border-color 0.15s; pointer-events: none;
+}
+.tier-lane.drag-target .tier-drop-zone { border-color: rgba(124,111,247,0.4); pointer-events: auto; }
+
+/* ── POKEMON CARD ── */
+.pmon {
+  display: flex; flex-direction: column; align-items: center;
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 6px;
+  padding: 5px 5px 3px; width: 68px; cursor: grab; transition: border-color 0.15s, opacity 0.15s, box-shadow 0.15s;
+  position: relative; user-select: none;
+}
+.pmon:hover { border-color: var(--accent); }
+.pmon.dragging { opacity: 0.35; cursor: grabbing; }
+.pmon.search-dim { opacity: 0.18; }
+.pmon.search-match { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(124,111,247,0.4); }
+.pmon.illegal-card { border-color: rgba(224,85,85,0.2); }
+.pmon.illegal-card img { opacity: 0.4; filter: grayscale(70%); }
+.pmon img { width: 40px; height: 40px; image-rendering: pixelated; pointer-events: none; display: block; }
+.pmon-name { font-size: 9px; color: var(--text2); text-align: center; margin-top: 2px; line-height: 1.2; word-break: break-word; pointer-events: none; }
+
+/* ── MODALS ── */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000;
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+}
+.modal-overlay.hidden { display: none; }
+.modal-box {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+  padding: 20px; width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 14px;
+}
+.modal-title { font-size: 15px; font-weight: 700; color: var(--text); }
+.modal-sub { font-size: 12px; color: var(--text2); line-height: 1.5; }
+.modal-input {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text); padding: 8px 12px; font-size: 13px; width: 100%; outline: none;
+}
+.modal-input:focus { border-color: var(--accent); }
+.modal-input::placeholder { color: var(--text3); }
+.modal-textarea {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text); padding: 10px 12px; font-size: 12px; font-family: monospace;
+  width: 100%; min-height: 180px; resize: vertical; outline: none; line-height: 1.7;
+}
+.modal-textarea:focus { border-color: var(--accent); }
+.modal-textarea::placeholder { color: var(--text3); }
+.modal-btn-row { display: flex; gap: 8px; justify-content: flex-end; }
+.modal-btn {
+  padding: 7px 18px; border-radius: 6px; font-size: 13px; font-weight: 600;
+  cursor: pointer; border: 1px solid var(--border); background: var(--bg3); color: var(--text2);
+}
+.modal-btn:hover { color: var(--text); border-color: var(--accent); }
+.modal-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.modal-btn.primary:hover { opacity: 0.85; }
+.modal-btn.danger { border-color: rgba(224,85,85,0.5); color: var(--red); }
+.modal-btn.danger:hover { background: rgba(224,85,85,0.1); }
+
+.modal-field-row { display: flex; gap: 10px; align-items: center; }
+.modal-field-label { font-size: 12px; color: var(--text2); white-space: nowrap; flex-shrink: 0; }
+.modal-field-row .modal-input { flex: 1; }
+.modal-pts-input { width: 80px !important; flex: none !important; text-align: center; }
+
+/* ── TOAST ── */
+.toast-wrap { position: fixed; bottom: 20px; right: 20px; z-index: 3000; display: flex; flex-direction: column; gap: 6px; pointer-events: none; }
+.toast { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 9px 14px; font-size: 12px; color: var(--text); box-shadow: 0 4px 16px rgba(0,0,0,0.4); opacity: 0; transform: translateY(6px); transition: opacity 0.2s, transform 0.2s; }
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.ok { border-color: rgba(76,175,125,0.5); color: var(--green); }
+.toast.warn { border-color: rgba(240,192,96,0.5); color: var(--yellow); }
+.toast.err { border-color: rgba(224,85,85,0.5); color: var(--red); }
+
+/* ── UNASSIGNED BANNER ── */
+.unassigned-banner {
+  background: rgba(240,192,96,0.08); border: 1px solid rgba(240,192,96,0.3);
+  border-radius: 8px; padding: 10px 14px; font-size: 12px; color: var(--yellow);
+  display: none; align-items: center; gap: 8px;
+}
+.unassigned-banner.visible { display: flex; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">🏆 Tier Editor</div>
+</nav>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-search">
+    <span class="si">🔍</span>
+    <input type="text" id="search-input" placeholder="Search Pokémon…" oninput="onSearch()" onkeydown="if(event.key==='Escape'){clearSearch();}">
+    <button class="sc" id="search-clear" onclick="clearSearch()">✕</button>
+  </div>
+
+  <button class="tbtn accent" onclick="openBulkModal()">＋ Bulk Add</button>
+  <button class="tbtn accent" onclick="openAddTierModal()">＋ Add Tier</button>
+
+  <div class="toolbar-sep"></div>
+
+  <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);cursor:pointer;white-space:nowrap;">
+    <input type="checkbox" id="toggle-zero-illegal" onchange="onToggleZeroIllegal()" style="accent-color:var(--accent)">
+    Treat 0 as Illegal
+  </label>
+
+  <div class="toolbar-right">
+    <button class="tbtn" id="legal-only-btn" onclick="onToggleLegalOnly()">Legal Only</button>
+    <button class="tbtn green-btn" onclick="exportCSV()">⬇ Export CSV</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="main">
+  <div class="unassigned-banner" id="unassigned-banner">
+    ⚠ Some Pokémon in the loaded data have point values outside the current tier set and appear below in an auto-created tier.
+  </div>
+  <div id="tiers-container"></div>
+</div>
+
+<!-- MODALS -->
+
+<!-- Bulk Add -->
+<div class="modal-overlay hidden" id="bulk-modal" onclick="if(event.target===this)closeBulkModal()">
+  <div class="modal-box" onclick="event.stopPropagation()" style="max-width:520px">
+    <div class="modal-title">Bulk Add Pokémon</div>
+    <div class="modal-sub">
+      Enter one Pokémon per line. Optionally add a point value after the name (e.g. <code style="color:var(--accent)">Garchomp 10</code>).
+      Lines without an inline value use the default points below.
+      If the target tier doesn't exist yet it will be created automatically.
+    </div>
+    <textarea class="modal-textarea" id="bulk-textarea" placeholder="Garchomp&#10;Dragapult 15&#10;Flutter Mane 20&#10;…" spellcheck="false"></textarea>
+    <div class="modal-field-row">
+      <span class="modal-field-label">Default points:</span>
+      <input class="modal-input modal-pts-input" type="number" id="bulk-default-pts" value="0" min="0" max="999">
+    </div>
+    <div class="modal-btn-row">
+      <button class="modal-btn" onclick="closeBulkModal()">Cancel</button>
+      <button class="modal-btn primary" onclick="applyBulk()">Add</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Tier -->
+<div class="modal-overlay hidden" id="addtier-modal" onclick="if(event.target===this)closeAddTierModal()">
+  <div class="modal-box" onclick="event.stopPropagation()" style="max-width:360px">
+    <div class="modal-title">Add Tier</div>
+    <div class="modal-sub">Enter a point value for the new tier. It will be inserted in descending order with the existing tiers.</div>
+    <input class="modal-input" type="number" id="addtier-input" placeholder="e.g. 12" min="0" max="999"
+      onkeydown="if(event.key==='Enter')confirmAddTier()">
+    <div class="modal-btn-row">
+      <button class="modal-btn" onclick="closeAddTierModal()">Cancel</button>
+      <button class="modal-btn primary" onclick="confirmAddTier()">Add</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script>
+// ── CONSTANTS ──────────────────────────────────────────────────────────────────
+const POKEBALL_FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%23e05555' stroke='%23333' stroke-width='1.5'/%3E%3Cpath d='M1.1 20 A19 19 0 0 0 38.9 20 Z' fill='%23fff'/%3E%3Crect x='1' y='18' width='38' height='4' fill='%23333'/%3E%3Ccircle cx='20' cy='20' r='7' fill='%23fff' stroke='%23333' stroke-width='1.5'/%3E%3Ccircle cx='20' cy='20' r='3.5' fill='%23e8eaf6' stroke='%23333' stroke-width='1'/%3E%3C/svg%3E";
+
+// Default tier point values (0–21 in descending render order)
+const DEFAULT_TIERS = [21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+let allPokemon   = [];          // raw from pokemon.json
+let nameIndex    = {};          // lowercase name → pokemon obj
+let aliasIndex   = {};          // lowercase alias → pokemon obj
+let assignments  = {};          // pokemon.id → 'illegal' | number
+let tiers        = [];          // sorted desc array of tier point values (numbers), plus 'illegal'
+let collapsed    = new Set();   // tier keys that are collapsed
+let zeroAsIllegal = false;
+let legalOnly    = false;
+let searchQ      = '';
+let dragItem     = null;        // { id, fromTier }
+
+// ── URL HELPERS ────────────────────────────────────────────────────────────────
+function localId(id) {
+  const m = id.match(/^(\d+)(.*)$/);
+  if (!m) return id;
+  const num = parseInt(m[1]);
+  return (num >= 1000 ? String(num) : String(num).padStart(3, '0')) + m[2];
+}
+function iconUrl(mon) { return './icons/' + localId(mon.id) + '.png'; }
+
+// ── INIT ───────────────────────────────────────────────────────────────────────
+async function init() {
+  const res  = await fetch('./pokemon.json');
+  const data = await res.json();
+  allPokemon = Array.isArray(data) ? data : data.pokemon;
+
+  // Build lookup indices
+  allPokemon.forEach(p => {
+    nameIndex[p.name.toLowerCase()] = p;
+    if (p.aliases) p.aliases.forEach(a => { aliasIndex[a.toLowerCase()] = p; });
+  });
+
+  // Seed tiers list: the 0–21 default range
+  tiers = [...DEFAULT_TIERS]; // descending: 21,20,...,0, then illegal appended at bottom
+
+  // Seed assignments from current pokemon.json data
+  allPokemon.forEach(p => {
+    if (!p.legal) {
+      assignments[p.id] = 'illegal';
+    } else {
+      const pts = (p.points == null) ? 0 : p.points;
+      assignments[p.id] = pts;
+      // If points value outside our default range, ensure the tier exists
+      if (typeof pts === 'number' && !tiers.includes(pts)) {
+        tiers.push(pts);
+        sortTiers();
+      }
+    }
+  });
+
+  render();
+}
+
+function sortTiers() {
+  tiers.sort((a, b) => b - a); // numeric descending; 'illegal' never in this array
+}
+
+// ── RENDER ─────────────────────────────────────────────────────────────────────
+function render() {
+  const container = document.getElementById('tiers-container');
+  container.innerHTML = '';
+
+  // Build tier list: numeric tiers desc, then 'illegal' at the bottom
+  const tierKeys = [...tiers, 'illegal'];
+
+  tierKeys.forEach(key => {
+    const isIllegal = key === 'illegal';
+    const isZero    = key === 0;
+
+    // "Legal Only" hides illegal tier
+    if (legalOnly && isIllegal) return;
+    // "Treat 0 as illegal" hides the 0 tier separately (its mons show in illegal visually)
+    if (zeroAsIllegal && isZero) return;
+
+    // Collect mons for this tier
+    let mons = allPokemon.filter(p => {
+      const a = assignments[p.id];
+      if (isIllegal) {
+        if (zeroAsIllegal && a === 0) return true;
+        return a === 'illegal';
+      }
+      return a === key;
+    });
+
+    const lane = document.createElement('div');
+    lane.className = 'tier-lane' +
+      (isIllegal ? ' illegal-lane' : '') +
+      (isZero && !zeroAsIllegal ? ' zero-lane' : '');
+    lane.dataset.tier = isIllegal ? 'illegal' : String(key);
+
+    // ── Header ──
+    const header = document.createElement('div');
+    header.className = 'tier-header';
+    header.onclick = (e) => {
+      // Don't collapse if clicking delete controls
+      if (e.target.closest('.tier-delete-wrap')) return;
+      toggleCollapse(key);
+    };
+
+    // Points label
+    const ptsEl = document.createElement('div');
+    ptsEl.className = 'tier-pts' + (isIllegal ? ' illegal-pts' : isZero ? ' zero-pts' : '');
+    if (isIllegal) {
+      ptsEl.textContent = 'ILLEGAL';
+    } else if (isZero && zeroAsIllegal) {
+      ptsEl.textContent = '0 (illegal)';
+    } else {
+      ptsEl.textContent = String(key);
+    }
+    header.appendChild(ptsEl);
+
+    const lbl = document.createElement('div');
+    lbl.className = 'tier-label';
+    lbl.textContent = isIllegal ? '' : 'pts';
+    header.appendChild(lbl);
+
+    const cnt = document.createElement('div');
+    cnt.className = 'tier-count';
+    cnt.textContent = `(${mons.length})`;
+    header.appendChild(cnt);
+
+    // Collapse icon
+    const colIcon = document.createElement('span');
+    colIcon.className = 'tier-collapse-icon';
+    colIcon.textContent = collapsed.has(key) ? '▶' : '▼';
+    header.appendChild(colIcon);
+
+    header.appendChild(Object.assign(document.createElement('div'), { className: 'tier-spacer' }));
+
+    // Delete button (not shown for 'illegal' tier, which is permanent)
+    if (!isIllegal) {
+      const delWrap = document.createElement('div');
+      delWrap.className = 'tier-delete-wrap';
+
+      const delBtn = document.createElement('button');
+      delBtn.className = 'tier-delete-btn';
+      delBtn.textContent = 'Delete Tier';
+      delBtn.dataset.confirming = 'false';
+      delBtn.onclick = (e) => {
+        e.stopPropagation();
+        if (delBtn.dataset.confirming === 'true') {
+          deleteTier(key);
+        } else {
+          delBtn.dataset.confirming = 'true';
+          delBtn.textContent = 'Are you sure?';
+          delBtn.classList.add('confirming');
+          // Also show cancel
+          cancelBtn.style.display = 'inline-block';
+        }
+      };
+
+      const cancelBtn = document.createElement('button');
+      cancelBtn.className = 'tier-delete-cancel';
+      cancelBtn.textContent = 'Cancel';
+      cancelBtn.style.display = 'none';
+      cancelBtn.onclick = (e) => {
+        e.stopPropagation();
+        delBtn.dataset.confirming = 'false';
+        delBtn.textContent = 'Delete Tier';
+        delBtn.classList.remove('confirming');
+        cancelBtn.style.display = 'none';
+      };
+
+      delWrap.appendChild(cancelBtn);
+      delWrap.appendChild(delBtn);
+      header.appendChild(delWrap);
+    }
+
+    lane.appendChild(header);
+
+    // ── Body ──
+    const body = document.createElement('div');
+    body.className = 'tier-body' +
+      (collapsed.has(key) ? ' collapsed' : '') +
+      (mons.length === 0 ? ' empty-body' : '');
+    body.dataset.tier = isIllegal ? 'illegal' : String(key);
+
+    if (mons.length === 0 && !collapsed.has(key)) {
+      const emptyMsg = document.createElement('span');
+      emptyMsg.className = 'tier-empty-msg';
+      emptyMsg.textContent = 'No Pokémon in this tier';
+      body.appendChild(emptyMsg);
+    }
+
+    // Sort mons by name
+    mons.sort((a, b) => a.name.localeCompare(b.name));
+
+    mons.forEach(p => {
+      body.appendChild(makeCard(p, key));
+    });
+
+    // Drop zone filler
+    const dz = document.createElement('div');
+    dz.className = 'tier-drop-zone';
+    body.appendChild(dz);
+
+    lane.appendChild(body);
+
+    // ── Drag-over events on the whole lane ──
+    lane.addEventListener('dragover', e => {
+      if (!dragItem) return;
+      e.preventDefault();
+      document.querySelectorAll('.tier-lane').forEach(l => l.classList.remove('drag-target'));
+      lane.classList.add('drag-target');
+    });
+    lane.addEventListener('dragleave', e => {
+      if (!lane.contains(e.relatedTarget)) lane.classList.remove('drag-target');
+    });
+    lane.addEventListener('drop', e => {
+      e.preventDefault();
+      lane.classList.remove('drag-target');
+      if (!dragItem) return;
+      const toTier = lane.dataset.tier === 'illegal' ? 'illegal' : Number(lane.dataset.tier);
+      if (dragItem.fromTier !== toTier) {
+        assignments[dragItem.id] = toTier;
+        render();
+      }
+    });
+
+    container.appendChild(lane);
+  });
+
+  applySearch();
+}
+
+function makeCard(p, tierKey) {
+  const card = document.createElement('div');
+  card.className = 'pmon' + (tierKey === 'illegal' ? ' illegal-card' : '');
+  card.draggable = true;
+  card.dataset.id = p.id;
+  card.title = p.name;
+
+  const img = document.createElement('img');
+  img.src = iconUrl(p);
+  img.alt = p.name;
+  img.onerror = function() {
+    this.onerror = () => { this.src = POKEBALL_FALLBACK; this.style.opacity = '0.5'; };
+    this.src = POKEBALL_FALLBACK;
+    this.style.opacity = '0.5';
+  };
+  card.appendChild(img);
+
+  const nameEl = document.createElement('div');
+  nameEl.className = 'pmon-name';
+  nameEl.textContent = p.name;
+  card.appendChild(nameEl);
+
+  // Drag events
+  card.addEventListener('dragstart', e => {
+    dragItem = { id: p.id, fromTier: tierKey };
+    e.dataTransfer.effectAllowed = 'move';
+    requestAnimationFrame(() => card.classList.add('dragging'));
+  });
+  card.addEventListener('dragend', () => {
+    card.classList.remove('dragging');
+    document.querySelectorAll('.tier-lane').forEach(l => l.classList.remove('drag-target'));
+    dragItem = null;
+  });
+
+  return card;
+}
+
+// ── COLLAPSE ───────────────────────────────────────────────────────────────────
+function toggleCollapse(key) {
+  if (collapsed.has(key)) collapsed.delete(key);
+  else collapsed.add(key);
+  render();
+}
+
+// ── DELETE TIER ────────────────────────────────────────────────────────────────
+function deleteTier(key) {
+  // Move all mons in this tier to illegal
+  allPokemon.forEach(p => {
+    if (assignments[p.id] === key) assignments[p.id] = 'illegal';
+  });
+  tiers = tiers.filter(t => t !== key);
+  showToast(`Tier ${key} deleted. Pokémon moved to Illegal.`, 'warn');
+  render();
+}
+
+// ── ADD TIER ───────────────────────────────────────────────────────────────────
+function openAddTierModal() {
+  document.getElementById('addtier-input').value = '';
+  document.getElementById('addtier-modal').classList.remove('hidden');
+  setTimeout(() => document.getElementById('addtier-input').focus(), 50);
+}
+function closeAddTierModal() {
+  document.getElementById('addtier-modal').classList.add('hidden');
+}
+function confirmAddTier() {
+  const val = parseInt(document.getElementById('addtier-input').value);
+  if (isNaN(val) || val < 0) { showToast('Please enter a valid non-negative number.', 'err'); return; }
+  if (tiers.includes(val)) { showToast(`Tier ${val} already exists.`, 'warn'); closeAddTierModal(); return; }
+  tiers.push(val);
+  sortTiers();
+  closeAddTierModal();
+  showToast(`Tier ${val} added.`, 'ok');
+  render();
+}
+
+// ── BULK ADD ───────────────────────────────────────────────────────────────────
+function openBulkModal() {
+  document.getElementById('bulk-textarea').value = '';
+  document.getElementById('addtier-modal').classList.add('hidden');
+  document.getElementById('bulk-modal').classList.remove('hidden');
+  setTimeout(() => document.getElementById('bulk-textarea').focus(), 50);
+}
+function closeBulkModal() {
+  document.getElementById('bulk-modal').classList.add('hidden');
+}
+function applyBulk() {
+  const defaultPts = parseInt(document.getElementById('bulk-default-pts').value);
+  const usePts = isNaN(defaultPts) ? 0 : defaultPts;
+  const lines = document.getElementById('bulk-textarea').value.split('\n');
+
+  let matched = 0, unrecognized = [];
+
+  lines.forEach(raw => {
+    const line = raw.trim();
+    if (!line) return;
+
+    // Try to parse inline point value: last token is a number
+    const parts = line.split(/\s+/);
+    let pts = usePts;
+    let nameParts = parts;
+
+    if (parts.length >= 2) {
+      const last = parts[parts.length - 1];
+      const parsed = parseInt(last);
+      if (!isNaN(parsed) && String(parsed) === last) {
+        pts = parsed;
+        nameParts = parts.slice(0, -1);
+      }
+    }
+
+    const nameKey = nameParts.join(' ').toLowerCase();
+    const mon = nameIndex[nameKey] || aliasIndex[nameKey];
+
+    if (!mon) {
+      unrecognized.push(nameParts.join(' '));
+      return;
+    }
+
+    // Ensure the tier exists
+    if (pts !== 'illegal' && !tiers.includes(pts)) {
+      tiers.push(pts);
+      sortTiers();
+    }
+
+    assignments[mon.id] = pts;
+    matched++;
+  });
+
+  closeBulkModal();
+  render();
+
+  if (matched > 0) showToast(`${matched} Pokémon assigned.`, 'ok');
+  if (unrecognized.length > 0) showToast(`${unrecognized.length} unrecognized: ${unrecognized.slice(0,3).join(', ')}${unrecognized.length > 3 ? '…' : ''}`, 'warn');
+}
+
+// ── SEARCH ─────────────────────────────────────────────────────────────────────
+function onSearch() {
+  searchQ = document.getElementById('search-input').value.trim().toLowerCase();
+  document.getElementById('search-clear').classList.toggle('visible', searchQ.length > 0);
+  applySearch();
+}
+function clearSearch() {
+  document.getElementById('search-input').value = '';
+  searchQ = '';
+  document.getElementById('search-clear').classList.remove('visible');
+  applySearch();
+}
+function applySearch() {
+  document.querySelectorAll('.pmon').forEach(card => {
+    const name = (card.title || '').toLowerCase();
+    if (!searchQ) {
+      card.classList.remove('search-dim', 'search-match');
+    } else if (name.includes(searchQ)) {
+      card.classList.remove('search-dim');
+      card.classList.add('search-match');
+    } else {
+      card.classList.add('search-dim');
+      card.classList.remove('search-match');
+    }
+  });
+}
+
+// ── TOGGLES ────────────────────────────────────────────────────────────────────
+function onToggleZeroIllegal() {
+  zeroAsIllegal = document.getElementById('toggle-zero-illegal').checked;
+  render();
+}
+function onToggleLegalOnly() {
+  legalOnly = !legalOnly;
+  document.getElementById('legal-only-btn').classList.toggle('active', legalOnly);
+  render();
+}
+
+// ── EXPORT CSV ─────────────────────────────────────────────────────────────────
+function exportCSV() {
+  // Points-mode format: #,Pokémon,Points   (N/A for illegal)
+  const rows = [['#', 'Pokémon', 'Points']];
+  // Sort by id numerically
+  const sorted = [...allPokemon].sort((a, b) => {
+    const na = parseInt(a.id);
+    const nb = parseInt(b.id);
+    return na !== nb ? na - nb : a.id.localeCompare(b.id);
+  });
+  sorted.forEach(p => {
+    const a = assignments[p.id];
+    const ptsCell = (a === 'illegal' || (zeroAsIllegal && a === 0)) ? 'N/A' : String(a);
+    rows.push([p.id, p.name, ptsCell]);
+  });
+
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'tier-export.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('CSV exported.', 'ok');
+}
+
+// ── TOAST ──────────────────────────────────────────────────────────────────────
+function showToast(msg, type = 'ok') {
+  const wrap = document.getElementById('toast-wrap');
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.textContent = msg;
+  wrap.appendChild(el);
+  requestAnimationFrame(() => { el.classList.add('show'); });
+  setTimeout(() => {
+    el.classList.remove('show');
+    setTimeout(() => el.remove(), 250);
+  }, 3000);
+}
+
+// ── KEYBOARD ───────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeBulkModal();
+    closeAddTierModal();
+    clearSearch();
+  }
+  if ((e.key === 'f' || e.key === 'F') && (e.ctrlKey || e.metaKey)) {
+    e.preventDefault();
+    document.getElementById('search-input').focus();
+  }
+});
+
+// Kick off
+init();
+</script>
+</body>
+</html>
