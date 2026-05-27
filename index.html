@@ -494,6 +494,7 @@ function setCBMode(on, silent) {
   localStorage.setItem(LS_CB, on ? '1' : '0');
   // Re-apply any active matchup highlight so inline styles update
   if (!silent && typeof pinnedType !== 'undefined' && pinnedType) applyMatchupHighlight(pinnedType);
+  renderTeam();
 }
 // Restore preference on load
 (function() {
