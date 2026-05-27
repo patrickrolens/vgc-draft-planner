@@ -487,17 +487,17 @@ const LS_TEAMS   = 'vgcdraft_teams';
 const LS_SESSION = 'vgcdraft_session';
 const LS_CB      = 'vgcdraft_cbmode';
 
-function setCBMode(on) {
+function setCBMode(on, silent) {
   document.body.classList.toggle('cb', on);
   document.getElementById('cb-toggle').checked = on;
   document.getElementById('cb-toggle-label').classList.toggle('cb-on', on);
   localStorage.setItem(LS_CB, on ? '1' : '0');
   // Re-apply any active matchup highlight so inline styles update
-  if (pinnedType) applyMatchupHighlight(pinnedType);
+  if (!silent && typeof pinnedType !== 'undefined' && pinnedType) applyMatchupHighlight(pinnedType);
 }
 // Restore preference on load
 (function() {
-  if (localStorage.getItem(LS_CB) === '1') setCBMode(true);
+  if (localStorage.getItem(LS_CB) === '1') setCBMode(true, true);
 })();
 
 // ── SESSION PERSISTENCE ────────────────────────────────────────────────────────
