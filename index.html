@@ -1049,7 +1049,7 @@ function getDisplayMon(mon){
   if(!mon) return mon;
   if(mon.baseForm && megaBaseActive.has(mon.id)){
     const base = POKEMON_DATA.find(p => p.id === mon.baseForm);
-    if(base) return Object.assign({}, base, {id: mon.id}); // keep slot identity
+    if(base) return Object.assign({}, base); // base form's id used for sprite lookup
   }
   if(!mon.altForm || !altFormActive.has(mon.id)) return mon;
   return Object.assign({}, mon, {
@@ -1565,15 +1565,14 @@ function toggleMatchup(atk){
 
 // Pin only clears by clicking same type or a different type
 function renderSpeedTiers(){
-  const mons=team.filter(Boolean);
+  const mons=team.filter(Boolean).map(getDisplayMon);
   let out="";
   SPEED_TIERS.forEach(function(t){
     const inT=mons.filter(function(m){return m.stats.spe>=t.a&&m.stats.spe<=t.b;})
       .sort(function(a,b){return a.stats.spe-b.stats.spe;});
     let icons="";
     inT.forEach(function(m){
-      const disp=getDisplayMon(m);
-      icons+='<img src="'+iconUrl(disp)+'" title="'+disp.name+' ('+disp.stats.spe+')" '
+      icons+='<img src="'+iconUrl(m)+'" title="'+m.name+' ('+m.stats.spe+')" '
         +'style="width:24px;height:24px;image-rendering:pixelated;flex-shrink:0" '
         +'onerror="this.style.opacity=0.2">';
     });
