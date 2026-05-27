@@ -493,8 +493,7 @@ function setCBMode(on, silent) {
   document.getElementById('cb-toggle-label').classList.toggle('cb-on', on);
   localStorage.setItem(LS_CB, on ? '1' : '0');
   // Re-apply any active matchup highlight so inline styles update
-  if (!silent && typeof pinnedType !== 'undefined' && pinnedType) applyMatchupHighlight(pinnedType);
-  renderTeam();
+  if (!silent && pinnedType) applyMatchupHighlight(pinnedType);
 }
 // Restore preference on load
 (function() {
