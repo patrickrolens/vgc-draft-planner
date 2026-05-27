@@ -13,7 +13,6 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 13px; }
 
-/* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -62,6 +61,8 @@ nav {
 .tbtn.green-btn { border-color: rgba(76,175,125,0.5); color: var(--green); }
 .tbtn.green-btn:hover { background: rgba(76,175,125,0.1); }
 .tbtn.active { background: rgba(124,111,247,0.15); border-color: var(--accent); color: var(--accent); }
+.tbtn.danger-btn { border-color: rgba(224,85,85,0.4); color: var(--red); }
+.tbtn.danger-btn:hover { background: rgba(224,85,85,0.1); }
 
 .toolbar-sep { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; }
 .toolbar-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
@@ -77,7 +78,6 @@ nav {
 .tier-lane.drag-target { border-color: var(--accent); background: rgba(124,111,247,0.04); }
 .tier-lane.illegal-lane { border-color: rgba(224,85,85,0.25); }
 .tier-lane.zero-lane { border-color: rgba(90,83,102,0.4); }
-.tier-lane.hidden-lane { display: none; }
 
 .tier-header {
   display: flex; align-items: center; gap: 10px;
@@ -86,9 +86,7 @@ nav {
 }
 .tier-header:hover { background: rgba(255,255,255,0.02); }
 
-.tier-pts {
-  font-size: 20px; font-weight: 700; color: var(--accent); min-width: 40px;
-}
+.tier-pts { font-size: 20px; font-weight: 700; color: var(--accent); min-width: 40px; }
 .tier-pts.illegal-pts { color: var(--red); font-size: 14px; font-weight: 700; letter-spacing: 0.5px; }
 .tier-pts.zero-pts { color: var(--text3); }
 
@@ -99,9 +97,9 @@ nav {
 
 .tier-delete-wrap { display: flex; align-items: center; gap: 6px; }
 .tier-delete-btn {
-  background: none; border: none; color: var(--text3); cursor: pointer;
+  background: none; border: 1px solid transparent; color: var(--text3); cursor: pointer;
   font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px;
-  border: 1px solid transparent; transition: all 0.15s; white-space: nowrap;
+  transition: all 0.15s; white-space: nowrap;
 }
 .tier-delete-btn:hover { color: var(--red); border-color: rgba(224,85,85,0.4); }
 .tier-delete-btn.confirming { color: var(--red); border-color: rgba(224,85,85,0.6); background: rgba(224,85,85,0.08); }
@@ -115,33 +113,54 @@ nav {
 .tier-body {
   display: flex; flex-wrap: wrap; gap: 6px;
   padding: 10px 12px; min-height: 58px;
-  transition: min-height 0.15s;
 }
 .tier-body.collapsed { display: none; }
 .tier-body.empty-body { align-items: center; }
 .tier-empty-msg { font-size: 11px; color: var(--text3); font-style: italic; }
 .tier-drop-zone {
   flex: 1; min-width: 60px; min-height: 38px;
-  border: 2px dashed transparent; border-radius: 6px;
-  transition: border-color 0.15s; pointer-events: none;
+  border: 2px dashed transparent; border-radius: 6px; transition: border-color 0.15s;
 }
-.tier-lane.drag-target .tier-drop-zone { border-color: rgba(124,111,247,0.4); pointer-events: auto; }
+.tier-lane.drag-target .tier-drop-zone { border-color: rgba(124,111,247,0.4); }
 
 /* ── POKEMON CARD ── */
 .pmon {
   display: flex; flex-direction: column; align-items: center;
   background: var(--bg3); border: 1px solid var(--border); border-radius: 6px;
-  padding: 5px 5px 3px; width: 68px; cursor: grab; transition: border-color 0.15s, opacity 0.15s, box-shadow 0.15s;
+  padding: 5px 5px 3px; width: 68px; cursor: grab;
+  transition: border-color 0.15s, opacity 0.15s, box-shadow 0.15s, background 0.15s;
   position: relative; user-select: none;
 }
 .pmon:hover { border-color: var(--accent); }
 .pmon.dragging { opacity: 0.35; cursor: grabbing; }
 .pmon.search-dim { opacity: 0.18; }
 .pmon.search-match { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(124,111,247,0.4); }
-.pmon.illegal-card { border-color: rgba(224,85,85,0.2); }
 .pmon.illegal-card img { opacity: 0.4; filter: grayscale(70%); }
 .pmon img { width: 40px; height: 40px; image-rendering: pixelated; pointer-events: none; display: block; }
 .pmon-name { font-size: 9px; color: var(--text2); text-align: center; margin-top: 2px; line-height: 1.2; word-break: break-word; pointer-events: none; }
+
+/* ── DELTA HIGHLIGHTING (matches Draft Builder weakness/resistance style) ── */
+/* Raised above default */
+.pmon.delta-up {
+  border-color: rgba(76,175,125,0.5);
+  background: rgba(76,175,125,0.08);
+  box-shadow: 0 0 0 1px rgba(76,175,125,0.2);
+}
+.pmon.delta-up .pmon-name { color: var(--green); }
+/* Lowered below default */
+.pmon.delta-down {
+  border-color: rgba(224,85,85,0.5);
+  background: rgba(224,85,85,0.08);
+  box-shadow: 0 0 0 1px rgba(224,85,85,0.2);
+}
+.pmon.delta-down .pmon-name { color: var(--red); }
+/* Pinned / double-click — takes priority over delta */
+.pmon.pinned {
+  border-color: rgba(240,192,96,0.7) !important;
+  background: rgba(240,192,96,0.1) !important;
+  box-shadow: 0 0 0 1px rgba(240,192,96,0.35) !important;
+}
+.pmon.pinned .pmon-name { color: var(--yellow) !important; }
 
 /* ── MODALS ── */
 .modal-overlay {
@@ -154,7 +173,8 @@ nav {
   padding: 20px; width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 14px;
 }
 .modal-title { font-size: 15px; font-weight: 700; color: var(--text); }
-.modal-sub { font-size: 12px; color: var(--text2); line-height: 1.5; }
+.modal-sub { font-size: 12px; color: var(--text2); line-height: 1.6; }
+.modal-sub code { color: var(--accent); background: var(--bg3); padding: 1px 5px; border-radius: 3px; font-size: 11px; }
 .modal-input {
   background: var(--bg3); border: 1px solid var(--border); border-radius: 6px;
   color: var(--text); padding: 8px 12px; font-size: 13px; width: 100%; outline: none;
@@ -164,7 +184,7 @@ nav {
 .modal-textarea {
   background: var(--bg3); border: 1px solid var(--border); border-radius: 6px;
   color: var(--text); padding: 10px 12px; font-size: 12px; font-family: monospace;
-  width: 100%; min-height: 180px; resize: vertical; outline: none; line-height: 1.7;
+  width: 100%; min-height: 200px; resize: vertical; outline: none; line-height: 1.7;
 }
 .modal-textarea:focus { border-color: var(--accent); }
 .modal-textarea::placeholder { color: var(--text3); }
@@ -178,41 +198,32 @@ nav {
 .modal-btn.primary:hover { opacity: 0.85; }
 .modal-btn.danger { border-color: rgba(224,85,85,0.5); color: var(--red); }
 .modal-btn.danger:hover { background: rgba(224,85,85,0.1); }
-
 .modal-field-row { display: flex; gap: 10px; align-items: center; }
 .modal-field-label { font-size: 12px; color: var(--text2); white-space: nowrap; flex-shrink: 0; }
-.modal-field-row .modal-input { flex: 1; }
 .modal-pts-input { width: 80px !important; flex: none !important; text-align: center; }
+
+/* ── CONFIRM MODAL ── */
+.confirm-msg { font-size: 13px; color: var(--text2); line-height: 1.5; }
 
 /* ── TOAST ── */
 .toast-wrap { position: fixed; bottom: 20px; right: 20px; z-index: 3000; display: flex; flex-direction: column; gap: 6px; pointer-events: none; }
 .toast { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 9px 14px; font-size: 12px; color: var(--text); box-shadow: 0 4px 16px rgba(0,0,0,0.4); opacity: 0; transform: translateY(6px); transition: opacity 0.2s, transform 0.2s; }
 .toast.show { opacity: 1; transform: translateY(0); }
-.toast.ok { border-color: rgba(76,175,125,0.5); color: var(--green); }
-.toast.warn { border-color: rgba(240,192,96,0.5); color: var(--yellow); }
-.toast.err { border-color: rgba(224,85,85,0.5); color: var(--red); }
-
-/* ── UNASSIGNED BANNER ── */
-.unassigned-banner {
-  background: rgba(240,192,96,0.08); border: 1px solid rgba(240,192,96,0.3);
-  border-radius: 8px; padding: 10px 14px; font-size: 12px; color: var(--yellow);
-  display: none; align-items: center; gap: 8px;
-}
-.unassigned-banner.visible { display: flex; }
+.toast.ok  { border-color: rgba(76,175,125,0.5);  color: var(--green);  }
+.toast.warn{ border-color: rgba(240,192,96,0.5);  color: var(--yellow); }
+.toast.err { border-color: rgba(224,85,85,0.5);   color: var(--red);    }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo">🏆 Tier Editor</div>
 </nav>
 
-<!-- TOOLBAR -->
 <div class="toolbar">
   <div class="toolbar-search">
     <span class="si">🔍</span>
-    <input type="text" id="search-input" placeholder="Search Pokémon…" oninput="onSearch()" onkeydown="if(event.key==='Escape'){clearSearch();}">
+    <input type="text" id="search-input" placeholder="Search Pokémon…" oninput="onSearch()" onkeydown="if(event.key==='Escape')clearSearch()">
     <button class="sc" id="search-clear" onclick="clearSearch()">✕</button>
   </div>
 
@@ -228,30 +239,32 @@ nav {
 
   <div class="toolbar-right">
     <button class="tbtn" id="legal-only-btn" onclick="onToggleLegalOnly()">Legal Only</button>
+    <div class="toolbar-sep"></div>
+    <button class="tbtn" onclick="openResetModal()">↺ Reset to Default</button>
+    <button class="tbtn" onclick="openMakeDefaultModal()">★ Make Current Default</button>
+    <div class="toolbar-sep"></div>
     <button class="tbtn green-btn" onclick="exportCSV()">⬇ Export CSV</button>
   </div>
 </div>
 
-<!-- MAIN -->
-<div class="main" id="main">
-  <div class="unassigned-banner" id="unassigned-banner">
-    ⚠ Some Pokémon in the loaded data have point values outside the current tier set and appear below in an auto-created tier.
-  </div>
+<div class="main">
   <div id="tiers-container"></div>
 </div>
 
-<!-- MODALS -->
-
-<!-- Bulk Add -->
+<!-- ── BULK ADD MODAL ── -->
 <div class="modal-overlay hidden" id="bulk-modal" onclick="if(event.target===this)closeBulkModal()">
-  <div class="modal-box" onclick="event.stopPropagation()" style="max-width:520px">
+  <div class="modal-box" onclick="event.stopPropagation()" style="max-width:540px">
     <div class="modal-title">Bulk Add Pokémon</div>
     <div class="modal-sub">
-      Enter one Pokémon per line. Optionally add a point value after the name (e.g. <code style="color:var(--accent)">Garchomp 10</code>).
-      Lines without an inline value use the default points below.
-      If the target tier doesn't exist yet it will be created automatically.
+      Accepts two formats, one per line:<br>
+      • <code>Pokémon Name</code> or <code>Pokémon Name 10</code> — name with optional inline point value<br>
+      • <code>#,Pokémon,Points</code> — CSV export format (paste a full export directly)<br>
+      Lines without an inline value use the default points field. <code>N/A</code> is treated as Illegal.
+      Missing tiers are created automatically.
     </div>
-    <textarea class="modal-textarea" id="bulk-textarea" placeholder="Garchomp&#10;Dragapult 15&#10;Flutter Mane 20&#10;…" spellcheck="false"></textarea>
+    <textarea class="modal-textarea" id="bulk-textarea"
+      placeholder="Garchomp&#10;Dragapult 15&#10;Flutter Mane 20&#10;&#10;— or paste CSV rows —&#10;&quot;150&quot;,&quot;Mewtwo&quot;,&quot;20&quot;"
+      spellcheck="false"></textarea>
     <div class="modal-field-row">
       <span class="modal-field-label">Default points:</span>
       <input class="modal-input modal-pts-input" type="number" id="bulk-default-pts" value="0" min="0" max="999">
@@ -263,11 +276,11 @@ nav {
   </div>
 </div>
 
-<!-- Add Tier -->
+<!-- ── ADD TIER MODAL ── -->
 <div class="modal-overlay hidden" id="addtier-modal" onclick="if(event.target===this)closeAddTierModal()">
   <div class="modal-box" onclick="event.stopPropagation()" style="max-width:360px">
     <div class="modal-title">Add Tier</div>
-    <div class="modal-sub">Enter a point value for the new tier. It will be inserted in descending order with the existing tiers.</div>
+    <div class="modal-sub">Enter a point value. The new tier will be inserted in descending order.</div>
     <input class="modal-input" type="number" id="addtier-input" placeholder="e.g. 12" min="0" max="999"
       onkeydown="if(event.key==='Enter')confirmAddTier()">
     <div class="modal-btn-row">
@@ -277,27 +290,53 @@ nav {
   </div>
 </div>
 
-<!-- Toast container -->
+<!-- ── RESET CONFIRM MODAL ── -->
+<div class="modal-overlay hidden" id="reset-modal" onclick="if(event.target===this)closeResetModal()">
+  <div class="modal-box" onclick="event.stopPropagation()" style="max-width:400px">
+    <div class="modal-title">Reset to Default?</div>
+    <div class="confirm-msg">All current tier assignments will be discarded and replaced with the values from <strong>pokemon.json</strong>. The tier list will also reset to 0–21. This cannot be undone.</div>
+    <div class="modal-btn-row">
+      <button class="modal-btn" onclick="closeResetModal()">Cancel</button>
+      <button class="modal-btn danger" onclick="confirmReset()">Reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAKE DEFAULT CONFIRM MODAL ── -->
+<div class="modal-overlay hidden" id="makedefault-modal" onclick="if(event.target===this)closeMakeDefaultModal()">
+  <div class="modal-box" onclick="event.stopPropagation()" style="max-width:420px">
+    <div class="modal-title">Make Current Tiers Default?</div>
+    <div class="confirm-msg">The current tier assignments will be saved as the new baseline for this session. "Reset to Default" will restore to this state going forward. (This does not modify <strong>pokemon.json</strong> — use Export CSV + <strong>update_pokemon.py</strong> for that.)</div>
+    <div class="modal-btn-row">
+      <button class="modal-btn" onclick="closeMakeDefaultModal()">Cancel</button>
+      <button class="modal-btn primary" onclick="confirmMakeDefault()">Save as Default</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast-wrap" id="toast-wrap"></div>
 
 <script>
 // ── CONSTANTS ──────────────────────────────────────────────────────────────────
 const POKEBALL_FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%23e05555' stroke='%23333' stroke-width='1.5'/%3E%3Cpath d='M1.1 20 A19 19 0 0 0 38.9 20 Z' fill='%23fff'/%3E%3Crect x='1' y='18' width='38' height='4' fill='%23333'/%3E%3Ccircle cx='20' cy='20' r='7' fill='%23fff' stroke='%23333' stroke-width='1.5'/%3E%3Ccircle cx='20' cy='20' r='3.5' fill='%23e8eaf6' stroke='%23333' stroke-width='1'/%3E%3C/svg%3E";
-
-// Default tier point values (0–21 in descending render order)
-const DEFAULT_TIERS = [21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0];
+const DEFAULT_TIER_RANGE = [21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0];
 
 // ── STATE ──────────────────────────────────────────────────────────────────────
-let allPokemon   = [];          // raw from pokemon.json
-let nameIndex    = {};          // lowercase name → pokemon obj
-let aliasIndex   = {};          // lowercase alias → pokemon obj
-let assignments  = {};          // pokemon.id → 'illegal' | number
-let tiers        = [];          // sorted desc array of tier point values (numbers), plus 'illegal'
-let collapsed    = new Set();   // tier keys that are collapsed
+let allPokemon    = [];   // raw from pokemon.json
+let nameIndex     = {};   // lowercase name → mon
+let aliasIndex    = {};   // lowercase alias → mon
+let idIndex       = {};   // id string → mon
+
+let assignments   = {};   // id → 'illegal' | number  (current working state)
+let defaultAssign = {};   // id → 'illegal' | number  (baseline, starts from pokemon.json, updatable)
+let tiers         = [];   // numeric values, sorted desc
+let collapsed     = new Set();
+let pinnedIds     = new Set();  // double-clicked pokemon ids
+
 let zeroAsIllegal = false;
-let legalOnly    = false;
-let searchQ      = '';
-let dragItem     = null;        // { id, fromTier }
+let legalOnly     = false;
+let searchQ       = '';
+let dragItem      = null;
 
 // ── URL HELPERS ────────────────────────────────────────────────────────────────
 function localId(id) {
@@ -314,35 +353,46 @@ async function init() {
   const data = await res.json();
   allPokemon = Array.isArray(data) ? data : data.pokemon;
 
-  // Build lookup indices
   allPokemon.forEach(p => {
     nameIndex[p.name.toLowerCase()] = p;
+    idIndex[p.id] = p;
     if (p.aliases) p.aliases.forEach(a => { aliasIndex[a.toLowerCase()] = p; });
   });
 
-  // Seed tiers list: the 0–21 default range
-  tiers = [...DEFAULT_TIERS]; // descending: 21,20,...,0, then illegal appended at bottom
+  tiers = [...DEFAULT_TIER_RANGE];
 
-  // Seed assignments from current pokemon.json data
+  // Seed assignments and default from pokemon.json
   allPokemon.forEach(p => {
+    let val;
     if (!p.legal) {
-      assignments[p.id] = 'illegal';
+      val = 'illegal';
     } else {
-      const pts = (p.points == null) ? 0 : p.points;
-      assignments[p.id] = pts;
-      // If points value outside our default range, ensure the tier exists
-      if (typeof pts === 'number' && !tiers.includes(pts)) {
-        tiers.push(pts);
+      val = (p.points == null) ? 0 : p.points;
+      if (typeof val === 'number' && !tiers.includes(val)) {
+        tiers.push(val);
         sortTiers();
       }
     }
+    assignments[p.id]   = val;
+    defaultAssign[p.id] = val;
   });
 
   render();
 }
 
-function sortTiers() {
-  tiers.sort((a, b) => b - a); // numeric descending; 'illegal' never in this array
+function sortTiers() { tiers.sort((a, b) => b - a); }
+
+// ── DELTA HELPER ──────────────────────────────────────────────────────────────
+// Returns 'up', 'down', or null compared to defaultAssign
+function getDelta(id) {
+  const cur = assignments[id];
+  const def = defaultAssign[id];
+  // Treat illegal as -1 for comparison purposes
+  const numCur = cur === 'illegal' ? -1 : Number(cur);
+  const numDef = def === 'illegal' ? -1 : Number(def);
+  if (numCur > numDef) return 'up';
+  if (numCur < numDef) return 'down';
+  return null;
 }
 
 // ── RENDER ─────────────────────────────────────────────────────────────────────
@@ -350,53 +400,35 @@ function render() {
   const container = document.getElementById('tiers-container');
   container.innerHTML = '';
 
-  // Build tier list: numeric tiers desc, then 'illegal' at the bottom
   const tierKeys = [...tiers, 'illegal'];
 
   tierKeys.forEach(key => {
     const isIllegal = key === 'illegal';
     const isZero    = key === 0;
 
-    // "Legal Only" hides illegal tier
     if (legalOnly && isIllegal) return;
-    // "Treat 0 as illegal" hides the 0 tier separately (its mons show in illegal visually)
     if (zeroAsIllegal && isZero) return;
 
-    // Collect mons for this tier
     let mons = allPokemon.filter(p => {
       const a = assignments[p.id];
-      if (isIllegal) {
-        if (zeroAsIllegal && a === 0) return true;
-        return a === 'illegal';
-      }
+      if (isIllegal) return zeroAsIllegal ? (a === 'illegal' || a === 0) : a === 'illegal';
       return a === key;
     });
 
     const lane = document.createElement('div');
     lane.className = 'tier-lane' +
       (isIllegal ? ' illegal-lane' : '') +
-      (isZero && !zeroAsIllegal ? ' zero-lane' : '');
+      (!isIllegal && isZero && !zeroAsIllegal ? ' zero-lane' : '');
     lane.dataset.tier = isIllegal ? 'illegal' : String(key);
 
     // ── Header ──
     const header = document.createElement('div');
     header.className = 'tier-header';
-    header.onclick = (e) => {
-      // Don't collapse if clicking delete controls
-      if (e.target.closest('.tier-delete-wrap')) return;
-      toggleCollapse(key);
-    };
+    header.onclick = e => { if (!e.target.closest('.tier-delete-wrap')) toggleCollapse(key); };
 
-    // Points label
     const ptsEl = document.createElement('div');
-    ptsEl.className = 'tier-pts' + (isIllegal ? ' illegal-pts' : isZero ? ' zero-pts' : '');
-    if (isIllegal) {
-      ptsEl.textContent = 'ILLEGAL';
-    } else if (isZero && zeroAsIllegal) {
-      ptsEl.textContent = '0 (illegal)';
-    } else {
-      ptsEl.textContent = String(key);
-    }
+    ptsEl.className = 'tier-pts' + (isIllegal ? ' illegal-pts' : (isZero ? ' zero-pts' : ''));
+    ptsEl.textContent = isIllegal ? 'ILLEGAL' : String(key);
     header.appendChild(ptsEl);
 
     const lbl = document.createElement('div');
@@ -409,7 +441,6 @@ function render() {
     cnt.textContent = `(${mons.length})`;
     header.appendChild(cnt);
 
-    // Collapse icon
     const colIcon = document.createElement('span');
     colIcon.className = 'tier-collapse-icon';
     colIcon.textContent = collapsed.has(key) ? '▶' : '▼';
@@ -417,16 +448,21 @@ function render() {
 
     header.appendChild(Object.assign(document.createElement('div'), { className: 'tier-spacer' }));
 
-    // Delete button (not shown for 'illegal' tier, which is permanent)
     if (!isIllegal) {
       const delWrap = document.createElement('div');
       delWrap.className = 'tier-delete-wrap';
+
+      const cancelBtn = document.createElement('button');
+      cancelBtn.className = 'tier-delete-cancel';
+      cancelBtn.textContent = 'Cancel';
+      cancelBtn.style.display = 'none';
 
       const delBtn = document.createElement('button');
       delBtn.className = 'tier-delete-btn';
       delBtn.textContent = 'Delete Tier';
       delBtn.dataset.confirming = 'false';
-      delBtn.onclick = (e) => {
+
+      delBtn.onclick = e => {
         e.stopPropagation();
         if (delBtn.dataset.confirming === 'true') {
           deleteTier(key);
@@ -434,16 +470,10 @@ function render() {
           delBtn.dataset.confirming = 'true';
           delBtn.textContent = 'Are you sure?';
           delBtn.classList.add('confirming');
-          // Also show cancel
           cancelBtn.style.display = 'inline-block';
         }
       };
-
-      const cancelBtn = document.createElement('button');
-      cancelBtn.className = 'tier-delete-cancel';
-      cancelBtn.textContent = 'Cancel';
-      cancelBtn.style.display = 'none';
-      cancelBtn.onclick = (e) => {
+      cancelBtn.onclick = e => {
         e.stopPropagation();
         delBtn.dataset.confirming = 'false';
         delBtn.textContent = 'Delete Tier';
@@ -466,27 +496,22 @@ function render() {
     body.dataset.tier = isIllegal ? 'illegal' : String(key);
 
     if (mons.length === 0 && !collapsed.has(key)) {
-      const emptyMsg = document.createElement('span');
-      emptyMsg.className = 'tier-empty-msg';
-      emptyMsg.textContent = 'No Pokémon in this tier';
-      body.appendChild(emptyMsg);
+      const msg = document.createElement('span');
+      msg.className = 'tier-empty-msg';
+      msg.textContent = 'No Pokémon in this tier';
+      body.appendChild(msg);
     }
 
-    // Sort mons by name
     mons.sort((a, b) => a.name.localeCompare(b.name));
+    mons.forEach(p => body.appendChild(makeCard(p, key)));
 
-    mons.forEach(p => {
-      body.appendChild(makeCard(p, key));
-    });
-
-    // Drop zone filler
     const dz = document.createElement('div');
     dz.className = 'tier-drop-zone';
     body.appendChild(dz);
 
     lane.appendChild(body);
 
-    // ── Drag-over events on the whole lane ──
+    // ── Drag-over ──
     lane.addEventListener('dragover', e => {
       if (!dragItem) return;
       e.preventDefault();
@@ -514,8 +539,19 @@ function render() {
 }
 
 function makeCard(p, tierKey) {
+  const isIllegal = tierKey === 'illegal';
+  const delta     = getDelta(p.id);
+  const isPinned  = pinnedIds.has(p.id);
+
+  let cls = 'pmon';
+  if (isIllegal) cls += ' illegal-card';
+  // Delta classes applied first; pinned overrides via CSS !important
+  if (!isPinned && delta === 'up')   cls += ' delta-up';
+  if (!isPinned && delta === 'down') cls += ' delta-down';
+  if (isPinned)                      cls += ' pinned';
+
   const card = document.createElement('div');
-  card.className = 'pmon' + (tierKey === 'illegal' ? ' illegal-card' : '');
+  card.className = cls;
   card.draggable = true;
   card.dataset.id = p.id;
   card.title = p.name;
@@ -524,7 +560,7 @@ function makeCard(p, tierKey) {
   img.src = iconUrl(p);
   img.alt = p.name;
   img.onerror = function() {
-    this.onerror = () => { this.src = POKEBALL_FALLBACK; this.style.opacity = '0.5'; };
+    this.onerror = null;
     this.src = POKEBALL_FALLBACK;
     this.style.opacity = '0.5';
   };
@@ -535,7 +571,22 @@ function makeCard(p, tierKey) {
   nameEl.textContent = p.name;
   card.appendChild(nameEl);
 
-  // Drag events
+  // Double-click to pin/unpin
+  card.addEventListener('dblclick', e => {
+    e.preventDefault();
+    if (pinnedIds.has(p.id)) pinnedIds.delete(p.id);
+    else pinnedIds.add(p.id);
+    // Update just this card's classes without full re-render
+    const d = getDelta(p.id);
+    const pinned = pinnedIds.has(p.id);
+    card.classList.remove('delta-up', 'delta-down', 'pinned');
+    if (!pinned && d === 'up')   card.classList.add('delta-up');
+    if (!pinned && d === 'down') card.classList.add('delta-down');
+    if (pinned)                  card.classList.add('pinned');
+    nameEl.style.color = '';  // let CSS handle it
+  });
+
+  // Drag
   card.addEventListener('dragstart', e => {
     dragItem = { id: p.id, fromTier: tierKey };
     e.dataTransfer.effectAllowed = 'move';
@@ -552,19 +603,15 @@ function makeCard(p, tierKey) {
 
 // ── COLLAPSE ───────────────────────────────────────────────────────────────────
 function toggleCollapse(key) {
-  if (collapsed.has(key)) collapsed.delete(key);
-  else collapsed.add(key);
+  collapsed.has(key) ? collapsed.delete(key) : collapsed.add(key);
   render();
 }
 
 // ── DELETE TIER ────────────────────────────────────────────────────────────────
 function deleteTier(key) {
-  // Move all mons in this tier to illegal
-  allPokemon.forEach(p => {
-    if (assignments[p.id] === key) assignments[p.id] = 'illegal';
-  });
+  allPokemon.forEach(p => { if (assignments[p.id] === key) assignments[p.id] = 'illegal'; });
   tiers = tiers.filter(t => t !== key);
-  showToast(`Tier ${key} deleted. Pokémon moved to Illegal.`, 'warn');
+  showToast(`Tier ${key} deleted — Pokémon moved to Illegal.`, 'warn');
   render();
 }
 
@@ -574,15 +621,12 @@ function openAddTierModal() {
   document.getElementById('addtier-modal').classList.remove('hidden');
   setTimeout(() => document.getElementById('addtier-input').focus(), 50);
 }
-function closeAddTierModal() {
-  document.getElementById('addtier-modal').classList.add('hidden');
-}
+function closeAddTierModal() { document.getElementById('addtier-modal').classList.add('hidden'); }
 function confirmAddTier() {
   const val = parseInt(document.getElementById('addtier-input').value);
   if (isNaN(val) || val < 0) { showToast('Please enter a valid non-negative number.', 'err'); return; }
   if (tiers.includes(val)) { showToast(`Tier ${val} already exists.`, 'warn'); closeAddTierModal(); return; }
-  tiers.push(val);
-  sortTiers();
+  tiers.push(val); sortTiers();
   closeAddTierModal();
   showToast(`Tier ${val} added.`, 'ok');
   render();
@@ -591,52 +635,69 @@ function confirmAddTier() {
 // ── BULK ADD ───────────────────────────────────────────────────────────────────
 function openBulkModal() {
   document.getElementById('bulk-textarea').value = '';
-  document.getElementById('addtier-modal').classList.add('hidden');
   document.getElementById('bulk-modal').classList.remove('hidden');
   setTimeout(() => document.getElementById('bulk-textarea').focus(), 50);
 }
-function closeBulkModal() {
-  document.getElementById('bulk-modal').classList.add('hidden');
+function closeBulkModal() { document.getElementById('bulk-modal').classList.add('hidden'); }
+
+function parseBulkLine(raw, defaultPts) {
+  // Strip surrounding whitespace
+  const line = raw.trim();
+  if (!line) return null;
+
+  // ── CSV format: 3+ comma-separated tokens (handles optional quotes) ──
+  // Matches: "052-g","Meowth-Galar","5"  OR  052-g,Meowth-Galar,5
+  const csvMatch = line.match(/^"?([^",]+)"?\s*,\s*"?([^",]+)"?\s*,\s*"?([^",]*)"?$/);
+  if (csvMatch) {
+    const csvName = csvMatch[2].trim();
+    const csvPts  = csvMatch[3].trim();
+    const mon = nameIndex[csvName.toLowerCase()] || aliasIndex[csvName.toLowerCase()];
+    if (!mon) return { unrecognized: csvName };
+    const pts = (csvPts.toUpperCase() === 'N/A' || csvPts === '') ? 'illegal' : (parseInt(csvPts) || 0);
+    return { mon, pts };
+  }
+
+  // ── Plain name format with optional trailing number ──
+  const parts = line.split(/\s+/);
+  let pts = defaultPts;
+  let nameParts = parts;
+
+  if (parts.length >= 2) {
+    const last = parts[parts.length - 1];
+    const parsed = parseInt(last);
+    if (!isNaN(parsed) && String(parsed) === last) {
+      pts = parsed;
+      nameParts = parts.slice(0, -1);
+    }
+  }
+
+  // Handle N/A as name (edge case)
+  const nameStr = nameParts.join(' ');
+  if (nameStr.toUpperCase() === 'N/A') return null;
+
+  const mon = nameIndex[nameStr.toLowerCase()] || aliasIndex[nameStr.toLowerCase()];
+  if (!mon) return { unrecognized: nameStr };
+  return { mon, pts };
 }
+
 function applyBulk() {
   const defaultPts = parseInt(document.getElementById('bulk-default-pts').value);
   const usePts = isNaN(defaultPts) ? 0 : defaultPts;
   const lines = document.getElementById('bulk-textarea').value.split('\n');
 
-  let matched = 0, unrecognized = [];
+  // Skip header row if it looks like one
+  const startIdx = (lines[0] || '').trim().match(/^"?#"?\s*,\s*"?pok/i) ? 1 : 0;
 
-  lines.forEach(raw => {
-    const line = raw.trim();
-    if (!line) return;
+  let matched = 0;
+  const unrecognized = [];
 
-    // Try to parse inline point value: last token is a number
-    const parts = line.split(/\s+/);
-    let pts = usePts;
-    let nameParts = parts;
+  lines.slice(startIdx).forEach(raw => {
+    const result = parseBulkLine(raw, usePts);
+    if (!result) return;
+    if (result.unrecognized) { unrecognized.push(result.unrecognized); return; }
 
-    if (parts.length >= 2) {
-      const last = parts[parts.length - 1];
-      const parsed = parseInt(last);
-      if (!isNaN(parsed) && String(parsed) === last) {
-        pts = parsed;
-        nameParts = parts.slice(0, -1);
-      }
-    }
-
-    const nameKey = nameParts.join(' ').toLowerCase();
-    const mon = nameIndex[nameKey] || aliasIndex[nameKey];
-
-    if (!mon) {
-      unrecognized.push(nameParts.join(' '));
-      return;
-    }
-
-    // Ensure the tier exists
-    if (pts !== 'illegal' && !tiers.includes(pts)) {
-      tiers.push(pts);
-      sortTiers();
-    }
-
+    const { mon, pts } = result;
+    if (pts !== 'illegal' && !tiers.includes(pts)) { tiers.push(pts); sortTiers(); }
     assignments[mon.id] = pts;
     matched++;
   });
@@ -644,8 +705,37 @@ function applyBulk() {
   closeBulkModal();
   render();
 
-  if (matched > 0) showToast(`${matched} Pokémon assigned.`, 'ok');
+  if (matched > 0)             showToast(`${matched} Pokémon assigned.`, 'ok');
   if (unrecognized.length > 0) showToast(`${unrecognized.length} unrecognized: ${unrecognized.slice(0,3).join(', ')}${unrecognized.length > 3 ? '…' : ''}`, 'warn');
+}
+
+// ── RESET ──────────────────────────────────────────────────────────────────────
+function openResetModal()  { document.getElementById('reset-modal').classList.remove('hidden'); }
+function closeResetModal() { document.getElementById('reset-modal').classList.add('hidden'); }
+function confirmReset() {
+  // Restore assignments from the current default snapshot
+  allPokemon.forEach(p => { assignments[p.id] = defaultAssign[p.id]; });
+  tiers = [...DEFAULT_TIER_RANGE];
+  // Add any tiers that appear in defaultAssign but are outside 0-21
+  Object.values(defaultAssign).forEach(v => {
+    if (typeof v === 'number' && !tiers.includes(v)) { tiers.push(v); }
+  });
+  sortTiers();
+  pinnedIds.clear();
+  closeResetModal();
+  showToast('Reset to default assignments.', 'ok');
+  render();
+}
+
+// ── MAKE DEFAULT ───────────────────────────────────────────────────────────────
+function openMakeDefaultModal()  { document.getElementById('makedefault-modal').classList.remove('hidden'); }
+function closeMakeDefaultModal() { document.getElementById('makedefault-modal').classList.add('hidden'); }
+function confirmMakeDefault() {
+  // Deep copy current assignments into defaultAssign
+  allPokemon.forEach(p => { defaultAssign[p.id] = assignments[p.id]; });
+  closeMakeDefaultModal();
+  showToast('Current tiers saved as new default.', 'ok');
+  render(); // refresh delta highlighting
 }
 
 // ── SEARCH ─────────────────────────────────────────────────────────────────────
@@ -676,24 +766,14 @@ function applySearch() {
 }
 
 // ── TOGGLES ────────────────────────────────────────────────────────────────────
-function onToggleZeroIllegal() {
-  zeroAsIllegal = document.getElementById('toggle-zero-illegal').checked;
-  render();
-}
-function onToggleLegalOnly() {
-  legalOnly = !legalOnly;
-  document.getElementById('legal-only-btn').classList.toggle('active', legalOnly);
-  render();
-}
+function onToggleZeroIllegal() { zeroAsIllegal = document.getElementById('toggle-zero-illegal').checked; render(); }
+function onToggleLegalOnly()   { legalOnly = !legalOnly; document.getElementById('legal-only-btn').classList.toggle('active', legalOnly); render(); }
 
 // ── EXPORT CSV ─────────────────────────────────────────────────────────────────
 function exportCSV() {
-  // Points-mode format: #,Pokémon,Points   (N/A for illegal)
   const rows = [['#', 'Pokémon', 'Points']];
-  // Sort by id numerically
   const sorted = [...allPokemon].sort((a, b) => {
-    const na = parseInt(a.id);
-    const nb = parseInt(b.id);
+    const na = parseInt(a.id), nb = parseInt(b.id);
     return na !== nb ? na - nb : a.id.localeCompare(b.id);
   });
   sorted.forEach(p => {
@@ -701,13 +781,11 @@ function exportCSV() {
     const ptsCell = (a === 'illegal' || (zeroAsIllegal && a === 0)) ? 'N/A' : String(a);
     rows.push([p.id, p.name, ptsCell]);
   });
-
-  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const csv  = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
   const blob = new Blob([csv], { type: 'text/csv' });
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
-  a.href = url; a.download = 'tier-export.csv';
-  a.click();
+  a.href = url; a.download = 'tier-export.csv'; a.click();
   URL.revokeObjectURL(url);
   showToast('CSV exported.', 'ok');
 }
@@ -715,31 +793,20 @@ function exportCSV() {
 // ── TOAST ──────────────────────────────────────────────────────────────────────
 function showToast(msg, type = 'ok') {
   const wrap = document.getElementById('toast-wrap');
-  const el = document.createElement('div');
+  const el   = document.createElement('div');
   el.className = `toast ${type}`;
   el.textContent = msg;
   wrap.appendChild(el);
-  requestAnimationFrame(() => { el.classList.add('show'); });
-  setTimeout(() => {
-    el.classList.remove('show');
-    setTimeout(() => el.remove(), 250);
-  }, 3000);
+  requestAnimationFrame(() => el.classList.add('show'));
+  setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 250); }, 3200);
 }
 
 // ── KEYBOARD ───────────────────────────────────────────────────────────────────
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeBulkModal();
-    closeAddTierModal();
-    clearSearch();
-  }
-  if ((e.key === 'f' || e.key === 'F') && (e.ctrlKey || e.metaKey)) {
-    e.preventDefault();
-    document.getElementById('search-input').focus();
-  }
+  if (e.key === 'Escape') { closeBulkModal(); closeAddTierModal(); closeResetModal(); closeMakeDefaultModal(); clearSearch(); }
+  if ((e.key === 'f' || e.key === 'F') && (e.ctrlKey || e.metaKey)) { e.preventDefault(); document.getElementById('search-input').focus(); }
 });
 
-// Kick off
 init();
 </script>
 </body>
