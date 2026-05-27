@@ -688,13 +688,17 @@ function teamToPaste(){
     if(!mon) return null;
     const disp = getDisplayMon(mon);
     const pd = mon.pasteData || {};
+    // Use preserved alias name if the mon was imported as something like "Sinistcha-Masterpiece"
+    const speciesName = (pd.importedAs && _nameLookup && _nameLookup[normalize(pd.importedAs)] 
+      && (_nameLookup[normalize(pd.importedAs)] === mon || _nameLookup[normalize(pd.importedAs)].base === mon || _nameLookup[normalize(pd.importedAs)] === mon.base))
+      ? pd.importedAs : disp.name;
     const lines = [];
     // First line: Nickname (Species) (Gender) @ Item
     let firstLine = '';
     if(pd.nickname){
-      firstLine = pd.nickname + ' (' + disp.name + ')';
+      firstLine = pd.nickname + ' (' + speciesName + ')';
     } else {
-      firstLine = disp.name;
+      firstLine = speciesName;
     }
     if(pd.gender) firstLine += ' (' + pd.gender + ')';
     if(pd.item)   firstLine += ' @ ' + pd.item;
@@ -824,6 +828,7 @@ function applyPaste(){
       ivs:      block.ivs      || null,
       nature:   block.nature   || null,
       moves:    block.moves    || [],
+      importedAs: (block.name !== mon.name) ? block.name : null,
     };
     newTeam[slotIdx] = Object.assign({}, mon, {pasteData});
   });
