@@ -1083,6 +1083,7 @@ function getDisplayMon(mon){
     type1: mon.altForm.type1,
     type2: mon.altForm.type2,
     stats: mon.altForm.stats,
+    abilities: mon.altform.abilities || mon.abilities,
     id: mon.altForm.spriteId || mon.id  // use alt sprite ID for image lookup
   });
 }
@@ -1202,7 +1203,7 @@ function renderTeam(){
       const megaBaseShowing = megaBaseActive.has(mon.id);
       d.className="draft-slot"+(mon&&!mon.legal&&!exp?" illegal-slot":"");
       const moves=(mon.moves||[]).slice(0,8).map(m=>`<span class="move-tag">${m}</span>`).join("");
-      const abilities=(mon.abilities||[]).map(a=>`<span class="ability-tag">${a}</span>`).join("");
+      const abilities=(disp.abilities||[]).map(a=>`<span class="ability-tag">${a}</span>`).join("");
       const ptsDisp=mon.legal
         ?`<div class="slot-pts-display">${mon.points}</div>`
         :`<div class="slot-pts-display illegal-pts">Illegal</div>`;
