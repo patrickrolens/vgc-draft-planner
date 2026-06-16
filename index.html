@@ -128,6 +128,8 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 /* Main column flows info → matchups → moves as a single stack, independent of the
    sprite's fixed height (no row-height coupling, so no gaps). */
 .sg-main{grid-area:main;min-width:0;display:flex;flex-direction:column;gap:6px;}
+.sg-main>.sg-moves-primary{display:none;}   /* mobile-only top-5 moves cell */
+.move-more{font-size:10px;font-weight:700;color:var(--accent);padding:1px 6px;align-self:center;}
 .sg-radar{grid-area:radar;min-width:0;position:relative;display:flex;justify-content:center;align-items:center;align-self:center;padding-top:20px;}
 .sg-radar .stat-bars-large{min-width:0;width:100%;}
 .sg-radar canvas{max-width:100%;height:auto;}
@@ -154,6 +156,10 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
     grid-template-areas:
       "rail sprite main ctrl"
       "exp  exp    exp  exp";}
+  .sg-main>.sg-moves{display:none;}              /* desktop "all moves" hidden on mobile */
+  .sg-main>.sg-moves-primary{display:flex;flex-wrap:wrap;gap:4px;}   /* top-5 + "n more" */
+  .sg-moves-overflow{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;}
+  .sg-moves-primary .move-tag,.sg-moves-overflow .move-tag{font-size:9px;padding:1px 5px;color:#fff;}
   .sg-sprite{width:128px;}
   .slot-sprite-wrap{width:128px;height:128px;}
   .slot-sprite-wrap .slot-sprite{width:128px;height:128px;}
@@ -219,7 +225,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .tm-immune-sm{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(90,83,102,0.25);color:#888;border:1px solid rgba(90,83,102,0.35);white-space:nowrap;}
 
 .slot-moves{display:flex;gap:4px;flex-wrap:wrap;align-content:start;}
-.sg-moves:empty{display:none;}
+.sg-moves:empty,.sg-moves-primary:empty{display:none;}
 .move-tag{font-size:10px;background:var(--bg3);border:1px solid var(--border);padding:1px 6px;border-radius:3px;color:var(--text2);}
 
 /* empty slot row */
@@ -1274,7 +1280,19 @@ function renderTeam(){
       const hasMegaBase=!!(mon.baseForm);
       const megaBaseShowing = megaBaseActive.has(mon.id);
       d.className="draft-slot"+(mon&&!mon.legal&&!exp?" illegal-slot":"");
-      const moves=(mon.moves||[]).slice(0,8).map(m=>`<span class="move-tag">${m}</span>`).join("");
+      // Priority-sort the full move list, then split: top 5 are the primary set
+      // (shown in the main column), the rest are overflow (shown on expand, mobile).
+      const sortedMoves=sortMovesByPriority(mon.moves||[]);
+      const tag=m=>`<span class="move-tag">${m}</span>`;
+      const PRIMARY_CAP=5;
+      const primaryMoves=sortedMoves.slice(0,PRIMARY_CAP);
+      const overflowMoves=sortedMoves.slice(PRIMARY_CAP);
+      const nMore=overflowMoves.length;
+      // Desktop shows everything in order; mobile caps the primary spot at 5 + "n more".
+      const moves=sortedMoves.map(tag).join("");                 // desktop: all moves
+      const movesPrimary=primaryMoves.map(tag).join("")
+        + (nMore>0?`<span class="move-more">+${nMore} more</span>`:"");
+      const movesOverflow=overflowMoves.map(tag).join("");
       const abilities=(mon.abilities||[]).map(a=>`<span class="ability-tag">${a}</span>`).join("");
       const ptsDisp=mon.legal
         ?`<div class="slot-pts-display">${mon.points}</div>`
@@ -1333,7 +1351,8 @@ function renderTeam(){
             <div class="slot-stats-compact">${statNums}</div>
           </div>
           <div class="sg-match slot-matchups">${weakBadges}${matchBreak}${resistBadges}${immuneBadges}</div>
-          ${moves?`<div class="sg-moves slot-moves" id="moves-${i}">${moves}</div>`:`<div class="sg-moves"></div>`}
+          ${moves?`<div class="sg-moves slot-moves">${moves}</div>`:`<div class="sg-moves"></div>`}
+          ${movesPrimary?`<div class="sg-moves-primary slot-moves">${movesPrimary}</div>`:`<div class="sg-moves-primary"></div>`}
         </div>
         <div class="sg-radar">
           <button class="chart-toggle" onclick="toggleChart(${i})" title="${showBars.has(i)?'Show radar':'Show stat bars'}">${showBars.has(i)?'◭ Radar':'▦ Bars'}</button>
@@ -1352,6 +1371,7 @@ function renderTeam(){
               ? `<div class="stat-bars-large">${largeStatBars(disp)}</div>`
               : `<div class="radar-large-wrap"><canvas id="rl-${i}" width="180" height="180"></canvas></div>`}
           </div>
+          ${movesOverflow?`<div class="sg-moves-overflow slot-moves">${movesOverflow}</div>`:""}
         </div>
         </div>`;
       el.appendChild(d);
@@ -1515,6 +1535,23 @@ function renderPoints(){
   const bar=document.getElementById("pts-bar");
   bar.style.width=pct+"%";
   bar.className="pts-bar-fill"+(pct>=100?" over":pct>=80?" warn":"");
+}
+// ── MOVE PRIORITY ──────────────────────────────────────────────────────────
+// Higher weight = more important = sorts earlier (and survives the mobile top-5
+// cutoff). Moves not listed here get weight 0 and keep their original relative
+// order. Edit this list to tune which utility moves surface first.
+const MOVE_PRIORITY = {
+  "Fake Out": 10,
+  "Tailwind": 10,
+  "Trick Room": 10,
+  "Electroweb": 7,
+};
+// Returns a new array of move names sorted by priority (stable for equal weights).
+function sortMovesByPriority(moves){
+  return (moves||[])
+    .map((m,idx)=>({m,idx,w:MOVE_PRIORITY[m]||0}))
+    .sort((a,b)=> b.w-a.w || a.idx-b.idx)   // weight desc, then original order
+    .map(o=>o.m);
 }
 const TA={Normal:"Nrm",Fire:"Fir",Water:"Wat",Grass:"Grs",Electric:"Ele",Ice:"Ice",Fighting:"Fgt",Poison:"Psn",Ground:"Gnd",Flying:"Fly",Psychic:"Psy",Bug:"Bug",Rock:"Rck",Ghost:"Gst",Dragon:"Drg",Dark:"Drk",Steel:"Stl",Fairy:"Fry"};
 // Name length tiers for the mobile sprite-name overlay (mirrors team.html).
