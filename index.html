@@ -120,13 +120,11 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
             Expand reveals radar + bars. */
 .slot-grid{display:grid;gap:6px 14px;align-items:start;--spr:144px;
   grid-template-columns:auto var(--spr) minmax(0,1.5fr) minmax(0,1fr) auto;
-  grid-template-areas:
-    "rail sprite main radar ctrl"
-    "rail types  main radar ctrl";}
+  grid-template-areas:"rail sprite main radar ctrl";}
 .sg-rail{grid-area:rail;display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:4px;}
-.sg-sprite{grid-area:sprite;display:flex;flex-direction:column;align-items:center;gap:3px;width:144px;}
-.sg-types{grid-area:types;display:flex;justify-content:center;}
-.slot-grid>.sg-match-m{grid-area:matchM;display:none;}   /* sprite-column matchups: mobile only */
+.sg-sprite{grid-area:sprite;display:flex;flex-direction:column;align-items:center;gap:4px;width:144px;}
+.sp-types{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;}
+.sp-match{display:none;}   /* sprite-column matchups: mobile only */
 /* Main column flows info → matchups → moves as a single stack, independent of the
    sprite's fixed height (no row-height coupling, so no gaps). */
 .sg-main{grid-area:main;min-width:0;display:flex;flex-direction:column;gap:6px;}
@@ -141,14 +139,12 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .match-break{flex-basis:100%;height:0;}
 
 /* MOBILE: matchups join the sprite column; desktop matchups copy hides; the radar
-   moves into the expand reveal; utility moves use the space under the ctrl buttons. */
+   moves into the expand reveal. */
 @container (max-width:560px){
   .slot-grid{--spr:128px;
     grid-template-columns:auto var(--spr) minmax(0,1fr) auto;
     grid-template-areas:
       "rail sprite main ctrl"
-      "rail types  main main"
-      "rail matchM main main"
       "exp  exp    exp  exp";}
   .sg-sprite{width:128px;}
   .slot-sprite-wrap{width:128px;height:128px;}
@@ -158,14 +154,11 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
   .sprite-name.n-med{font-size:13px;}
   .sprite-name.n-long{font-size:11px;}
   .sprite-name.n-xl{font-size:9px;}
-  .sg-types{justify-content:center;}
-  .slot-grid>.sg-match-m{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;}
+  .sp-match{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;}
   .sg-main>.sg-match{display:none;}   /* hide the desktop matchups copy on mobile */
   .slot-grid>.sg-radar{display:none;}        /* always-on radar hidden; shown in expand */
   .slot-grid>.sg-ctrl .slot-expand{display:block;}   /* expand button returns */
   .slot-grid>.sg-exp{display:block;}                 /* expandable panel returns */
-  .sg-ctrl{align-self:start;}
-  .match-break{display:none;}   /* line break is a desktop-only readability aid */
 }
 
 .slot-num{font-size:11px;color:var(--text3);font-weight:600;text-align:center;}
@@ -1316,14 +1309,12 @@ function renderTeam(){
           </div>
           ${changeFormBtn}
           ${ptsDisp}
-        </div>
-        <div class="sg-types" id="types-${i}">
-          <div class="slot-types">
+          <div class="slot-types sp-types">
             <span class="type-badge t-${disp.type1}">${disp.type1}</span>
             ${disp.type2?`<span class="type-badge t-${disp.type2}">${disp.type2}</span>`:""}
           </div>
+          <div class="sp-match slot-matchups">${weakBadges}${resistBadges}${immuneBadges}</div>
         </div>
-        <div class="sg-match-m slot-matchups">${weakBadges}${matchBreak}${resistBadges}${immuneBadges}</div>
         <div class="sg-main">
           <div class="sg-info">
             ${abilities?`<div class="slot-row"><div class="slot-row-left">${abilities}</div></div>`:""}
