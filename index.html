@@ -158,7 +158,8 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
   .sg-main>.sg-match{display:none;}   /* hide the desktop matchups copy on mobile */
   .slot-grid>.sg-radar{display:none;}        /* always-on radar hidden; shown in expand */
   .slot-grid>.sg-ctrl .slot-expand{display:block;}   /* expand button returns */
-  .slot-grid>.sg-exp{display:block;}                 /* expandable panel returns */
+  .slot-grid>.sg-exp{display:none;}                  /* collapsed by default... */
+  .slot-grid>.sg-exp.open{display:flex;}             /* ...revealed only when expanded */
 }
 
 .slot-num{font-size:11px;color:var(--text3);font-weight:600;text-align:center;}
