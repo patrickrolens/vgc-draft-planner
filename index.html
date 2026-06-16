@@ -115,43 +115,41 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .draft-slot:hover{border-color:#3e4460;}
 /* ── UNIFIED CARD GRID ──────────────────────────────────────────────────────
    Columns: rail | sprite-stack | info | moves/match | ctrl.
-   WIDE: sprite (rows 1-2) with types beneath (row 3); info spans the middle;
+   WIDE: sprite spans the left; info in the middle (types at its top);
    moves top-right, matchups bottom-right. */
 .slot-grid{display:grid;gap:6px 14px;align-items:start;--spr:144px;
   grid-template-columns:auto var(--spr) minmax(0,1.3fr) minmax(0,1fr) auto;
   grid-template-areas:
     "rail sprite info  moves ctrl"
     "rail sprite info  match ctrl"
-    "rail types  info  match ctrl"
     "exp  exp    exp   exp   exp";}
 .sg-rail{grid-area:rail;display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:4px;}
 .sg-sprite{grid-area:sprite;display:flex;flex-direction:column;align-items:center;gap:3px;width:144px;}
-.sg-types{grid-area:types;display:flex;justify-content:center;width:144px;}
 .sg-info{grid-area:info;min-width:0;}
 .sg-moves{grid-area:moves;min-width:0;}
 .sg-match{grid-area:match;min-width:0;}
 .sg-ctrl{grid-area:ctrl;display:flex;flex-direction:column;align-items:center;gap:5px;}
 .sg-exp{grid-area:exp;}
-/* MEDIUM: matchups migrate left, beneath the info stack; moves stay on the right. */
+/* MEDIUM: matchups drop beneath the info stack (filling the info column); moves
+   keep the right column to themselves, so moves and matchups never share a column. */
 @container (max-width:520px){
   .slot-grid{
     grid-template-columns:auto var(--spr) minmax(0,1fr) minmax(0,1fr) auto;
     grid-template-areas:
       "rail sprite info  moves ctrl"
       "rail sprite match moves ctrl"
-      "rail types  match moves ctrl"
       "exp  exp    exp   exp   exp";}
 }
-/* NARROW: matchups, then moves, tuck under the sprite/types column; info beside. */
-@container (max-width:340px){
+/* NARROW (last resort): no room for a separate moves column, so matchups then
+   moves stack beneath the info column. They never enter the sprite column. */
+@container (max-width:360px){
   .slot-grid{
     grid-template-columns:auto var(--spr) minmax(0,1fr) auto;
     grid-template-areas:
-      "rail sprite info ctrl"
-      "rail types  info ctrl"
-      "rail match  info ctrl"
-      "rail moves  info ctrl"
-      "exp  exp    exp  exp";}
+      "rail sprite info  ctrl"
+      "rail sprite match ctrl"
+      "rail sprite moves ctrl"
+      "exp  exp    exp   exp";}
 }
 
 .slot-num{font-size:11px;color:var(--text3);font-weight:600;text-align:center;}
@@ -172,7 +170,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .sprite-name.n-xl{font-size:10px;}
 .sg-sprite>.slot-pts-display{display:none;}
 .slot-matchups{display:flex;flex-wrap:wrap;gap:3px;align-content:start;}
-.slot-types{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;}
+.slot-types{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px;}
 
 .slot-alt-form-btn{display:block;width:100%;padding:2px 4px;font-size:9px;font-weight:700;background:rgba(124,111,247,0.15);border:1px solid rgba(124,111,247,0.35);color:var(--accent);border-radius:3px;cursor:pointer;text-align:center;white-space:nowrap;transition:background 0.15s;}
 .slot-alt-form-btn:hover{background:rgba(124,111,247,0.28);}
@@ -371,7 +369,7 @@ select.fi option{background:var(--bg2);}
    reclaiming the gutter. Move tags conditionally reflow there too (set by JS). */
 @media(max-width:600px){
   .slot-grid{--spr:128px;}
-  .sg-sprite,.sg-types{width:128px;}
+  .sg-sprite{width:128px;}
   .slot-sprite-wrap{width:128px;height:128px;}
   .slot-sprite-wrap .slot-sprite{width:128px;height:128px;}
   .sprite-pts{font-size:22px;top:4px;left:6px;}
@@ -1316,13 +1314,11 @@ function renderTeam(){
           ${changeFormBtn}
           ${ptsDisp}
         </div>
-        <div class="sg-types">
+        <div class="sg-info">
           <div class="slot-types">
             <span class="type-badge t-${disp.type1}">${disp.type1}</span>
             ${disp.type2?`<span class="type-badge t-${disp.type2}">${disp.type2}</span>`:""}
           </div>
-        </div>
-        <div class="sg-info">
           ${abilities?`<div class="slot-row"><div class="slot-row-left">${abilities}</div></div>`:""}
           <div class="slot-bst" style="margin-top:4px">BST ${disp.stats.bst}</div>
           <div class="slot-stats-compact">${statNums}</div>
