@@ -129,7 +129,12 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
    sprite's fixed height (no row-height coupling, so no gaps). */
 .sg-main{grid-area:main;min-width:0;display:flex;flex-direction:column;gap:6px;}
 .sg-main>.sg-moves-primary{display:none;}   /* mobile-only top-5 moves cell */
-.move-more{font-size:10px;font-weight:700;color:var(--accent);padding:1px 6px;align-self:center;}
+.move-more{font-size:10px;font-weight:700;color:var(--accent);padding:1px 6px;align-self:center;cursor:pointer;border-radius:3px;border:1px solid rgba(124,111,247,0.35);background:rgba(124,111,247,0.12);}
+.move-more:hover{background:rgba(124,111,247,0.22);}
+/* tooltip content rows (utility moves in priority order) */
+.mv-tip-row{display:flex;justify-content:space-between;gap:14px;padding:2px 0;}
+.mv-tip-name{font-weight:600;}
+.mv-tip-cat{color:var(--accent,#7c6ff7);font-size:11px;white-space:nowrap;}
 .sg-radar{grid-area:radar;min-width:0;position:relative;display:flex;justify-content:center;align-items:center;align-self:center;padding-top:20px;}
 .sg-radar .stat-bars-large{min-width:0;width:100%;}
 .sg-radar canvas{max-width:100%;height:auto;}
@@ -158,7 +163,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
       "exp  exp    exp  exp";}
   .sg-main>.sg-moves{display:none;}              /* desktop "all moves" hidden on mobile */
   .sg-main>.sg-moves-primary{display:flex;flex-wrap:wrap;gap:4px;}   /* top-5 + "n more" */
-  .sg-moves-overflow{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;}
+  .sg-moves-overflow{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;}
   .sg-moves-primary .move-tag,.sg-moves-overflow .move-tag{font-size:9px;padding:1px 5px;color:#fff;}
   .sg-sprite{width:128px;}
   .slot-sprite-wrap{width:128px;height:128px;}
@@ -1290,8 +1295,15 @@ function renderTeam(){
       const nMore=overflowMoves.length;
       // Desktop shows everything in order; mobile caps the primary spot at 5 + "n more".
       const moves=sortedMoves.map(tag).join("");                 // desktop: all moves
+      // Tooltip content for "+n more": every utility move in priority order, with
+      // its category. data-tip holds HTML; escape double-quotes for the attribute.
+      const tipRows=sortedMoves.map(m=>{
+        const cat=MOVE_CATEGORY[m]||"—";
+        return `<div class='mv-tip-row'><span class='mv-tip-name'>${m}</span><span class='mv-tip-cat'>${cat}</span></div>`;
+      }).join("");
+      const tipHTML=tipRows.replace(/"/g,"&quot;");
       const movesPrimary=primaryMoves.map(tag).join("")
-        + (nMore>0?`<span class="move-more">+${nMore} more</span>`:"");
+        + (nMore>0?`<span class="move-more" data-tip-title="Utility Moves" data-tip="${tipHTML}" tabindex="0">+${nMore} more</span>`:"");
       const movesOverflow=overflowMoves.map(tag).join("");
       const abilities=(mon.abilities||[]).map(a=>`<span class="ability-tag">${a}</span>`).join("");
       const ptsDisp=mon.legal
@@ -1365,13 +1377,13 @@ function renderTeam(){
           <button class="slot-expand" onclick="toggleExpand(${i})">${exp?"▲":"▼"}</button>
         </div>
         <div class="sg-exp slot-expanded-panel${exp?" open":""}">
+          ${movesOverflow?`<div class="sg-moves-overflow slot-moves">${movesOverflow}</div>`:""}
           <div class="expanded-top sg-exp-chart">
             <button class="chart-toggle" onclick="toggleChart(${i})" title="${showBars.has(i)?'Show radar':'Show stat bars'}">${showBars.has(i)?'◭ Radar':'▦ Bars'}</button>
             ${showBars.has(i)
               ? `<div class="stat-bars-large">${largeStatBars(disp)}</div>`
               : `<div class="radar-large-wrap"><canvas id="rl-${i}" width="180" height="180"></canvas></div>`}
           </div>
-          ${movesOverflow?`<div class="sg-moves-overflow slot-moves">${movesOverflow}</div>`:""}
         </div>
         </div>`;
       el.appendChild(d);
@@ -1401,6 +1413,7 @@ function renderTeam(){
       el.appendChild(d);
     }
   }
+  if (window.SBLTooltip) window.SBLTooltip.refresh();
 }
 
 // ── DRAG AND DROP ─────────────────────────────────────────────────────────────
@@ -1541,10 +1554,47 @@ function renderPoints(){
 // cutoff). Moves not listed here get weight 0 and keep their original relative
 // order. Edit this list to tune which utility moves surface first.
 const MOVE_PRIORITY = {
-  "Fake Out": 10,
-  "Tailwind": 10,
-  "Trick Room": 10,
-  "Electroweb": 7,
+  "Tailwind": 10, "Trick Room": 10, "Follow Me": 10, "Rage Powder": 10, "Fake Out": 10,
+  "Spore": 9, "Glare": 9,
+  "Reflect": 8, "Light Screen": 8, "Nuzzle": 8, "Will-O-Wisp": 8, "Snarl": 8, "Struggle Bug": 8, "Breaking Swipe": 8,
+  "Electroweb": 7, "Icy Wind": 7, "Ally Switch": 7, "Sucker Punch": 7, "Extreme Speed": 7, "First Impression": 7,
+  "Thunderclap": 7, "Feint": 7, "Bullet Punch": 7, "Ice Shard": 7, "Mach Punch": 7, "Accelerock": 7, "Jet Punch": 7,
+  "Eerie Impulse": 7, "Charm": 7,
+  "Thunder Wave": 6, "Sleep Powder": 6, "Yawn": 6, "Helping Hand": 6, "Quick Guard": 6, "Wide Guard": 6,
+  "Aque Jet": 6, "Shadow Sneak": 6, "Vacuum Wave": 6, "Heal Pulse": 6, "Pollen Puff": 6, "Life Dew": 6,
+  "Cotton Spore": 6, "Quash": 6, "String Shot": 6, "Encore": 6, "Disable": 6, "Trick": 6, "Switcheroo": 6,
+  "Chilly Reception": 6,
+  "Bulldoze": 5, "Aurora Veil": 5, "Quick Attack": 5, "Water Shuriken": 5, "Taunt": 5, "Upper Hand": 5,
+  "Strength Sap": 5, "Coaching": 5, "Hypnosis": 5, "Sing": 5, "Grass Whistle": 5, "Knock Off": 5,
+  "Sunny Day": 5, "Rain Dance": 5, "Sandstorm": 5, "Snowscape": 5,
+  "Haze": 4, "Final Gambit": 4, "Flip Turn": 4, "U-Turn": 4, "Volt Switch": 4, "After You": 4, "Dragon Cheer": 4,
+  "Circle Throw": 4, "Dragon Tail": 4, "Whirlwind": 4,
+  "Grassy Terrain": 4, "Misty Terrain": 4, "Psychic Terrain": 4, "Electric Terrain": 4,
+  "Teleport": 2, "Speed Swap": 2,
+};
+// Category lookup for tooltip grouping/labels.
+const MOVE_CATEGORY = {
+  "Tailwind": "Speed Control", "Trick Room": "Speed Control", "Electroweb": "Speed Control", "Icy Wind": "Speed Control",
+  "Cotton Spore": "Speed Control", "Quash": "Speed Control", "String Shot": "Speed Control", "Bulldoze": "Speed Control",
+  "After You": "Speed Control", "Speed Swap": "Speed Control",
+  "Follow Me": "Redirection", "Rage Powder": "Redirection", "Ally Switch": "Redirection",
+  "Fake Out": "Priority", "Sucker Punch": "Priority", "Extreme Speed": "Priority", "First Impression": "Priority",
+  "Thunderclap": "Priority", "Feint": "Priority", "Bullet Punch": "Priority", "Ice Shard": "Priority",
+  "Mach Punch": "Priority", "Accelerock": "Priority", "Jet Punch": "Priority", "Aque Jet": "Priority",
+  "Shadow Sneak": "Priority", "Vacuum Wave": "Priority", "Quick Attack": "Priority", "Water Shuriken": "Priority",
+  "Upper Hand": "Priority",
+  "Spore": "Status", "Glare": "Status", "Nuzzle": "Status", "Will-O-Wisp": "Status", "Thunder Wave": "Status",
+  "Sleep Powder": "Status", "Yawn": "Status", "Hypnosis": "Status", "Sing": "Status", "Grass Whistle": "Status",
+  "Reflect": "Screens", "Light Screen": "Screens", "Aurora Veil": "Screens",
+  "Snarl": "Power Nerfs", "Struggle Bug": "Power Nerfs", "Breaking Swipe": "Power Nerfs", "Eerie Impulse": "Power Nerfs",
+  "Charm": "Power Nerfs", "Strength Sap": "Power Nerfs",
+  "Helping Hand": "Misc", "Quick Guard": "Misc", "Wide Guard": "Misc", "Heal Pulse": "Misc", "Pollen Puff": "Misc",
+  "Life Dew": "Misc", "Encore": "Misc", "Disable": "Misc", "Trick": "Misc", "Switcheroo": "Misc", "Taunt": "Misc",
+  "Coaching": "Misc", "Knock Off": "Misc", "Haze": "Misc", "Final Gambit": "Misc", "Dragon Cheer": "Misc",
+  "Chilly Reception": "Weather", "Sunny Day": "Weather", "Rain Dance": "Weather", "Sandstorm": "Weather", "Snowscape": "Weather",
+  "Flip Turn": "Pivot", "U-Turn": "Pivot", "Volt Switch": "Pivot", "Teleport": "Pivot",
+  "Circle Throw": "Phasing", "Dragon Tail": "Phasing", "Whirlwind": "Phasing",
+  "Grassy Terrain": "Terrain", "Misty Terrain": "Terrain", "Psychic Terrain": "Terrain", "Electric Terrain": "Terrain",
 };
 // Returns a new array of move names sorted by priority (stable for equal weights).
 function sortMovesByPriority(moves){
@@ -2430,5 +2480,73 @@ function showView(name){
 
 
 loadPokemonData();
+
+/* ===== Inlined SBL tooltip module (data-tip click/tap floating tooltip) ===== */
+(function () {
+  'use strict';
+  if (window.SBLTooltip) return; // singleton
+  var css = ''
+    + '#sbl-tip{position:fixed;z-index:9000;max-width:260px;pointer-events:none;'
+    +   'background:var(--bg,#0f1117);border:1px solid var(--accent,#7c6ff7);border-radius:9px;'
+    +   'padding:9px 11px;font-size:12px;line-height:1.45;color:var(--text,#e8eaf6);'
+    +   'box-shadow:0 10px 30px rgba(0,0,0,.6);opacity:0;visibility:hidden;'
+    +   'transition:opacity .12s ease;font-family:inherit;}'
+    + '#sbl-tip.show{opacity:1;visibility:visible;}'
+    + '#sbl-tip .sbl-tip-title{font-size:11px;font-weight:800;color:var(--accent,#7c6ff7);'
+    +   'text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;}'
+    + '#sbl-tip .sbl-tip-body{white-space:normal;}'
+    + '[data-tip]{cursor:pointer;}';
+  var style = document.createElement('style');
+  style.id = 'sbl-tooltip-styles';
+  style.textContent = css;
+  (document.head || document.documentElement).appendChild(style);
+
+  var tip = document.createElement('div');
+  tip.id = 'sbl-tip';
+  tip.innerHTML = '<div class="sbl-tip-title" hidden></div><div class="sbl-tip-body"></div>';
+  var tipTitle = tip.firstChild, tipBody = tip.lastChild;
+  function mountTip() { if (!tip.parentNode) (document.body || document.documentElement).appendChild(tip); }
+  var activeTipEl = null;
+  function showTip(el) {
+    mountTip();
+    var title = el.getAttribute('data-tip-title');
+    if (title) { tipTitle.textContent = title; tipTitle.hidden = false; }
+    else { tipTitle.hidden = true; }
+    tipBody.innerHTML = el.getAttribute('data-tip') || '';
+    tip.classList.add('show');
+    activeTipEl = el;
+    positionTip(el);
+  }
+  function hideTip() { tip.classList.remove('show'); activeTipEl = null; }
+  function positionTip(el) {
+    var r = el.getBoundingClientRect();
+    var tr = tip.getBoundingClientRect();
+    var m = 8;
+    var top = r.top - tr.height - 10;
+    if (top < m) top = r.bottom + 10;
+    var left = r.left + r.width / 2 - tr.width / 2;
+    left = Math.max(m, Math.min(left, window.innerWidth - tr.width - m));
+    tip.style.top = Math.round(top) + 'px';
+    tip.style.left = Math.round(left) + 'px';
+  }
+  function bind() {
+    document.querySelectorAll('[data-tip]').forEach(function (el) {
+      if (el._sblTip) return; el._sblTip = true;
+      el.addEventListener('focus', function () { showTip(el); });
+      el.addEventListener('blur', hideTip);
+      el.addEventListener('click', function (e) {
+        if (activeTipEl === el) hideTip(); else showTip(el);
+        e.stopPropagation();
+      });
+    });
+  }
+  window.addEventListener('scroll', function () { if (activeTipEl) positionTip(activeTipEl); }, true);
+  window.addEventListener('resize', function () { if (activeTipEl) positionTip(activeTipEl); });
+  document.addEventListener('click', function () { hideTip(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hideTip(); });
+  window.SBLTooltip = { refresh: function () { bind(); }, hideAll: function () { hideTip(); } };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
+  else bind();
+})();
 </script></body>
 </html>
