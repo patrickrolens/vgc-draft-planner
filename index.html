@@ -86,8 +86,10 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .paste-textarea{background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:10px 12px;font-size:12px;font-family:monospace;width:100%;min-height:320px;resize:vertical;outline:none;line-height:1.6;}
 .paste-textarea:focus{border-color:var(--accent);}
 
-/* SLOT */
-.draft-slot{background:var(--bg2);border:1px solid var(--border);border-radius:10px;display:flex;align-items:flex-start;gap:12px;padding:10px 14px;transition:border-color 0.15s,opacity 0.15s;}
+/* SLOT — the card is a container; an inner unified grid reflows its cells in
+   response to the card's own width (container query), so the sprite block, info,
+   moves and matchups migrate together as space changes. */
+.draft-slot{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;transition:border-color 0.15s,opacity 0.15s;container-type:inline-size;}
 .draft-slot.drag-over{border-color:var(--accent);background:rgba(124,111,247,0.08);}
 .draft-slot.dragging{opacity:0.4;}
 .slot-sprite-empty{width:72px;height:72px;border:1px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:22px;cursor:pointer;transition:border-color 0.15s,color 0.15s;}
@@ -111,16 +113,52 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .drag-handle:active{cursor:grabbing;}
 .draft-slot.illegal-slot{border-color:#3d2525;}
 .draft-slot:hover{border-color:#3e4460;}
-.slot-num{font-size:11px;color:var(--text3);font-weight:600;width:16px;text-align:center;flex-shrink:0;padding-top:4px;}
+/* ── UNIFIED CARD GRID ──────────────────────────────────────────────────────
+   Columns: rail | sprite-stack | info | moves/match | ctrl.
+   WIDE: sprite (rows 1-2) with types beneath (row 3); info spans the middle;
+   moves top-right, matchups bottom-right. */
+.slot-grid{display:grid;gap:6px 14px;align-items:start;--spr:144px;
+  grid-template-columns:auto var(--spr) minmax(0,1.3fr) minmax(0,1fr) auto;
+  grid-template-areas:
+    "rail sprite info  moves ctrl"
+    "rail sprite info  match ctrl"
+    "rail types  info  match ctrl"
+    "exp  exp    exp   exp   exp";}
+.sg-rail{grid-area:rail;display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:4px;}
+.sg-sprite{grid-area:sprite;display:flex;flex-direction:column;align-items:center;gap:3px;width:144px;}
+.sg-types{grid-area:types;display:flex;justify-content:center;width:144px;}
+.sg-info{grid-area:info;min-width:0;}
+.sg-moves{grid-area:moves;min-width:0;}
+.sg-match{grid-area:match;min-width:0;}
+.sg-ctrl{grid-area:ctrl;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.sg-exp{grid-area:exp;}
+/* MEDIUM: matchups migrate left, beneath the info stack; moves stay on the right. */
+@container (max-width:520px){
+  .slot-grid{
+    grid-template-columns:auto var(--spr) minmax(0,1fr) minmax(0,1fr) auto;
+    grid-template-areas:
+      "rail sprite info  moves ctrl"
+      "rail sprite match moves ctrl"
+      "rail types  match moves ctrl"
+      "exp  exp    exp   exp   exp";}
+}
+/* NARROW: matchups, then moves, tuck under the sprite/types column; info beside. */
+@container (max-width:340px){
+  .slot-grid{
+    grid-template-columns:auto var(--spr) minmax(0,1fr) auto;
+    grid-template-areas:
+      "rail sprite info ctrl"
+      "rail types  info ctrl"
+      "rail match  info ctrl"
+      "rail moves  info ctrl"
+      "exp  exp    exp  exp";}
+}
 
-/* Left rail: slot number stacked over the drag handle. */
-.slot-railL{display:flex;flex-direction:column;align-items:center;flex-shrink:0;gap:6px;padding-top:4px;}
-.slot-railL .slot-num{padding-top:0;}
-.slot-railL .drag-handle{padding-top:0;}
+.slot-num{font-size:11px;color:var(--text3);font-weight:600;text-align:center;}
+.sg-rail .slot-num{padding-top:0;}
+.sg-rail .drag-handle{padding-top:0;padding:0 2px;}
 
-/* ── SPRITE BLOCK (default for all widths): enlarged sprite with points + name
-   overlaid, types relocated beneath. Mirrors the team.html member treatment. ── */
-.slot-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;gap:3px;width:144px;}
+/* ── SPRITE BLOCK: enlarged sprite with points + name overlaid. ── */
 .slot-sprite-wrap{position:relative;display:block;width:144px;height:144px;flex-shrink:0;}
 .slot-sprite-wrap .slot-sprite{position:absolute;inset:0;margin:auto;width:144px;height:144px;object-fit:contain;image-rendering:auto;display:block;}
 .slot-sprite.illegal-img{opacity:0.3;filter:grayscale(90%);}
@@ -132,14 +170,9 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .sprite-name.n-med{font-size:13px;}
 .sprite-name.n-long{font-size:11px;}
 .sprite-name.n-xl{font-size:10px;}
-/* Points + name now live on the sprite, so hide the old standalone points block. */
-.slot-left>.slot-pts-display{display:none;}
-/* Matchup badges (weak + resist + immune) as one full-width wrapping row. */
+.sg-sprite>.slot-pts-display{display:none;}
 .slot-matchups{display:flex;flex-wrap:wrap;gap:3px;align-content:start;}
-/* Under-sprite area hosts the type badges (and, on mobile, reflowed moves). */
-.slot-under-sprite{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;}
 .slot-types{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;}
-.slot-under-sprite .slot-moves{margin-top:0;justify-content:center;}
 
 .slot-alt-form-btn{display:block;width:100%;padding:2px 4px;font-size:9px;font-weight:700;background:rgba(124,111,247,0.15);border:1px solid rgba(124,111,247,0.35);color:var(--accent);border-radius:3px;cursor:pointer;text-align:center;white-space:nowrap;transition:background 0.15s;}
 .slot-alt-form-btn:hover{background:rgba(124,111,247,0.28);}
@@ -147,31 +180,6 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .slot-alt-form-placeholder{height:21px;}
 .slot-pts-display{font-size:20px;font-weight:700;color:#fff;line-height:1;}
 .slot-pts-display.illegal-pts{color:var(--red);font-size:13px;}
-
-
-/* slot body — a container so its inner grid responds to the card's own width
-   (not the viewport), giving the same reflow whether the card is narrow because
-   of the screen or because of the layout column it sits in. */
-.slot-body{flex:1;min-width:0;container-type:inline-size;}
-
-/* Body grid: info stack, utility moves, matchup badges.
-   WIDE (default): info spans left; moves top-right, matchups bottom-right. */
-.slot-grid{display:grid;gap:6px 14px;align-content:start;
-  grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);
-  grid-template-areas:"info moves" "info match";}
-.sg-info{grid-area:info;min-width:0;}
-.sg-moves{grid-area:moves;min-width:0;}
-.sg-match{grid-area:match;min-width:0;}
-/* MEDIUM: matchups migrate left (under info); moves stay on the right. */
-@container (max-width:440px){
-  .slot-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-    grid-template-areas:"info moves" "match moves";}
-}
-/* NARROW: everything stacks — info, then matchups, then moves. */
-@container (max-width:240px){
-  .slot-grid{grid-template-columns:1fr;
-    grid-template-areas:"info" "match" "moves";}
-}
 
 .slot-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-top:4px;}
 .slot-row:first-child{margin-top:0;}
@@ -197,6 +205,10 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .slot-moves{display:flex;gap:4px;flex-wrap:wrap;align-content:start;}
 .sg-moves:empty{display:none;}
 .move-tag{font-size:10px;background:var(--bg3);border:1px solid var(--border);padding:1px 6px;border-radius:3px;color:var(--text2);}
+
+/* empty slot row */
+.slot-empty-row{display:flex;align-items:center;gap:12px;}
+.slot-empty-msg{flex:1;min-width:0;color:var(--text3);font-size:13px;}
 
 /* right controls */
 .slot-right{display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;}
@@ -358,7 +370,8 @@ select.fi option{background:var(--bg2);}
    stacks over the drag handle in the left rail. Types move beneath the sprite,
    reclaiming the gutter. Move tags conditionally reflow there too (set by JS). */
 @media(max-width:600px){
-  .slot-left{width:128px;}
+  .slot-grid{--spr:128px;}
+  .sg-sprite,.sg-types{width:128px;}
   .slot-sprite-wrap{width:128px;height:128px;}
   .slot-sprite-wrap .slot-sprite{width:128px;height:128px;}
   .sprite-pts{font-size:22px;top:4px;left:6px;}
@@ -1289,11 +1302,12 @@ function renderTeam(){
       d.setAttribute('draggable','true');
       d.dataset.slotIdx=i;
       d.innerHTML=`
-        <div class="slot-railL">
+        <div class="slot-grid">
+        <div class="sg-rail">
           <span class="slot-num">${i+1}</span>
           <span class="drag-handle" title="Drag to reorder">⠿</span>
         </div>
-        <div class="slot-left">
+        <div class="sg-sprite">
           <div class="slot-sprite-wrap">
             <img class="slot-sprite${mon.legal?"":" illegal-img"}" id="spr-${i}" src="${spriteUrl(disp)}" alt="${disp.name}">
             <div class="sprite-pts${mon.legal?"":" illegal-pts"}">${mon.legal?mon.points:"!"}</div>
@@ -1301,33 +1315,30 @@ function renderTeam(){
           </div>
           ${changeFormBtn}
           ${ptsDisp}
-          <div class="slot-under-sprite" id="under-${i}">
-            <div class="slot-types" id="types-${i}">
-              <span class="type-badge t-${disp.type1}">${disp.type1}</span>
-              ${disp.type2?`<span class="type-badge t-${disp.type2}">${disp.type2}</span>`:""}
-            </div>
+        </div>
+        <div class="sg-types">
+          <div class="slot-types">
+            <span class="type-badge t-${disp.type1}">${disp.type1}</span>
+            ${disp.type2?`<span class="type-badge t-${disp.type2}">${disp.type2}</span>`:""}
           </div>
         </div>
-        <div class="slot-body">
-          <div class="slot-grid">
-            <div class="sg-info">
-              ${abilities?`<div class="slot-row"><div class="slot-row-left">${abilities}</div></div>`:""}
-              <div class="slot-bst" style="margin-top:4px">BST ${disp.stats.bst}</div>
-              <div class="slot-stats-compact">${statNums}</div>
-            </div>
-            ${moves?`<div class="sg-moves slot-moves" id="moves-${i}">${moves}</div>`:`<div class="sg-moves"></div>`}
-            <div class="sg-match slot-matchups">${weakBadges}${resistBadges}${immuneBadges}</div>
-          </div>
-          <div class="slot-expanded-panel${exp?" open":""}">
-            <div class="expanded-top">
-              <div class="radar-large-wrap"><canvas id="rl-${i}" width="180" height="180"></canvas></div>
-              <div class="stat-bars-large">${largeStatBars(disp)}</div>
-            </div>
-          </div>
+        <div class="sg-info">
+          ${abilities?`<div class="slot-row"><div class="slot-row-left">${abilities}</div></div>`:""}
+          <div class="slot-bst" style="margin-top:4px">BST ${disp.stats.bst}</div>
+          <div class="slot-stats-compact">${statNums}</div>
         </div>
-        <div class="slot-right">
+        ${moves?`<div class="sg-moves slot-moves" id="moves-${i}">${moves}</div>`:`<div class="sg-moves"></div>`}
+        <div class="sg-match slot-matchups">${weakBadges}${resistBadges}${immuneBadges}</div>
+        <div class="sg-ctrl">
           <button class="slot-remove" onclick="removeFromTeam(${i})">×</button>
           <button class="slot-expand" onclick="toggleExpand(${i})">${exp?"▲":"▼"}</button>
+        </div>
+        <div class="sg-exp slot-expanded-panel${exp?" open":""}">
+          <div class="expanded-top">
+            <div class="radar-large-wrap"><canvas id="rl-${i}" width="180" height="180"></canvas></div>
+            <div class="stat-bars-large">${largeStatBars(disp)}</div>
+          </div>
+        </div>
         </div>`;
       el.appendChild(d);
       const sprEl=document.getElementById("spr-"+i);
@@ -1339,12 +1350,16 @@ function renderTeam(){
       const slotI = i;
       const hist = slotHistory[i];
       d.innerHTML=`
-        <span class="drag-handle" title="Drag to reorder">⠿</span>
-        <span class="slot-num">${i+1}</span>
-        <div class="slot-sprite-empty" onclick="openSlotPopoverByIdx(${i}, this)">+</div>
-        <div class="slot-body" style="color:var(--text3);font-size:13px;padding-top:22px">Click <strong style="color:var(--text2)">+</strong> to add a Pokémon</div>
-        <div class="slot-right">
-          ${hist ? `<button class="slot-undo" onclick="undoRemove(${i})" title="Restore ${hist.name}">↩ ${hist.name}</button>` : ''}
+        <div class="slot-empty-row">
+          <div class="sg-rail">
+            <span class="slot-num">${i+1}</span>
+            <span class="drag-handle" title="Drag to reorder">⠿</span>
+          </div>
+          <div class="slot-sprite-empty" onclick="openSlotPopoverByIdx(${i}, this)">+</div>
+          <div class="slot-empty-msg">Click <strong style="color:var(--text2)">+</strong> to add a Pokémon</div>
+          <div class="sg-ctrl">
+            ${hist ? `<button class="slot-undo" onclick="undoRemove(${i})" title="Restore ${hist.name}">↩ ${hist.name}</button>` : ''}
+          </div>
         </div>`;
       el.appendChild(d);
     }
