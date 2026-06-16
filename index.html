@@ -113,43 +113,53 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .drag-handle:active{cursor:grabbing;}
 .draft-slot.illegal-slot{border-color:#3d2525;}
 .draft-slot:hover{border-color:#3e4460;}
-/* ── UNIFIED CARD GRID ──────────────────────────────────────────────────────
-   Columns: rail | sprite-stack | info | moves/match | ctrl.
-   WIDE: sprite spans the left; info in the middle (types at its top);
-   moves top-right, matchups bottom-right. */
+/* ── UNIFIED CARD GRID — two fixed states, one breakpoint ────────────────────
+   DESKTOP: sprite+types | info(abilities,stats)+matchups+moves | bars chart.
+            Expand reveals the radar.
+   MOBILE:  sprite+types+matchups | info(abilities,stats)+moves.
+            Expand reveals radar + bars. */
 .slot-grid{display:grid;gap:6px 14px;align-items:start;--spr:144px;
-  grid-template-columns:auto var(--spr) minmax(0,1.3fr) minmax(0,1fr) auto;
+  grid-template-columns:auto var(--spr) minmax(0,1.5fr) minmax(0,1fr) auto;
   grid-template-areas:
-    "rail sprite info  moves ctrl"
-    "rail sprite info  match ctrl"
-    "exp  exp    exp   exp   exp";}
+    "rail sprite main bars ctrl"
+    "rail types  main bars ctrl"
+    "exp  exp    exp  exp  exp";}
 .sg-rail{grid-area:rail;display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:4px;}
 .sg-sprite{grid-area:sprite;display:flex;flex-direction:column;align-items:center;gap:3px;width:144px;}
-.sg-info{grid-area:info;min-width:0;}
-.sg-moves{grid-area:moves;min-width:0;}
-.sg-match{grid-area:match;min-width:0;}
+.sg-types{grid-area:types;display:flex;justify-content:center;}
+.sg-match-m{grid-area:matchM;display:none;}   /* sprite-column matchups: mobile only */
+/* Main column flows info → matchups → moves as a single stack, independent of the
+   sprite's fixed height (no row-height coupling, so no gaps). */
+.sg-main{grid-area:main;min-width:0;display:flex;flex-direction:column;gap:6px;}
+.sg-bars{grid-area:bars;min-width:0;}
+.sg-bars .stat-bars-large{min-width:0;}
 .sg-ctrl{grid-area:ctrl;display:flex;flex-direction:column;align-items:center;gap:5px;}
 .sg-exp{grid-area:exp;}
-/* MEDIUM: matchups drop beneath the info stack (filling the info column); moves
-   keep the right column to themselves, so moves and matchups never share a column. */
-@container (max-width:520px){
-  .slot-grid{
-    grid-template-columns:auto var(--spr) minmax(0,1fr) minmax(0,1fr) auto;
-    grid-template-areas:
-      "rail sprite info  moves ctrl"
-      "rail sprite match moves ctrl"
-      "exp  exp    exp   exp   exp";}
-}
-/* NARROW (last resort): no room for a separate moves column, so matchups then
-   moves stack beneath the info column. They never enter the sprite column. */
-@container (max-width:360px){
-  .slot-grid{
+.sg-exp-bars{display:none;}   /* desktop: bars live in their own column, not in expand */
+
+/* MOBILE: matchups join the sprite column (sg-match-m); the desktop matchups in
+   the main column hides; bars chart moves into the expand reveal. */
+@container (max-width:560px){
+  .slot-grid{--spr:128px;
     grid-template-columns:auto var(--spr) minmax(0,1fr) auto;
     grid-template-areas:
-      "rail sprite info  ctrl"
-      "rail sprite match ctrl"
-      "rail sprite moves ctrl"
-      "exp  exp    exp   exp";}
+      "rail sprite main ctrl"
+      "rail types  main ctrl"
+      "rail matchM main ctrl"
+      "exp  exp    exp  exp";}
+  .sg-sprite{width:128px;}
+  .slot-sprite-wrap{width:128px;height:128px;}
+  .slot-sprite-wrap .slot-sprite{width:128px;height:128px;}
+  .sprite-pts{font-size:22px;top:4px;left:6px;}
+  .sprite-name{font-size:15px;padding:6px 4px 5px;}
+  .sprite-name.n-med{font-size:13px;}
+  .sprite-name.n-long{font-size:11px;}
+  .sprite-name.n-xl{font-size:9px;}
+  .sg-types{justify-content:center;}
+  .sg-match-m{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;}
+  .sg-main>.sg-match{display:none;}   /* hide the desktop matchups copy on mobile */
+  .sg-bars{display:none;}        /* always-on bars hidden on mobile */
+  .sg-exp-bars{display:block;}   /* bars revealed inside expand instead */
 }
 
 .slot-num{font-size:11px;color:var(--text3);font-weight:600;text-align:center;}
@@ -362,22 +372,6 @@ select.fi option{background:var(--bg2);}
 ::-webkit-scrollbar-track{background:var(--bg2);}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 @media(max-width:600px){.view{padding:1rem 0.75rem;}nav{overflow-x:auto;}.nav-tab{font-size:12px;padding:12px 10px;}}
-
-/* ── MOBILE SLOT REDESIGN (≤600px) ──────────────────────────────────────────
-   Sprite enlarges with points + name overlaid (team.html treatment). The number
-   stacks over the drag handle in the left rail. Types move beneath the sprite,
-   reclaiming the gutter. Move tags conditionally reflow there too (set by JS). */
-@media(max-width:600px){
-  .slot-grid{--spr:128px;}
-  .sg-sprite{width:128px;}
-  .slot-sprite-wrap{width:128px;height:128px;}
-  .slot-sprite-wrap .slot-sprite{width:128px;height:128px;}
-  .sprite-pts{font-size:22px;top:4px;left:6px;}
-  .sprite-name{font-size:15px;padding:6px 4px 5px;}
-  .sprite-name.n-med{font-size:13px;}
-  .sprite-name.n-long{font-size:11px;}
-  .sprite-name.n-xl{font-size:9px;}
-}
 </style>
 </head>
 <body>
@@ -1314,17 +1308,23 @@ function renderTeam(){
           ${changeFormBtn}
           ${ptsDisp}
         </div>
-        <div class="sg-info">
+        <div class="sg-types" id="types-${i}">
           <div class="slot-types">
             <span class="type-badge t-${disp.type1}">${disp.type1}</span>
             ${disp.type2?`<span class="type-badge t-${disp.type2}">${disp.type2}</span>`:""}
           </div>
-          ${abilities?`<div class="slot-row"><div class="slot-row-left">${abilities}</div></div>`:""}
-          <div class="slot-bst" style="margin-top:4px">BST ${disp.stats.bst}</div>
-          <div class="slot-stats-compact">${statNums}</div>
         </div>
-        ${moves?`<div class="sg-moves slot-moves" id="moves-${i}">${moves}</div>`:`<div class="sg-moves"></div>`}
-        <div class="sg-match slot-matchups">${weakBadges}${resistBadges}${immuneBadges}</div>
+        <div class="sg-match-m slot-matchups">${weakBadges}${resistBadges}${immuneBadges}</div>
+        <div class="sg-main">
+          <div class="sg-info">
+            ${abilities?`<div class="slot-row"><div class="slot-row-left">${abilities}</div></div>`:""}
+            <div class="slot-bst" style="margin-top:4px">BST ${disp.stats.bst}</div>
+            <div class="slot-stats-compact">${statNums}</div>
+          </div>
+          <div class="sg-match slot-matchups">${weakBadges}${resistBadges}${immuneBadges}</div>
+          ${moves?`<div class="sg-moves slot-moves" id="moves-${i}">${moves}</div>`:`<div class="sg-moves"></div>`}
+        </div>
+        <div class="sg-bars"><div class="stat-bars-large">${largeStatBars(disp)}</div></div>
         <div class="sg-ctrl">
           <button class="slot-remove" onclick="removeFromTeam(${i})">×</button>
           <button class="slot-expand" onclick="toggleExpand(${i})">${exp?"▲":"▼"}</button>
@@ -1332,7 +1332,7 @@ function renderTeam(){
         <div class="sg-exp slot-expanded-panel${exp?" open":""}">
           <div class="expanded-top">
             <div class="radar-large-wrap"><canvas id="rl-${i}" width="180" height="180"></canvas></div>
-            <div class="stat-bars-large">${largeStatBars(disp)}</div>
+            <div class="stat-bars-large sg-exp-bars">${largeStatBars(disp)}</div>
           </div>
         </div>
         </div>`;
