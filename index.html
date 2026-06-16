@@ -30,12 +30,12 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .view{display:none;padding:1.5rem;max-width:1400px;margin:0 auto;}
 /* Draft Builder spreads wider than the other views so the rails hug the edges
    and the center column gets as much room as possible. */
-#view-draft{max-width:1760px;}
+#view-draft{max-width:1860px;}
 .view.active{display:block;}
 
 /* ── DRAFT LAYOUT: 3-column above 1200px, 2-column 960–1200, 1-column below ── */
 .draft-layout{display:grid;gap:1.5rem;align-items:start;
-  grid-template-columns:360px minmax(0,1fr) 360px;
+  grid-template-columns:460px minmax(0,1fr) 460px;
   grid-template-areas:"left center right";}
 .draft-layout .rail{display:flex;flex-direction:column;gap:12px;}
 .draft-layout .rail-left{grid-area:left;}
@@ -43,7 +43,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .draft-layout .rail-right{grid-area:right;}
 /* 2-column: team list beside a single rail (left panels stacked over Utility) */
 @media(max-width:1200px){
-  .draft-layout{grid-template-columns:minmax(0,1fr) 360px;
+  .draft-layout{grid-template-columns:minmax(0,1fr) 460px;
     grid-template-areas:"center left" "center right";
     align-content:start;}
   .draft-layout .rail-left{grid-area:left;}
@@ -1596,7 +1596,7 @@ function renderSpeedTiers(){
     let icons="";
     inT.forEach(function(m){
       icons+='<img src="'+iconUrl(m)+'" title="'+m.name+' ('+m.stats.spe+')" '
-        +'style="width:24px;height:24px;image-rendering:pixelated;flex-shrink:0" '
+        +'style="width:32px;height:32px;image-rendering:pixelated;flex-shrink:0" '
         +'onerror="this.onerror=function(){this.onerror=null;this.src=POKEBALL_FALLBACK;this.style.opacity=0.5;};this.src=\''+spriteUrl(m)+'\';">';
     });
     const rowStyle=inT.length
@@ -1621,7 +1621,7 @@ function renderUtility(){
       hav.forEach(function(m){
         const disp=getDisplayMon(m);
         icons+='<img src="'+iconUrl(disp)+'" title="'+disp.name+'" '
-          +'style="width:22px;height:22px;image-rendering:pixelated;flex-shrink:0" '
+          +'style="width:32px;height:32px;image-rendering:pixelated;flex-shrink:0" '
           +'onerror="this.onerror=function(){this.onerror=null;this.src=POKEBALL_FALLBACK;this.style.opacity=0.5;};this.src=\''+spriteUrl(m)+'\';">';
       });
       const mnCls=hav.length?"util-mn":"util-mn util-mn-none";
