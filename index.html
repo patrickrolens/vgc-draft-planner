@@ -87,7 +87,19 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .paste-textarea:focus{border-color:var(--accent);}
 
 /* SLOT */
-.draft-slot{background:var(--bg2);border:1px solid var(--border);border-radius:10px;display:flex;align-items:flex-start;gap:12px;padding:10px 14px;transition:border-color 0.15s,opacity 0.15s;}
+.draft-slot{background:var(--bg2);border:1px solid var(--border);border-radius:10px;display:flex;align-items:flex-start;gap:12px;padding:10px 14px;transition:border-color 0.15s,opacity 0.15s,box-shadow 0.15s;position:relative;}
+/* Type-colored border ring, painted as a masked pseudo so it never collides with
+   the card's own border/background/outline (used by illegal, drag, and matchup
+   highlight states). --t1/--t2 are set inline per slot; mono-type sets them equal.
+   Split: top half = type 1, bottom half = type 2. */
+.draft-slot.type-bordered::before{
+  content:"";position:absolute;inset:0;border-radius:10px;padding:2px;
+  background:linear-gradient(to bottom,var(--t1,transparent) 0 50%,var(--t2,transparent) 50% 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  pointer-events:none;z-index:1;
+}
+.draft-slot.type-bordered>*{position:relative;z-index:2;}
 .draft-slot.drag-over{border-color:var(--accent);background:rgba(124,111,247,0.08);}
 .draft-slot.dragging{opacity:0.4;}
 .slot-sprite-empty{width:72px;height:72px;border:1px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:22px;cursor:pointer;transition:border-color 0.15s,color 0.15s;}
@@ -110,7 +122,11 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .drag-handle{cursor:grab;color:var(--text3);font-size:14px;padding:0 2px;flex-shrink:0;padding-top:22px;touch-action:none;user-select:none;}
 .drag-handle:active{cursor:grabbing;}
 .draft-slot.illegal-slot{border-color:#3d2525;}
+/* Illegal mons keep the red border, no competing type ring. */
+.draft-slot.illegal-slot.type-bordered::before{display:none;}
 .draft-slot:hover{border-color:#3e4460;}
+/* Hover feedback as an inset ring so it layers over the type-border pseudo. */
+.draft-slot.type-bordered:hover{box-shadow:inset 0 0 0 1px #3e446099;}
 .slot-num{font-size:11px;color:var(--text3);font-weight:600;width:16px;text-align:center;flex-shrink:0;padding-top:4px;}
 
 /* sprite + points column */
@@ -226,13 +242,13 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .tm-section-divider{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);padding:6px 0 2px;border-top:1px solid var(--border);margin-top:2px;}
 .tm-section-divider:first-child{border-top:none;padding-top:0;}
 .speed-tiers{display:flex;flex-direction:column;gap:3px;}
-.speed-row{display:flex;align-items:center;gap:6px;padding:3px 6px;border-radius:4px;}
+.speed-row{display:flex;align-items:center;gap:6px;padding:3px 6px;border-radius:4px;min-height:38px;}
 .speed-lbl{width:46px;font-size:10px;font-weight:600;text-align:left;flex-shrink:0;}
 .speed-icons{display:flex;flex-wrap:wrap;gap:2px;flex:1;}
 .util-section{margin-bottom:0;padding:8px 0;border-top:1px solid rgba(255,255,255,0.08);}
 .util-section:first-child{border-top:none;padding-top:0;}
 .util-section-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);margin-bottom:5px;}
-.util-row{display:flex;align-items:center;margin-bottom:1px;border-radius:3px;}
+.util-row{display:flex;align-items:center;margin-bottom:1px;border-radius:3px;min-height:36px;}
 .util-row:nth-child(even){background:rgba(255,255,255,0.03);}
 .util-mn{font-size:11px;color:var(--text2);width:90px;flex-shrink:0;padding:2px 4px;}
 .util-mn-none{color:var(--text3);}
@@ -1198,6 +1214,15 @@ function renderTeam(){
       const hasMegaBase=!!(mon.baseForm);
       const megaBaseShowing = megaBaseActive.has(mon.id);
       d.className="draft-slot"+(mon&&!mon.legal&&!exp?" illegal-slot":"");
+      // Type-colored border (legal mons only): top half = type1, bottom = type2.
+      // Mono-type sets both halves to the same color. Uses display form's types.
+      if(mon.legal){
+        const c1=TYPE_COLORS[disp.type1]||"var(--border)";
+        const c2=disp.type2?(TYPE_COLORS[disp.type2]||c1):c1;
+        d.classList.add("type-bordered");
+        d.style.setProperty("--t1",c1);
+        d.style.setProperty("--t2",c2);
+      }
       const moves=(mon.moves||[]).slice(0,8).map(m=>`<span class="move-tag">${m}</span>`).join("");
       const abilities=(mon.abilities||[]).map(a=>`<span class="ability-tag">${a}</span>`).join("");
       const ptsDisp=mon.legal
