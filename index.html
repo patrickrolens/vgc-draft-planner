@@ -128,8 +128,13 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 /* Main column flows info → matchups → moves as a single stack, independent of the
    sprite's fixed height (no row-height coupling, so no gaps). */
 .sg-main{grid-area:main;min-width:0;display:flex;flex-direction:column;gap:6px;}
-.sg-radar{grid-area:radar;min-width:0;display:flex;justify-content:center;align-items:center;align-self:center;}
+.sg-radar{grid-area:radar;min-width:0;position:relative;display:flex;justify-content:center;align-items:center;align-self:center;padding-top:20px;}
+.sg-radar .stat-bars-large{min-width:0;width:100%;}
 .sg-radar canvas{max-width:100%;height:auto;}
+.chart-toggle{position:absolute;top:0;left:0;z-index:2;font-size:10px;font-weight:700;
+  padding:2px 7px;border-radius:4px;cursor:pointer;white-space:nowrap;
+  background:var(--bg3);color:var(--text2);border:1px solid var(--border);transition:background 0.15s,color 0.15s;}
+.chart-toggle:hover{background:rgba(124,111,247,0.18);color:var(--accent);border-color:rgba(124,111,247,0.4);}
 .sg-ctrl{grid-area:ctrl;display:flex;flex-direction:column;align-items:center;gap:5px;}
 .sg-exp{grid-area:exp;}
 /* Desktop: radar is always shown in its column, so the expand button and the
@@ -138,6 +143,8 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .slot-grid>.sg-exp{display:none;}
 /* Forces resistances/immunities onto their own line after the weaknesses. */
 .match-break{flex-basis:100%;height:0;}
+.sg-exp-chart{position:relative;padding-top:20px;}
+.sg-exp-chart .stat-bars-large{min-width:0;}
 
 /* MOBILE: matchups join the sprite column; desktop matchups copy hides; the radar
    moves into the expand reveal. */
@@ -1186,6 +1193,7 @@ function largeStatBars(mon){
 const TS=10;
 let team=new Array(TS).fill(null);
 let expanded=new Set();
+let showBars=new Set();   // slot indices currently showing the bar chart instead of the radar
 let altFormActive=new Set(); // tracks Pokémon IDs currently showing their alt form
 let altFormIds=new Set();   // IDs that are alt forms — excluded from Draft Builder search
 let megaBaseActive = new Set(); // Handles Megas/Primals. This lets you toggle from Mega to Base from a selected Mega but not from Base to Mega if the original selection was Base
@@ -1233,6 +1241,7 @@ function undoRemove(i){
   saveSession();
 }
 function toggleExpand(i){expanded.has(i)?expanded.delete(i):expanded.add(i);renderTeam();}
+function toggleChart(i){showBars.has(i)?showBars.delete(i):showBars.add(i);renderTeam();}
 function expandAll(){team.forEach((_,i)=>{if(team[i])expanded.add(i);});renderTeam();}
 function collapseAll(){expanded.clear();renderTeam();}
 
@@ -1326,24 +1335,32 @@ function renderTeam(){
           <div class="sg-match slot-matchups">${weakBadges}${matchBreak}${resistBadges}${immuneBadges}</div>
           ${moves?`<div class="sg-moves slot-moves" id="moves-${i}">${moves}</div>`:`<div class="sg-moves"></div>`}
         </div>
-        <div class="sg-radar"><div class="radar-large-wrap"><canvas id="rd-${i}" width="215" height="215"></canvas></div></div>
+        <div class="sg-radar">
+          <button class="chart-toggle" onclick="toggleChart(${i})" title="${showBars.has(i)?'Show radar':'Show stat bars'}">${showBars.has(i)?'◭ Radar':'▦ Bars'}</button>
+          ${showBars.has(i)
+            ? `<div class="stat-bars-large">${largeStatBars(disp)}</div>`
+            : `<div class="radar-large-wrap"><canvas id="rd-${i}" width="215" height="215"></canvas></div>`}
+        </div>
         <div class="sg-ctrl">
           <button class="slot-remove" onclick="removeFromTeam(${i})">×</button>
           <button class="slot-expand" onclick="toggleExpand(${i})">${exp?"▲":"▼"}</button>
         </div>
         <div class="sg-exp slot-expanded-panel${exp?" open":""}">
-          <div class="expanded-top">
-            <div class="radar-large-wrap"><canvas id="rl-${i}" width="180" height="180"></canvas></div>
+          <div class="expanded-top sg-exp-chart">
+            <button class="chart-toggle" onclick="toggleChart(${i})" title="${showBars.has(i)?'Show radar':'Show stat bars'}">${showBars.has(i)?'◭ Radar':'▦ Bars'}</button>
+            ${showBars.has(i)
+              ? `<div class="stat-bars-large">${largeStatBars(disp)}</div>`
+              : `<div class="radar-large-wrap"><canvas id="rl-${i}" width="180" height="180"></canvas></div>`}
           </div>
         </div>
         </div>`;
       el.appendChild(d);
       const sprEl=document.getElementById("spr-"+i);
       setSpriteFallback(sprEl);
-      // Always-on desktop radar (third column).
-      drawRadar(document.getElementById("rd-"+i),disp,215);
-      // Mobile expand radar (only when expanded).
-      if(exp) drawRadar(document.getElementById("rl-"+i),disp,180);
+      // Always-on desktop chart (third column): radar unless toggled to bars.
+      if(!showBars.has(i)) drawRadar(document.getElementById("rd-"+i),disp,215);
+      // Mobile expand chart (only when expanded): radar unless toggled to bars.
+      if(exp && !showBars.has(i)) drawRadar(document.getElementById("rl-"+i),disp,180);
     } else {
       d.className="draft-slot";
       d.dataset.slotIdx=i;
