@@ -127,7 +127,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .sg-rail{grid-area:rail;display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:4px;}
 .sg-sprite{grid-area:sprite;display:flex;flex-direction:column;align-items:center;gap:3px;width:144px;}
 .sg-types{grid-area:types;display:flex;justify-content:center;}
-.sg-match-m{grid-area:matchM;display:none;}   /* sprite-column matchups: mobile only */
+.slot-grid>.sg-match-m{grid-area:matchM;display:none;}   /* sprite-column matchups: mobile only */
 /* Main column flows info → matchups → moves as a single stack, independent of the
    sprite's fixed height (no row-height coupling, so no gaps). */
 .sg-main{grid-area:main;min-width:0;display:flex;flex-direction:column;gap:6px;}
@@ -135,7 +135,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .sg-bars .stat-bars-large{min-width:0;}
 .sg-ctrl{grid-area:ctrl;display:flex;flex-direction:column;align-items:center;gap:5px;}
 .sg-exp{grid-area:exp;}
-.sg-exp-bars{display:none;}   /* desktop: bars live in their own column, not in expand */
+.expanded-top>.sg-exp-bars{display:none;}   /* desktop: bars live in their own column, not in expand */
 
 /* MOBILE: matchups join the sprite column (sg-match-m); the desktop matchups in
    the main column hides; bars chart moves into the expand reveal. */
@@ -156,10 +156,10 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
   .sprite-name.n-long{font-size:11px;}
   .sprite-name.n-xl{font-size:9px;}
   .sg-types{justify-content:center;}
-  .sg-match-m{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;}
+  .slot-grid>.sg-match-m{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;}
   .sg-main>.sg-match{display:none;}   /* hide the desktop matchups copy on mobile */
-  .sg-bars{display:none;}        /* always-on bars hidden on mobile */
-  .sg-exp-bars{display:block;}   /* bars revealed inside expand instead */
+  .slot-grid>.sg-bars{display:none;}        /* always-on bars hidden on mobile */
+  .expanded-top>.sg-exp-bars{display:block;}   /* bars revealed inside expand instead */
 }
 
 .slot-num{font-size:11px;color:var(--text3);font-weight:600;text-align:center;}
