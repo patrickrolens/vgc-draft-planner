@@ -135,7 +135,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 /* Points + name now live on the sprite, so hide the old standalone points block. */
 .slot-left>.slot-pts-display{display:none;}
 /* Matchup badges (weak + resist + immune) as one full-width wrapping row. */
-.slot-matchups{display:flex;flex-wrap:wrap;gap:3px;margin-top:2px;}
+.slot-matchups{display:flex;flex-wrap:wrap;gap:3px;align-content:start;}
 /* Under-sprite area hosts the type badges (and, on mobile, reflowed moves). */
 .slot-under-sprite{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;}
 .slot-types{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;}
@@ -149,9 +149,30 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .slot-pts-display.illegal-pts{color:var(--red);font-size:13px;}
 
 
-/* slot body */
-.slot-body{flex:1;min-width:0;}
-/* each info row is flex: left content + right-aligned matchup badges */
+/* slot body — a container so its inner grid responds to the card's own width
+   (not the viewport), giving the same reflow whether the card is narrow because
+   of the screen or because of the layout column it sits in. */
+.slot-body{flex:1;min-width:0;container-type:inline-size;}
+
+/* Body grid: info stack, utility moves, matchup badges.
+   WIDE (default): info spans left; moves top-right, matchups bottom-right. */
+.slot-grid{display:grid;gap:6px 14px;align-content:start;
+  grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);
+  grid-template-areas:"info moves" "info match";}
+.sg-info{grid-area:info;min-width:0;}
+.sg-moves{grid-area:moves;min-width:0;}
+.sg-match{grid-area:match;min-width:0;}
+/* MEDIUM: matchups migrate left (under info); moves stay on the right. */
+@container (max-width:440px){
+  .slot-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    grid-template-areas:"info moves" "match moves";}
+}
+/* NARROW: everything stacks — info, then matchups, then moves. */
+@container (max-width:240px){
+  .slot-grid{grid-template-columns:1fr;
+    grid-template-areas:"info" "match" "moves";}
+}
+
 .slot-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-top:4px;}
 .slot-row:first-child{margin-top:0;}
 .slot-row-left{display:flex;flex-wrap:wrap;gap:4px;flex:1;min-width:0;}
@@ -173,7 +194,8 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .tm-resist-sm.tm-quarter{background:rgba(96,165,250,0.25);border-color:rgba(96,165,250,0.5);color:#93c5fd;}
 .tm-immune-sm{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(90,83,102,0.25);color:#888;border:1px solid rgba(90,83,102,0.35);white-space:nowrap;}
 
-.slot-moves{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;}
+.slot-moves{display:flex;gap:4px;flex-wrap:wrap;align-content:start;}
+.sg-moves:empty{display:none;}
 .move-tag{font-size:10px;background:var(--bg3);border:1px solid var(--border);padding:1px 6px;border-radius:3px;color:var(--text2);}
 
 /* right controls */
@@ -1287,11 +1309,15 @@ function renderTeam(){
           </div>
         </div>
         <div class="slot-body">
-          <div class="slot-matchups">${weakBadges}${resistBadges}${immuneBadges}</div>
-          ${abilities?`<div class="slot-row"><div class="slot-row-left">${abilities}</div></div>`:""}
-          <div class="slot-bst" style="margin-top:4px">BST ${disp.stats.bst}</div>
-          <div class="slot-stats-compact">${statNums}</div>
-          ${moves?`<div class="slot-moves" id="moves-${i}">${moves}</div>`:""}
+          <div class="slot-grid">
+            <div class="sg-info">
+              ${abilities?`<div class="slot-row"><div class="slot-row-left">${abilities}</div></div>`:""}
+              <div class="slot-bst" style="margin-top:4px">BST ${disp.stats.bst}</div>
+              <div class="slot-stats-compact">${statNums}</div>
+            </div>
+            ${moves?`<div class="sg-moves slot-moves" id="moves-${i}">${moves}</div>`:`<div class="sg-moves"></div>`}
+            <div class="sg-match slot-matchups">${weakBadges}${resistBadges}${immuneBadges}</div>
+          </div>
           <div class="slot-expanded-panel${exp?" open":""}">
             <div class="expanded-top">
               <div class="radar-large-wrap"><canvas id="rl-${i}" width="180" height="180"></canvas></div>
@@ -1323,53 +1349,7 @@ function renderTeam(){
       el.appendChild(d);
     }
   }
-  applyMobileSlotLayout();
 }
-
-// ── MOBILE SLOT LAYOUT ────────────────────────────────────────────────────────
-// Type badges live beneath the sprite at every width (set directly in markup).
-// On mobile the card is narrow and tall, leaving a gutter beside the body, so the
-// move tags reflow under the sprite too when there's vertical room. On desktop,
-// moves stay in their normal in-body spot. Re-run on resize.
-const MOBILE_SLOT_BP = 600;
-function applyMobileSlotLayout(){
-  const mobile = window.innerWidth <= MOBILE_SLOT_BP;
-  for(let i=0;i<TS;i++){
-    const under = document.getElementById("under-"+i);
-    const moves = document.getElementById("moves-"+i);
-    if(!under || !moves) continue;
-    const slot = under.closest(".draft-slot");
-    const left = under.closest(".slot-left");
-    const body = slot ? slot.querySelector(".slot-body") : null;
-    if(!body) continue;
-    const movesToBody = ()=>{
-      if(moves.parentElement !== body){
-        const panel = body.querySelector(".slot-expanded-panel");
-        body.insertBefore(moves, panel || null);
-      }
-    };
-    if(mobile){
-      // Measure with moves hidden so the decision is stable wherever they sit.
-      const prevDisp = moves.style.display;
-      moves.style.display = "none";
-      const leftH = left.offsetHeight;
-      const bodyH = body.offsetHeight;
-      moves.style.display = prevDisp;
-      if(bodyH - leftH >= 28){
-        if(moves.parentElement !== under) under.appendChild(moves);
-      } else {
-        movesToBody();
-      }
-    } else {
-      movesToBody();
-    }
-  }
-}
-let _mobileSlotRAF=null;
-window.addEventListener("resize",()=>{
-  if(_mobileSlotRAF) cancelAnimationFrame(_mobileSlotRAF);
-  _mobileSlotRAF=requestAnimationFrame(applyMobileSlotLayout);
-});
 
 // ── DRAG AND DROP ─────────────────────────────────────────────────────────────
 // Works for both mouse (HTML5 drag) and touch (pointer events)
