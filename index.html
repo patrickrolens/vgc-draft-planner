@@ -124,11 +124,12 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .sg-rail{grid-area:rail;display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:4px;}
 .sg-sprite{grid-area:sprite;display:flex;flex-direction:column;align-items:center;gap:4px;width:144px;}
 .sp-types{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;}
-.sp-match{display:none;}   /* sprite-column matchups: mobile only */
+.sg-sprite>.sp-match{display:none;}   /* sprite-column matchups: mobile only */
 /* Main column flows info → matchups → moves as a single stack, independent of the
    sprite's fixed height (no row-height coupling, so no gaps). */
 .sg-main{grid-area:main;min-width:0;display:flex;flex-direction:column;gap:6px;}
-.sg-radar{grid-area:radar;min-width:0;display:flex;justify-content:center;}
+.sg-radar{grid-area:radar;min-width:0;display:flex;justify-content:center;align-items:center;align-self:center;}
+.sg-radar canvas{max-width:100%;height:auto;}
 .sg-ctrl{grid-area:ctrl;display:flex;flex-direction:column;align-items:center;gap:5px;}
 .sg-exp{grid-area:exp;}
 /* Desktop: radar is always shown in its column, so the expand button and the
@@ -154,7 +155,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
   .sprite-name.n-med{font-size:13px;}
   .sprite-name.n-long{font-size:11px;}
   .sprite-name.n-xl{font-size:9px;}
-  .sp-match{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;}
+  .sg-sprite>.sp-match{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;}
   .sg-main>.sg-match{display:none;}   /* hide the desktop matchups copy on mobile */
   .slot-grid>.sg-radar{display:none;}        /* always-on radar hidden; shown in expand */
   .slot-grid>.sg-ctrl .slot-expand{display:block;}   /* expand button returns */
@@ -1325,7 +1326,7 @@ function renderTeam(){
           <div class="sg-match slot-matchups">${weakBadges}${matchBreak}${resistBadges}${immuneBadges}</div>
           ${moves?`<div class="sg-moves slot-moves" id="moves-${i}">${moves}</div>`:`<div class="sg-moves"></div>`}
         </div>
-        <div class="sg-radar"><div class="radar-large-wrap"><canvas id="rd-${i}" width="180" height="180"></canvas></div></div>
+        <div class="sg-radar"><div class="radar-large-wrap"><canvas id="rd-${i}" width="215" height="215"></canvas></div></div>
         <div class="sg-ctrl">
           <button class="slot-remove" onclick="removeFromTeam(${i})">×</button>
           <button class="slot-expand" onclick="toggleExpand(${i})">${exp?"▲":"▼"}</button>
@@ -1340,7 +1341,7 @@ function renderTeam(){
       const sprEl=document.getElementById("spr-"+i);
       setSpriteFallback(sprEl);
       // Always-on desktop radar (third column).
-      drawRadar(document.getElementById("rd-"+i),disp,180);
+      drawRadar(document.getElementById("rd-"+i),disp,215);
       // Mobile expand radar (only when expanded).
       if(exp) drawRadar(document.getElementById("rl-"+i),disp,180);
     } else {
