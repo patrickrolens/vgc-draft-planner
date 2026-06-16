@@ -113,16 +113,40 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .draft-slot:hover{border-color:#3e4460;}
 .slot-num{font-size:11px;color:var(--text3);font-weight:600;width:16px;text-align:center;flex-shrink:0;padding-top:4px;}
 
-/* sprite + points column */
-.slot-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;gap:2px;width:72px;}
-.slot-sprite{width:72px;height:72px;image-rendering:auto;display:block;}
+/* Left rail: slot number stacked over the drag handle. */
+.slot-railL{display:flex;flex-direction:column;align-items:center;flex-shrink:0;gap:6px;padding-top:4px;}
+.slot-railL .slot-num{padding-top:0;}
+.slot-railL .drag-handle{padding-top:0;}
+
+/* ── SPRITE BLOCK (default for all widths): enlarged sprite with points + name
+   overlaid, types relocated beneath. Mirrors the team.html member treatment. ── */
+.slot-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;gap:3px;width:144px;}
+.slot-sprite-wrap{position:relative;display:block;width:144px;height:144px;flex-shrink:0;}
+.slot-sprite-wrap .slot-sprite{position:absolute;inset:0;margin:auto;width:144px;height:144px;object-fit:contain;image-rendering:auto;display:block;}
 .slot-sprite.illegal-img{opacity:0.3;filter:grayscale(90%);}
-.slot-pts-display{font-size:20px;font-weight:700;color:#fff;line-height:1;}
-.slot-pts-display.illegal-pts{color:var(--red);font-size:13px;}
+.sprite-pts{position:absolute;top:5px;left:7px;z-index:2;font-size:24px;font-weight:800;color:#fff;line-height:1;
+  text-shadow:-1.5px -1.5px 0 #000,1.5px -1.5px 0 #000,-1.5px 1.5px 0 #000,1.5px 1.5px 0 #000,0 0 3px #000;}
+.sprite-pts.illegal-pts{color:var(--red);}
+.sprite-name{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:7px 5px 6px;text-align:center;color:#fff;font-weight:800;line-height:1.05;white-space:nowrap;font-size:16px;
+  text-shadow:-1.5px -1.5px 0 #000,1.5px -1.5px 0 #000,-1.5px 1.5px 0 #000,1.5px 1.5px 0 #000,0 0 3px #000;}
+.sprite-name.n-med{font-size:13px;}
+.sprite-name.n-long{font-size:11px;}
+.sprite-name.n-xl{font-size:10px;}
+/* Points + name now live on the sprite, so hide the old standalone points block. */
+.slot-left>.slot-pts-display{display:none;}
+/* Matchup badges (weak + resist + immune) as one full-width wrapping row. */
+.slot-matchups{display:flex;flex-wrap:wrap;gap:3px;margin-top:2px;}
+/* Under-sprite area hosts the type badges (and, on mobile, reflowed moves). */
+.slot-under-sprite{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;}
+.slot-types{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;}
+.slot-under-sprite .slot-moves{margin-top:0;justify-content:center;}
+
 .slot-alt-form-btn{display:block;width:100%;padding:2px 4px;font-size:9px;font-weight:700;background:rgba(124,111,247,0.15);border:1px solid rgba(124,111,247,0.35);color:var(--accent);border-radius:3px;cursor:pointer;text-align:center;white-space:nowrap;transition:background 0.15s;}
 .slot-alt-form-btn:hover{background:rgba(124,111,247,0.28);}
 .slot-alt-form-btn.active{background:rgba(124,111,247,0.3);border-color:rgba(124,111,247,0.65);}
 .slot-alt-form-placeholder{height:21px;}
+.slot-pts-display{font-size:20px;font-weight:700;color:#fff;line-height:1;}
+.slot-pts-display.illegal-pts{color:var(--red);font-size:13px;}
 
 
 /* slot body */
@@ -306,6 +330,21 @@ select.fi option{background:var(--bg2);}
 ::-webkit-scrollbar-track{background:var(--bg2);}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 @media(max-width:600px){.view{padding:1rem 0.75rem;}nav{overflow-x:auto;}.nav-tab{font-size:12px;padding:12px 10px;}}
+
+/* ── MOBILE SLOT REDESIGN (≤600px) ──────────────────────────────────────────
+   Sprite enlarges with points + name overlaid (team.html treatment). The number
+   stacks over the drag handle in the left rail. Types move beneath the sprite,
+   reclaiming the gutter. Move tags conditionally reflow there too (set by JS). */
+@media(max-width:600px){
+  .slot-left{width:128px;}
+  .slot-sprite-wrap{width:128px;height:128px;}
+  .slot-sprite-wrap .slot-sprite{width:128px;height:128px;}
+  .sprite-pts{font-size:22px;top:4px;left:6px;}
+  .sprite-name{font-size:15px;padding:6px 4px 5px;}
+  .sprite-name.n-med{font-size:13px;}
+  .sprite-name.n-long{font-size:11px;}
+  .sprite-name.n-xl{font-size:9px;}
+}
 </style>
 </head>
 <body>
@@ -1228,29 +1267,31 @@ function renderTeam(){
       d.setAttribute('draggable','true');
       d.dataset.slotIdx=i;
       d.innerHTML=`
-        <span class="drag-handle" title="Drag to reorder">⠿</span>
-        <span class="slot-num">${i+1}</span>
+        <div class="slot-railL">
+          <span class="slot-num">${i+1}</span>
+          <span class="drag-handle" title="Drag to reorder">⠿</span>
+        </div>
         <div class="slot-left">
-          <img class="slot-sprite${mon.legal?"":" illegal-img"}" id="spr-${i}" src="${spriteUrl(disp)}" alt="${disp.name}">
+          <div class="slot-sprite-wrap">
+            <img class="slot-sprite${mon.legal?"":" illegal-img"}" id="spr-${i}" src="${spriteUrl(disp)}" alt="${disp.name}">
+            <div class="sprite-pts${mon.legal?"":" illegal-pts"}">${mon.legal?mon.points:"!"}</div>
+            <div class="sprite-name ${nameTier(disp.name)}">${disp.name}</div>
+          </div>
           ${changeFormBtn}
           ${ptsDisp}
-        </div>
-        <div class="slot-body">
-          <div class="slot-row">
-            <div class="slot-row-left"><span class="slot-name${mon.legal?"":" illegal-name"}">${disp.name}</span></div>
-            <div class="slot-row-right">${weakBadges}</div>
-          </div>
-          <div class="slot-row">
-            <div class="slot-row-left">
+          <div class="slot-under-sprite" id="under-${i}">
+            <div class="slot-types" id="types-${i}">
               <span class="type-badge t-${disp.type1}">${disp.type1}</span>
               ${disp.type2?`<span class="type-badge t-${disp.type2}">${disp.type2}</span>`:""}
             </div>
-            <div class="slot-row-right">${resistBadges}${immuneBadges}</div>
           </div>
+        </div>
+        <div class="slot-body">
+          <div class="slot-matchups">${weakBadges}${resistBadges}${immuneBadges}</div>
           ${abilities?`<div class="slot-row"><div class="slot-row-left">${abilities}</div></div>`:""}
           <div class="slot-bst" style="margin-top:4px">BST ${disp.stats.bst}</div>
           <div class="slot-stats-compact">${statNums}</div>
-          ${moves?`<div class="slot-moves">${moves}</div>`:""}
+          ${moves?`<div class="slot-moves" id="moves-${i}">${moves}</div>`:""}
           <div class="slot-expanded-panel${exp?" open":""}">
             <div class="expanded-top">
               <div class="radar-large-wrap"><canvas id="rl-${i}" width="180" height="180"></canvas></div>
@@ -1282,7 +1323,53 @@ function renderTeam(){
       el.appendChild(d);
     }
   }
+  applyMobileSlotLayout();
 }
+
+// ── MOBILE SLOT LAYOUT ────────────────────────────────────────────────────────
+// Type badges live beneath the sprite at every width (set directly in markup).
+// On mobile the card is narrow and tall, leaving a gutter beside the body, so the
+// move tags reflow under the sprite too when there's vertical room. On desktop,
+// moves stay in their normal in-body spot. Re-run on resize.
+const MOBILE_SLOT_BP = 600;
+function applyMobileSlotLayout(){
+  const mobile = window.innerWidth <= MOBILE_SLOT_BP;
+  for(let i=0;i<TS;i++){
+    const under = document.getElementById("under-"+i);
+    const moves = document.getElementById("moves-"+i);
+    if(!under || !moves) continue;
+    const slot = under.closest(".draft-slot");
+    const left = under.closest(".slot-left");
+    const body = slot ? slot.querySelector(".slot-body") : null;
+    if(!body) continue;
+    const movesToBody = ()=>{
+      if(moves.parentElement !== body){
+        const panel = body.querySelector(".slot-expanded-panel");
+        body.insertBefore(moves, panel || null);
+      }
+    };
+    if(mobile){
+      // Measure with moves hidden so the decision is stable wherever they sit.
+      const prevDisp = moves.style.display;
+      moves.style.display = "none";
+      const leftH = left.offsetHeight;
+      const bodyH = body.offsetHeight;
+      moves.style.display = prevDisp;
+      if(bodyH - leftH >= 28){
+        if(moves.parentElement !== under) under.appendChild(moves);
+      } else {
+        movesToBody();
+      }
+    } else {
+      movesToBody();
+    }
+  }
+}
+let _mobileSlotRAF=null;
+window.addEventListener("resize",()=>{
+  if(_mobileSlotRAF) cancelAnimationFrame(_mobileSlotRAF);
+  _mobileSlotRAF=requestAnimationFrame(applyMobileSlotLayout);
+});
 
 // ── DRAG AND DROP ─────────────────────────────────────────────────────────────
 // Works for both mouse (HTML5 drag) and touch (pointer events)
@@ -1418,6 +1505,14 @@ function renderPoints(){
   bar.className="pts-bar-fill"+(pct>=100?" over":pct>=80?" warn":"");
 }
 const TA={Normal:"Nrm",Fire:"Fir",Water:"Wat",Grass:"Grs",Electric:"Ele",Ice:"Ice",Fighting:"Fgt",Poison:"Psn",Ground:"Gnd",Flying:"Fly",Psychic:"Psy",Bug:"Bug",Rock:"Rck",Ghost:"Gst",Dragon:"Drg",Dark:"Drk",Steel:"Stl",Fairy:"Fry"};
+// Name length tiers for the mobile sprite-name overlay (mirrors team.html).
+function nameTier(name){
+  const n=(name||"").length;
+  if(n>=20) return "n-xl";
+  if(n>=15) return "n-long";
+  if(n>=11) return "n-med";
+  return "";
+}
 // Type colors matching badge classes
 const TYPE_COLORS={
   Normal:"#9199a1",Fire:"#e6724a",Water:"#539ddf",Grass:"#5bbd58",
