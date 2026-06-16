@@ -97,7 +97,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
   background:linear-gradient(to bottom,var(--t1,transparent) 0 50%,var(--t2,transparent) 50% 100%);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   -webkit-mask-composite:xor;mask-composite:exclude;
-  pointer-events:none;z-index:1;
+  pointer-events:none;z-index:1;transition:background 0.15s,padding 0.15s;
 }
 .draft-slot.type-bordered>*{position:relative;z-index:2;}
 .draft-slot.drag-over{border-color:var(--accent);background:rgba(124,111,247,0.08);}
@@ -121,8 +121,14 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .slot-pop-pts{font-size:11px;font-weight:700;margin-left:auto;flex-shrink:0;}
 .drag-handle{cursor:grab;color:var(--text3);font-size:14px;padding:0 2px;flex-shrink:0;padding-top:22px;touch-action:none;user-select:none;}
 .drag-handle:active{cursor:grabbing;}
-/* Hover feedback as an inset ring so it layers over the type-border pseudo. */
+/* Hover feedback. For plain/illegal slots an inset accent ring on the card works.
+   For type-bordered slots the ::before pseudo sits above the card, so the card's
+   own box-shadow can't show through — instead we recolor and thicken the pseudo
+   itself on hover so the highlight is always visible over the type ring. */
 .draft-slot:hover{border-color:#3e4460;box-shadow:inset 0 0 0 2px var(--accent),0 0 0 1px rgba(124,111,247,0.35);}
+.draft-slot.type-bordered:hover::before{
+  background:var(--accent);padding:3px;
+}
 .slot-num{font-size:11px;color:var(--text3);font-weight:600;width:16px;text-align:center;flex-shrink:0;padding-top:4px;}
 
 /* sprite + points column */
@@ -1210,9 +1216,10 @@ function renderTeam(){
       const hasMegaBase=!!(mon.baseForm);
       const megaBaseShowing = megaBaseActive.has(mon.id);
       d.className="draft-slot";
-      // Type-colored border (legal mons only): top half = type1, bottom = type2.
-      // Mono-type sets both halves to the same color. Uses display form's types.
-      if(mon.legal){
+      // Type-colored border on every occupied slot (legal or not): top half = type1,
+      // bottom = type2. Mono-type sets both halves equal. Uses display form's types.
+      // Illegality is communicated by the dimmed sprite and "Illegal" points text.
+      {
         const c1=TYPE_COLORS[disp.type1]||"var(--border)";
         const c2=disp.type2?(TYPE_COLORS[disp.type2]||c1):c1;
         d.classList.add("type-bordered");
