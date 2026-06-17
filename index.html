@@ -31,6 +31,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 /* Draft Builder spreads wider than the other views so the rails hug the edges
    and the center column gets as much room as possible. */
 #view-draft{max-width:1860px;}
+#view-matchup{max-width:1860px;}
 .view.active{display:block;}
 
 /* ── DRAFT LAYOUT: 3-column above 1200px, 2-column 960–1200, 1-column below ── */
@@ -298,8 +299,8 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .tm-cell{text-align:center;padding:4px 2px;border-radius:4px;transition:filter 0.1s;cursor:pointer;}
 .tm-cell:hover{filter:brightness(1.15);}
 .tm-cell.tm-pinned{filter:brightness(1.25);outline:2px solid #fff;outline-offset:-2px;}
-.tmt{font-size:11px;line-height:1;font-weight:700;}
-.tmv{font-size:10px;font-weight:600;line-height:1.5;color:var(--text2);}
+.tmt{font-size:8.5px;line-height:1.05;font-weight:700;letter-spacing:-0.2px;}
+.tmv{font-size:10px;font-weight:600;line-height:1.4;color:var(--text2);}
 
 /* Expanded TM view */
 .tm-exp-row{display:flex;align-items:center;gap:6px;padding:3px 0;}
@@ -410,12 +411,151 @@ select.fi option{background:var(--bg2);}
 ::-webkit-scrollbar-track{background:var(--bg2);}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 @media(max-width:600px){.view{padding:1rem 0.75rem;}nav{overflow-x:auto;}.nav-tab{font-size:12px;padding:12px 10px;}}
+/* ══════════ MATCHUP VIEW ══════════ */
+.mu-layout{display:grid;gap:1rem;align-items:start;
+  grid-template-columns:minmax(250px,1fr) minmax(380px,460px) minmax(250px,1fr);}
+@media(max-width:1100px){
+  .mu-layout{grid-template-columns:1fr 1fr;grid-template-areas:"teamA teamB" "center center";}
+  .mu-col-A{grid-area:teamA;}.mu-col-B{grid-area:teamB;}.mu-center{grid-area:center;}
+}
+@media(max-width:680px){
+  .mu-layout{grid-template-columns:1fr;grid-template-areas:"teamA" "center" "teamB";}
+}
+.mu-team-col{display:flex;flex-direction:column;gap:7px;}
+.mu-team-head{display:flex;align-items:center;gap:8px;padding-bottom:6px;border-bottom:2px solid var(--border);}
+.mu-col-A .mu-team-head{border-bottom-color:var(--accent);}
+.mu-col-B .mu-team-head{border-bottom-color:var(--yellow);}
+.mu-team-name{flex:1;min-width:0;background:transparent;border:1px solid transparent;border-radius:6px;color:var(--text);font-size:14px;font-weight:700;font-family:inherit;padding:3px 6px;outline:none;}
+.mu-team-name:hover{border-color:var(--border);}
+.mu-team-name:focus{border-color:var(--accent);background:var(--bg2);}
+.mu-col-A .mu-team-name{color:var(--accent);}
+.mu-col-B .mu-team-name{color:var(--yellow);}
+.mu-toolbar{display:flex;gap:5px;flex-shrink:0;}
+.mu-tb-btn{background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;font-size:11px;padding:4px 9px;white-space:nowrap;}
+.mu-tb-btn:hover{color:var(--text);border-color:var(--accent);}
+.mu-list{display:flex;flex-direction:column;gap:7px;}
+
+.mu-row{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:6px 8px;position:relative;cursor:pointer;transition:border-color .12s,background .12s;}
+.mu-row:hover{border-color:var(--accent);}
+.mu-row.mu-lead{border-color:var(--yellow);background:rgba(240,192,96,0.07);}
+.mu-col-A .mu-row.mu-lead{box-shadow:inset 3px 0 0 var(--accent);}
+.mu-col-B .mu-row.mu-lead{box-shadow:inset 3px 0 0 var(--yellow);}
+.mu-icon{width:42px;height:42px;flex-shrink:0;object-fit:contain;cursor:pointer;}
+.mu-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;}
+.mu-nameline{display:flex;align-items:center;gap:6px;}
+.mu-name{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mu-types{display:flex;gap:3px;flex-shrink:0;}
+.mu-types .type-badge{font-size:9px;padding:1px 5px;}
+.mu-sub{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.mu-spe{font-size:10.5px;color:var(--text3);white-space:nowrap;cursor:pointer;border:1px solid transparent;border-radius:4px;padding:1px 5px;}
+.mu-spe:hover{border-color:var(--border);background:var(--bg3);}
+.mu-spe b{color:var(--green);font-weight:700;}
+.mu-spe .mu-bm{font-size:8.5px;color:var(--text3);font-weight:700;margin-left:2px;}
+.mu-spe .mu-modtag{font-size:8.5px;color:var(--yellow);font-weight:700;margin-left:3px;}
+.mu-abil{display:flex;flex-wrap:wrap;gap:4px;min-width:0;flex:1;}
+.mu-abil .ability-tag{font-size:10px;padding:2px 8px;}
+.mu-cov-btn{font-size:10px;font-weight:700;color:var(--accent);cursor:pointer;border:1px solid var(--accent);border-radius:5px;padding:2px 8px;background:rgba(124,111,247,0.12);white-space:nowrap;flex-shrink:0;margin-left:auto;}
+.mu-cov-btn:hover{background:rgba(124,111,247,0.24);}
+.mu-cov-btn .mu-ct{display:inline-block;background:var(--accent);color:#fff;border-radius:3px;padding:0 4px;font-weight:800;margin-right:1px;}
+.mu-empty{justify-content:center;color:var(--text3);font-size:12px;min-height:56px;border-style:dashed;}
+
+/* popovers */
+.mu-pop{position:absolute;z-index:2500;background:var(--bg2);border:1px solid var(--accent);border-radius:10px;padding:10px;box-shadow:0 10px 30px rgba(0,0,0,.5);}
+.mu-pop-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--text2);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.mu-pop-title .mu-sp{flex:1;}
+.mu-pop-x{cursor:pointer;color:var(--text3);font-size:13px;}.mu-pop-x:hover{color:var(--red);}
+.mu-cov-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;width:280px;}
+.mu-cov-opt{display:flex;align-items:center;gap:6px;border-radius:5px;padding:4px 6px;cursor:pointer;border:1px solid var(--border);font-size:11px;font-weight:600;}
+.mu-cov-opt .mu-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0;opacity:.3;}
+.mu-cov-opt.mu-on{border-color:var(--text2);}.mu-cov-opt.mu-on .mu-dot{opacity:1;}
+.mu-cov-opt:hover{border-color:var(--accent);}
+.mu-cov-actions{display:flex;gap:6px;margin-top:8px;}
+.mu-cov-act{flex:1;font-size:10px;font-weight:700;text-align:center;border:1px solid var(--border);border-radius:5px;padding:4px;cursor:pointer;color:var(--text2);background:var(--bg3);}
+.mu-cov-act:hover{border-color:var(--accent);color:var(--text);}
+.mu-spd-menu{width:236px;}
+.mu-spd-opt{display:flex;align-items:center;gap:8px;border-radius:5px;padding:5px 7px;cursor:pointer;font-size:11px;border:1px solid transparent;}
+.mu-spd-opt:hover{background:var(--bg3);}
+.mu-spd-opt.mu-sel{border-color:var(--accent);background:rgba(124,111,247,.1);}
+.mu-spd-opt .mu-lbl{flex:1;}.mu-spd-opt .mu-num{font-weight:700;color:var(--green);}
+.mu-spd-mod{margin-top:8px;border-top:1px solid var(--border);padding-top:8px;}
+.mu-spd-mod-row{display:flex;align-items:center;gap:5px;margin-top:5px;}
+.mu-spd-mod-chip{font-size:10px;font-weight:700;border:1px solid var(--border);border-radius:4px;padding:3px 8px;cursor:pointer;color:var(--text2);background:var(--bg3);}
+.mu-spd-mod-chip:hover{border-color:var(--accent);}.mu-spd-mod-chip.mu-on{border-color:var(--yellow);color:var(--yellow);}
+.mu-spd-mod-input{width:48px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:10px;padding:3px 5px;text-align:center;}
+.mu-search-pop{width:300px;}
+.mu-search-inp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;padding:7px 10px;outline:none;margin-bottom:6px;}
+.mu-search-inp:focus{border-color:var(--accent);}
+.mu-search-results{max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:3px;}
+.mu-sr-item{display:flex;align-items:center;gap:8px;padding:5px 7px;border-radius:6px;cursor:pointer;border:1px solid transparent;}
+.mu-sr-item:hover,.mu-sr-item.mu-hl{background:var(--bg3);border-color:var(--accent);}
+.mu-sr-item.mu-inteam{opacity:.4;cursor:not-allowed;}
+.mu-sr-item img{width:30px;height:30px;flex-shrink:0;}
+.mu-sr-nm{font-size:12px;font-weight:600;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mu-sr-pts{font-size:10px;color:var(--yellow);flex-shrink:0;}
+
+/* center */
+.mu-center{display:flex;flex-direction:column;gap:12px;}
+.mu-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;}
+.mu-card-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.8px;color:var(--text2);margin-bottom:10px;}
+.mu-lead-head,.mu-sl-head,.mu-mtx-head{display:flex;align-items:center;gap:6px;}
+.mu-lead-head{justify-content:space-between;}
+.mu-lead-head>span:first-child{flex:1;}.mu-lead-head>span:last-child{flex:1;text-align:right;}
+.mu-lead-head>span:nth-child(2){flex:0 0 auto;}
+.mu-lead-clear{cursor:pointer;color:var(--text3);font-size:10px;}.mu-lead-clear:hover{color:var(--red);}
+.mu-sl-masswrap{flex:1;display:flex;min-width:0;}.mu-sl-masswrap.mu-right{justify-content:flex-end;}
+.mu-sl-titletext,.mu-mtx-titletext{flex-shrink:0;}
+.mu-massbtn{font-size:10px;font-weight:700;border:1px solid var(--border);border-radius:5px;padding:2px 8px;cursor:pointer;background:var(--bg3);white-space:nowrap;text-transform:none;letter-spacing:0;}
+.mu-massbtn:hover{border-color:var(--accent);}
+.mu-cA{color:var(--accent);}.mu-cB{color:var(--yellow);}
+.mu-mtx-role{flex:1;display:flex;align-items:center;cursor:pointer;color:var(--accent);font-size:10px;font-weight:700;text-transform:none;letter-spacing:0;border:1px solid var(--border);border-radius:5px;padding:2px 8px;background:var(--bg3);white-space:nowrap;}
+.mu-mtx-role:hover{border-color:var(--accent);}
+#mu-roleLeft{justify-content:flex-start;}.mu-mtx-role.mu-right{justify-content:flex-end;}
+
+/* lead banner */
+.mu-lead-banner{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:start;}
+.mu-lead-side{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;}
+.mu-lead-side-tag{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;}
+.mu-lead-side-mons{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;width:100%;}
+.mu-lead-vs{align-self:center;font-size:10px;color:var(--text3);font-weight:700;padding-top:18px;}
+.mu-lead-chip{display:flex;flex-direction:column;align-items:center;gap:3px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 8px;cursor:pointer;transition:border-color .1s,background .1s;width:84px;}
+.mu-lead-chip:hover{border-color:var(--accent);}
+.mu-lead-chip-ico{position:relative;}
+.mu-lead-chip-ico img{width:40px;height:40px;display:block;}
+.mu-lead-rank{position:absolute;top:-4px;right:-6px;font-size:9px;font-weight:800;color:#1a1d27;background:var(--yellow);border-radius:50%;width:15px;height:15px;display:flex;align-items:center;justify-content:center;}
+.mu-lead-chip-nm{font-size:10px;font-weight:600;text-align:center;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+.mu-lead-utils{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;}
+.mu-lead-util{font-size:7.5px;font-weight:800;color:#1a1d27;border-radius:3px;padding:1px 3px;letter-spacing:.2px;}
+.mu-lead-chip.mu-hl-red{border-color:var(--red);background:rgba(224,85,85,.14);}
+.mu-lead-chip.mu-hl-blue{border-color:var(--green);background:rgba(96,165,250,.14);}
+.mu-lead-hint{font-size:10px;color:var(--text3);font-style:italic;text-align:center;line-height:1.3;}
+
+/* speed ladder */
+.mu-speed-ladder{display:flex;flex-direction:column;gap:1px;}
+.mu-sl-row{display:grid;grid-template-columns:1fr 46px 1fr;align-items:center;gap:6px;min-height:30px;padding:1px 0;border-radius:4px;}
+.mu-sl-row:hover{background:var(--bg3);}
+.mu-sl-side{display:flex;align-items:center;gap:5px;min-width:0;}
+.mu-sl-side.mu-A{justify-content:flex-end;}.mu-sl-side.mu-B{justify-content:flex-start;}
+.mu-sl-ico{width:26px;height:26px;flex-shrink:0;cursor:pointer;border-radius:4px;}
+.mu-sl-ico:hover{outline:1px solid var(--accent);}.mu-sl-ico.mu-lead{outline:2px solid var(--yellow);}
+.mu-sl-nm{font-size:10px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mu-sl-bm{font-size:8px;color:var(--text3);font-weight:700;}
+.mu-sl-val{text-align:center;font-size:11px;font-weight:700;color:var(--green);background:var(--bg3);border-radius:4px;padding:2px 0;}
+
+/* matrix */
+.mu-mtx-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;}
+.mu-mtx-cell{border-radius:6px;padding:5px 2px;cursor:pointer;user-select:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:transform .08s;min-width:0;}
+.mu-mtx-cell:hover{transform:scale(1.06);z-index:2;}
+.mu-mtx-cell.mu-pinned{outline:2px solid #fff;outline-offset:-2px;}
+.mu-mtx-t{font-size:9px;font-weight:700;line-height:1.1;letter-spacing:-0.2px;text-align:center;}
+.mu-mtx-v{font-size:10.5px;font-weight:800;line-height:1.15;}
+.mu-hint{font-size:10px;color:var(--text3);font-style:italic;}
 </style>
 </head>
 <body>
 <nav>
   <div class="nav-logo"><img id="nav-logo-icon" src="" alt="" style="width:28px;height:28px;image-rendering:pixelated;vertical-align:middle;margin-right:6px;margin-bottom:2px;opacity:0.5"> VGC Draft</div>
   <div class="nav-tab active" onclick="showView('draft')">Draft Builder</div>
+  <div class="nav-tab" onclick="showView('matchup')">Matchup</div>
   <div class="nav-tab" onclick="showView('index')">Pokédex Index</div>
   <div class="nav-tab" onclick="showView('pool')">Draft Pool</div>
 </nav>
@@ -504,6 +644,93 @@ select.fi option{background:var(--bg2);}
     </div>
     <div class="rail rail-right">
       <div class="card"><div class="card-title">Utility Coverage</div><div id="util-tracker"></div></div>
+    </div>
+  </div>
+</div>
+
+<div id="view-matchup" class="view">
+  <div class="mu-layout">
+    <!-- TEAM A -->
+    <div class="mu-team-col mu-col-A">
+      <div class="mu-team-head">
+        <input class="mu-team-name" id="mu-nameA" value="Team A" maxlength="40" spellcheck="false">
+        <div class="mu-toolbar">
+          <button class="mu-tb-btn" onclick="MU.openSearch('A',this)">＋ Add</button>
+          <button class="mu-tb-btn" onclick="MU.openPaste('A')">⇅ Import</button>
+          <button class="mu-tb-btn" onclick="MU.openSaveLoad('A')">💾</button>
+          <button class="mu-tb-btn" onclick="MU.clearTeam('A')" title="Clear team">✕</button>
+        </div>
+      </div>
+      <div id="mu-listA" class="mu-list"></div>
+    </div>
+
+    <!-- CENTER -->
+    <div class="mu-center">
+      <div class="mu-card">
+        <div class="mu-card-title mu-lead-head">
+          <span class="mu-lead-clear" id="mu-leadClear" onclick="MU.clearLeads()"></span>
+          <span>Lead Matchup</span>
+          <span></span>
+        </div>
+        <div class="mu-lead-banner" id="mu-leadBanner"></div>
+      </div>
+
+      <div class="mu-card">
+        <div class="mu-card-title mu-sl-head">
+          <span class="mu-sl-masswrap"><span class="mu-massbtn mu-cA" onclick="MU.openMassSpeed('A',this)">⚡ A speeds</span></span>
+          <span class="mu-sl-titletext">Speed Ladder</span>
+          <span class="mu-sl-masswrap mu-right"><span class="mu-massbtn mu-cB" onclick="MU.openMassSpeed('B',this)">B speeds ⚡</span></span>
+        </div>
+        <div class="mu-speed-ladder" id="mu-speedLadder"></div>
+      </div>
+
+      <div class="mu-card">
+        <div class="mu-card-title mu-mtx-head">
+          <span class="mu-mtx-role" id="mu-roleLeft" onclick="MU.swap()"></span>
+          <span class="mu-mtx-titletext">Type Matchup Matrix</span>
+          <span class="mu-mtx-role mu-right" id="mu-roleRight" onclick="MU.swap()"></span>
+        </div>
+        <div class="mu-mtx-grid" id="mu-mtxGrid"></div>
+      </div>
+    </div>
+
+    <!-- TEAM B -->
+    <div class="mu-team-col mu-col-B">
+      <div class="mu-team-head">
+        <input class="mu-team-name" id="mu-nameB" value="Team B" maxlength="40" spellcheck="false">
+        <div class="mu-toolbar">
+          <button class="mu-tb-btn" onclick="MU.openSearch('B',this)">＋ Add</button>
+          <button class="mu-tb-btn" onclick="MU.openPaste('B')">⇅ Import</button>
+          <button class="mu-tb-btn" onclick="MU.openSaveLoad('B')">💾</button>
+          <button class="mu-tb-btn" onclick="MU.clearTeam('B')" title="Clear team">✕</button>
+        </div>
+      </div>
+      <div id="mu-listB" class="mu-list"></div>
+    </div>
+  </div>
+
+  <!-- popover layer + modals for the matchup view -->
+  <div id="mu-popLayer"></div>
+
+  <div class="modal-overlay hidden" id="mu-paste-modal" onclick="handleModalOverlayClick(event,'mu-paste-modal')">
+    <div class="modal-box" onclick="event.stopPropagation()" style="max-width:560px">
+      <div class="modal-title" id="mu-paste-title">Import Team</div>
+      <textarea class="paste-textarea" id="mu-paste-textarea" spellcheck="false" placeholder="Paste Poképaste text here…"></textarea>
+      <div class="modal-btn-row">
+        <button class="modal-btn" onclick="closeModal('mu-paste-modal')">Cancel</button>
+        <button class="modal-btn primary" onclick="MU.applyPaste()">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay hidden" id="mu-saveload-modal" onclick="handleModalOverlayClick(event,'mu-saveload-modal')">
+    <div class="modal-box" onclick="event.stopPropagation()" style="max-width:520px">
+      <div class="modal-title" id="mu-saveload-title">Load Team</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:2px">Loads from teams saved in the Draft Builder.</div>
+      <div class="team-list" id="mu-team-list"></div>
+      <div class="modal-btn-row">
+        <button class="modal-btn" onclick="closeModal('mu-saveload-modal')">Close</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1709,7 +1936,7 @@ function renderTypeMatchups(){
       const pinCls=pinnedType===d.atk?" tm-pinned":"";
       const textCol=TYPE_TEXT_DARK.has(d.atk)?"#333":"#fff";
       return '<div class="tm-cell'+pinCls+'" data-type="'+d.atk+'" style="background:'+d.bg+'" title="'+d.tooltip+'">'
-        +'<div class="tmt" style="color:'+textCol+'">'+TA[d.atk]+'</div>'
+        +'<div class="tmt" style="color:'+textCol+'">'+d.atk+'</div>'
         +'<div class="tmv" style="color:'+textCol+'">'+d.wN+':'+d.riN+'</div>'
         +'</div>';
     }).join("");
@@ -2585,13 +2812,433 @@ function showView(name){
   document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
   document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
   document.getElementById("view-"+name).classList.add("active");
-  const lbl={draft:"draft b",index:"pokédex",pool:"pool"};
+  const lbl={draft:"draft b",matchup:"matchup",index:"pokédex",pool:"pool"};
   document.querySelectorAll(".nav-tab").forEach(t=>{if(t.textContent.toLowerCase().includes(lbl[name]))t.classList.add("active");});
   if(name==='index') updateStickyOffset();
+  if(name==='matchup' && window.MU) window.MU.activate();
 }
 
 
 loadPokemonData();
+
+/* ═══════════════════════ MATCHUP VIEW ENGINE ═══════════════════════ */
+(function(){
+  'use strict';
+  const TS_MU = 10;
+
+  // Level-50 speed benchmark formula (final nature floor keeps whole numbers):
+  // Speed = floor( ( floor( (2*base + IV + floor(EV/4)) * 50/100 ) + 5 ) * nature )
+  const BENCHMARKS=[
+    {key:'max+',label:'Max EVs + positive nature',ev:252,iv:31,nat:1.1},
+    {key:'max', label:'Max EVs + neutral nature', ev:252,iv:31,nat:1.0},
+    {key:'0',   label:'0 EVs + neutral nature',   ev:0,  iv:31,nat:1.0},
+    {key:'min', label:'0 EVs + negative nature',  ev:0,  iv:0, nat:0.9},
+  ];
+  const BM_SHORT=['Max+','Max','0','Min'];
+  const DEFAULT_BM=2;
+  function baseSpeed(base,bi){const b=BENCHMARKS[bi];return Math.floor((Math.floor((2*base+b.iv+Math.floor(b.ev/4))*50/100)+5)*b.nat);}
+  function effSpeed(slot){return Math.floor(baseSpeed(slot.mon.stats.spe,slot.bm)*(slot.mod||1));}
+
+  // Key utility indicators (Redirection is data-driven from utilityGroups)
+  let REDIR_MOVES=new Set();
+  const KEY_UTILS=[
+    {tag:'TW',title:'Tailwind',  color:'#89aae3',test:m=>(m.moves||[]).includes('Tailwind')},
+    {tag:'TR',title:'Trick Room',color:'#f97176',test:m=>(m.moves||[]).includes('Trick Room')},
+    {tag:'FO',title:'Fake Out',  color:'#f0c060',test:m=>(m.moves||[]).includes('Fake Out')},
+    {tag:'RD',title:'Redirection',color:'#5bbd58',test:m=>(m.moves||[]).some(mv=>REDIR_MOVES.has(mv))},
+  ];
+  function utilBadges(mon){
+    const got=KEY_UTILS.filter(u=>u.test(mon));
+    if(!got.length)return '';
+    return '<div class="mu-lead-utils">'+got.map(u=>'<span class="mu-lead-util" style="background:'+u.color+'" title="'+u.title+'">'+u.tag+'</span>').join('')+'</div>';
+  }
+
+  const teams={A:[],B:[]};
+  const leads={A:[],B:[]};
+  const teamNames={A:'Team A',B:'Team B'};
+  let matrixMode='off';   // 'off' = A attacks B
+  let pinnedType=null;
+  let openPop=null;
+  let initialized=false;
+
+  function activate(){
+    if(initialized)return;
+    if(!Array.isArray(POKEMON_DATA)||!POKEMON_DATA.length)return; // data not yet ready
+    initialized=true;
+    const redir=(UG||[]).find(g=>g.label==='Redirection');
+    REDIR_MOVES=new Set(redir?redir.moves:[]);
+    teams.A=new Array(TS_MU).fill(null);
+    teams.B=new Array(TS_MU).fill(null);
+    ['A','B'].forEach(k=>{
+      const inp=document.getElementById('mu-name'+k);
+      inp.value=teamNames[k];
+      inp.addEventListener('input',()=>{teamNames[k]=inp.value;});
+    });
+    renderTeam('A');renderTeam('B');renderLeadBanner();renderSpeed();renderMatrix();
+  }
+
+  // ── helpers ──
+  function newSlot(mon){
+    const cov=new Set();if(mon.type1)cov.add(mon.type1);if(mon.type2)cov.add(mon.type2);
+    return {mon,coverage:cov,bm:DEFAULT_BM,mod:1};
+  }
+  function firstEmpty(key){return teams[key].findIndex(s=>!s);}
+  function muIcon(mon){return iconUrl(mon);}
+
+  // ── render team columns ──
+  function renderTeam(key){
+    const list=document.getElementById('mu-list'+key);
+    if(!list)return;
+    let html='';
+    teams[key].forEach((slot,i)=>{
+      if(!slot){html+='<div class="mu-row mu-empty" onclick="MU.openSearch(\''+key+'\',this)">＋ Add Pokémon</div>';return;}
+      const mon=slot.mon;
+      const isLead=leads[key].includes(i);
+      const types=[mon.type1,mon.type2].filter(Boolean).map(t=>'<span class="type-badge t-'+t+'">'+t+'</span>').join('');
+      const abilities=(mon.abilities||[]).map(a=>'<span class="ability-tag">'+a+'</span>').join('');
+      const eff=effSpeed(slot);
+      const modtag=(slot.mod&&slot.mod!==1)?'<span class="mu-modtag">×'+slot.mod+'</span>':'';
+      html+='<div class="mu-row'+(isLead?' mu-lead':'')+'" data-key="'+key+'" data-i="'+i+'">'
+        +'<img class="mu-icon" src="'+muIcon(mon)+'" alt="'+mon.name+'" onclick="event.stopPropagation();MU.removeMon(\''+key+'\','+i+')" title="Click to remove">'
+        +'<div class="mu-main">'
+          +'<div class="mu-nameline"><span class="mu-name">'+mon.name+'</span><span class="mu-types">'+types+'</span></div>'
+          +'<div class="mu-sub">'
+            +'<span class="mu-spe" onclick="event.stopPropagation();MU.openSpeed(\''+key+'\','+i+',this)">Spe <b>'+eff+'</b><span class="mu-bm">'+BM_SHORT[slot.bm]+'</span>'+modtag+'</span>'
+            +'<span class="mu-abil">'+abilities+'</span>'
+            +'<span class="mu-cov-btn" onclick="event.stopPropagation();MU.openCov(\''+key+'\','+i+',this)"><span class="mu-ct">'+slot.coverage.size+'</span> coverage ▸</span>'
+          +'</div>'
+        +'</div>'
+      +'</div>';
+    });
+    list.innerHTML=html;
+    list.querySelectorAll('.mu-row').forEach(r=>{
+      if(r.classList.contains('mu-empty'))return;
+      r.addEventListener('click',()=>toggleLead(r.dataset.key,+r.dataset.i));
+    });
+  }
+
+  // ── popovers ──
+  function closePop(){if(openPop){openPop.remove();openPop=null;}}
+  document.addEventListener('click',e=>{if(openPop&&!openPop.contains(e.target))closePop();},true);
+  function placePop(pop,anchor){
+    document.getElementById('mu-popLayer').appendChild(pop);
+    const r=anchor.getBoundingClientRect();
+    let left=Math.min(r.left,window.innerWidth-pop.offsetWidth-12);
+    let top=r.bottom+6;
+    if(top+pop.offsetHeight>window.innerHeight-8)top=Math.max(8,r.top-pop.offsetHeight-6);
+    pop.style.top=(top+window.scrollY)+'px';
+    pop.style.left=(Math.max(8,left)+window.scrollX)+'px';
+  }
+
+  function openCov(key,i,anchor){
+    closePop();const slot=teams[key][i];
+    const pop=document.createElement('div');pop.className='mu-pop';
+    pop.innerHTML='<div class="mu-pop-title">Offensive Coverage — '+slot.mon.name+'<span class="mu-sp"></span><span class="mu-pop-x">✕</span></div>'
+      +'<div class="mu-cov-grid">'+TYPES.map(t=>'<div class="mu-cov-opt'+(slot.coverage.has(t)?' mu-on':'')+'" data-t="'+t+'"><span class="mu-dot" style="background:'+(TYPE_COLORS[t]||'#888')+'"></span>'+t+'</div>').join('')+'</div>'
+      +'<div class="mu-cov-actions"><span class="mu-cov-act" data-act="types">Reset to types</span><span class="mu-cov-act" data-act="all">All</span><span class="mu-cov-act" data-act="none">None</span></div>';
+    openPop=pop;placePop(pop,anchor);
+    pop.querySelector('.mu-pop-x').onclick=closePop;
+    pop.querySelectorAll('.mu-cov-opt').forEach(o=>o.onclick=()=>{
+      const t=o.dataset.t;slot.coverage.has(t)?slot.coverage.delete(t):slot.coverage.add(t);
+      o.classList.toggle('mu-on');renderTeam(key);renderMatrix();renderLeadBanner();
+    });
+    pop.querySelectorAll('.mu-cov-act').forEach(a=>a.onclick=()=>{
+      const act=a.dataset.act;slot.coverage.clear();
+      if(act==='all')TYPES.forEach(t=>slot.coverage.add(t));
+      else if(act==='types'){if(slot.mon.type1)slot.coverage.add(slot.mon.type1);if(slot.mon.type2)slot.coverage.add(slot.mon.type2);}
+      closePop();renderTeam(key);renderMatrix();renderLeadBanner();
+    });
+  }
+
+  function openSpeed(key,i,anchor){
+    closePop();const slot=teams[key][i];
+    const pop=document.createElement('div');pop.className='mu-pop mu-spd-menu';
+    const opts=BENCHMARKS.map((b,bi)=>'<div class="mu-spd-opt'+(slot.bm===bi?' mu-sel':'')+'" data-bm="'+bi+'"><span class="mu-lbl">'+b.label+'</span><span class="mu-num">'+baseSpeed(slot.mon.stats.spe,bi)+'</span></div>').join('');
+    const mods=[['1','×1'],['1.5','×1.5'],['2','×2']].map(([v,l])=>'<span class="mu-spd-mod-chip'+((slot.mod||1)==+v?' mu-on':'')+'" data-mod="'+v+'">'+l+'</span>').join('');
+    pop.innerHTML='<div class="mu-pop-title">Speed — '+slot.mon.name+' (base '+slot.mon.stats.spe+')<span class="mu-sp"></span><span class="mu-pop-x">✕</span></div>'
+      +opts
+      +'<div class="mu-spd-mod"><div style="font-size:9.5px;color:var(--text3);font-weight:700">SPEED MODIFIER</div>'
+      +'<div class="mu-spd-mod-row">'+mods+'<input class="mu-spd-mod-input" id="mu-modFree" type="number" step="0.05" placeholder="cust" value="'+((slot.mod&&![1,1.5,2].includes(slot.mod))?slot.mod:'')+'"></div></div>';
+    openPop=pop;placePop(pop,anchor);
+    pop.querySelector('.mu-pop-x').onclick=closePop;
+    pop.querySelectorAll('.mu-spd-opt').forEach(o=>o.onclick=()=>{
+      slot.bm=+o.dataset.bm;renderTeam(key);renderSpeed();renderLeadBanner();
+      pop.querySelectorAll('.mu-spd-opt').forEach(x=>x.classList.toggle('mu-sel',x===o));
+    });
+    pop.querySelectorAll('.mu-spd-mod-chip').forEach(c=>c.onclick=()=>{
+      slot.mod=+c.dataset.mod;pop.querySelector('#mu-modFree').value='';
+      renderTeam(key);renderSpeed();renderLeadBanner();
+      pop.querySelectorAll('.mu-spd-mod-chip').forEach(x=>x.classList.toggle('mu-on',x===c));
+    });
+    pop.querySelector('#mu-modFree').oninput=function(){
+      const v=parseFloat(this.value);slot.mod=(v&&v>0)?v:1;
+      pop.querySelectorAll('.mu-spd-mod-chip').forEach(x=>x.classList.remove('mu-on'));
+      renderTeam(key);renderSpeed();renderLeadBanner();
+    };
+  }
+
+  function openMassSpeed(key,anchor){
+    closePop();
+    const pop=document.createElement('div');pop.className='mu-pop mu-spd-menu';
+    const opts=BENCHMARKS.map((b,bi)=>'<div class="mu-spd-opt" data-bm="'+bi+'"><span class="mu-lbl">'+b.label+'</span></div>').join('');
+    const mods=[['1','×1'],['1.5','×1.5'],['2','×2']].map(([v,l])=>'<span class="mu-spd-mod-chip" data-mod="'+v+'">'+l+'</span>').join('');
+    pop.innerHTML='<div class="mu-pop-title">Set all — '+teamNames[key]+'<span class="mu-sp"></span><span class="mu-pop-x">✕</span></div>'
+      +'<div style="font-size:9.5px;color:var(--text3);font-weight:700;margin-bottom:4px">BENCHMARK (all)</div>'+opts
+      +'<div class="mu-spd-mod"><div style="font-size:9.5px;color:var(--text3);font-weight:700">MODIFIER (all)</div>'
+      +'<div class="mu-spd-mod-row">'+mods+'<input class="mu-spd-mod-input" id="mu-massModFree" type="number" step="0.05" placeholder="cust"></div></div>';
+    openPop=pop;placePop(pop,anchor);
+    pop.querySelector('.mu-pop-x').onclick=closePop;
+    pop.querySelectorAll('.mu-spd-opt').forEach(o=>o.onclick=()=>{const bi=+o.dataset.bm;teams[key].forEach(s=>{if(s)s.bm=bi;});renderTeam(key);renderSpeed();renderLeadBanner();closePop();});
+    pop.querySelectorAll('.mu-spd-mod-chip').forEach(c=>c.onclick=()=>{const m=+c.dataset.mod;teams[key].forEach(s=>{if(s)s.mod=m;});renderTeam(key);renderSpeed();renderLeadBanner();closePop();});
+    pop.querySelector('#mu-massModFree').onchange=function(){const v=parseFloat(this.value);const m=(v&&v>0)?v:1;teams[key].forEach(s=>{if(s)s.mod=m;});renderTeam(key);renderSpeed();renderLeadBanner();closePop();};
+  }
+
+  // ── search-to-add popover ──
+  let searchKey=null, srResults=[], srHl=-1;
+  function openSearch(key,anchor){
+    closePop();searchKey=key;srResults=[];srHl=-1;
+    const pop=document.createElement('div');pop.className='mu-pop mu-search-pop';
+    pop.innerHTML='<div class="mu-pop-title">Add to '+teamNames[key]+'<span class="mu-sp"></span><span class="mu-pop-x">✕</span></div>'
+      +'<input class="mu-search-inp" id="mu-search-inp" type="text" placeholder="Search Pokémon…" autocomplete="off">'
+      +'<div class="mu-search-results" id="mu-search-results"></div>';
+    openPop=pop;placePop(pop,anchor);
+    pop.querySelector('.mu-pop-x').onclick=closePop;
+    const inp=pop.querySelector('#mu-search-inp');
+    inp.addEventListener('input',()=>{srHl=-1;doSearch(inp.value);});
+    inp.addEventListener('keydown',e=>{
+      const items=pop.querySelectorAll('.mu-sr-item:not(.mu-inteam)');
+      if(e.key==='ArrowDown'){e.preventDefault();srHl=Math.min(srHl+1,items.length-1);hlSearch();}
+      else if(e.key==='ArrowUp'){e.preventDefault();srHl=Math.max(srHl-1,0);hlSearch();}
+      else if(e.key==='Enter'){e.preventDefault();const idx=srHl>=0?srHl:0;const r=visibleResults()[idx];if(r)addMon(key,r);}
+      else if(e.key==='Escape'){closePop();}
+    });
+    setTimeout(()=>inp.focus(),30);
+  }
+  function visibleResults(){return srResults.filter(p=>!teams[searchKey].some(s=>s&&s.mon.id===p.id));}
+  function doSearch(q){
+    q=q.trim().toLowerCase();
+    const box=document.getElementById('mu-search-results');if(!box)return;
+    if(!q){box.innerHTML='';srResults=[];return;}
+    srResults=POKEMON_DATA.filter(p=>!altFormIds.has(p.id)&&(p.name.toLowerCase().includes(q)||p.id.toLowerCase().startsWith(q))).slice(0,18);
+    if(!srResults.length){box.innerHTML='<div style="padding:8px;color:var(--text3);font-size:12px">No results</div>';return;}
+    box.innerHTML=srResults.map((p,i)=>{
+      const inTeam=teams[searchKey].some(s=>s&&s.mon.id===p.id);
+      const types=[p.type1,p.type2].filter(Boolean).map(t=>'<span class="type-badge t-'+t+'" style="font-size:8px;padding:1px 4px">'+t+'</span>').join(' ');
+      return '<div class="mu-sr-item'+(inTeam?' mu-inteam':'')+'" data-id="'+p.id+'">'
+        +'<img src="'+iconUrl(p)+'" alt="'+p.name+'">'
+        +'<div class="mu-sr-nm">'+p.name+' '+types+'</div>'
+        +'<span class="mu-sr-pts">'+(p.legal?p.points+' pts':'Illegal')+'</span></div>';
+    }).join('');
+    box.querySelectorAll('.mu-sr-item').forEach(el=>{
+      if(el.classList.contains('mu-inteam'))return;
+      el.addEventListener('mousedown',e=>{e.preventDefault();const p=POKEMON_DATA.find(x=>x.id===el.dataset.id);if(p)addMon(searchKey,p);});
+    });
+  }
+  function hlSearch(){
+    const items=document.querySelectorAll('#mu-search-results .mu-sr-item:not(.mu-inteam)');
+    items.forEach((el,i)=>el.classList.toggle('mu-hl',i===srHl));
+  }
+  function addMon(key,mon){
+    const idx=firstEmpty(key);
+    if(idx<0){showToast('Team '+key+' is full (10).','warn');return;}
+    teams[key][idx]=newSlot(mon);
+    renderTeam(key);renderSpeed();renderMatrix();renderLeadBanner();
+    // refresh search list so the added mon greys out; keep popover open
+    const inp=document.getElementById('mu-search-inp');if(inp)doSearch(inp.value);
+  }
+  function removeMon(key,i){
+    teams[key][i]=null;
+    const at=leads[key].indexOf(i);if(at>=0)leads[key].splice(at,1);
+    renderTeam(key);renderSpeed();renderMatrix();renderLeadBanner();
+  }
+  function clearTeam(key){
+    teams[key]=new Array(TS_MU).fill(null);leads[key]=[];
+    renderTeam(key);renderSpeed();renderMatrix();renderLeadBanner();
+  }
+
+  // ── leads ──
+  function toggleLead(key,i){
+    const arr=leads[key];const at=arr.indexOf(i);
+    if(at>=0)arr.splice(at,1);else{arr.push(i);if(arr.length>2)arr.shift();}
+    renderTeam(key);renderLeadBanner();renderSpeed();
+  }
+  function clearLeads(){leads.A=[];leads.B=[];renderTeam('A');renderTeam('B');renderLeadBanner();renderSpeed();}
+  function leadRanks(){
+    const e=[];['A','B'].forEach(k=>leads[k].forEach(i=>e.push({k,i,spe:effSpeed(teams[k][i])})));
+    e.sort((a,b)=>b.spe-a.spe);const r={};e.forEach((x,idx)=>r[x.k+':'+x.i]=idx+1);return r;
+  }
+  function renderLeadBanner(){
+    const el=document.getElementById('mu-leadBanner');if(!el)return;
+    const rank=leadRanks();
+    const clr=document.getElementById('mu-leadClear');
+    if(clr)clr.textContent=(leads.A.length||leads.B.length)?'✕ clear':'';
+    function side(key){
+      const colorVar=key==='A'?'--accent':'--yellow';
+      let inner;
+      if(!leads[key].length)inner='<span class="mu-lead-hint">click up to 2<br>from '+teamNames[key]+'</span>';
+      else inner=leads[key].map(i=>{
+        const m=teams[key][i].mon;const rk=rank[key+':'+i];
+        return '<div class="mu-lead-chip" data-key="'+key+'" data-i="'+i+'">'
+          +'<div class="mu-lead-chip-ico"><img src="'+muIcon(m)+'" alt="'+m.name+'"><span class="mu-lead-rank">'+rk+'</span></div>'
+          +'<div class="mu-lead-chip-nm">'+m.name+'</div>'+utilBadges(m)+'</div>';
+      }).join('');
+      return '<div class="mu-lead-side"><div class="mu-lead-side-tag" style="color:var('+colorVar+')">'+teamNames[key]+'</div><div class="mu-lead-side-mons">'+inner+'</div></div>';
+    }
+    el.innerHTML=side('A')+'<div class="mu-lead-vs">vs</div>'+side('B');
+    el.querySelectorAll('.mu-lead-chip').forEach(chip=>{
+      chip.addEventListener('mouseenter',()=>hoverLead(chip.dataset.key,+chip.dataset.i));
+      chip.addEventListener('mouseleave',clearLeadHL);
+    });
+  }
+  function hoverLead(key,i){
+    const cov=[...teams[key][i].coverage];const oppKey=key==='A'?'B':'A';
+    document.querySelectorAll('#mu-leadBanner .mu-lead-chip').forEach(chip=>{
+      if(chip.dataset.key!==oppKey)return;
+      const opp=teams[oppKey][+chip.dataset.i].mon;const mm=calcMatchups(opp);
+      const anyWeak=cov.some(t=>mm[t]>=2);
+      const allResist=cov.length>0&&cov.every(t=>mm[t]<1);
+      chip.classList.remove('mu-hl-red','mu-hl-blue');
+      if(anyWeak)chip.classList.add('mu-hl-red');else if(allResist)chip.classList.add('mu-hl-blue');
+    });
+  }
+  function clearLeadHL(){document.querySelectorAll('#mu-leadBanner .mu-lead-chip').forEach(c=>c.classList.remove('mu-hl-red','mu-hl-blue'));}
+
+  // ── speed ladder ──
+  function renderSpeed(){
+    const el=document.getElementById('mu-speedLadder');if(!el)return;
+    const all=[];['A','B'].forEach(k=>teams[k].forEach((s,i)=>{if(s)all.push({k,i,mon:s.mon,spe:effSpeed(s),bm:s.bm,lead:leads[k].includes(i)});}));
+    if(!all.length){el.innerHTML='<div class="mu-hint" style="text-align:center;padding:10px">Add Pokémon to compare speeds</div>';return;}
+    const groups={};all.forEach(m=>{(groups[m.spe]=groups[m.spe]||[]).push(m);});
+    let html='';
+    Object.keys(groups).map(Number).sort((a,b)=>b-a).forEach(spe=>{
+      const g=groups[spe];const A=g.filter(m=>m.k==='A'),B=g.filter(m=>m.k==='B');
+      const sideA=A.map(m=>'<span class="mu-sl-nm">'+m.mon.name+' <span class="mu-sl-bm">'+BM_SHORT[m.bm]+'</span></span><img class="mu-sl-ico'+(m.lead?' mu-lead':'')+'" src="'+muIcon(m.mon)+'" alt="'+m.mon.name+'" onclick="MU.openSpeed(\'A\','+m.i+',this)">').join('');
+      const sideB=B.map(m=>'<img class="mu-sl-ico'+(m.lead?' mu-lead':'')+'" src="'+muIcon(m.mon)+'" alt="'+m.mon.name+'" onclick="MU.openSpeed(\'B\','+m.i+',this)"><span class="mu-sl-nm"><span class="mu-sl-bm">'+BM_SHORT[m.bm]+'</span> '+m.mon.name+'</span>').join('');
+      html+='<div class="mu-sl-row"><div class="mu-sl-side mu-A">'+sideA+'</div><div class="mu-sl-val">'+spe+'</div><div class="mu-sl-side mu-B">'+sideB+'</div></div>';
+    });
+    el.innerHTML=html;
+  }
+
+  // ── matrix ──
+  function swap(){matrixMode=matrixMode==='off'?'def':'off';renderMatrix();}
+  function renderMatrix(){
+    const grid=document.getElementById('mu-mtxGrid');if(!grid)return;
+    const atkKey=matrixMode==='off'?'A':'B';const defKey=matrixMode==='off'?'B':'A';
+    const atkOnLeft=atkKey==='A';
+    const rl=document.getElementById('mu-roleLeft'),rr=document.getElementById('mu-roleRight');
+    if(rl)rl.innerHTML=atkOnLeft?'Attacker ⇄':'Defender ⇄';
+    if(rr)rr.innerHTML=atkOnLeft?'⇄ Defender':'⇄ Attacker';
+    const covCount={};teams[atkKey].forEach(s=>{if(!s)return;s.coverage.forEach(t=>covCount[t]=(covCount[t]||0)+1);});
+    const defenders=teams[defKey].filter(Boolean).map(s=>s.mon);
+    grid.innerHTML=TYPES.map(t=>{
+      const hasCov=covCount[t]>0;let wN=0,rN=0;
+      defenders.forEach(m=>{const v=calcMatchups(m)[t];if(v>=2)wN++;else if(v<1)rN++;});
+      const bg=TYPE_COLORS[t]||'#888';const txt=TYPE_TEXT_DARK.has(t)?'#333':'#fff';
+      const dim=hasCov?'':'opacity:.3;';const pinCls=pinnedType===t?' mu-pinned':'';
+      return '<div class="mu-mtx-cell'+pinCls+'" data-type="'+t+'" style="background:'+bg+';'+dim+'" title="'+t+(hasCov?' ('+covCount[t]+' attacker'+(covCount[t]>1?'s':'')+')':' — no coverage')+'">'
+        +'<span class="mu-mtx-t" style="color:'+txt+'">'+t+'</span>'
+        +'<span class="mu-mtx-v" style="color:'+txt+'">'+wN+':'+rN+'</span></div>';
+    }).join('');
+    grid.querySelectorAll('.mu-mtx-cell').forEach(c=>{
+      const t=c.dataset.type;
+      c.addEventListener('mouseenter',()=>{if(!pinnedType)applyHighlight(t);});
+      c.addEventListener('mouseleave',()=>{if(!pinnedType)clearHighlight();});
+      c.addEventListener('click',()=>pinType(t));
+    });
+  }
+  function applyHighlight(t){
+    const defKey=matrixMode==='off'?'B':'A';
+    const rows=document.querySelectorAll('#mu-list'+defKey+' .mu-row');
+    teams[defKey].forEach((s,i)=>{const row=rows[i];if(!row||!s)return;
+      const v=calcMatchups(s.mon)[t];
+      if(v>=2){row.style.outline='2px solid var(--red)';row.style.background='rgba(224,85,85,0.1)';}
+      else if(v===0){row.style.outline='2px solid var(--text3)';row.style.background='rgba(90,90,90,0.12)';}
+      else if(v<1){row.style.outline='2px solid var(--green)';row.style.background='rgba(96,165,250,0.1)';}
+      else{row.style.outline='';row.style.background='';}
+    });
+  }
+  function clearHighlight(){['A','B'].forEach(k=>document.querySelectorAll('#mu-list'+k+' .mu-row').forEach(r=>{r.style.outline='';r.style.background='';}));}
+  function pinType(t){
+    if(pinnedType===t){pinnedType=null;clearHighlight();}else{pinnedType=t;applyHighlight(t);}
+    document.querySelectorAll('.mu-mtx-cell').forEach(c=>c.classList.toggle('mu-pinned',c.dataset.type===pinnedType));
+  }
+
+  // ── import (reuse parsePaste + buildNameLookup) ──
+  let pasteKey=null;
+  function openPaste(key){
+    pasteKey=key;
+    document.getElementById('mu-paste-title').textContent='Import — '+teamNames[key];
+    document.getElementById('mu-paste-textarea').value='';
+    document.getElementById('mu-paste-modal').classList.remove('hidden');
+    setTimeout(()=>document.getElementById('mu-paste-textarea').focus(),50);
+  }
+  function applyPaste(){
+    const lookup=buildNameLookup();
+    const blocks=parsePaste(document.getElementById('mu-paste-textarea').value);
+    const key=pasteKey;let unrecognized=0;
+    const fresh=new Array(TS_MU).fill(null);
+    blocks.slice(0,TS_MU).forEach((block,i)=>{
+      const match=lookup[normalize(block.name)];
+      if(!match){unrecognized++;return;}
+      let mon=match.isAlt?match.base:match;
+      // matchup view shows base form; if alt, swap in alt display fields
+      if(match.isAlt&&mon.altForm){mon=Object.assign({},mon,{name:mon.altForm.name,type1:mon.altForm.type1,type2:mon.altForm.type2,stats:mon.altForm.stats,id:mon.altForm.spriteId||mon.id});}
+      let idx=i;while(idx<TS_MU&&fresh[idx])idx++;if(idx>=TS_MU)return;
+      const slot=newSlot(mon);
+      // honor pasted moves so utility indicators reflect the actual set
+      if(block.moves&&block.moves.length)slot.mon=Object.assign({},mon,{moves:block.moves});
+      fresh[idx]=slot;
+    });
+    teams[key]=fresh;leads[key]=[];
+    closeModal('mu-paste-modal');
+    renderTeam(key);renderSpeed();renderMatrix();renderLeadBanner();
+    const excess=blocks.length>TS_MU;
+    if(excess)showToast('More than 10 entries — excess discarded.','warn');
+    if(unrecognized)showToast(unrecognized+' unrecognized Pokémon failed to import.','warn');
+    if(!excess&&!unrecognized)showToast(teamNames[key]+' imported.','ok');
+  }
+
+  // ── load (reuse getSavedTeams) ──
+  let loadKey=null;
+  function openSaveLoad(key){
+    loadKey=key;
+    document.getElementById('mu-saveload-title').textContent='Load into '+teamNames[key];
+    const teamsSaved=getSavedTeams();
+    const list=document.getElementById('mu-team-list');
+    if(!teamsSaved.length){list.innerHTML='<div class="team-list-empty">No saved teams yet. Build and save one in the Draft Builder.</div>';}
+    else{
+      list.innerHTML=teamsSaved.map((t,i)=>({t,i})).reverse().map(o=>{
+        return '<div class="team-list-item"><div class="team-list-name" title="'+o.t.name+'">'+o.t.name+'</div>'
+          +'<div class="team-list-date">'+o.t.savedAt+'</div>'
+          +'<button class="modal-btn primary" style="padding:3px 10px;font-size:11px" onclick="MU.loadSaved('+o.i+')">Load</button></div>';
+      }).join('');
+    }
+    document.getElementById('mu-saveload-modal').classList.remove('hidden');
+  }
+  function loadSaved(i){
+    const entry=getSavedTeams()[i];if(!entry)return;
+    const key=loadKey;
+    const altSet=new Set(entry.altFormActive||[]);
+    const fresh=new Array(TS_MU).fill(null);
+    (entry.slots||[]).forEach((slotData,idx)=>{
+      if(!slotData)return;
+      let mon=POKEMON_DATA.find(p=>p.id===slotData.id);if(!mon)return;
+      // apply alt form display if this team had it toggled
+      if(altSet.has(mon.id)&&mon.altForm){mon=Object.assign({},mon,{name:mon.altForm.name,type1:mon.altForm.type1,type2:mon.altForm.type2,stats:mon.altForm.stats,id:mon.altForm.spriteId||mon.id});}
+      const slot=newSlot(mon);
+      const pd=slotData.pasteData;
+      if(pd&&pd.moves&&pd.moves.length)slot.mon=Object.assign({},mon,{moves:pd.moves});
+      fresh[idx]=slot;
+    });
+    teams[key]=fresh;leads[key]=[];
+    if(entry.name){teamNames[key]=entry.name;const inp=document.getElementById('mu-name'+key);if(inp)inp.value=entry.name;}
+    closeModal('mu-saveload-modal');
+    renderTeam(key);renderSpeed();renderMatrix();renderLeadBanner();
+    showToast('Loaded "'+entry.name+'" into '+(key==='A'?'left':'right')+' team.','ok');
+  }
+
+  window.MU={activate,openCov,openSpeed,openMassSpeed,openSearch,removeMon,clearTeam,clearLeads,swap,openPaste,applyPaste,openSaveLoad,loadSaved};
+})();
 
 /* ===== Inlined SBL tooltip module (data-tip click/tap floating tooltip) ===== */
 (function () {
