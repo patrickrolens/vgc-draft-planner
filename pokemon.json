@@ -7,7 +7,12 @@
         "Trick Room",
         "Electroweb",
         "Icy Wind",
-        "Bulldoze"
+        "Bulldoze",
+        "Cotton Spore",
+        "Quash",
+        "String Shot",
+        "After You",
+        "Speed Swap"
       ]
     },
     {
@@ -40,7 +45,12 @@
         "Ice Shard",
         "Mach Punch",
         "Accelerock",
-        "Water Shuriken"
+        "Water Shuriken",
+        "Upper Hand",
+        "Jet Punch",
+        "Thunderclap",
+        "Feint",
+        "First Impression"
       ]
     },
     {
@@ -51,7 +61,28 @@
         "Will-O-Wisp",
         "Sleep Powder",
         "Spore",
-        "Yawn"
+        "Yawn",
+        "Glare",
+        "Hypnosis",
+        "Sing"
+      ]
+    },
+    {
+      "label": "Phasing",
+      "moves": [
+        "Circle Throw",
+        "Dragon Tail",
+        "Whirlwind",
+        "Roar"
+      ]
+    },
+    {
+      "label": "Pivot",
+      "moves": [
+        "Flip Turn",
+        "U-Turn",
+        "Volt Switch",
+        "Teleport"
       ]
     },
     {
@@ -59,7 +90,29 @@
       "moves": [
         "Snarl",
         "Struggle Bug",
-        "Breaking Swipe"
+        "Breaking Swipe",
+        "Eerie Impulse",
+        "Charm",
+        "Strength Sap"
+      ]
+    },
+    {
+      "label": "Weather",
+      "moves": [
+        "Sunny Day",
+        "Rain Dance",
+        "Sandstorm",
+        "Snowscape",
+        "Chilly Reception"
+      ]
+    },
+    {
+      "label": "Terrain",
+      "moves": [
+        "Grassy Terrain",
+        "Misty Terrain",
+        "Electric Terrain",
+        "Psychic Terrain"
       ]
     },
     {
@@ -69,7 +122,18 @@
         "Quick Guard",
         "Wide Guard",
         "Haze",
-        "Taunt"
+        "Taunt",
+        "Heal Pulse",
+        "Pollen Puff",
+        "Life Dew",
+        "Encore",
+        "Disable",
+        "Trick",
+        "Switcheroo",
+        "Coaching",
+        "Knock Off",
+        "Final Gambit",
+        "Dragon Cheer"
       ]
     }
   ],
@@ -1266,6 +1330,7 @@
         "Bulldoze",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day"
       ],
@@ -1364,6 +1429,7 @@
         "Helping Hand",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day"
       ],
@@ -2143,6 +2209,7 @@
       "moves": [
         "Helping Hand",
         "Knock Off",
+        "Roar",
         "Sunny Day",
         "Taunt",
         "Will-O-Wisp"
@@ -2393,6 +2460,7 @@
         "Helping Hand",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Taunt",
@@ -2491,6 +2559,7 @@
         "Helping Hand",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Taunt",
@@ -2718,6 +2787,7 @@
         "Helping Hand",
         "Quick Attack",
         "Rain Dance",
+        "Roar",
         "Sunny Day",
         "Yawn"
       ],
@@ -2796,6 +2866,7 @@
         "Icy Wind",
         "Quick Attack",
         "Rain Dance",
+        "Roar",
         "Sunny Day"
       ],
       "fullLearnset": [
@@ -2888,6 +2959,7 @@
         "Light Screen",
         "Quick Attack",
         "Rain Dance",
+        "Roar",
         "Sunny Day",
         "Thunder Wave",
         "Volt Switch"
@@ -2979,6 +3051,7 @@
         "Helping Hand",
         "Quick Attack",
         "Rain Dance",
+        "Roar",
         "Sunny Day",
         "Will-O-Wisp"
       ],
@@ -3409,6 +3482,7 @@
         "Light Screen",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sandstorm",
         "Snowscape",
         "Sunny Day",
@@ -3576,6 +3650,7 @@
       "moves": [
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Tailwind",
@@ -3841,6 +3916,7 @@
         "Icy Wind",
         "Light Screen",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Snowscape",
         "Sunny Day",
@@ -4407,6 +4483,7 @@
         "Psychic Terrain",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Snowscape",
@@ -4929,6 +5006,7 @@
       },
       "moves": [
         "Quick Attack",
+        "Roar",
         "Sunny Day",
         "Will-O-Wisp"
       ],
@@ -5005,6 +5083,7 @@
       },
       "moves": [
         "Quick Attack",
+        "Roar",
         "Sunny Day",
         "Will-O-Wisp"
       ],
@@ -5081,6 +5160,7 @@
         "Bulldoze",
         "Helping Hand",
         "Quick Attack",
+        "Roar",
         "Sunny Day",
         "Will-O-Wisp"
       ],
@@ -5272,7 +5352,8 @@
         "Breaking Swipe",
         "Flip Turn",
         "Icy Wind",
-        "Rain Dance"
+        "Rain Dance",
+        "Roar"
       ],
       "fullLearnset": [
         "aerialace",
@@ -5366,6 +5447,7 @@
         "Helping Hand",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Snarl"
       ],
       "fullLearnset": [
@@ -6720,6 +6802,7 @@
         "Light Screen",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sunny Day",
         "Thunder Wave",
         "Volt Switch"
@@ -6808,6 +6891,7 @@
         "Light Screen",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sunny Day",
         "Thunder Wave",
         "Volt Switch"
@@ -6910,6 +6994,7 @@
         "Light Screen",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sunny Day",
         "Thunder Wave",
         "Volt Switch"
@@ -8290,6 +8375,7 @@
         "Quick Attack",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sunny Day",
         "Thunder Wave",
         "Trick",
@@ -8392,6 +8478,7 @@
         "Quick Attack",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -9443,6 +9530,7 @@
         "Encore",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -9555,6 +9643,7 @@
         "Encore",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -10684,6 +10773,7 @@
         "Ice Shard",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Snowscape"
       ],
@@ -10770,6 +10860,7 @@
         "Ice Shard",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Snowscape"
       ],
@@ -11070,6 +11161,7 @@
       "moves": [
         "Feint",
         "Icy Wind",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Tailwind",
@@ -11162,6 +11254,7 @@
         "Feint",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sucker Punch",
         "Sunny Day",
@@ -11257,6 +11350,7 @@
       "moves": [
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -11350,6 +11444,7 @@
       "moves": [
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -11529,6 +11624,7 @@
         "Ice Shard",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day"
       ],
@@ -11618,6 +11714,7 @@
         "Helping Hand",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day"
       ],
@@ -11798,6 +11895,7 @@
         "Light Screen",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sunny Day",
         "Thunder Wave",
         "Trick",
@@ -12427,6 +12525,7 @@
         "Quick Attack",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Sunny Day",
@@ -12517,6 +12616,7 @@
         "Extreme Speed",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Sunny Day",
@@ -12605,6 +12705,7 @@
         "Helping Hand",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Snowscape",
@@ -12859,6 +12960,7 @@
         "Icy Wind",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Sunny Day",
@@ -12982,6 +13084,7 @@
         "Icy Wind",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Sunny Day",
@@ -13521,6 +13624,7 @@
         "Helping Hand",
         "Quick Attack",
         "Quick Guard",
+        "Roar",
         "Sunny Day",
         "Upper Hand",
         "Vacuum Wave"
@@ -13634,6 +13738,7 @@
         "Helping Hand",
         "Quick Attack",
         "Quick Guard",
+        "Roar",
         "Sunny Day",
         "Upper Hand",
         "Vacuum Wave"
@@ -13916,6 +14021,7 @@
         "Helping Hand",
         "Knock Off",
         "Quick Attack",
+        "Roar",
         "Sunny Day",
         "U-Turn",
         "Upper Hand",
@@ -14028,6 +14134,7 @@
         "Helping Hand",
         "Knock Off",
         "Quick Attack",
+        "Roar",
         "Sunny Day",
         "U-Turn",
         "Upper Hand",
@@ -14137,6 +14244,7 @@
       "moves": [
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Wide Guard",
         "Yawn"
       ],
@@ -14219,7 +14327,8 @@
         "Bulldoze",
         "Helping Hand",
         "Icy Wind",
-        "Rain Dance"
+        "Rain Dance",
+        "Roar"
       ],
       "fullLearnset": [
         "amnesia",
@@ -14303,7 +14412,8 @@
         "Helping Hand",
         "Icy Wind",
         "Knock Off",
-        "Rain Dance"
+        "Rain Dance",
+        "Roar"
       ],
       "fullLearnset": [
         "amnesia",
@@ -14405,7 +14515,8 @@
         "Helping Hand",
         "Icy Wind",
         "Knock Off",
-        "Rain Dance"
+        "Rain Dance",
+        "Roar"
       ],
       "fullLearnset": [
         "amnesia",
@@ -14506,6 +14617,7 @@
         "Charm",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sucker Punch",
         "Sunny Day",
@@ -14589,6 +14701,7 @@
         "Charm",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sucker Punch",
         "Sunny Day",
@@ -16616,6 +16729,7 @@
         "Icy Wind",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Sunny Day",
         "Taunt",
         "Thunder Wave"
@@ -16724,6 +16838,7 @@
         "Icy Wind",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Sucker Punch",
         "Sunny Day",
         "Taunt",
@@ -18919,6 +19034,7 @@
         "Charm",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Will-O-Wisp",
@@ -19019,6 +19135,7 @@
         "Charm",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Will-O-Wisp",
@@ -19115,6 +19232,7 @@
         "Charm",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Will-O-Wisp",
@@ -20119,6 +20237,7 @@
         "Haze",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sing",
         "Snowscape",
         "Sunny Day",
@@ -20221,6 +20340,7 @@
         "Haze",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sing",
         "Snowscape",
         "Sunny Day",
@@ -20326,6 +20446,7 @@
         "Quick Attack",
         "Quick Guard",
         "Rain Dance",
+        "Roar",
         "Sunny Day",
         "Switcheroo",
         "Taunt",
@@ -21758,6 +21879,7 @@
         "Grassy Terrain",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sunny Day",
         "Tailwind",
         "U-Turn",
@@ -22503,6 +22625,7 @@
         "Dragon Tail",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sunny Day"
       ],
       "fullLearnset": [
@@ -22581,6 +22704,7 @@
         "Dragon Tail",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sunny Day"
       ],
       "fullLearnset": [
@@ -22658,6 +22782,7 @@
         "Dragon Tail",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sunny Day",
         "Tailwind"
       ],
@@ -22752,6 +22877,7 @@
         "Dragon Tail",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sunny Day",
         "Tailwind"
       ],
@@ -23425,6 +23551,7 @@
         "Light Screen",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Tailwind",
@@ -23543,6 +23670,7 @@
         "Light Screen",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Tailwind",
@@ -23661,6 +23789,7 @@
         "Light Screen",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Tailwind",
@@ -23777,6 +23906,7 @@
         "Light Screen",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Tailwind",
@@ -23885,6 +24015,7 @@
         "Helping Hand",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Thunder Wave"
       ],
       "fullLearnset": [
@@ -23960,6 +24091,7 @@
         "Helping Hand",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Thunder Wave"
       ],
       "fullLearnset": [
@@ -24032,6 +24164,7 @@
       "moves": [
         "Bulldoze",
         "Helping Hand",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Thunder Wave",
@@ -24132,6 +24265,7 @@
       "moves": [
         "Bulldoze",
         "Helping Hand",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Thunder Wave",
@@ -24237,6 +24371,7 @@
         "Helping Hand",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Tailwind",
@@ -24348,6 +24483,7 @@
         "Helping Hand",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Tailwind",
@@ -24687,6 +24823,7 @@
         "Grassy Terrain",
         "Light Screen",
         "Reflect",
+        "Roar",
         "Sunny Day",
         "Wide Guard"
       ],
@@ -24776,6 +24913,7 @@
         "Grassy Terrain",
         "Light Screen",
         "Reflect",
+        "Roar",
         "Sunny Day"
       ],
       "fullLearnset": [
@@ -24854,6 +24992,7 @@
         "Grassy Terrain",
         "Light Screen",
         "Reflect",
+        "Roar",
         "Sandstorm",
         "Sunny Day"
       ],
@@ -25167,6 +25306,7 @@
         "Helping Hand",
         "Knock Off",
         "Mach Punch",
+        "Roar",
         "Sunny Day",
         "Taunt",
         "U-Turn",
@@ -25465,6 +25605,7 @@
         "Icy Wind",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Snowscape",
         "Vacuum Wave"
       ],
@@ -25954,6 +26095,7 @@
         "Light Screen",
         "Quick Attack",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Thunder Wave",
@@ -26041,6 +26183,7 @@
         "Helping Hand",
         "Light Screen",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Thunder Wave",
@@ -26122,6 +26265,7 @@
         "Helping Hand",
         "Light Screen",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Thunder Wave",
@@ -26253,6 +26397,7 @@
         "Bulldoze",
         "Dragon Cheer",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Whirlwind"
@@ -26346,6 +26491,7 @@
         "Dragon Cheer",
         "Dragon Tail",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day"
       ],
@@ -26445,6 +26591,7 @@
       "moves": [
         "Bulldoze",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Taunt"
@@ -26532,6 +26679,7 @@
         "Bulldoze",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Taunt",
@@ -26933,6 +27081,7 @@
         "Icy Wind",
         "Quick Attack",
         "Rain Dance",
+        "Roar",
         "Taunt"
       ],
       "fullLearnset": [
@@ -27020,6 +27169,7 @@
         "Icy Wind",
         "Quick Attack",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Taunt"
       ],
@@ -28041,6 +28191,7 @@
         "Helping Hand",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sucker Punch",
         "Sunny Day",
@@ -28138,6 +28289,7 @@
         "Helping Hand",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sucker Punch",
         "Sunny Day",
@@ -29294,6 +29446,7 @@
         "Quick Attack",
         "Quick Guard",
         "Rain Dance",
+        "Roar",
         "Sunny Day",
         "Upper Hand",
         "Vacuum Wave"
@@ -29412,6 +29565,7 @@
         "Quick Attack",
         "Quick Guard",
         "Rain Dance",
+        "Roar",
         "Sunny Day",
         "Upper Hand",
         "Vacuum Wave"
@@ -29520,6 +29674,7 @@
       "moves": [
         "Bulldoze",
         "Helping Hand",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Whirlwind",
@@ -29597,6 +29752,7 @@
       "moves": [
         "Bulldoze",
         "Helping Hand",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Yawn"
@@ -30643,6 +30799,7 @@
         "Helping Hand",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day"
       ],
@@ -30882,6 +31039,7 @@
         "Bulldoze",
         "Helping Hand",
         "Knock Off",
+        "Roar",
         "Sunny Day",
         "Taunt",
         "Will-O-Wisp"
@@ -31083,6 +31241,7 @@
         "Knock Off",
         "Quick Attack",
         "Rain Dance",
+        "Roar",
         "Sunny Day"
       ],
       "fullLearnset": [
@@ -31175,6 +31334,7 @@
         "Icy Wind",
         "Quick Attack",
         "Rain Dance",
+        "Roar",
         "Snowscape",
         "Sunny Day"
       ],
@@ -31374,6 +31534,7 @@
         "Knock Off",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sandstorm",
         "Snowscape"
       ],
@@ -32591,6 +32752,7 @@
         "Bulldoze",
         "Dragon Tail",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Thunder Wave",
@@ -32691,6 +32853,7 @@
         "Dragon Tail",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Snowscape",
         "Sunny Day",
@@ -32966,6 +33129,7 @@
         "Dragon Tail",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Shadow Sneak",
         "Sunny Day",
         "Thunder Wave",
@@ -33512,6 +33676,7 @@
         "Psychic Terrain",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Sunny Day",
@@ -33935,6 +34100,7 @@
       },
       "moves": [
         "Helping Hand",
+        "Roar",
         "Sucker Punch",
         "Sunny Day",
         "Taunt",
@@ -34020,6 +34186,7 @@
         "Coaching",
         "Helping Hand",
         "Knock Off",
+        "Roar",
         "Sunny Day",
         "Taunt",
         "Will-O-Wisp"
@@ -34119,6 +34286,7 @@
         "Coaching",
         "Helping Hand",
         "Knock Off",
+        "Roar",
         "Sunny Day",
         "Taunt",
         "Will-O-Wisp"
@@ -35010,6 +35178,7 @@
         "Light Screen",
         "Quick Attack",
         "Rain Dance",
+        "Roar",
         "Sunny Day",
         "Taunt",
         "Thunder Wave",
@@ -36492,6 +36661,7 @@
       "moves": [
         "Bulldoze",
         "Helping Hand",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Taunt"
@@ -36580,6 +36750,7 @@
         "Dragon Tail",
         "Helping Hand",
         "Knock Off",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Taunt"
@@ -36676,6 +36847,7 @@
         "Dragon Tail",
         "Helping Hand",
         "Knock Off",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Taunt"
@@ -36980,6 +37152,7 @@
         "Knock Off",
         "Quick Guard",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -37090,6 +37263,7 @@
         "Helping Hand",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -37430,6 +37604,7 @@
         "Helping Hand",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sucker Punch",
         "Sunny Day",
@@ -37521,6 +37696,7 @@
         "Helping Hand",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -39866,6 +40042,7 @@
         "Dragon Tail",
         "First Impression",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt"
@@ -39956,6 +40133,7 @@
         "Dragon Cheer",
         "Dragon Tail",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt"
@@ -40042,6 +40220,7 @@
         "Dragon Cheer",
         "Dragon Tail",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt"
@@ -40231,6 +40410,7 @@
         "Encore",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Snowscape",
         "Taunt"
@@ -41502,6 +41682,7 @@
         "Dragon Cheer",
         "Dragon Tail",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -41580,6 +41761,7 @@
         "Dragon Tail",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -41661,6 +41843,7 @@
         "Helping Hand",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Tailwind",
@@ -41937,6 +42120,7 @@
         "Quick Guard",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Taunt",
@@ -42033,6 +42217,7 @@
         "Quick Attack",
         "Quick Guard",
         "Reflect",
+        "Roar",
         "Sandstorm",
         "Taunt",
         "Upper Hand"
@@ -42121,6 +42306,7 @@
         "Quick Attack",
         "Quick Guard",
         "Reflect",
+        "Roar",
         "Sunny Day",
         "Taunt",
         "Upper Hand",
@@ -42594,6 +42780,7 @@
         "Light Screen",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sunny Day",
         "Tailwind",
         "Will-O-Wisp"
@@ -42696,6 +42883,7 @@
         "Light Screen",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sunny Day",
         "Tailwind",
         "Thunder Wave",
@@ -42971,6 +43159,7 @@
         "Light Screen",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Snowscape",
         "Sunny Day"
       ],
@@ -43067,6 +43256,7 @@
         "Light Screen",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Snowscape",
         "Sunny Day"
       ],
@@ -43164,6 +43354,7 @@
         "Light Screen",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Snowscape",
         "Sunny Day"
       ],
@@ -43264,6 +43455,7 @@
         "Quick Guard",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sunny Day",
         "Taunt",
         "Upper Hand",
@@ -43610,6 +43802,7 @@
         "Quick Guard",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sunny Day",
         "Wide Guard"
       ],
@@ -43703,6 +43896,7 @@
         "Helping Hand",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sunny Day",
         "Taunt"
       ],
@@ -43801,6 +43995,7 @@
         "Knock Off",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sunny Day",
         "Taunt"
       ],
@@ -45017,6 +45212,7 @@
         "Bulldoze",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -45100,6 +45296,7 @@
         "Bulldoze",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -45483,6 +45680,7 @@
         "Grassy Terrain",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sunny Day"
       ],
       "fullLearnset": [
@@ -45564,6 +45762,7 @@
         "Grassy Terrain",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sunny Day"
       ],
       "fullLearnset": [
@@ -46779,6 +46978,7 @@
         "Quick Attack",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sunny Day"
       ],
       "fullLearnset": [
@@ -48502,6 +48702,7 @@
         "Haze",
         "Misty Terrain",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Taunt",
@@ -48879,6 +49080,7 @@
       "moves": [
         "Fake Out",
         "Helping Hand",
+        "Roar",
         "Sunny Day",
         "Taunt",
         "U-Turn",
@@ -48958,6 +49160,7 @@
       },
       "moves": [
         "Helping Hand",
+        "Roar",
         "Sunny Day",
         "Taunt",
         "U-Turn",
@@ -49036,6 +49239,7 @@
         "Bulldoze",
         "Helping Hand",
         "Knock Off",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -49720,6 +49924,7 @@
         "Helping Hand",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Taunt",
@@ -50720,6 +50925,7 @@
         "Bulldoze",
         "Charm",
         "Helping Hand",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Sucker Punch",
@@ -50804,6 +51010,7 @@
         "Helping Hand",
         "Quick Attack",
         "Quick Guard",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Sucker Punch",
@@ -50897,6 +51104,7 @@
         "Helping Hand",
         "Quick Attack",
         "Quick Guard",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Sucker Punch",
@@ -50991,6 +51199,7 @@
         "Charm",
         "Helping Hand",
         "Knock Off",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Sunny Day",
@@ -51272,6 +51481,7 @@
       },
       "moves": [
         "Bulldoze",
+        "Roar",
         "Sandstorm",
         "Sunny Day"
       ],
@@ -51342,6 +51552,7 @@
       },
       "moves": [
         "Bulldoze",
+        "Roar",
         "Sandstorm",
         "Sunny Day"
       ],
@@ -53315,6 +53526,7 @@
         "Bulldoze",
         "Dragon Cheer",
         "Dragon Tail",
+        "Roar",
         "Sandstorm",
         "Taunt"
       ],
@@ -53394,6 +53606,7 @@
         "Coaching",
         "Dragon Cheer",
         "Dragon Tail",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Taunt",
@@ -53487,6 +53700,7 @@
         "Dragon Tail",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Taunt",
@@ -53743,6 +53957,7 @@
         "Knock Off",
         "Light Screen",
         "Reflect",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Teleport",
@@ -59342,6 +59557,7 @@
         "Dragon Tail",
         "Light Screen",
         "Reflect",
+        "Roar",
         "Snarl",
         "Thunder Wave"
       ],
@@ -59840,6 +60056,7 @@
         "Quick Attack",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Sunny Day",
@@ -59944,6 +60161,7 @@
         "Quick Attack",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Sunny Day",
@@ -60856,6 +61074,7 @@
       "moves": [
         "Coaching",
         "Helping Hand",
+        "Roar",
         "Snarl",
         "Sucker Punch",
         "Taunt",
@@ -61147,6 +61366,7 @@
       "moves": [
         "Bulldoze",
         "Icy Wind",
+        "Roar",
         "Snarl",
         "Snowscape",
         "Taunt"
@@ -61305,6 +61525,7 @@
         "Pollen Puff",
         "Psychic Terrain",
         "Reflect",
+        "Roar",
         "Snarl",
         "Snowscape",
         "Sunny Day",
@@ -61557,6 +61778,7 @@
         "Light Screen",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sunny Day",
         "Thunder Wave",
         "Trick",
@@ -61749,6 +61971,7 @@
         "Charm",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sunny Day",
         "Taunt"
       ],
@@ -62581,6 +62804,7 @@
       },
       "moves": [
         "Helping Hand",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Will-O-Wisp"
@@ -62667,6 +62891,7 @@
         "Bulldoze",
         "Extreme Speed",
         "Helping Hand",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Sunny Day",
@@ -62926,6 +63151,7 @@
       "moves": [
         "Bulldoze",
         "Quick Attack",
+        "Roar",
         "Sunny Day",
         "Will-O-Wisp"
       ],
@@ -63228,6 +63454,7 @@
         "Icy Wind",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Shadow Sneak",
         "Snarl",
         "Snowscape",
@@ -63319,6 +63546,7 @@
         "Icy Wind",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Shadow Sneak",
         "Snarl",
         "Snowscape",
@@ -64159,6 +64387,7 @@
       "moves": [
         "Encore",
         "Helping Hand",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Will-O-Wisp",
@@ -64235,6 +64464,7 @@
       "moves": [
         "Encore",
         "Helping Hand",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Will-O-Wisp",
@@ -64310,6 +64540,7 @@
       "moves": [
         "Encore",
         "Helping Hand",
+        "Roar",
         "Sing",
         "Snarl",
         "Sunny Day",
@@ -65486,6 +65717,7 @@
         "Disable",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Shadow Sneak",
         "Snarl",
@@ -65573,6 +65805,7 @@
         "Charm",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Snarl",
         "Sunny Day",
@@ -65843,6 +66076,7 @@
         "Psychic Terrain",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sunny Day",
         "Thunder Wave",
         "Trick",
@@ -69367,6 +69601,7 @@
         "Helping Hand",
         "Misty Terrain",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Yawn"
@@ -69446,6 +69681,7 @@
         "Helping Hand",
         "Misty Terrain",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day"
       ],
@@ -69525,6 +69761,7 @@
         "Charm",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt"
@@ -69600,6 +69837,7 @@
         "Charm",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt"
@@ -69942,6 +70180,7 @@
       "moves": [
         "Bulldoze",
         "Knock Off",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Taunt"
@@ -70205,6 +70444,7 @@
         "Psychic Terrain",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sandstorm",
         "Sing",
         "Snowscape",
@@ -70489,6 +70729,7 @@
         "Dragon Cheer",
         "Dragon Tail",
         "Knock Off",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Tailwind",
@@ -70840,6 +71081,7 @@
         "Electric Terrain",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Tailwind",
@@ -71557,6 +71799,7 @@
         "Dragon Cheer",
         "Dragon Tail",
         "Helping Hand",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -73055,6 +73298,7 @@
         "Grassy Terrain",
         "Helping Hand",
         "Knock Off",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -73161,6 +73405,7 @@
         "Flip Turn",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day"
       ],
@@ -73552,6 +73797,7 @@
       },
       "moves": [
         "Knock Off",
+        "Roar",
         "Snarl",
         "Taunt",
         "Upper Hand"
@@ -73998,6 +74244,7 @@
         "Dragon Tail",
         "Light Screen",
         "Reflect",
+        "Roar",
         "Snarl",
         "Thunder Wave"
       ],
@@ -74175,6 +74422,7 @@
         "Bulldoze",
         "Dragon Cheer",
         "Dragon Tail",
+        "Roar",
         "Snarl",
         "Sunny Day"
       ],
@@ -74268,6 +74516,7 @@
         "Eerie Impulse",
         "Electric Terrain",
         "Electroweb",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -74509,6 +74758,7 @@
       "legal": false,
       "moves": [
         "Rain Dance",
+        "Roar",
         "Sunny Day"
       ],
       "fullLearnset": [
@@ -74596,6 +74846,7 @@
         "Bulldoze",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -74899,6 +75150,7 @@
         "Grassy Terrain",
         "Helping Hand",
         "Knock Off",
+        "Roar",
         "Sleep Powder",
         "Sunny Day"
       ],
@@ -74978,6 +75230,7 @@
         "Grassy Terrain",
         "Helping Hand",
         "Knock Off",
+        "Roar",
         "Sleep Powder",
         "Sunny Day"
       ],
@@ -75068,6 +75321,7 @@
         "Grassy Terrain",
         "Helping Hand",
         "Knock Off",
+        "Roar",
         "Sleep Powder",
         "Sunny Day"
       ],
@@ -75157,6 +75411,7 @@
         "Breaking Swipe",
         "Dragon Tail",
         "Helping Hand",
+        "Roar",
         "Sunny Day",
         "Will-O-Wisp"
       ],
@@ -75246,6 +75501,7 @@
         "Breaking Swipe",
         "Dragon Tail",
         "Helping Hand",
+        "Roar",
         "Sunny Day",
         "Will-O-Wisp"
       ],
@@ -75330,6 +75586,7 @@
         "Dragon Cheer",
         "Dragon Tail",
         "Helping Hand",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Will-O-Wisp"
@@ -75431,6 +75688,7 @@
         "Dragon Cheer",
         "Dragon Tail",
         "Helping Hand",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Will-O-Wisp"
@@ -75532,6 +75790,7 @@
         "Dragon Cheer",
         "Dragon Tail",
         "Helping Hand",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Will-O-Wisp"
@@ -75796,7 +76055,8 @@
         "Haze",
         "Helping Hand",
         "Icy Wind",
-        "Rain Dance"
+        "Rain Dance",
+        "Roar"
       ],
       "fullLearnset": [
         "aquatail",
@@ -75887,7 +76147,8 @@
         "Haze",
         "Helping Hand",
         "Icy Wind",
-        "Rain Dance"
+        "Rain Dance",
+        "Roar"
       ],
       "fullLearnset": [
         "aquatail",
@@ -77648,6 +77909,7 @@
         "Helping Hand",
         "Hypnosis",
         "Quick Attack",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Will-O-Wisp"
@@ -77741,6 +78003,7 @@
         "Icy Wind",
         "Misty Terrain",
         "Rain Dance",
+        "Roar",
         "Snowscape"
       ],
       "fullLearnset": [
@@ -77829,6 +78092,7 @@
         "Encore",
         "Helping Hand",
         "Quick Attack",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Will-O-Wisp"
@@ -77925,6 +78189,7 @@
         "Icy Wind",
         "Misty Terrain",
         "Rain Dance",
+        "Roar",
         "Snowscape"
       ],
       "fullLearnset": [
@@ -79312,6 +79577,7 @@
         "Icy Wind",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Switcheroo",
@@ -79416,6 +79682,7 @@
         "Knock Off",
         "Quash",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Switcheroo",
@@ -79946,6 +80213,7 @@
       "moves": [
         "Charm",
         "Helping Hand",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Will-O-Wisp"
@@ -80029,6 +80297,7 @@
         "Charm",
         "Extreme Speed",
         "Helping Hand",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Will-O-Wisp"
@@ -81305,6 +81574,7 @@
       "legal": true,
       "moves": [
         "Bulldoze",
+        "Roar",
         "Sandstorm",
         "Sunny Day"
       ],
@@ -81388,6 +81658,7 @@
         "Bulldoze",
         "Electric Terrain",
         "Electroweb",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Thunder Wave",
@@ -84353,6 +84624,7 @@
       "legal": false,
       "moves": [
         "Rain Dance",
+        "Roar",
         "Sunny Day"
       ],
       "fullLearnset": [
@@ -84557,6 +84829,7 @@
       "legal": false,
       "moves": [
         "Rain Dance",
+        "Roar",
         "Sunny Day"
       ],
       "fullLearnset": [
@@ -84641,6 +84914,7 @@
       "legal": false,
       "moves": [
         "Rain Dance",
+        "Roar",
         "Sunny Day"
       ],
       "fullLearnset": [
@@ -85169,6 +85443,7 @@
         "Icy Wind",
         "Light Screen",
         "Rain Dance",
+        "Roar",
         "Sandstorm",
         "Snowscape",
         "Sunny Day",
@@ -85377,6 +85652,7 @@
         "Helping Hand",
         "Icy Wind",
         "Rain Dance",
+        "Roar",
         "Snarl"
       ],
       "fullLearnset": [
@@ -85481,6 +85757,7 @@
       "moves": [
         "Feint",
         "Icy Wind",
+        "Roar",
         "Sandstorm",
         "Sunny Day",
         "Tailwind",
@@ -85860,6 +86137,7 @@
         "Quick Attack",
         "Quick Guard",
         "Rain Dance",
+        "Roar",
         "Sunny Day",
         "Upper Hand",
         "Vacuum Wave"
@@ -86251,6 +86529,7 @@
         "Coaching",
         "Helping Hand",
         "Knock Off",
+        "Roar",
         "Sunny Day",
         "Taunt",
         "Will-O-Wisp"
@@ -86461,6 +86740,7 @@
         "Helping Hand",
         "Knock Off",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",
@@ -86868,6 +87148,7 @@
         "Knock Off",
         "Rain Dance",
         "Reflect",
+        "Roar",
         "Sunny Day",
         "Taunt"
       ],
@@ -87188,6 +87469,7 @@
         "Bulldoze",
         "Helping Hand",
         "Rain Dance",
+        "Roar",
         "Snarl",
         "Sunny Day",
         "Taunt",

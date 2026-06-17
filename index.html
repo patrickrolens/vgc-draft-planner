@@ -316,12 +316,28 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .speed-icons{display:flex;flex-wrap:wrap;gap:2px;flex:1;}
 .util-section{margin-bottom:0;padding:8px 0;border-top:1px solid rgba(255,255,255,0.08);}
 .util-section:first-child{border-top:none;padding-top:0;}
-.util-section-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);margin-bottom:5px;}
-.util-row{display:flex;align-items:center;margin-bottom:1px;border-radius:3px;min-height:36px;}
+.util-section-head{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+.util-section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.8px;}
+.util-row{display:flex;align-items:center;gap:7px;margin-bottom:1px;border-radius:3px;min-height:36px;}
 .util-row:nth-child(even){background:rgba(255,255,255,0.03);}
-.util-mn{font-size:11px;color:var(--text2);width:90px;flex-shrink:0;padding:2px 4px;}
+.util-mn{font-size:11px;color:var(--text2);width:84px;flex-shrink:0;padding:2px 4px;}
 .util-mn-none{color:var(--text3);}
 .util-icons{display:flex;flex-wrap:wrap;gap:2px;padding:2px 0;}
+
+/* ── Utility filter: custom checkboxes + master row + collapse ── */
+.util-cb{flex-shrink:0;width:15px;height:15px;border:1.5px solid var(--text3);border-radius:3px;
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+  font-size:11px;font-weight:800;line-height:1;color:#fff;background:transparent;
+  transition:background 0.12s,border-color 0.12s;user-select:none;}
+.util-cb:hover{border-color:var(--accent);}
+.util-cb.cb-on{background:var(--accent);border-color:var(--accent);}
+.util-cb.cb-dash{background:var(--accent);border-color:var(--accent);opacity:0.85;}
+.util-master-row{display:flex;align-items:center;gap:8px;padding-bottom:8px;margin-bottom:4px;border-bottom:1px solid var(--border);}
+.util-master-lbl{font-size:11px;font-weight:700;color:var(--text2);cursor:pointer;flex:1;}
+.util-collapse-arrow{font-size:12px;color:var(--text3);cursor:pointer;padding:0 2px;}
+.util-collapse-arrow:hover{color:var(--text2);}
+.util-body.collapsed{display:none;}
+
 
 /* INDEX */
 .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;align-items:center;position:sticky;top:50px;z-index:50;background:var(--bg);padding:8px 0;}
@@ -581,6 +597,21 @@ const POKEBALL_FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/20
 // ── STORAGE KEYS ──────────────────────────────────────────────────────────────
 const LS_TEAMS   = 'vgcdraft_teams';
 const LS_SESSION = 'vgcdraft_session';
+const LS_MOVEFILTER = 'vgcdraft_movefilter';
+
+// Set of move names the user has UNCHECKED (hidden from cards). Default: all
+// checked, so the set starts empty. Persisted across reloads.
+let hiddenMoves = new Set();
+function loadMoveFilter(){
+  try {
+    const raw = JSON.parse(localStorage.getItem(LS_MOVEFILTER)||'[]');
+    hiddenMoves = new Set(Array.isArray(raw)?raw:[]);
+  } catch(e){ hiddenMoves = new Set(); }
+}
+function saveMoveFilter(){
+  localStorage.setItem(LS_MOVEFILTER, JSON.stringify([...hiddenMoves]));
+}
+function isMoveVisible(mv){ return !hiddenMoves.has(mv); }
 
 // ── SESSION PERSISTENCE ────────────────────────────────────────────────────────
 function saveSession(){
@@ -1001,6 +1032,8 @@ async function loadPokemonData() {
   const data = await response.json();
   POKEMON_DATA = data.pokemon;
   UG = data.utilityGroups;
+  buildMoveCategory();
+  loadMoveFilter();
   initApp();
 }
 
@@ -1285,21 +1318,28 @@ function renderTeam(){
       const hasMegaBase=!!(mon.baseForm);
       const megaBaseShowing = megaBaseActive.has(mon.id);
       d.className="draft-slot"+(mon&&!mon.legal&&!exp?" illegal-slot":"");
-      // Priority-sort the full move list, then split: top 5 are the primary set
-      // (shown in the main column), the rest are overflow (shown on expand, mobile).
-      const sortedMoves=sortMovesByPriority(mon.moves||[]);
-      const tag=m=>`<span class="move-tag">${m}</span>`;
+      // Priority-sort the mon's moves. The tooltip always shows the full list;
+      // the cards show only moves that are currently checked (not in hiddenMoves).
+      const sortedAll=sortMovesByPriority(mon.moves||[]);
+      const sortedVisible=sortedAll.filter(isMoveVisible);
+      // Colored tag: category background with auto-contrast text.
+      const tag=m=>{
+        const c=CATEGORY_COLOR[MOVE_CATEGORY[m]];
+        const sty=c?` style="background:${c};border-color:${c};color:${contrastText(c)}"`:"";
+        return `<span class="move-tag"${sty}>${m}</span>`;
+      };
       const PRIMARY_CAP=5;
-      const primaryMoves=sortedMoves.slice(0,PRIMARY_CAP);
-      const overflowMoves=sortedMoves.slice(PRIMARY_CAP);
+      const primaryMoves=sortedVisible.slice(0,PRIMARY_CAP);
+      const overflowMoves=sortedVisible.slice(PRIMARY_CAP);
       const nMore=overflowMoves.length;
-      // Desktop shows everything in order; mobile caps the primary spot at 5 + "n more".
-      const moves=sortedMoves.map(tag).join("");                 // desktop: all moves
-      // Tooltip content for "+n more": every utility move in priority order, with
+      // Desktop shows all visible moves in order; mobile caps primary at 5 + "n more".
+      const moves=sortedVisible.map(tag).join("");
+      // Tooltip content: every utility move (unfiltered) in priority order, with
       // its category. data-tip holds HTML; escape double-quotes for the attribute.
-      const tipRows=sortedMoves.map(m=>{
+      const tipRows=sortedAll.map(m=>{
         const cat=MOVE_CATEGORY[m]||"—";
-        return `<div class='mv-tip-row'><span class='mv-tip-name'>${m}</span><span class='mv-tip-cat'>${cat}</span></div>`;
+        const c=CATEGORY_COLOR[cat]||"var(--text2)";
+        return `<div class='mv-tip-row'><span class='mv-tip-name'>${m}</span><span class='mv-tip-cat' style='color:${c}'>${cat}</span></div>`;
       }).join("");
       const tipHTML=tipRows.replace(/"/g,"&quot;");
       const movesPrimary=primaryMoves.map(tag).join("")
@@ -1561,41 +1601,47 @@ const MOVE_PRIORITY = {
   "Thunderclap": 7, "Feint": 7, "Bullet Punch": 7, "Ice Shard": 7, "Mach Punch": 7, "Accelerock": 7, "Jet Punch": 7,
   "Eerie Impulse": 7, "Charm": 7,
   "Thunder Wave": 6, "Sleep Powder": 6, "Yawn": 6, "Helping Hand": 6, "Quick Guard": 6, "Wide Guard": 6,
-  "Aque Jet": 6, "Shadow Sneak": 6, "Vacuum Wave": 6, "Heal Pulse": 6, "Pollen Puff": 6, "Life Dew": 6,
+  "Aqua Jet": 6, "Shadow Sneak": 6, "Vacuum Wave": 6, "Heal Pulse": 6, "Pollen Puff": 6, "Life Dew": 6,
   "Cotton Spore": 6, "Quash": 6, "String Shot": 6, "Encore": 6, "Disable": 6, "Trick": 6, "Switcheroo": 6,
   "Chilly Reception": 6,
   "Bulldoze": 5, "Aurora Veil": 5, "Quick Attack": 5, "Water Shuriken": 5, "Taunt": 5, "Upper Hand": 5,
-  "Strength Sap": 5, "Coaching": 5, "Hypnosis": 5, "Sing": 5, "Grass Whistle": 5, "Knock Off": 5,
+  "Strength Sap": 5, "Coaching": 5, "Hypnosis": 5, "Sing": 5, "Knock Off": 5,
   "Sunny Day": 5, "Rain Dance": 5, "Sandstorm": 5, "Snowscape": 5,
   "Haze": 4, "Final Gambit": 4, "Flip Turn": 4, "U-Turn": 4, "Volt Switch": 4, "After You": 4, "Dragon Cheer": 4,
-  "Circle Throw": 4, "Dragon Tail": 4, "Whirlwind": 4,
+  "Circle Throw": 4, "Dragon Tail": 4, "Whirlwind": 4, "Roar": 4,
   "Grassy Terrain": 4, "Misty Terrain": 4, "Psychic Terrain": 4, "Electric Terrain": 4,
   "Teleport": 2, "Speed Swap": 2,
 };
-// Category lookup for tooltip grouping/labels.
-const MOVE_CATEGORY = {
-  "Tailwind": "Speed Control", "Trick Room": "Speed Control", "Electroweb": "Speed Control", "Icy Wind": "Speed Control",
-  "Cotton Spore": "Speed Control", "Quash": "Speed Control", "String Shot": "Speed Control", "Bulldoze": "Speed Control",
-  "After You": "Speed Control", "Speed Swap": "Speed Control",
-  "Follow Me": "Redirection", "Rage Powder": "Redirection", "Ally Switch": "Redirection",
-  "Fake Out": "Priority", "Sucker Punch": "Priority", "Extreme Speed": "Priority", "First Impression": "Priority",
-  "Thunderclap": "Priority", "Feint": "Priority", "Bullet Punch": "Priority", "Ice Shard": "Priority",
-  "Mach Punch": "Priority", "Accelerock": "Priority", "Jet Punch": "Priority", "Aque Jet": "Priority",
-  "Shadow Sneak": "Priority", "Vacuum Wave": "Priority", "Quick Attack": "Priority", "Water Shuriken": "Priority",
-  "Upper Hand": "Priority",
-  "Spore": "Status", "Glare": "Status", "Nuzzle": "Status", "Will-O-Wisp": "Status", "Thunder Wave": "Status",
-  "Sleep Powder": "Status", "Yawn": "Status", "Hypnosis": "Status", "Sing": "Status", "Grass Whistle": "Status",
-  "Reflect": "Screens", "Light Screen": "Screens", "Aurora Veil": "Screens",
-  "Snarl": "Power Nerfs", "Struggle Bug": "Power Nerfs", "Breaking Swipe": "Power Nerfs", "Eerie Impulse": "Power Nerfs",
-  "Charm": "Power Nerfs", "Strength Sap": "Power Nerfs",
-  "Helping Hand": "Misc", "Quick Guard": "Misc", "Wide Guard": "Misc", "Heal Pulse": "Misc", "Pollen Puff": "Misc",
-  "Life Dew": "Misc", "Encore": "Misc", "Disable": "Misc", "Trick": "Misc", "Switcheroo": "Misc", "Taunt": "Misc",
-  "Coaching": "Misc", "Knock Off": "Misc", "Haze": "Misc", "Final Gambit": "Misc", "Dragon Cheer": "Misc",
-  "Chilly Reception": "Weather", "Sunny Day": "Weather", "Rain Dance": "Weather", "Sandstorm": "Weather", "Snowscape": "Weather",
-  "Flip Turn": "Pivot", "U-Turn": "Pivot", "Volt Switch": "Pivot", "Teleport": "Pivot",
-  "Circle Throw": "Phasing", "Dragon Tail": "Phasing", "Whirlwind": "Phasing",
-  "Grassy Terrain": "Terrain", "Misty Terrain": "Terrain", "Psychic Terrain": "Terrain", "Electric Terrain": "Terrain",
+
+// Category colors (starting palette; adjust freely). Keyed by utilityGroup label.
+const CATEGORY_COLOR = {
+  "Speed Control": "#4363d8",
+  "Redirection":   "#f58231",
+  "Screens":       "#3cb44b",
+  "Priority":      "#e6194b",
+  "Status":        "#911eb4",
+  "Phasing":       "#46f0f0",
+  "Pivot":         "#f032e6",
+  "Power Nerfs":   "#9a6324",
+  "Weather":       "#008080",
+  "Terrain":       "#bcf60c",
+  "Misc":          "#808080",
 };
+// Black or white text, whichever contrasts better with a hex background (WCAG luminance).
+function contrastText(hex){
+  const h=(hex||"#808080").replace("#","");
+  const r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);
+  const lum=(0.299*r+0.587*g+0.114*b)/255;   // perceived brightness
+  return lum>0.6 ? "#000" : "#fff";
+}
+// MOVE_CATEGORY is derived from utilityGroups (the single source of truth) at load.
+let MOVE_CATEGORY = {};
+function buildMoveCategory(){
+  MOVE_CATEGORY={};
+  (UG||[]).forEach(function(g){
+    (g.moves||[]).forEach(function(mv){ MOVE_CATEGORY[mv]=g.label; });
+  });
+}
 // Returns a new array of move names sorted by priority (stable for equal weights).
 function sortMovesByPriority(moves){
   return (moves||[])
@@ -1806,10 +1852,23 @@ function renderSpeedTiers(){
 
 function renderUtility(){
   const mons=team.filter(Boolean);
-  let out="";
+  // Compute master checkbox state across all moves.
+  let total=0, hidden=0;
+  UG.forEach(function(g){ (g.moves||[]).forEach(function(mv){ total++; if(hiddenMoves.has(mv)) hidden++; }); });
+  const masterState = hidden===0 ? "checked" : (hidden===total ? "unchecked" : "dash");
+  let out='<div class="util-master-row">'
+    + checkboxHTML(masterState, 'toggleAllMoves()')
+    + '<span class="util-master-lbl" onclick="toggleUtilCollapse()">Show all utility moves</span>'
+    + '<span class="util-collapse-arrow" id="util-collapse-arrow" onclick="toggleUtilCollapse()">'+(utilCollapsed?"▸":"▾")+'</span>'
+    + '</div>';
+  out+='<div class="util-body'+(utilCollapsed?" collapsed":"")+'">';
   UG.forEach(function(g){
+    const color=CATEGORY_COLOR[g.label]||"var(--text2)";
+    // category checkbox state from its moves
+    const ms=g.moves||[]; const hid=ms.filter(function(m){return hiddenMoves.has(m);}).length;
+    const catState = hid===0 ? "checked" : (hid===ms.length ? "unchecked" : "dash");
     let rows="";
-    g.moves.forEach(function(mv){
+    ms.forEach(function(mv){
       const hav=mons.filter(function(m){return (m.moves||[]).includes(mv);});
       let icons="";
       hav.forEach(function(m){
@@ -1819,17 +1878,60 @@ function renderUtility(){
           +'onerror="this.onerror=function(){this.onerror=null;this.src=POKEBALL_FALLBACK;this.style.opacity=0.5;};this.src=\''+spriteUrl(m)+'\';">';
       });
       const mnCls=hav.length?"util-mn":"util-mn util-mn-none";
+      const mvState = hiddenMoves.has(mv) ? "unchecked" : "checked";
       rows+='<div class="util-row">'
+        + checkboxHTML(mvState, "toggleMove('"+mv.replace(/'/g,"\\'")+"')")
         +'<span class="'+mnCls+'">'+mv+'</span>'
         +'<div class="util-icons">'+icons+'</div>'
         +'</div>';
     });
     out+='<div class="util-section">'
-      +'<div class="util-section-title">'+g.label+'</div>'
+      +'<div class="util-section-head">'
+      + checkboxHTML(catState, "toggleCategory('"+g.label.replace(/'/g,"\\'")+"')")
+      +'<span class="util-section-title" style="color:'+color+'">'+g.label+'</span>'
+      +'</div>'
       +rows
       +'</div>';
   });
+  out+='</div>';
   document.getElementById("util-tracker").innerHTML=out;
+}
+// Small custom checkbox markup (checked / unchecked / dash indeterminate).
+function checkboxHTML(state, onclick){
+  const cls = "util-cb"+(state==="checked"?" cb-on":state==="dash"?" cb-dash":"");
+  const mark = state==="checked"?"✓":state==="dash"?"–":"";
+  return '<span class="'+cls+'" onclick="'+onclick+'">'+mark+'</span>';
+}
+let utilCollapsed=false;
+function toggleUtilCollapse(){
+  utilCollapsed=!utilCollapsed;
+  const body=document.querySelector(".util-body");
+  if(body) body.classList.toggle("collapsed", utilCollapsed);
+  const arr=document.getElementById("util-collapse-arrow");
+  if(arr) arr.textContent=utilCollapsed?"▸":"▾";
+}
+// Filter mutations — all persist and re-render cards + sidebar.
+function toggleMove(mv){
+  if(hiddenMoves.has(mv)) hiddenMoves.delete(mv); else hiddenMoves.add(mv);
+  saveMoveFilter(); renderTeam(); renderUtility();
+}
+function toggleCategory(label){
+  const g=UG.find(function(x){return x.label===label;}); if(!g) return;
+  const ms=g.moves||[];
+  const anyVisible = ms.some(function(m){return !hiddenMoves.has(m);});
+  // If any are visible, hide all; otherwise show all.
+  ms.forEach(function(m){ if(anyVisible) hiddenMoves.add(m); else hiddenMoves.delete(m); });
+  saveMoveFilter(); renderTeam(); renderUtility();
+}
+function toggleAllMoves(){
+  let anyVisible=false;
+  UG.forEach(function(g){ (g.moves||[]).forEach(function(m){ if(!hiddenMoves.has(m)) anyVisible=true; }); });
+  if(anyVisible){
+    UG.forEach(function(g){ (g.moves||[]).forEach(function(m){ hiddenMoves.add(m); }); });
+  } else {
+    hiddenMoves.clear();
+  }
+  saveMoveFilter(); renderTeam(); renderUtility();
 }
 
 // ── TOAST ─────────────────────────────────────────────────────────────────────
