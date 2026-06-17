@@ -317,7 +317,10 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .util-section{margin-bottom:0;padding:8px 0;border-top:1px solid rgba(255,255,255,0.08);}
 .util-section:first-child{border-top:none;padding-top:0;}
 .util-section-head{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
-.util-section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.8px;}
+.util-section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.8px;cursor:pointer;flex:1;}
+.util-cat-arrow{font-size:11px;color:var(--text3);cursor:pointer;padding:0 2px;flex-shrink:0;}
+.util-cat-arrow:hover{color:var(--text2);}
+.util-cat-body.collapsed{display:none;}
 .util-row{display:flex;align-items:center;gap:7px;margin-bottom:1px;border-radius:3px;min-height:36px;}
 .util-row:nth-child(even){background:rgba(255,255,255,0.03);}
 .util-mn{font-size:11px;color:var(--text2);width:84px;flex-shrink:0;padding:2px 4px;}
@@ -1885,12 +1888,14 @@ function renderUtility(){
         +'<div class="util-icons">'+icons+'</div>'
         +'</div>';
     });
+    const catCollapsed = collapsedCats.has(g.label);
     out+='<div class="util-section">'
       +'<div class="util-section-head">'
       + checkboxHTML(catState, "toggleCategory('"+g.label.replace(/'/g,"\\'")+"')")
-      +'<span class="util-section-title" style="color:'+color+'">'+g.label+'</span>'
+      +'<span class="util-section-title" style="color:'+color+'" onclick="toggleCatCollapse(\''+g.label.replace(/'/g,"\\'")+'\')">'+g.label+'</span>'
+      +'<span class="util-cat-arrow" onclick="toggleCatCollapse(\''+g.label.replace(/'/g,"\\'")+'\')">'+(catCollapsed?"▸":"▾")+'</span>'
       +'</div>'
-      +rows
+      +'<div class="util-cat-body'+(catCollapsed?" collapsed":"")+'">'+rows+'</div>'
       +'</div>';
   });
   out+='</div>';
@@ -1903,12 +1908,17 @@ function checkboxHTML(state, onclick){
   return '<span class="'+cls+'" onclick="'+onclick+'">'+mark+'</span>';
 }
 let utilCollapsed=false;
+let collapsedCats=new Set();   // category labels collapsed (session-only, resets on reload)
 function toggleUtilCollapse(){
   utilCollapsed=!utilCollapsed;
   const body=document.querySelector(".util-body");
   if(body) body.classList.toggle("collapsed", utilCollapsed);
   const arr=document.getElementById("util-collapse-arrow");
   if(arr) arr.textContent=utilCollapsed?"▸":"▾";
+}
+function toggleCatCollapse(label){
+  if(collapsedCats.has(label)) collapsedCats.delete(label); else collapsedCats.add(label);
+  renderUtility();
 }
 // Filter mutations — all persist and re-render cards + sidebar.
 function toggleMove(mv){
@@ -2634,10 +2644,14 @@ loadPokemonData();
   function bind() {
     document.querySelectorAll('[data-tip]').forEach(function (el) {
       if (el._sblTip) return; el._sblTip = true;
-      el.addEventListener('focus', function () { showTip(el); });
-      el.addEventListener('blur', hideTip);
+      // Track pointer-driven focus so we don't double-fire show (focus) then
+      // hide (click) on a single tap. Keyboard focus still auto-shows the tip.
+      el.addEventListener('pointerdown', function () { el._sblPointer = true; });
+      el.addEventListener('focus', function () { if (!el._sblPointer) showTip(el); });
+      el.addEventListener('blur', function () { el._sblPointer = false; hideTip(); });
       el.addEventListener('click', function (e) {
         if (activeTipEl === el) hideTip(); else showTip(el);
+        el._sblPointer = false;
         e.stopPropagation();
       });
     });
