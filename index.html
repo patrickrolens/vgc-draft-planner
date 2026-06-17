@@ -31,7 +31,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 /* Draft Builder spreads wider than the other views so the rails hug the edges
    and the center column gets as much room as possible. */
 #view-draft{max-width:1860px;}
-#view-matchup{max-width:1860px;}
+#view-matchup{max-width:1860px;padding-top:0.75rem;}
 .view.active{display:block;}
 
 /* ── DRAFT LAYOUT: 3-column above 1200px, 2-column 960–1200, 1-column below ── */
@@ -435,7 +435,7 @@ select.fi option{background:var(--bg2);}
 .mu-tb-btn:hover{color:var(--text);border-color:var(--accent);}
 .mu-list{display:flex;flex-direction:column;gap:7px;}
 
-.mu-row{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:6px 8px;position:relative;cursor:pointer;transition:border-color .12s,background .12s;}
+.mu-row{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:6px 26px 6px 8px;position:relative;cursor:pointer;transition:border-color .12s,background .12s;}
 .mu-row:hover{border-color:var(--accent);}
 .mu-row.mu-lead{border-color:var(--yellow);background:rgba(240,192,96,0.07);}
 .mu-col-A .mu-row.mu-lead{box-shadow:inset 3px 0 0 var(--accent);}
@@ -458,6 +458,10 @@ select.fi option{background:var(--bg2);}
 .mu-cov-btn:hover{background:rgba(124,111,247,0.24);}
 .mu-cov-btn .mu-ct{display:inline-block;background:var(--accent);color:#fff;border-radius:3px;padding:0 4px;font-weight:800;margin-right:1px;}
 .mu-empty{justify-content:center;color:var(--text3);font-size:12px;min-height:56px;border-style:dashed;}
+.mu-remove{position:absolute;top:5px;right:6px;background:none;border:none;color:var(--text3);cursor:pointer;font-size:17px;line-height:1;padding:1px 5px;border-radius:4px;}
+.mu-remove:hover{color:var(--red);background:rgba(224,85,85,0.1);}
+.mu-undo{margin-left:10px;background:none;border:1px solid var(--border);border-radius:4px;color:var(--text3);cursor:pointer;font-size:10px;font-weight:600;padding:2px 7px;white-space:nowrap;}
+.mu-undo:hover{color:var(--accent);border-color:var(--accent);}
 
 /* popovers */
 .mu-pop{position:absolute;z-index:2500;background:var(--bg2);border:1px solid var(--accent);border-radius:10px;padding:10px;box-shadow:0 10px 30px rgba(0,0,0,.5);}
@@ -501,15 +505,19 @@ select.fi option{background:var(--bg2);}
 .mu-lead-head{justify-content:space-between;}
 .mu-lead-head>span:first-child{flex:1;}.mu-lead-head>span:last-child{flex:1;text-align:right;}
 .mu-lead-head>span:nth-child(2){flex:0 0 auto;}
+.mu-collapse-arrow{cursor:pointer;color:var(--text3);font-size:12px;flex:1;text-align:right;}
+.mu-collapse-arrow:hover{color:var(--text2);}
+.mu-lead-body.mu-collapsed{display:none;}
 .mu-lead-clear{cursor:pointer;color:var(--text3);font-size:10px;}.mu-lead-clear:hover{color:var(--red);}
 .mu-sl-masswrap{flex:1;display:flex;min-width:0;}.mu-sl-masswrap.mu-right{justify-content:flex-end;}
 .mu-sl-titletext,.mu-mtx-titletext{flex-shrink:0;}
 .mu-massbtn{font-size:10px;font-weight:700;border:1px solid var(--border);border-radius:5px;padding:2px 8px;cursor:pointer;background:var(--bg3);white-space:nowrap;text-transform:none;letter-spacing:0;}
 .mu-massbtn:hover{border-color:var(--accent);}
 .mu-cA{color:var(--accent);}.mu-cB{color:var(--yellow);}
-.mu-mtx-role{flex:1;display:flex;align-items:center;cursor:pointer;color:var(--accent);font-size:10px;font-weight:700;text-transform:none;letter-spacing:0;border:1px solid var(--border);border-radius:5px;padding:2px 8px;background:var(--bg3);white-space:nowrap;}
+.mu-mtx-rolewrap{flex:1;display:flex;min-width:0;}
+.mu-mtx-rolewrap.mu-right{justify-content:flex-end;}
+.mu-mtx-role{display:inline-flex;align-items:center;cursor:pointer;color:var(--accent);font-size:10px;font-weight:700;text-transform:none;letter-spacing:0;border:1px solid var(--border);border-radius:5px;padding:2px 8px;background:var(--bg3);white-space:nowrap;}
 .mu-mtx-role:hover{border-color:var(--accent);}
-#mu-roleLeft{justify-content:flex-start;}.mu-mtx-role.mu-right{justify-content:flex-end;}
 
 /* lead banner */
 .mu-lead-banner{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:start;}
@@ -538,7 +546,7 @@ select.fi option{background:var(--bg2);}
 .mu-sl-ico{width:26px;height:26px;flex-shrink:0;cursor:pointer;border-radius:4px;}
 .mu-sl-ico:hover{outline:1px solid var(--accent);}.mu-sl-ico.mu-lead{outline:2px solid var(--yellow);}
 .mu-sl-nm{font-size:10px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.mu-sl-bm{font-size:8px;color:var(--text3);font-weight:700;}
+.mu-sl-bm{font-size:10px;color:var(--text2);font-weight:700;}
 .mu-sl-val{text-align:center;font-size:11px;font-weight:700;color:var(--green);background:var(--bg3);border-radius:4px;padding:2px 0;}
 
 /* matrix */
@@ -657,7 +665,7 @@ select.fi option{background:var(--bg2);}
         <div class="mu-toolbar">
           <button class="mu-tb-btn" onclick="MU.openSearch('A',this)">＋ Add</button>
           <button class="mu-tb-btn" onclick="MU.openPaste('A')">⇅ Import</button>
-          <button class="mu-tb-btn" onclick="MU.openSaveLoad('A')">💾</button>
+          <button class="mu-tb-btn" onclick="MU.openSaveLoad('A')">Load</button>
           <button class="mu-tb-btn" onclick="MU.clearTeam('A')" title="Clear team">✕</button>
         </div>
       </div>
@@ -670,25 +678,27 @@ select.fi option{background:var(--bg2);}
         <div class="mu-card-title mu-lead-head">
           <span class="mu-lead-clear" id="mu-leadClear" onclick="MU.clearLeads()"></span>
           <span>Lead Matchup</span>
-          <span></span>
+          <span class="mu-collapse-arrow" id="mu-lead-arrow" onclick="MU.toggleLeadCollapse()">▾</span>
         </div>
-        <div class="mu-lead-banner" id="mu-leadBanner"></div>
+        <div class="mu-lead-body" id="mu-lead-body">
+          <div class="mu-lead-banner" id="mu-leadBanner"></div>
+        </div>
       </div>
 
       <div class="mu-card">
         <div class="mu-card-title mu-sl-head">
-          <span class="mu-sl-masswrap"><span class="mu-massbtn mu-cA" onclick="MU.openMassSpeed('A',this)">⚡ A speeds</span></span>
+          <span class="mu-sl-masswrap"><span class="mu-massbtn mu-cA" onclick="MU.openMassSpeed('A',this)">Team Speeds</span></span>
           <span class="mu-sl-titletext">Speed Ladder</span>
-          <span class="mu-sl-masswrap mu-right"><span class="mu-massbtn mu-cB" onclick="MU.openMassSpeed('B',this)">B speeds ⚡</span></span>
+          <span class="mu-sl-masswrap mu-right"><span class="mu-massbtn mu-cB" onclick="MU.openMassSpeed('B',this)">Team Speeds</span></span>
         </div>
         <div class="mu-speed-ladder" id="mu-speedLadder"></div>
       </div>
 
       <div class="mu-card">
         <div class="mu-card-title mu-mtx-head">
-          <span class="mu-mtx-role" id="mu-roleLeft" onclick="MU.swap()"></span>
+          <span class="mu-mtx-rolewrap"><span class="mu-mtx-role" id="mu-roleLeft" onclick="MU.swap()"></span></span>
           <span class="mu-mtx-titletext">Type Matchup Matrix</span>
-          <span class="mu-mtx-role mu-right" id="mu-roleRight" onclick="MU.swap()"></span>
+          <span class="mu-mtx-rolewrap mu-right"><span class="mu-mtx-role" id="mu-roleRight" onclick="MU.swap()"></span></span>
         </div>
         <div class="mu-mtx-grid" id="mu-mtxGrid"></div>
       </div>
@@ -701,7 +711,7 @@ select.fi option{background:var(--bg2);}
         <div class="mu-toolbar">
           <button class="mu-tb-btn" onclick="MU.openSearch('B',this)">＋ Add</button>
           <button class="mu-tb-btn" onclick="MU.openPaste('B')">⇅ Import</button>
-          <button class="mu-tb-btn" onclick="MU.openSaveLoad('B')">💾</button>
+          <button class="mu-tb-btn" onclick="MU.openSaveLoad('B')">Load</button>
           <button class="mu-tb-btn" onclick="MU.clearTeam('B')" title="Clear team">✕</button>
         </div>
       </div>
@@ -2854,9 +2864,11 @@ loadPokemonData();
   }
 
   const teams={A:[],B:[]};
+  const history={A:[],B:[]};   // last removed slot per index, for undo
   const leads={A:[],B:[]};
   const teamNames={A:'Team A',B:'Team B'};
   let matrixMode='off';   // 'off' = A attacks B
+  let leadCollapsed=false;
   let pinnedType=null;
   let openPop=null;
   let initialized=false;
@@ -2869,6 +2881,8 @@ loadPokemonData();
     REDIR_MOVES=new Set(redir?redir.moves:[]);
     teams.A=new Array(TS_MU).fill(null);
     teams.B=new Array(TS_MU).fill(null);
+    history.A=new Array(TS_MU).fill(null);
+    history.B=new Array(TS_MU).fill(null);
     ['A','B'].forEach(k=>{
       const inp=document.getElementById('mu-name'+k);
       inp.value=teamNames[k];
@@ -2891,7 +2905,12 @@ loadPokemonData();
     if(!list)return;
     let html='';
     teams[key].forEach((slot,i)=>{
-      if(!slot){html+='<div class="mu-row mu-empty" onclick="MU.openSearch(\''+key+'\',this)">＋ Add Pokémon</div>';return;}
+      if(!slot){
+        const hist=history[key][i];
+        const undoBtn=hist?'<button class="mu-undo" onclick="event.stopPropagation();MU.undo(\''+key+'\','+i+')" title="Restore '+hist.mon.name+'">↩ '+hist.mon.name+'</button>':'';
+        html+='<div class="mu-row mu-empty" onclick="MU.openSearch(\''+key+'\',this)">＋ Add Pokémon'+undoBtn+'</div>';
+        return;
+      }
       const mon=slot.mon;
       const isLead=leads[key].includes(i);
       const types=[mon.type1,mon.type2].filter(Boolean).map(t=>'<span class="type-badge t-'+t+'">'+t+'</span>').join('');
@@ -2899,7 +2918,7 @@ loadPokemonData();
       const eff=effSpeed(slot);
       const modtag=(slot.mod&&slot.mod!==1)?'<span class="mu-modtag">×'+slot.mod+'</span>':'';
       html+='<div class="mu-row'+(isLead?' mu-lead':'')+'" data-key="'+key+'" data-i="'+i+'">'
-        +'<img class="mu-icon" src="'+muIcon(mon)+'" alt="'+mon.name+'" onclick="event.stopPropagation();MU.removeMon(\''+key+'\','+i+')" title="Click to remove">'
+        +'<img class="mu-icon" src="'+muIcon(mon)+'" alt="'+mon.name+'">'
         +'<div class="mu-main">'
           +'<div class="mu-nameline"><span class="mu-name">'+mon.name+'</span><span class="mu-types">'+types+'</span></div>'
           +'<div class="mu-sub">'
@@ -2908,6 +2927,7 @@ loadPokemonData();
             +'<span class="mu-cov-btn" onclick="event.stopPropagation();MU.openCov(\''+key+'\','+i+',this)"><span class="mu-ct">'+slot.coverage.size+'</span> coverage ▸</span>'
           +'</div>'
         +'</div>'
+        +'<button class="mu-remove" onclick="event.stopPropagation();MU.removeMon(\''+key+'\','+i+')" title="Remove '+mon.name+'">×</button>'
       +'</div>';
     });
     list.innerHTML=html;
@@ -3042,17 +3062,25 @@ loadPokemonData();
     const idx=firstEmpty(key);
     if(idx<0){showToast('Team '+key+' is full (10).','warn');return;}
     teams[key][idx]=newSlot(mon);
+    history[key][idx]=null;
     renderTeam(key);renderSpeed();renderMatrix();renderLeadBanner();
     // refresh search list so the added mon greys out; keep popover open
     const inp=document.getElementById('mu-search-inp');if(inp)doSearch(inp.value);
   }
   function removeMon(key,i){
+    history[key][i]=teams[key][i];   // save for undo
     teams[key][i]=null;
     const at=leads[key].indexOf(i);if(at>=0)leads[key].splice(at,1);
     renderTeam(key);renderSpeed();renderMatrix();renderLeadBanner();
   }
+  function undo(key,i){
+    if(!history[key][i])return;
+    teams[key][i]=history[key][i];
+    history[key][i]=null;
+    renderTeam(key);renderSpeed();renderMatrix();renderLeadBanner();
+  }
   function clearTeam(key){
-    teams[key]=new Array(TS_MU).fill(null);leads[key]=[];
+    teams[key]=new Array(TS_MU).fill(null);leads[key]=[];history[key]=new Array(TS_MU).fill(null);
     renderTeam(key);renderSpeed();renderMatrix();renderLeadBanner();
   }
 
@@ -3063,6 +3091,13 @@ loadPokemonData();
     renderTeam(key);renderLeadBanner();renderSpeed();
   }
   function clearLeads(){leads.A=[];leads.B=[];renderTeam('A');renderTeam('B');renderLeadBanner();renderSpeed();}
+  function toggleLeadCollapse(){
+    leadCollapsed=!leadCollapsed;
+    const body=document.getElementById('mu-lead-body');
+    const arrow=document.getElementById('mu-lead-arrow');
+    if(body)body.classList.toggle('mu-collapsed',leadCollapsed);
+    if(arrow)arrow.textContent=leadCollapsed?'▸':'▾';
+  }
   function leadRanks(){
     const e=[];['A','B'].forEach(k=>leads[k].forEach(i=>e.push({k,i,spe:effSpeed(teams[k][i])})));
     e.sort((a,b)=>b.spe-a.spe);const r={};e.forEach((x,idx)=>r[x.k+':'+x.i]=idx+1);return r;
@@ -3078,9 +3113,9 @@ loadPokemonData();
       if(!leads[key].length)inner='<span class="mu-lead-hint">click up to 2<br>from '+teamNames[key]+'</span>';
       else inner=leads[key].map(i=>{
         const m=teams[key][i].mon;const rk=rank[key+':'+i];
-        return '<div class="mu-lead-chip" data-key="'+key+'" data-i="'+i+'">'
+        return '<div class="mu-lead-chip" data-key="'+key+'" data-i="'+i+'" title="'+m.name+'">'
           +'<div class="mu-lead-chip-ico"><img src="'+muIcon(m)+'" alt="'+m.name+'"><span class="mu-lead-rank">'+rk+'</span></div>'
-          +'<div class="mu-lead-chip-nm">'+m.name+'</div>'+utilBadges(m)+'</div>';
+          +utilBadges(m)+'</div>';
       }).join('');
       return '<div class="mu-lead-side"><div class="mu-lead-side-tag" style="color:var('+colorVar+')">'+teamNames[key]+'</div><div class="mu-lead-side-mons">'+inner+'</div></div>';
     }
@@ -3112,8 +3147,8 @@ loadPokemonData();
     let html='';
     Object.keys(groups).map(Number).sort((a,b)=>b-a).forEach(spe=>{
       const g=groups[spe];const A=g.filter(m=>m.k==='A'),B=g.filter(m=>m.k==='B');
-      const sideA=A.map(m=>'<span class="mu-sl-nm">'+m.mon.name+' <span class="mu-sl-bm">'+BM_SHORT[m.bm]+'</span></span><img class="mu-sl-ico'+(m.lead?' mu-lead':'')+'" src="'+muIcon(m.mon)+'" alt="'+m.mon.name+'" onclick="MU.openSpeed(\'A\','+m.i+',this)">').join('');
-      const sideB=B.map(m=>'<img class="mu-sl-ico'+(m.lead?' mu-lead':'')+'" src="'+muIcon(m.mon)+'" alt="'+m.mon.name+'" onclick="MU.openSpeed(\'B\','+m.i+',this)"><span class="mu-sl-nm"><span class="mu-sl-bm">'+BM_SHORT[m.bm]+'</span> '+m.mon.name+'</span>').join('');
+      const sideA=A.map(m=>'<span class="mu-sl-bm" title="'+m.mon.name+'">'+BM_SHORT[m.bm]+'</span><img class="mu-sl-ico'+(m.lead?' mu-lead':'')+'" src="'+muIcon(m.mon)+'" alt="'+m.mon.name+'" title="'+m.mon.name+'" onclick="MU.openSpeed(\'A\','+m.i+',this)">').join('');
+      const sideB=B.map(m=>'<img class="mu-sl-ico'+(m.lead?' mu-lead':'')+'" src="'+muIcon(m.mon)+'" alt="'+m.mon.name+'" title="'+m.mon.name+'" onclick="MU.openSpeed(\'B\','+m.i+',this)"><span class="mu-sl-bm" title="'+m.mon.name+'">'+BM_SHORT[m.bm]+'</span>').join('');
       html+='<div class="mu-sl-row"><div class="mu-sl-side mu-A">'+sideA+'</div><div class="mu-sl-val">'+spe+'</div><div class="mu-sl-side mu-B">'+sideB+'</div></div>';
     });
     el.innerHTML=html;
@@ -3189,7 +3224,7 @@ loadPokemonData();
       if(block.moves&&block.moves.length)slot.mon=Object.assign({},mon,{moves:block.moves});
       fresh[idx]=slot;
     });
-    teams[key]=fresh;leads[key]=[];
+    teams[key]=fresh;leads[key]=[];history[key]=new Array(TS_MU).fill(null);
     closeModal('mu-paste-modal');
     renderTeam(key);renderSpeed();renderMatrix();renderLeadBanner();
     const excess=blocks.length>TS_MU;
@@ -3230,14 +3265,14 @@ loadPokemonData();
       if(pd&&pd.moves&&pd.moves.length)slot.mon=Object.assign({},mon,{moves:pd.moves});
       fresh[idx]=slot;
     });
-    teams[key]=fresh;leads[key]=[];
+    teams[key]=fresh;leads[key]=[];history[key]=new Array(TS_MU).fill(null);
     if(entry.name){teamNames[key]=entry.name;const inp=document.getElementById('mu-name'+key);if(inp)inp.value=entry.name;}
     closeModal('mu-saveload-modal');
     renderTeam(key);renderSpeed();renderMatrix();renderLeadBanner();
     showToast('Loaded "'+entry.name+'" into '+(key==='A'?'left':'right')+' team.','ok');
   }
 
-  window.MU={activate,openCov,openSpeed,openMassSpeed,openSearch,removeMon,clearTeam,clearLeads,swap,openPaste,applyPaste,openSaveLoad,loadSaved};
+  window.MU={activate,openCov,openSpeed,openMassSpeed,openSearch,removeMon,undo,clearTeam,clearLeads,toggleLeadCollapse,swap,openPaste,applyPaste,openSaveLoad,loadSaved};
 })();
 
 /* ===== Inlined SBL tooltip module (data-tip click/tap floating tooltip) ===== */
