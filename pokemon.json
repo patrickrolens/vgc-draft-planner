@@ -94655,6 +94655,643 @@
         "thunderfang",
         "zenheadbutt"
       ]
+    },
+    {
+      "id": "892-rgm",
+      "name": "Urshifu-RS-GMax",
+      "type1": "Fighting",
+      "type2": "Water",
+      "abilities": [
+        "Unseen Fist"
+      ],
+      "stats": {
+        "hp": 100,
+        "atk": 130,
+        "def": 100,
+        "spa": 63,
+        "spd": 60,
+        "spe": 97,
+        "bst": 550
+      },
+      "legal": false
+    },
+    {
+      "id": "869-gm",
+      "name": "Alcremie-GMax",
+      "type1": "Fairy",
+      "type2": null,
+      "abilities": [
+        "Sweet Veil",
+        "Aroma Veil"
+      ],
+      "stats": {
+        "hp": 65,
+        "atk": 60,
+        "def": 75,
+        "spa": 110,
+        "spd": 121,
+        "spe": 64,
+        "bst": 495
+      },
+      "legal": false
+    },
+    {
+      "id": "842-gm",
+      "name": "Appletun-GMax",
+      "type1": "Grass",
+      "type2": "Dragon",
+      "abilities": [
+        "Ripen",
+        "Gluttony",
+        "Thick Fat"
+      ],
+      "stats": {
+        "hp": 110,
+        "atk": 85,
+        "def": 80,
+        "spa": 100,
+        "spd": 80,
+        "spe": 30,
+        "bst": 485
+      },
+      "legal": false
+    },
+    {
+      "id": "009-gm",
+      "name": "Blastoise-GMax",
+      "type1": "Water",
+      "type2": null,
+      "abilities": [
+        "Torrent",
+        "Rain Dish"
+      ],
+      "stats": {
+        "hp": 79,
+        "atk": 83,
+        "def": 100,
+        "spa": 85,
+        "spd": 105,
+        "spe": 78,
+        "bst": 530
+      },
+      "legal": false
+    },
+    {
+      "id": "012-gm",
+      "name": "Butterfree-GMax",
+      "type1": "Bug",
+      "type2": "Flying",
+      "abilities": [
+        "Compound Eyes",
+        "Tinted Lens"
+      ],
+      "stats": {
+        "hp": 60,
+        "atk": 45,
+        "def": 50,
+        "spa": 90,
+        "spd": 80,
+        "spe": 70,
+        "bst": 395
+      },
+      "legal": false
+    },
+    {
+      "id": "851-gm",
+      "name": "Centiskorch-GMax",
+      "type1": "Fire",
+      "type2": "Bug",
+      "abilities": [
+        "Flash Fire",
+        "White Smoke",
+        "Flame Body"
+      ],
+      "stats": {
+        "hp": 100,
+        "atk": 115,
+        "def": 65,
+        "spa": 90,
+        "spd": 90,
+        "spe": 65,
+        "bst": 525
+      },
+      "legal": false
+    },
+    {
+      "id": "006-gm",
+      "name": "Charizard-GMax",
+      "type1": "Fire",
+      "type2": "Flying",
+      "abilities": [
+        "Blaze",
+        "Solar Power"
+      ],
+      "stats": {
+        "hp": 78,
+        "atk": 84,
+        "def": 78,
+        "spa": 109,
+        "spd": 85,
+        "spe": 100,
+        "bst": 534
+      },
+      "legal": false
+    },
+    {
+      "id": "815-gm",
+      "name": "Cinderace-GMax",
+      "type1": "Fire",
+      "type2": null,
+      "abilities": [
+        "Blaze",
+        "Libero"
+      ],
+      "stats": {
+        "hp": 80,
+        "atk": 116,
+        "def": 75,
+        "spa": 65,
+        "spd": 75,
+        "spe": 119,
+        "bst": 530
+      },
+      "legal": false
+    },
+    {
+      "id": "839-gm",
+      "name": "Coalossal-GMax",
+      "type1": "Rock",
+      "type2": "Fire",
+      "abilities": [
+        "Steam Engine",
+        "Flame Body",
+        "Flash Fire"
+      ],
+      "stats": {
+        "hp": 110,
+        "atk": 80,
+        "def": 120,
+        "spa": 80,
+        "spd": 90,
+        "spe": 30,
+        "bst": 510
+      },
+      "legal": false
+    },
+    {
+      "id": "879-gm",
+      "name": "Copperajah-GMax",
+      "type1": "Steel",
+      "type2": null,
+      "abilities": [
+        "Sheer Force",
+        "Heavy Metal"
+      ],
+      "stats": {
+        "hp": 122,
+        "atk": 130,
+        "def": 69,
+        "spa": 80,
+        "spd": 69,
+        "spe": 30,
+        "bst": 500
+      },
+      "legal": false
+    },
+    {
+      "id": "823-gm",
+      "name": "Corviknight-GMax",
+      "type1": "Flying",
+      "type2": "Steel",
+      "abilities": [
+        "Pressure",
+        "Unnerve",
+        "Mirror Armor"
+      ],
+      "stats": {
+        "hp": 98,
+        "atk": 87,
+        "def": 105,
+        "spa": 53,
+        "spd": 85,
+        "spe": 67,
+        "bst": 495
+      },
+      "legal": false
+    },
+    {
+      "id": "834-gm",
+      "name": "Drednaw-GMax",
+      "type1": "Water",
+      "type2": "Rock",
+      "abilities": [
+        "Strong Jaw",
+        "Shell Armor",
+        "Swift Swim"
+      ],
+      "stats": {
+        "hp": 90,
+        "atk": 115,
+        "def": 90,
+        "spa": 48,
+        "spd": 68,
+        "spe": 74,
+        "bst": 485
+      },
+      "legal": false
+    },
+    {
+      "id": "884-gm",
+      "name": "Duraludon-GMax",
+      "type1": "Steel",
+      "type2": "Dragon",
+      "abilities": [
+        "Light Metal",
+        "Heavy Metal",
+        "Stalwart"
+      ],
+      "stats": {
+        "hp": 70,
+        "atk": 95,
+        "def": 115,
+        "spa": 120,
+        "spd": 50,
+        "spe": 85,
+        "bst": 535
+      },
+      "legal": false
+    },
+    {
+      "id": "133-gm",
+      "name": "Eevee-GMax",
+      "type1": "Normal",
+      "type2": null,
+      "abilities": [
+        "Run Away",
+        "Adaptability",
+        "Anticipation"
+      ],
+      "stats": {
+        "hp": 55,
+        "atk": 55,
+        "def": 50,
+        "spa": 45,
+        "spd": 65,
+        "spe": 55,
+        "bst": 325
+      },
+      "legal": false
+    },
+    {
+      "id": "841-gm",
+      "name": "Flapple-GMax",
+      "type1": "Grass",
+      "type2": "Dragon",
+      "abilities": [
+        "Ripen",
+        "Gluttony",
+        "Hustle"
+      ],
+      "stats": {
+        "hp": 70,
+        "atk": 110,
+        "def": 80,
+        "spa": 95,
+        "spd": 60,
+        "spe": 70,
+        "bst": 485
+      },
+      "legal": false
+    },
+    {
+      "id": "569-gm",
+      "name": "Garbodor-GMax",
+      "type1": "Poison",
+      "type2": null,
+      "abilities": [
+        "Stench",
+        "Weak Armor",
+        "Aftermath"
+      ],
+      "stats": {
+        "hp": 80,
+        "atk": 95,
+        "def": 82,
+        "spa": 60,
+        "spd": 82,
+        "spe": 75,
+        "bst": 474
+      },
+      "legal": false
+    },
+    {
+      "id": "094-gm",
+      "name": "Gengar-GMax",
+      "type1": "Ghost",
+      "type2": "Poison",
+      "abilities": [
+        "Cursed Body"
+      ],
+      "stats": {
+        "hp": 60,
+        "atk": 65,
+        "def": 60,
+        "spa": 130,
+        "spd": 75,
+        "spe": 110,
+        "bst": 500
+      },
+      "legal": false
+    },
+    {
+      "id": "861-gm",
+      "name": "Grimmsnarl-GMax",
+      "type1": "Dark",
+      "type2": "Fairy",
+      "abilities": [
+        "Prankster",
+        "Frisk",
+        "Pickpocket"
+      ],
+      "stats": {
+        "hp": 95,
+        "atk": 120,
+        "def": 65,
+        "spa": 95,
+        "spd": 75,
+        "spe": 60,
+        "bst": 510
+      },
+      "legal": false
+    },
+    {
+      "id": "858-gm",
+      "name": "Hatterene-GMax",
+      "type1": "Psychic",
+      "type2": "Fairy",
+      "abilities": [
+        "Healer",
+        "Anticipation",
+        "Magic Bounce"
+      ],
+      "stats": {
+        "hp": 57,
+        "atk": 90,
+        "def": 95,
+        "spa": 136,
+        "spd": 103,
+        "spe": 29,
+        "bst": 510
+      },
+      "legal": false
+    },
+    {
+      "id": "818-gm",
+      "name": "Inteleon-GMax",
+      "type1": "Water",
+      "type2": null,
+      "abilities": [
+        "Torrent",
+        "Sniper"
+      ],
+      "stats": {
+        "hp": 70,
+        "atk": 85,
+        "def": 65,
+        "spa": 125,
+        "spd": 65,
+        "spe": 120,
+        "bst": 530
+      },
+      "legal": false
+    },
+    {
+      "id": "099-gm",
+      "name": "Kingler-GMax",
+      "type1": "Water",
+      "type2": null,
+      "abilities": [
+        "Hyper Cutter",
+        "Shell Armor",
+        "Sheer Force"
+      ],
+      "stats": {
+        "hp": 55,
+        "atk": 130,
+        "def": 115,
+        "spa": 50,
+        "spd": 50,
+        "spe": 75,
+        "bst": 475
+      },
+      "legal": false
+    },
+    {
+      "id": "131-gm",
+      "name": "Lapras-GMax",
+      "type1": "Water",
+      "type2": "Ice",
+      "abilities": [
+        "Water Absorb",
+        "Shell Armor",
+        "Hydration"
+      ],
+      "stats": {
+        "hp": 130,
+        "atk": 85,
+        "def": 80,
+        "spa": 85,
+        "spd": 95,
+        "spe": 60,
+        "bst": 535
+      },
+      "legal": false
+    },
+    {
+      "id": "068-gm",
+      "name": "Machamp-GMax",
+      "type1": "Fighting",
+      "type2": null,
+      "abilities": [
+        "Guts",
+        "No Guard",
+        "Steadfast"
+      ],
+      "stats": {
+        "hp": 90,
+        "atk": 130,
+        "def": 80,
+        "spa": 65,
+        "spd": 85,
+        "spe": 55,
+        "bst": 505
+      },
+      "legal": false
+    },
+    {
+      "id": "052-gm",
+      "name": "Meowth-GMax",
+      "type1": "Normal",
+      "type2": null,
+      "abilities": [
+        "Pickup",
+        "Technician",
+        "Unnerve"
+      ],
+      "stats": {
+        "hp": 40,
+        "atk": 45,
+        "def": 35,
+        "spa": 40,
+        "spd": 40,
+        "spe": 90,
+        "bst": 290
+      },
+      "legal": false
+    },
+    {
+      "id": "826-gm",
+      "name": "Orbeetle-GMax",
+      "type1": "Bug",
+      "type2": "Psychic",
+      "abilities": [
+        "Swarm",
+        "Frisk",
+        "Telepathy"
+      ],
+      "stats": {
+        "hp": 60,
+        "atk": 45,
+        "def": 110,
+        "spa": 80,
+        "spd": 120,
+        "spe": 90,
+        "bst": 505
+      },
+      "legal": false
+    },
+    {
+      "id": "025-gm",
+      "name": "Pikachu-GMax",
+      "type1": "Electric",
+      "type2": null,
+      "abilities": [
+        "Static",
+        "Lightning Rod"
+      ],
+      "stats": {
+        "hp": 35,
+        "atk": 55,
+        "def": 40,
+        "spa": 50,
+        "spd": 50,
+        "spe": 90,
+        "bst": 320
+      },
+      "legal": false
+    },
+    {
+      "id": "812-gm",
+      "name": "Rillaboom-GMax",
+      "type1": "Grass",
+      "type2": null,
+      "abilities": [
+        "Overgrow",
+        "Grassy Surge"
+      ],
+      "stats": {
+        "hp": 100,
+        "atk": 125,
+        "def": 90,
+        "spa": 60,
+        "spd": 70,
+        "spe": 85,
+        "bst": 530
+      },
+      "legal": false
+    },
+    {
+      "id": "844-gm",
+      "name": "Sandaconda-GMax",
+      "type1": "Ground",
+      "type2": null,
+      "abilities": [
+        "Sand Spit",
+        "Shed Skin",
+        "Sand Veil"
+      ],
+      "stats": {
+        "hp": 72,
+        "atk": 107,
+        "def": 125,
+        "spa": 65,
+        "spd": 70,
+        "spe": 71,
+        "bst": 510
+      },
+      "legal": false
+    },
+    {
+      "id": "143-gm",
+      "name": "Snorlax-GMax",
+      "type1": "Normal",
+      "type2": null,
+      "abilities": [
+        "Immunity",
+        "Thick Fat",
+        "Gluttony"
+      ],
+      "stats": {
+        "hp": 160,
+        "atk": 110,
+        "def": 65,
+        "spa": 65,
+        "spd": 110,
+        "spe": 30,
+        "bst": 540
+      },
+      "legal": false
+    },
+    {
+      "id": "849-gm",
+      "name": "Toxtricity-GMax",
+      "type1": "Poison",
+      "type2": "Electric",
+      "abilities": [
+        "Punk Rock",
+        "Plus",
+        "Technician"
+      ],
+      "stats": {
+        "hp": 75,
+        "atk": 98,
+        "def": 90,
+        "spa": 114,
+        "spd": 70,
+        "spe": 75,
+        "bst": 522
+      },
+      "legal": false
+    },
+    {
+      "id": "003-gm",
+      "name": "Venusaur-GMax",
+      "type1": "Grass",
+      "type2": "Poison",
+      "abilities": [
+        "Overgrow",
+        "Chlorophyll"
+      ],
+      "stats": {
+        "hp": 80,
+        "atk": 82,
+        "def": 83,
+        "spa": 100,
+        "spd": 100,
+        "spe": 80,
+        "bst": 525
+      },
+      "legal": false
     }
   ]
 }
