@@ -57,6 +57,10 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 }
 .draft-team{display:flex;flex-direction:column;gap:8px;}
 .draft-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.mobile-only{display:none;}
+@media(max-width:960px){
+  .mobile-only{display:inline-flex;}
+}
 .toolbar-btn{background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;font-size:12px;padding:5px 12px;}
 .toolbar-btn:hover{color:var(--text);border-color:var(--accent);}
 .toolbar-btn.toolbar-btn-accent{border-color:rgba(124,111,247,0.4);color:var(--accent);}
@@ -561,7 +565,7 @@ select.fi option{background:var(--bg2);}
 </head>
 <body>
 <nav>
-  <div class="nav-logo"><img id="nav-logo-icon" src="" alt="" style="width:28px;height:28px;image-rendering:pixelated;vertical-align:middle;margin-right:6px;margin-bottom:2px;opacity:0.5"> VGC Draft</div>
+  <div class="nav-logo"><img id="nav-logo-icon" src="" alt="" style="width:28px;height:28px;image-rendering:pixelated;vertical-align:middle;margin-right:6px;margin-bottom:2px;opacity:0.5"> VGC Draft Planner</div>
   <div class="nav-tab active" onclick="showView('draft')">Draft Builder</div>
   <div class="nav-tab" onclick="showView('matchup')">Matchup</div>
   <div class="nav-tab" onclick="showView('index')">Pokédex Index</div>
@@ -603,8 +607,8 @@ select.fi option{background:var(--bg2);}
         <button class="toolbar-btn" onclick="expandAll()">▼ Expand all</button>
         <button class="toolbar-btn" onclick="collapseAll()">▲ Collapse all</button>
         <div class="toolbar-spacer"></div>
-        <button class="toolbar-btn toolbar-btn-accent" onclick="openPasteModal()">⇅ Import / Export</button>
-        <button class="toolbar-btn" onclick="openSaveLoadModal()">💾 Save / Load</button>
+        <button class="toolbar-btn toolbar-btn-accent" onclick="openPasteModal()">Import / Export</button>
+        <button class="toolbar-btn" onclick="openSaveLoadModal()">Save / Load</button>
       </div>
 
       <!-- Combined Save/Load modal -->
