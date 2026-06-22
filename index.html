@@ -1494,7 +1494,7 @@ let megaBaseActive = new Set(); // Handles Megas/Primals. This lets you toggle f
 let slotHistory=new Array(TS).fill(null); // last removed mon per slot, for undo
 let srResults=[];
 
-function getLimit(){return parseInt(document.getElementById("pts-limit").value)||200;}
+function getLimit(){return parseInt(document.getElementById("pts-limit").value)||100;}
 function getLegalPts(){return team.filter(m=>m&&m.legal).reduce((s,p)=>s+(p.points||0),0);}
 function pickRandom(){
   // Same eligibility as the search: not an alt form, not already on the team
