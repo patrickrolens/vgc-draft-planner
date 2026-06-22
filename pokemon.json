@@ -82,7 +82,8 @@
         "Flip Turn",
         "U-Turn",
         "Volt Switch",
-        "Teleport"
+        "Teleport",
+        "Parting Shot"
       ]
     },
     {
@@ -49259,6 +49260,7 @@
         "Coaching",
         "Helping Hand",
         "Knock Off",
+        "Parting Shot",
         "Quash",
         "Quick Guard",
         "Rain Dance",
@@ -53319,6 +53321,7 @@
         "Bulldoze",
         "Fake Out",
         "Helping Hand",
+        "Parting Shot",
         "Roar",
         "Snarl",
         "Sunny Day",
@@ -62256,6 +62259,7 @@
         "Fake Out",
         "Light Screen",
         "Misty Terrain",
+        "Parting Shot",
         "Reflect",
         "Sucker Punch",
         "Taunt",
@@ -63604,6 +63608,7 @@
         "Electroweb",
         "Fake Out",
         "Knock Off",
+        "Parting Shot",
         "Quash",
         "Quick Attack",
         "Snarl",
@@ -89885,6 +89890,7 @@
         "Electroweb",
         "Fake Out",
         "Knock Off",
+        "Parting Shot",
         "Quash",
         "Quick Attack",
         "Snarl",
