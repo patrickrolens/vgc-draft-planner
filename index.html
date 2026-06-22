@@ -1595,7 +1595,7 @@ function renderTeam(){
       const movesPrimary=primaryMoves.map(tag).join("")
         + (nMore>0?`<span class="move-more" data-tip-title="Utility Moves" data-tip="${tipHTML}" tabindex="0">+${nMore} more</span>`:"");
       const movesOverflow=overflowMoves.map(tag).join("");
-      const abilities=(mon.abilities||[]).map(a=>`<span class="ability-tag">${a}</span>`).join("");
+      const abilities=(disp.abilities||[]).map(a=>`<span class="ability-tag">${a}</span>`).join("");
       const ptsDisp=mon.legal
         ?`<div class="slot-pts-display">${mon.points}</div>`
         :`<div class="slot-pts-display illegal-pts">Illegal</div>`;
