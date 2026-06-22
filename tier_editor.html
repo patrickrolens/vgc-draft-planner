@@ -154,7 +154,7 @@ nav {
   box-shadow: 0 0 0 1px rgba(224,85,85,0.35);
 }
 .pmon.delta-down .pmon-name { color: var(--red) !important; }
-/* Pinned / double-click — takes priority over delta */
+/* Pinned / double-click - takes priority over delta */
 .pmon.pinned {
   border-color: rgba(240,192,96,0.7) !important;
   background: rgba(240,192,96,0.1) !important;
@@ -257,13 +257,13 @@ nav {
     <div class="modal-title">Bulk Add Pokémon</div>
     <div class="modal-sub">
       Accepts two formats, one per line:<br>
-      • <code>Pokémon Name</code> or <code>Pokémon Name 10</code> — name with optional inline point value<br>
-      • <code>#,Pokémon,Points</code> — CSV export format (paste a full export directly)<br>
+      • <code>Pokémon Name</code> or <code>Pokémon Name 10</code> - name with optional inline point value<br>
+      • <code>#,Pokémon,Points</code> - CSV export format (paste a full export directly)<br>
       Lines without an inline value use the default points field. <code>N/A</code> is treated as Illegal.
       Missing tiers are created automatically.
     </div>
     <textarea class="modal-textarea" id="bulk-textarea"
-      placeholder="Garchomp&#10;Dragapult 15&#10;Flutter Mane 20&#10;&#10;— or paste CSV rows —&#10;&quot;150&quot;,&quot;Mewtwo&quot;,&quot;20&quot;"
+      placeholder="Garchomp&#10;Dragapult 15&#10;Flutter Mane 20&#10;&#10;- or paste CSV rows -&#10;&quot;150&quot;,&quot;Mewtwo&quot;,&quot;20&quot;"
       spellcheck="false"></textarea>
     <div class="modal-field-row">
       <span class="modal-field-label">Default points:</span>
@@ -306,7 +306,7 @@ nav {
 <div class="modal-overlay hidden" id="makedefault-modal" onclick="if(event.target===this)closeMakeDefaultModal()">
   <div class="modal-box" onclick="event.stopPropagation()" style="max-width:420px">
     <div class="modal-title">Make Current Tiers Default?</div>
-    <div class="confirm-msg">The current tier assignments will be saved as the new baseline for this session. "Reset to Default" will restore to this state going forward. (This does not modify <strong>pokemon.json</strong> — use Export CSV + <strong>update_pokemon.py</strong> for that.)</div>
+    <div class="confirm-msg">The current tier assignments will be saved as the new baseline for this session. "Reset to Default" will restore to this state going forward. (This does not modify <strong>pokemon.json</strong> - use Export CSV + <strong>update_pokemon.py</strong> for that.)</div>
     <div class="modal-btn-row">
       <button class="modal-btn" onclick="closeMakeDefaultModal()">Cancel</button>
       <button class="modal-btn primary" onclick="confirmMakeDefault()">Save as Default</button>
@@ -612,7 +612,7 @@ function deleteTier(key) {
   allPokemon.forEach(p => { if (assignments[p.id] === key) assignments[p.id] = 0; });
   tiers = tiers.filter(t => t !== key);
   if (!tiers.includes(0)) { tiers.push(0); sortTiers(); }
-  showToast(`Tier ${key} deleted — Pokémon moved to 0.`, 'warn');
+  showToast(`Tier ${key} deleted - Pokémon moved to 0.`, 'warn');
   render();
 }
 

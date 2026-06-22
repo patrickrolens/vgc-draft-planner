@@ -94,7 +94,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .paste-textarea{background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:10px 12px;font-size:12px;font-family:monospace;width:100%;min-height:320px;resize:vertical;outline:none;line-height:1.6;}
 .paste-textarea:focus{border-color:var(--accent);}
 
-/* SLOT — the card is a container; an inner unified grid reflows its cells in
+/* SLOT - the card is a container; an inner unified grid reflows its cells in
    response to the card's own width (container query), so the sprite block, info,
    moves and matchups migrate together as space changes. */
 .draft-slot{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;transition:border-color 0.15s,opacity 0.15s;container-type:inline-size;}
@@ -121,7 +121,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .drag-handle:active{cursor:grabbing;}
 .draft-slot.illegal-slot{border-color:#3d2525;}
 .draft-slot:hover{border-color:#3e4460;}
-/* ── UNIFIED CARD GRID — two fixed states, one breakpoint ────────────────────
+/* ── UNIFIED CARD GRID - two fixed states, one breakpoint ────────────────────
    DESKTOP: sprite+types | info(abilities,stats)+matchups+moves | bars chart.
             Expand reveals the radar.
    MOBILE:  sprite+types+matchups | info(abilities,stats)+moves.
@@ -230,7 +230,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .stat-num{font-size:10px;color:var(--text2);}
 .stat-num span{color:var(--text);font-weight:600;}
 
-/* matchup badges — compact right-aligned */
+/* matchup badges - compact right-aligned */
 .tm-weak-sm{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(224,85,85,0.2);color:var(--red);border:1px solid rgba(224,85,85,0.3);white-space:nowrap;}
 .tm-weak-sm.tm-4x{background:rgba(224,85,85,0.38);border-color:rgba(224,85,85,0.65);color:#ff8080;}
 .tm-resist-sm{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(96,165,250,0.12);color:var(--green);border:1px solid rgba(96,165,250,0.25);white-space:nowrap;}
@@ -1130,7 +1130,7 @@ function parseFirstLine(firstLine){
     remaining = remaining.slice(0, atIdx).trim();
   }
 
-  // Strip gender marker — (M) or (F) at the end
+  // Strip gender marker (M) or (F) at the end
   const genderMatch = remaining.match(/^(.*)\s+\(([MF])\)\s*$/);
   if(genderMatch){
     remaining = genderMatch[1].trim();
@@ -1198,7 +1198,7 @@ function applyPaste(){
 
     let mon, slotIdx = i;
     if(match.isAlt){
-      // Alt form — use base, activate toggle
+      // Alt form - use base, activate toggle
       mon = match.base;
       newAltActive.add(mon.id);
     } else {
@@ -1489,7 +1489,7 @@ let team=new Array(TS).fill(null);
 let expanded=new Set();
 let showBars=new Set();   // slot indices currently showing the bar chart instead of the radar
 let altFormActive=new Set(); // tracks Pokémon IDs currently showing their alt form
-let altFormIds=new Set();   // IDs that are alt forms — excluded from Draft Builder search
+let altFormIds=new Set();   // IDs that are alt forms - excluded from Draft Builder search
 let megaBaseActive = new Set(); // Handles Megas/Primals. This lets you toggle from Mega to Base from a selected Mega but not from Base to Mega if the original selection was Base
 let slotHistory=new Array(TS).fill(null); // last removed mon per slot, for undo
 let srResults=[];
@@ -1587,7 +1587,7 @@ function renderTeam(){
       // Tooltip content: every utility move (unfiltered) in priority order, with
       // its category. data-tip holds HTML; escape double-quotes for the attribute.
       const tipRows=sortedAll.map(m=>{
-        const cat=MOVE_CATEGORY[m]||"—";
+        const cat=MOVE_CATEGORY[m]||"-";
         const c=CATEGORY_COLOR[cat]||"var(--text2)";
         return `<div class='mv-tip-row'><span class='mv-tip-name'>${m}</span><span class='mv-tip-cat' style='color:${c}'>${cat}</span></div>`;
       }).join("");
@@ -1600,16 +1600,16 @@ function renderTeam(){
         ?`<div class="slot-pts-display">${mon.points}</div>`
         :`<div class="slot-pts-display illegal-pts">Illegal</div>`;
 
-      // Compact matchup badges — use display mon for type matchups
+      // Compact matchup badges - use display mon for type matchups
       const {weak,resist,immune}=getMatchupGroups(disp);
       const weakBadges=weak.map(t=>`<span class="tm-weak-sm${t.val>=4?' tm-4x':''}" title="${t.val}x weakness">${t.val>=4?'▲▲':'▲'} ${t.type}</span>`).join("");
       const resistBadges=resist.map(t=>`<span class="tm-resist-sm${t.val<=0.25?' tm-quarter':''}" title="${t.val}x resistance">${t.val<=0.25?'▼▼':'▼'} ${t.type}</span>`).join("");
       const immuneBadges=immune.map(t=>`<span class="tm-immune-sm">✕ ${t.type}</span>`).join("");
-      // Break after weaknesses so resists/immunities start on their own line —
+      // Break after weaknesses so resists/immunities start on their own line -
       // only when there are weaknesses AND something to follow them.
       const matchBreak=(weakBadges && (resistBadges||immuneBadges))?'<span class="match-break"></span>':'';
 
-      // Compact stat numbers — use display mon stats
+      // Compact stat numbers - use display mon stats
       const statNums=BAR_SK.map(function(k,j){
         if(k==="spe"){
           let sc=speedTierColor(disp.stats[k]);
@@ -1721,7 +1721,7 @@ function initDragAndDrop(){
     const dstExp = expanded.has(destIdx);
     srcExp ? expanded.add(destIdx) : expanded.delete(destIdx);
     dstExp ? expanded.add(srcIdx) : expanded.delete(srcIdx);
-    // Swap history — but only for empty slots (filled slots always have null history)
+    // Swap history - but only for empty slots (filled slots always have null history)
     const tmpHist = slotHistory[srcIdx];
     slotHistory[srcIdx] = slotHistory[destIdx];
     slotHistory[destIdx] = tmpHist;
@@ -1986,7 +1986,7 @@ function renderTypeMatchups(){
     if(d.wN) parts.push(d.wN+"W");
     if(d.rN) parts.push(d.rN+"R");
     if(d.iN) parts.push(d.iN+"I");
-    const detail=parts.join(" · ")||"—";
+    const detail=parts.join(" · ")||"-";
     return '<div class="tm-exp-row">'
       +'<div class="tm-exp-badge'+pinCls+'" data-type="'+d.atk+'" style="background:'+d.bg+'" title="'+d.tooltip+'">'
       +'<span class="tm-exp-name" style="color:'+d.textCol+'">'+d.atk+'</span>'
@@ -2167,7 +2167,7 @@ function toggleCatCollapse(label){
   if(collapsedCats.has(label)) collapsedCats.delete(label); else collapsedCats.add(label);
   renderUtility();
 }
-// Filter mutations — all persist and re-render cards + sidebar.
+// Filter mutations - all persist and re-render cards + sidebar.
 function toggleMove(mv){
   if(hiddenMoves.has(mv)) hiddenMoves.delete(mv); else hiddenMoves.add(mv);
   saveMoveFilter(); renderTeam(); renderUtility();
@@ -2573,7 +2573,7 @@ function renderIdx(){
       +'<td style="font-weight:600">'+p.name+'</td>'
       +'<td><span class="type-badge t-'+p.type1+'">'+p.type1+'</span>'
         +(p.type2?'<span class="type-badge t-'+p.type2+'" style="margin-left:3px">'+p.type2+'</span>':'')+'</td>'
-      +'<td style="font-weight:600;color:'+(p.legal?'var(--yellow)':'var(--text3)')+'">'+(p.legal?p.points:'—')+'</td>'
+      +'<td style="font-weight:600;color:'+(p.legal?'var(--yellow)':'var(--text3)')+'">'+(p.legal?p.points:'-')+'</td>'
       +'<td>'+p.stats.hp+'</td><td>'+p.stats.atk+'</td><td>'+p.stats.def+'</td>'
       +'<td>'+p.stats.spa+'</td><td>'+p.stats.spd+'</td><td>'+p.stats.spe+'</td>'
       +'<td style="font-weight:600">'+p.stats.bst+'</td>'
@@ -2590,7 +2590,7 @@ function renderIdx(){
     setIconFallback(img);
   });
 
-  // Click to expand/collapse — now toggles within a Set
+  // Click to expand/collapse - now toggles within a Set
   document.querySelectorAll("#idx-body tr.data-row").forEach(function(row){
     row.addEventListener("click", function(){
       const id = this.dataset.id;
@@ -2963,7 +2963,7 @@ loadPokemonData();
   function openCov(key,i,anchor){
     closePop();const slot=teams[key][i];
     const pop=document.createElement('div');pop.className='mu-pop';
-    pop.innerHTML='<div class="mu-pop-title">Offensive Coverage — '+slot.mon.name+'<span class="mu-sp"></span><span class="mu-pop-x">✕</span></div>'
+    pop.innerHTML='<div class="mu-pop-title">Offensive Coverage - '+slot.mon.name+'<span class="mu-sp"></span><span class="mu-pop-x">✕</span></div>'
       +'<div class="mu-cov-grid">'+TYPES.map(t=>'<div class="mu-cov-opt'+(slot.coverage.has(t)?' mu-on':'')+'" data-t="'+t+'"><span class="mu-dot" style="background:'+(TYPE_COLORS[t]||'#888')+'"></span>'+t+'</div>').join('')+'</div>'
       +'<div class="mu-cov-actions"><span class="mu-cov-act" data-act="types">Reset to types</span><span class="mu-cov-act" data-act="all">All</span><span class="mu-cov-act" data-act="none">None</span></div>';
     openPop=pop;placePop(pop,anchor);
@@ -2985,7 +2985,7 @@ loadPokemonData();
     const pop=document.createElement('div');pop.className='mu-pop mu-spd-menu';
     const opts=BENCHMARKS.map((b,bi)=>'<div class="mu-spd-opt'+(slot.bm===bi?' mu-sel':'')+'" data-bm="'+bi+'"><span class="mu-lbl">'+b.label+'</span><span class="mu-num">'+baseSpeed(slot.mon.stats.spe,bi)+'</span></div>').join('');
     const mods=[['1','×1'],['1.5','×1.5'],['2','×2']].map(([v,l])=>'<span class="mu-spd-mod-chip'+((slot.mod||1)==+v?' mu-on':'')+'" data-mod="'+v+'">'+l+'</span>').join('');
-    pop.innerHTML='<div class="mu-pop-title">Speed — '+slot.mon.name+' (base '+slot.mon.stats.spe+')<span class="mu-sp"></span><span class="mu-pop-x">✕</span></div>'
+    pop.innerHTML='<div class="mu-pop-title">Speed - '+slot.mon.name+' (base '+slot.mon.stats.spe+')<span class="mu-sp"></span><span class="mu-pop-x">✕</span></div>'
       +opts
       +'<div class="mu-spd-mod"><div style="font-size:9.5px;color:var(--text3);font-weight:700">SPEED MODIFIER</div>'
       +'<div class="mu-spd-mod-row">'+mods+'<input class="mu-spd-mod-input" id="mu-modFree" type="number" step="0.05" placeholder="cust" value="'+((slot.mod&&![1,1.5,2].includes(slot.mod))?slot.mod:'')+'"></div></div>';
@@ -3012,7 +3012,7 @@ loadPokemonData();
     const pop=document.createElement('div');pop.className='mu-pop mu-spd-menu';
     const opts=BENCHMARKS.map((b,bi)=>'<div class="mu-spd-opt" data-bm="'+bi+'"><span class="mu-lbl">'+b.label+'</span></div>').join('');
     const mods=[['1','×1'],['1.5','×1.5'],['2','×2']].map(([v,l])=>'<span class="mu-spd-mod-chip" data-mod="'+v+'">'+l+'</span>').join('');
-    pop.innerHTML='<div class="mu-pop-title">Set all — '+teamNames[key]+'<span class="mu-sp"></span><span class="mu-pop-x">✕</span></div>'
+    pop.innerHTML='<div class="mu-pop-title">Set all - '+teamNames[key]+'<span class="mu-sp"></span><span class="mu-pop-x">✕</span></div>'
       +'<div style="font-size:9.5px;color:var(--text3);font-weight:700;margin-bottom:4px">BENCHMARK (all)</div>'+opts
       +'<div class="mu-spd-mod"><div style="font-size:9.5px;color:var(--text3);font-weight:700">MODIFIER (all)</div>'
       +'<div class="mu-spd-mod-row">'+mods+'<input class="mu-spd-mod-input" id="mu-massModFree" type="number" step="0.05" placeholder="cust"></div></div>';
@@ -3180,7 +3180,7 @@ loadPokemonData();
       defenders.forEach(m=>{const v=calcMatchups(m)[t];if(v>=2)wN++;else if(v<1)rN++;});
       const bg=TYPE_COLORS[t]||'#888';const txt=TYPE_TEXT_DARK.has(t)?'#333':'#fff';
       const dim=hasCov?'':'opacity:.3;';const pinCls=pinnedType===t?' mu-pinned':'';
-      return '<div class="mu-mtx-cell'+pinCls+'" data-type="'+t+'" style="background:'+bg+';'+dim+'" title="'+t+(hasCov?' ('+covCount[t]+' attacker'+(covCount[t]>1?'s':'')+')':' — no coverage')+'">'
+      return '<div class="mu-mtx-cell'+pinCls+'" data-type="'+t+'" style="background:'+bg+';'+dim+'" title="'+t+(hasCov?' ('+covCount[t]+' attacker'+(covCount[t]>1?'s':'')+')':' - no coverage')+'">'
         +'<span class="mu-mtx-t" style="color:'+txt+'">'+t+'</span>'
         +'<span class="mu-mtx-v" style="color:'+txt+'">'+wN+':'+rN+'</span></div>';
     }).join('');
@@ -3212,7 +3212,7 @@ loadPokemonData();
   let pasteKey=null;
   function openPaste(key){
     pasteKey=key;
-    document.getElementById('mu-paste-title').textContent='Import — '+teamNames[key];
+    document.getElementById('mu-paste-title').textContent='Import - '+teamNames[key];
     document.getElementById('mu-paste-textarea').value='';
     document.getElementById('mu-paste-modal').classList.remove('hidden');
     setTimeout(()=>document.getElementById('mu-paste-textarea').focus(),50);
@@ -3238,7 +3238,7 @@ loadPokemonData();
     closeModal('mu-paste-modal');
     renderTeam(key);renderSpeed();renderMatrix();renderLeadBanner();
     const excess=blocks.length>TS_MU;
-    if(excess)showToast('More than 10 entries — excess discarded.','warn');
+    if(excess)showToast('More than 10 entries - excess discarded.','warn');
     if(unrecognized)showToast(unrecognized+' unrecognized Pokémon failed to import.','warn');
     if(!excess&&!unrecognized)showToast(teamNames[key]+' imported.','ok');
   }
