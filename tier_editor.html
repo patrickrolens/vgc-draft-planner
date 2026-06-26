@@ -609,10 +609,10 @@ function toggleCollapse(key) {
 
 // ── DELETE TIER ────────────────────────────────────────────────────────────────
 function deleteTier(key) {
-  allPokemon.forEach(p => { if (assignments[p.id] === key) assignments[p.id] = 0; });
+  allPokemon.forEach(p => { if (assignments[p.id] === key) assignments[p.id] = 'illegal'; });
   tiers = tiers.filter(t => t !== key);
   if (!tiers.includes(0)) { tiers.push(0); sortTiers(); }
-  showToast(`Tier ${key} deleted - Pokémon moved to 0.`, 'warn');
+  showToast(`Tier ${key} deleted - Pokémon moved to Illegal.`, 'warn');
   render();
 }
 
