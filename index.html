@@ -2515,6 +2515,9 @@ function buildIdxExpanded(baseMon){
     ? (p.moves||[]).map(function(m){return '<span class="move-tag">'+m+'</span>';}).join('')
     : '<span style="color:var(--text3);font-size:11px">None</span>';
 
+  const basePokemonName = getBasePokemonName(p.name);
+  const serebiiURL = p.legal ? `<div><a target="_blank" rel="noopener noreferrer" href="https://www.serebii.net/pokedex-champions/${encodeURIComponent(basePokemonName)}/"><img src="http://127.0.0.1:5500/icons/251.png"></a></div>` : '';
+
   return '<td colspan="13">'
     +'<div class="idx-expanded">'
       +'<div class="idx-exp-radar"><canvas id="idx-radar-'+p.id.replace(/[^a-z0-9]/gi,'_')+'" width="160" height="160"></canvas></div>'
@@ -2522,9 +2525,36 @@ function buildIdxExpanded(baseMon){
       +'<div class="idx-exp-right">'
         +'<div><div class="idx-exp-section-title">Type Matchups</div>'+tmHTML+'</div>'
         +'<div><div class="idx-exp-section-title">Utility Moves</div><div class="idx-exp-moves">'+movesHTML+'</div></div>'
+        + serebiiURL
       +'</div>'
     +'</div>'
     +'</td>';
+}
+
+function getBasePokemonName(pokemonName) {
+  // TODO: find a way to clean this up.
+    const removeMegaFromPokemonName = pokemonName.replace(/^Mega +/i, '');
+    const removeXFromPokemonName = removeMegaFromPokemonName.replace(" X",'');
+    const removeYFromPokemonName = removeXFromPokemonName.replace(" Y", '');
+    const removeZFromPokemonName = removeYFromPokemonName.replace(" Z", '');
+    const removeSpaceFromPokemonName =  removeZFromPokemonName.replace(" ", '');
+    const cleanedUpNameForURL = removeSpaceFromPokemonName.toLowerCase();
+    const simplifiedName = dealWithHyphensInPokemonNames(cleanedUpNameForURL)
+  
+    return simplifiedName;
+}
+
+function dealWithHyphensInPokemonNames(name) {
+  // The only possible exceptions for now
+    if (name === "kommo-o" || name === "ho-oh" || name === "porygon-z" || name === "jangmo-o" || name === "hakmo-o" ||  name === "wo-chien" || name === "chien-pao" || name === "ting-lu" || name === "chi-yu") {
+        return name;
+    }
+
+    if (name === "nidoran-m" || name === "nidoran-f" ){
+        return name.replace("-",'');
+    }
+
+    return name.split("-")[0];
 }
 
 function createLazyObserver(containerSelector, rootMargin){
