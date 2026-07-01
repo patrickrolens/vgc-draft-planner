@@ -2474,8 +2474,9 @@ function updateStickyOffset(){
   const filters = document.querySelector('.filters');
   if(nav && filters){
     const navH = nav.getBoundingClientRect().height;
+    filters.style.top = navH + 'px';
     const filtersH = filters.getBoundingClientRect().height;
-    const top = navH + filtersH + 8;
+    const top = navH + filtersH;
     document.querySelectorAll('.idx-tbl th').forEach(function(th){
       th.style.top = top + 'px';
     });
