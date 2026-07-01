@@ -26,6 +26,8 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .nav-tab{padding:14px 16px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--text2);transition:all 0.15s;white-space:nowrap;}
 .nav-tab:hover{color:var(--text);}
 .nav-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+nav a.nav-tab{text-decoration:none;color:var(--text2);}
+nav a.nav-tab:hover{color:var(--text);}
 
 .view{display:none;padding:1.5rem;max-width:1400px;margin:0 auto;}
 /* Draft Builder spreads wider than the other views so the rails hug the edges
@@ -68,6 +70,8 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .toolbar-btn:hover{color:var(--text);border-color:var(--accent);}
 .toolbar-btn.toolbar-btn-accent{border-color:rgba(124,111,247,0.4);color:var(--accent);}
 .toolbar-btn.toolbar-btn-accent:hover{background:rgba(124,111,247,0.12);}
+.toolbar-btn.toolbar-btn-danger{border-color:rgba(224,85,85,0.4);color:var(--red);}
+.toolbar-btn.toolbar-btn-danger:hover{background:rgba(224,85,85,0.12);border-color:var(--red);}
 .toolbar-spacer{flex:1;}
 /* Modal overlay */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;display:flex;align-items:center;justify-content:center;padding:16px;}
@@ -573,6 +577,7 @@ select.fi option{background:var(--bg2);}
   <div class="nav-tab" onclick="showView('matchup')">Matchup</div>
   <div class="nav-tab" onclick="showView('index')">Pokédex</div>
   <div class="nav-tab" onclick="showView('pool')">Draft Pool</div>
+  <a class="nav-tab" href="https://nerd-of-now.github.io/NCP-VGC-Damage-Calculator/" target="_blank" rel="noopener noreferrer">Damage Calc ↗</a>
 </nav>
 
 <div id="view-draft" class="view active">
@@ -605,8 +610,11 @@ select.fi option{background:var(--bg2);}
         <label class="search-legal-label">
           <input type="checkbox" id="draft-legal-only" style="accent-color:var(--accent)" checked> Legal only
         </label>
-        <button class="toolbar-btn toolbar-btn-accent desktop-only" onclick="openPasteModal()">Import / Export</button>
-        <button class="toolbar-btn desktop-only" onclick="openSaveLoadModal()">Save / Load</button>
+      </div>
+      <div class="draft-toolbar desktop-only">
+        <button class="toolbar-btn toolbar-btn-accent" onclick="openPasteModal()">Import / Export</button>
+        <button class="toolbar-btn" onclick="openSaveLoadModal()">Save / Load</button>
+        <button class="toolbar-btn toolbar-btn-danger" onclick="clearAllTeam()">Clear All</button>
       </div>
       <div class="draft-toolbar mobile-only">
         <button class="toolbar-btn" onclick="expandAll()">▼ Expand all</button>
@@ -614,6 +622,7 @@ select.fi option{background:var(--bg2);}
         <div class="toolbar-spacer"></div>
         <button class="toolbar-btn toolbar-btn-accent" onclick="openPasteModal()">Import / Export</button>
         <button class="toolbar-btn" onclick="openSaveLoadModal()">Save / Load</button>
+        <button class="toolbar-btn toolbar-btn-danger" onclick="clearAllTeam()">Clear All</button>
       </div>
 
       <!-- Combined Save/Load modal -->
@@ -818,6 +827,7 @@ select.fi option{background:var(--bg2);}
 let POKEMON_DATA = [];
 let UG = [];
 let MOVE_DESC = {};
+let ABILITY_DESC = {};
 
 // ── SPRITES ───────────────────────────────────────────────────────────────────
 // Draft Builder: ./sprites/ (Home-style art) primary → ./icons/ fallback
@@ -1097,7 +1107,7 @@ function teamToPaste(){
     if(pd.item)   firstLine += ' @ ' + pd.item;
     lines.push(firstLine);
     if(pd.ability) lines.push('Ability: ' + pd.ability);
-    if(pd.level)   lines.push('Level: ' + pd.level);
+    lines.push('Level: ' + (pd.level || 50));
     if(pd.tera)    lines.push('Tera Type: ' + pd.tera);
     if(pd.evs)     lines.push('EVs: ' + pd.evs);
     if(pd.ivs)     lines.push('IVs: ' + pd.ivs);
@@ -1283,6 +1293,7 @@ async function loadPokemonData() {
   POKEMON_DATA = data.pokemon;
   UG = data.utilityGroups;
   MOVE_DESC = data.moveDescriptions || {};
+  ABILITY_DESC = data.abilityDescriptions || {};
   buildMoveCategory();
   loadMoveFilter();
   initApp();
@@ -1334,6 +1345,13 @@ const TC={
   Steel:{Fire:0.5,Water:0.5,Electric:0.5,Ice:2,Rock:2,Steel:0.5,Fairy:2},
   Fairy:{Fire:0.5,Fighting:2,Poison:0.5,Dragon:2,Dark:2,Steel:0.5},
 };
+
+function abilityTag(name){
+  const desc=ABILITY_DESC[name];
+  return desc
+    ? `<span class="ability-tag" data-tip-title="${name}" data-tip="${desc.replace(/"/g,"&quot;")}" tabindex="0">${name}</span>`
+    : `<span class="ability-tag">${name}</span>`;
+}
 
 function abilityMods(ab){
   switch(ab){
@@ -1536,6 +1554,17 @@ function undoRemove(i){
   if(pinnedType) applyMatchupHighlight(pinnedType);
   saveSession();
 }
+function clearAllTeam(){
+  if(team.every(m=>!m)) return;
+  if(!confirm('Clear all Pokémon from your draft? This cannot be undone.')) return;
+  team=new Array(TS).fill(null);
+  slotHistory=new Array(TS).fill(null);
+  expanded.clear();
+  renderTeam();renderSidebar();
+  if(pinnedType) applyMatchupHighlight(pinnedType);
+  saveSession();
+  showToast('Draft cleared.', 'ok');
+}
 function toggleExpand(i){expanded.has(i)?expanded.delete(i):expanded.add(i);renderTeam();}
 function toggleChart(i){showBars.has(i)?showBars.delete(i):showBars.add(i);renderTeam();}
 function expandAll(){team.forEach((_,i)=>{if(team[i])expanded.add(i);});renderTeam();}
@@ -1599,7 +1628,7 @@ function renderTeam(){
       const movesPrimary=primaryMoves.map(tag).join("")
         + (nMore>0?`<span class="move-more" data-tip-title="Utility Moves" data-tip="${tipHTML}" tabindex="0">+${nMore} more</span>`:"");
       const movesOverflow=overflowMoves.map(tag).join("");
-      const abilities=(disp.abilities||[]).map(a=>`<span class="ability-tag">${a}</span>`).join("");
+      const abilities=(disp.abilities||[]).map(a=>abilityTag(a)).join("");
       const ptsDisp=mon.legal
         ?`<div class="slot-pts-display">${mon.points}</div>`
         :`<div class="slot-pts-display illegal-pts">Illegal</div>`;
@@ -2481,8 +2510,9 @@ function updateStickyOffset(){
   const filters = document.querySelector('.filters');
   if(nav && filters){
     const navH = nav.getBoundingClientRect().height;
+    filters.style.top = navH + 'px';
     const filtersH = filters.getBoundingClientRect().height;
-    const top = navH + filtersH + 8;
+    const top = navH + filtersH;
     document.querySelectorAll('.idx-tbl th').forEach(function(th){
       th.style.top = top + 'px';
     });
@@ -2588,7 +2618,10 @@ function renderIdx(){
       +'<td>'+p.stats.hp+'</td><td>'+p.stats.atk+'</td><td>'+p.stats.def+'</td>'
       +'<td>'+p.stats.spa+'</td><td>'+p.stats.spd+'</td><td>'+p.stats.spe+'</td>'
       +'<td style="font-weight:600">'+p.stats.bst+'</td>'
-      +'<td style="color:var(--text2);font-size:12px">'+p.abilities.join(", ")+'</td>'
+      +'<td style="color:var(--text2);font-size:12px">'+p.abilities.map(function(a){
+        const desc=ABILITY_DESC[a];
+        return desc?'<span data-tip-title="'+a+'" data-tip="'+desc.replace(/"/g,"&quot;")+'" tabindex="0" style="cursor:pointer;border-bottom:1px dotted var(--text3)">'+a+'</span>':a;
+      }).join(", ")+'</td>'
       +'</tr>';
     if(isExp){
       rows += '<tr class="idx-exp-row">'+buildIdxExpanded(p)+'</tr>';
@@ -2937,7 +2970,7 @@ loadPokemonData();
       const mon=slot.mon;
       const isLead=leads[key].includes(i);
       const types=[mon.type1,mon.type2].filter(Boolean).map(t=>'<span class="type-badge t-'+t+'">'+t+'</span>').join('');
-      const abilities=(mon.abilities||[]).map(a=>'<span class="ability-tag">'+a+'</span>').join('');
+      const abilities=(mon.abilities||[]).map(a=>abilityTag(a)).join('');
       const eff=effSpeed(slot);
       const modtag=(slot.mod&&slot.mod!==1)?'<span class="mu-modtag">×'+slot.mod+'</span>':'';
       html+='<div class="mu-row'+(isLead?' mu-lead':'')+'" data-key="'+key+'" data-i="'+i+'">'
@@ -2958,6 +2991,7 @@ loadPokemonData();
       if(r.classList.contains('mu-empty'))return;
       r.addEventListener('click',()=>toggleLead(r.dataset.key,+r.dataset.i));
     });
+    if (window.SBLTooltip) window.SBLTooltip.refresh();
   }
 
   // ── popovers ──
