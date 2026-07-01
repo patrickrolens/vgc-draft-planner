@@ -80,14 +80,14 @@
       "label": "Pivot",
       "moves": [
         "Flip Turn",
-        "U-Turn",
+        "U-turn",
         "Volt Switch",
         "Teleport",
         "Parting Shot"
       ]
     },
     {
-      "label": "Power Nerfs",
+      "label": "Damage Mitigation",
       "moves": [
         "Snarl",
         "Struggle Bug",
@@ -138,6 +138,945 @@
       ]
     }
   ],
+      "moveDescriptions": {
+      "10,000,000 Volt Thunderbolt": "Very high critical hit ratio.",
+      "Absorb": "User recovers 50% of the damage dealt.",
+      "Accelerock": "Usually goes first.",
+      "Acid": "10% chance to lower the foe(s) Sp. Def by 1.",
+      "Acid Armor": "Raises the user's Defense by 2.",
+      "Acid Downpour": "Power is equal to the base move's Z-Power.",
+      "Acid Spray": "100% chance to lower the target's Sp. Def by 2.",
+      "Acrobatics": "Power doubles if the user has no held item.",
+      "Acupressure": "Raises a random stat of the user or an ally by 2.",
+      "Aerial Ace": "This move does not check accuracy.",
+      "Aeroblast": "High critical hit ratio.",
+      "After You": "The target makes its move right after the user.",
+      "Agility": "Raises the user's Speed by 2.",
+      "Air Cutter": "High critical hit ratio. Hits adjacent foes.",
+      "Air Slash": "30% chance to make the target flinch.",
+      "All-Out Pummeling": "Power is equal to the base move's Z-Power.",
+      "Alluring Voice": "100% confuse target that had a stat rise this turn.",
+      "Ally Switch": "User and ally swap positions; using again can fail.",
+      "Amnesia": "Raises the user's Sp. Def by 2.",
+      "Anchor Shot": "Prevents the target from switching out.",
+      "Ancient Power": "10% chance to raise all stats by 1 (not acc/eva).",
+      "Apple Acid": "100% chance to lower the target's Sp. Def by 1.",
+      "Aqua Cutter": "High critical hit ratio.",
+      "Aqua Jet": "Usually goes first.",
+      "Aqua Ring": "User recovers 1/16 max HP per turn.",
+      "Aqua Step": "100% chance to raise the user's Speed by 1.",
+      "Aqua Tail": "No additional effect.",
+      "Arm Thrust": "Hits 2-5 times in one turn.",
+      "Armor Cannon": "Lowers the user's Defense and Sp. Def by 1.",
+      "Aromatherapy": "Cures the user's party of all status conditions.",
+      "Aromatic Mist": "Raises an ally's Sp. Def by 1.",
+      "Assist": "Uses a random move known by a team member.",
+      "Assurance": "Power doubles if target was damaged this turn.",
+      "Astonish": "30% chance to make the target flinch.",
+      "Astral Barrage": "No additional effect. Hits adjacent foes.",
+      "Attack Order": "High critical hit ratio.",
+      "Attract": "A target of the opposite gender gets infatuated.",
+      "Aura Sphere": "This move does not check accuracy.",
+      "Aura Wheel": "Morpeko: Electric; Hangry: Dark; 100% +1 Spe.",
+      "Aurora Beam": "10% chance to lower the target's Attack by 1.",
+      "Aurora Veil": "For 5 turns, damage to allies halved. Snow only.",
+      "Autotomize": "Raises the user's Speed by 2; user loses 100 kg.",
+      "Avalanche": "Power doubles if user is damaged by the target.",
+      "Axe Kick": "30% confusion. User loses 50% max HP if miss.",
+      "Baby-Doll Eyes": "Lowers the target's Attack by 1.",
+      "Baddy Bad": "Summons Reflect.",
+      "Baneful Bunker": "Protects from moves. Contact: poison.",
+      "Barb Barrage": "50% psn. 2x power if target already poisoned.",
+      "Barrage": "Hits 2-5 times in one turn.",
+      "Barrier": "Raises the user's Defense by 2.",
+      "Baton Pass": "User switches, passing stat changes and more.",
+      "Beak Blast": "Burns on contact with the user before it moves.",
+      "Beat Up": "All healthy allies aid in damaging the target.",
+      "Behemoth Bash": "No additional effect.",
+      "Behemoth Blade": "No additional effect.",
+      "Belch": "Cannot be selected until the user eats a Berry.",
+      "Belly Drum": "User loses 50% max HP. Maximizes Attack.",
+      "Bestow": "User passes its held item to the target.",
+      "Bide": "Waits 2 turns; deals double the damage taken.",
+      "Bind": "Traps and damages the target for 4-5 turns.",
+      "Bite": "30% chance to make the target flinch.",
+      "Bitter Blade": "User recovers 50% of the damage dealt.",
+      "Bitter Malice": "100% chance to lower the target's Attack by 1.",
+      "Black Hole Eclipse": "Power is equal to the base move's Z-Power.",
+      "Blast Burn": "User cannot move next turn.",
+      "Blaze Kick": "High critical hit ratio. 10% chance to burn.",
+      "Blazing Torque": "30% chance to burn the target.",
+      "Bleakwind Storm": "30% to lower foe(s) Speed by 1. Rain: can't miss.",
+      "Blizzard": "10% chance to freeze foe(s). Can't miss in Snow.",
+      "Block": "Prevents the target from switching out.",
+      "Blood Moon": "Cannot be selected the turn after it's used.",
+      "Bloom Doom": "Power is equal to the base move's Z-Power.",
+      "Blue Flare": "20% chance to burn the target.",
+      "Body Press": "Uses user's Def stat as Atk in damage calculation.",
+      "Body Slam": "30% chance to paralyze the target.",
+      "Bolt Beak": "Power doubles if user moves before the target.",
+      "Bolt Strike": "20% chance to paralyze the target.",
+      "Bone Club": "10% chance to make the target flinch.",
+      "Bone Rush": "Hits 2-5 times in one turn.",
+      "Bonemerang": "Hits 2 times in one turn.",
+      "Boomburst": "No additional effect. Hits adjacent Pokemon.",
+      "Bounce": "Bounces turn 1. Hits turn 2. 30% paralyze.",
+      "Bouncy Bubble": "User recovers 50% of the damage dealt.",
+      "Branch Poke": "No additional effect.",
+      "Brave Bird": "Has 33% recoil.",
+      "Breaking Swipe": "100% chance to lower the foe(s) Attack by 1.",
+      "Breakneck Blitz": "Power is equal to the base move's Z-Power.",
+      "Brick Break": "Destroys screens, unless the target is immune.",
+      "Brine": "Power doubles if the target's HP is 50% or less.",
+      "Brutal Swing": "No additional effect. Hits adjacent Pokemon.",
+      "Bubble": "10% chance to lower the foe(s) Speed by 1.",
+      "Bubble Beam": "10% chance to lower the target's Speed by 1.",
+      "Bug Bite": "User steals and eats the target's Berry.",
+      "Bug Buzz": "10% chance to lower the target's Sp. Def by 1.",
+      "Bulk Up": "Raises the user's Attack and Defense by 1.",
+      "Bulldoze": "100% chance lower adjacent Pkmn Speed by 1.",
+      "Bullet Punch": "Usually goes first.",
+      "Bullet Seed": "Hits 2-5 times in one turn.",
+      "Burn Up": "User's Fire type becomes typeless; must be Fire.",
+      "Burning Bulwark": "Protects from damaging attacks. Contact: burn.",
+      "Burning Jealousy": "100% burns a target that had a stat rise this turn.",
+      "Buzzy Buzz": "100% chance to paralyze the foe.",
+      "Calm Mind": "Raises the user's Sp. Atk and Sp. Def by 1.",
+      "Camouflage": "Changes user's type by terrain (default Normal).",
+      "Captivate": "Lowers the foe(s) Sp. Atk by 2 if opposite gender.",
+      "Catastropika": "No additional effect.",
+      "Ceaseless Edge": "Sets a layer of Spikes on the opposing side.",
+      "Celebrate": "No competitive use.",
+      "Charge": "+1 SpD, user's next Electric move 2x power.",
+      "Charge Beam": "70% chance to raise the user's Sp. Atk by 1.",
+      "Charm": "Lowers the target's Attack by 2.",
+      "Chatter": "100% chance to confuse the target.",
+      "Chilling Water": "100% chance to lower the target's Attack by 1.",
+      "Chilly Reception": "Starts Snow. User switches out.",
+      "Chip Away": "Ignores the target's stat stage changes.",
+      "Chloroblast": "User loses 50% max HP.",
+      "Circle Throw": "Forces the target to switch to a random ally.",
+      "Clamp": "Traps and damages the target for 4-5 turns.",
+      "Clanging Scales": "Lowers the user's Defense by 1.",
+      "Clangorous Soul": "User loses 33% of its max HP. +1 to all stats.",
+      "Clangorous Soulblaze": "Raises the user's Atk/Def/SpAtk/SpDef/Spe by 1.",
+      "Clear Smog": "Resets all of the target's stat stages to 0.",
+      "Close Combat": "Lowers the user's Defense and Sp. Def by 1.",
+      "Coaching": "Raises an ally's Attack and Defense by 1.",
+      "Coil": "Raises user's Attack, Defense, accuracy by 1.",
+      "Collision Course": "Deals 1.3333x damage with supereffective hits.",
+      "Combat Torque": "30% chance to paralyze the target.",
+      "Comet Punch": "Hits 2-5 times in one turn.",
+      "Comeuppance": "If hit by an attack, returns 1.5x damage.",
+      "Confide": "Lowers the target's Sp. Atk by 1.",
+      "Confuse Ray": "Confuses the target.",
+      "Confusion": "10% chance to confuse the target.",
+      "Constrict": "10% chance to lower the target's Speed by 1.",
+      "Continental Crush": "Power is equal to the base move's Z-Power.",
+      "Conversion": "Changes user's type to match its first move.",
+      "Conversion 2": "Changes user's type to resist target's last move.",
+      "Copycat": "Uses the last move used in the battle.",
+      "Core Enforcer": "Nullifies the foe(s) Ability if the foe(s) move first.",
+      "Corkscrew Crash": "Power is equal to the base move's Z-Power.",
+      "Corrosive Gas": "Removes adjacent Pokemon's held items.",
+      "Cosmic Power": "Raises the user's Defense and Sp. Def by 1.",
+      "Cotton Guard": "Raises the user's Defense by 3.",
+      "Cotton Spore": "Lowers the target's Speed by 2.",
+      "Counter": "If hit by physical attack, returns double damage.",
+      "Court Change": "Swaps user's field effects with the opposing side.",
+      "Covet": "If the user has no item, it steals the target's.",
+      "Crabhammer": "High critical hit ratio.",
+      "Crafty Shield": "Protects allies from Status moves this turn.",
+      "Cross Chop": "High critical hit ratio.",
+      "Cross Poison": "High critical hit ratio. 10% chance to poison.",
+      "Crunch": "20% chance to lower the target's Defense by 1.",
+      "Crush Claw": "50% chance to lower the target's Defense by 1.",
+      "Crush Grip": "More power the more HP the target has left.",
+      "Curse": "Curses if Ghost, else -1 Spe, +1 Atk, +1 Def.",
+      "Cut": "No additional effect.",
+      "Dark Pulse": "20% chance to make the target flinch.",
+      "Dark Void": "Darkrai: Causes the foe(s) to fall asleep.",
+      "Darkest Lariat": "Ignores the target's stat stage changes.",
+      "Dazzling Gleam": "No additional effect. Hits adjacent foes.",
+      "Decorate": "Raises the target's Attack and Sp. Atk by 2.",
+      "Defend Order": "Raises the user's Defense and Sp. Def by 1.",
+      "Defense Curl": "Raises the user's Defense by 1.",
+      "Defog": "-1 evasion; ends user and target hazards/terrain.",
+      "Destiny Bond": "If an opponent knocks out the user, it also faints.",
+      "Detect": "Prevents moves from affecting the user this turn.",
+      "Devastating Drake": "Power is equal to the base move's Z-Power.",
+      "Diamond Storm": "50% chance to raise user's Defense by 2.",
+      "Dig": "Digs underground turn 1, strikes turn 2.",
+      "Dire Claw": "50% chance to sleep, poison, or paralyze target.",
+      "Disable": "For 4 turns, disables the target's last move used.",
+      "Disarming Voice": "This move does not check accuracy. Hits foes.",
+      "Discharge": "30% chance to paralyze adjacent Pokemon.",
+      "Dive": "Dives underwater turn 1, strikes turn 2.",
+      "Dizzy Punch": "20% chance to confuse the target.",
+      "Doodle": "User and ally's Abilities become target's Ability.",
+      "Doom Desire": "Hits two turns after being used.",
+      "Double Hit": "Hits 2 times in one turn.",
+      "Double Iron Bash": "Hits twice. 30% chance to make the target flinch.",
+      "Double Kick": "Hits 2 times in one turn.",
+      "Double Shock": "User's Electric type: typeless; must be Electric.",
+      "Double Slap": "Hits 2-5 times in one turn.",
+      "Double Team": "Raises the user's evasiveness by 1.",
+      "Double-Edge": "Has 33% recoil.",
+      "Draco Meteor": "Lowers the user's Sp. Atk by 2.",
+      "Dragon Ascent": "Lowers the user's Defense and Sp. Def by 1.",
+      "Dragon Breath": "30% chance to paralyze the target.",
+      "Dragon Cheer": "Ally: Crit ratio +1, or +2 if ally is Dragon type.",
+      "Dragon Claw": "No additional effect.",
+      "Dragon Dance": "Raises the user's Attack and Speed by 1.",
+      "Dragon Darts": "Hits twice. Doubles: Tries to hit each foe once.",
+      "Dragon Energy": "Less power as user's HP decreases. Hits foe(s).",
+      "Dragon Hammer": "No additional effect.",
+      "Dragon Pulse": "No additional effect.",
+      "Dragon Rage": "Deals 40 HP of damage to the target.",
+      "Dragon Rush": "20% chance to make the target flinch.",
+      "Dragon Tail": "Forces the target to switch to a random ally.",
+      "Drain Punch": "User recovers 50% of the damage dealt.",
+      "Draining Kiss": "User recovers 75% of the damage dealt.",
+      "Dream Eater": "User gains 1/2 HP inflicted. Sleeping target only.",
+      "Drill Peck": "No additional effect.",
+      "Drill Run": "High critical hit ratio.",
+      "Drum Beating": "100% chance to lower the target's Speed by 1.",
+      "Dual Chop": "Hits 2 times in one turn.",
+      "Dual Wingbeat": "Hits 2 times in one turn.",
+      "Dynamax Cannon": "No additional effect.",
+      "Dynamic Punch": "100% chance to confuse the target.",
+      "Earth Power": "10% chance to lower the target's Sp. Def by 1.",
+      "Earthquake": "Hits adjacent Pokemon. Double damage on Dig.",
+      "Echoed Voice": "Power increases when used on consecutive turns.",
+      "Eerie Impulse": "Lowers the target's Sp. Atk by 2.",
+      "Eerie Spell": "Removes 3 PP from the target's last move.",
+      "Egg Bomb": "No additional effect.",
+      "Electric Terrain": "5 turns. Grounded: +Electric power, can't sleep.",
+      "Electrify": "Changes the target's move to Electric this turn.",
+      "Electro Ball": "More power the faster the user is than the target.",
+      "Electro Drift": "Deals 1.3333x damage with supereffective hits.",
+      "Electro Shot": "Raises Sp. Atk by 1, hits turn 2. Rain: no charge.",
+      "Electroweb": "100% chance to lower the foe(s) Speed by 1.",
+      "Embargo": "For 5 turns, the target's item has no effect.",
+      "Ember": "10% chance to burn the target.",
+      "Encore": "Target repeats its last move for its next 3 turns.",
+      "Endeavor": "Lowers the target's HP to the user's HP.",
+      "Endure": "User survives attacks this turn with at least 1 HP.",
+      "Energy Ball": "10% chance to lower the target's Sp. Def by 1.",
+      "Entrainment": "The target's Ability changes to match the user's.",
+      "Eruption": "Less power as user's HP decreases. Hits foe(s).",
+      "Esper Wing": "100% chance to raise user Speed by 1. High crit.",
+      "Eternabeam": "User cannot move next turn.",
+      "Expanding Force": "User on Psychic Terrain: 1.5x power, hits foes.",
+      "Explosion": "Hits adjacent Pokemon. The user faints.",
+      "Extrasensory": "10% chance to make the target flinch.",
+      "Extreme Evoboost": "Raises user's Atk, Def, SpA, SpD, and Spe by 2.",
+      "Extreme Speed": "Nearly always goes first.",
+      "Facade": "Power doubles if user is burn/poison/paralyzed.",
+      "Fairy Lock": "Prevents all Pokemon from switching next turn.",
+      "Fairy Wind": "No additional effect.",
+      "Fake Out": "Hits first. First turn out only. 100% flinch chance.",
+      "Fake Tears": "Lowers the target's Sp. Def by 2.",
+      "False Surrender": "This move does not check accuracy.",
+      "False Swipe": "Always leaves the target with at least 1 HP.",
+      "Feather Dance": "Lowers the target's Attack by 2.",
+      "Feint": "Nullifies Detect, Protect, and Quick/Wide Guard.",
+      "Feint Attack": "This move does not check accuracy.",
+      "Fell Stinger": "Raises user's Attack by 3 if this KOes the target.",
+      "Fickle Beam": "Has a 30% chance this move's power is doubled.",
+      "Fiery Dance": "50% chance to raise the user's Sp. Atk by 1.",
+      "Fiery Wrath": "20% chance to make the foe(s) flinch.",
+      "Fillet Away": "+2 Attack, Sp. Atk, Speed for 1/2 user's max HP.",
+      "Final Gambit": "Does damage equal to the user's HP. User faints.",
+      "Fire Blast": "10% chance to burn the target.",
+      "Fire Fang": "10% chance to burn. 10% chance to flinch.",
+      "Fire Lash": "100% chance to lower the target's Defense by 1.",
+      "Fire Pledge": "Use with Grass or Water Pledge for added effect.",
+      "Fire Punch": "10% chance to burn the target.",
+      "Fire Spin": "Traps and damages the target for 4-5 turns.",
+      "First Impression": "Nearly always goes first. First turn out only.",
+      "Fishious Rend": "Power doubles if user moves before the target.",
+      "Fissure": "OHKOs the target. Fails if user is a lower level.",
+      "Flail": "More power the less HP the user has left.",
+      "Flame Burst": "Damages Pokemon next to the target as well.",
+      "Flame Charge": "100% chance to raise the user's Speed by 1.",
+      "Flame Wheel": "10% chance to burn the target. Thaws user.",
+      "Flamethrower": "10% chance to burn the target.",
+      "Flare Blitz": "Has 33% recoil. 10% chance to burn. Thaws user.",
+      "Flash": "Lowers the target's accuracy by 1.",
+      "Flash Cannon": "10% chance to lower the target's Sp. Def by 1.",
+      "Flatter": "Raises the target's Sp. Atk by 1 and confuses it.",
+      "Fleur Cannon": "Lowers the user's Sp. Atk by 2.",
+      "Fling": "Flings the user's item at the target. Power varies.",
+      "Flip Turn": "User switches out after damaging the target.",
+      "Floaty Fall": "30% chance to make the target flinch.",
+      "Floral Healing": "Heals the target by 50% of its max HP.",
+      "Flower Shield": "Raises Defense by 1 of all active Grass types.",
+      "Flower Trick": "Always results in a critical hit; no accuracy check.",
+      "Fly": "Flies up on first turn, then strikes the next turn.",
+      "Flying Press": "Combines Flying in its type effectiveness.",
+      "Focus Blast": "10% chance to lower the target's Sp. Def by 1.",
+      "Focus Energy": "Raises the user's critical hit ratio by 2.",
+      "Focus Punch": "Fails if the user takes damage before it hits.",
+      "Follow Me": "The foes' moves target the user on the turn used.",
+      "Force Palm": "30% chance to paralyze the target.",
+      "Foresight": "Fighting, Normal hit Ghost. Evasiveness ignored.",
+      "Forest's Curse": "Adds Grass to the target's type(s).",
+      "Foul Play": "Uses target's Attack stat in damage calculation.",
+      "Freeze Shock": "Charges turn 1. Hits turn 2. 30% paralyze.",
+      "Freeze-Dry": "10% chance to freeze. Super effective on Water.",
+      "Freezing Glare": "10% chance to freeze the target.",
+      "Freezy Frost": "Eliminates all stat changes.",
+      "Frenzy Plant": "User cannot move next turn.",
+      "Frost Breath": "Always results in a critical hit.",
+      "Frustration": "Max 102 power at minimum Happiness.",
+      "Fury Attack": "Hits 2-5 times in one turn.",
+      "Fury Cutter": "Power doubles with each hit, up to 160.",
+      "Fury Swipes": "Hits 2-5 times in one turn.",
+      "Fusion Bolt": "Power doubles if used after Fusion Flare this turn.",
+      "Fusion Flare": "Power doubles if used after Fusion Bolt this turn.",
+      "Future Sight": "Hits two turns after being used.",
+      "G-Max Befuddle": "Base move affects power. Foes: slp or psn or par.",
+      "G-Max Cannonade": "Base move affects power. Foes: -1/6 HP, 4 turns.",
+      "G-Max Centiferno": "Base move affects power. Foes: bound 4-5 turns.",
+      "G-Max Chi Strike": "Base move affects power. Allies: Crit Ratio +1.",
+      "G-Max Cuddle": "Base move affects power. Foes: infatuated.",
+      "G-Max Depletion": "Base move affects power. Foes: last move -2 PP.",
+      "G-Max Drum Solo": "Always 160 power. Ignores Abilities.",
+      "G-Max Finale": "Base move affects power. Allies: +1/6 max HP.",
+      "G-Max Fire Ball": "Always 160 power. Ignores Abilities.",
+      "G-Max Foam Burst": "Base move affects power. Foes: -2 Speed.",
+      "G-Max Gold Rush": "Base move affects power. Foes: confused.",
+      "G-Max Gravitas": "Base move affects power. Starts Gravity.",
+      "G-Max Hydrosnipe": "Always 160 power. Ignores Abilities.",
+      "G-Max Malodor": "Base move affects power. Foes: poisoned.",
+      "G-Max Meltdown": "Base move affects power. Foes: Tormented.",
+      "G-Max One Blow": "Base move affects power. Bypasses Max Guard.",
+      "G-Max Rapid Flow": "Base move affects power. Bypasses Max Guard.",
+      "G-Max Replenish": "Base move affects power. 50% restores Berries.",
+      "G-Max Resonance": "Base move affects power. Allies: Aurora Veil.",
+      "G-Max Sandblast": "Base move affects power. Foes: bound 4-5 turns.",
+      "G-Max Smite": "Base move affects power. Foes: confused.",
+      "G-Max Snooze": "Base move affects power. Target: 50% Yawn.",
+      "G-Max Steelsurge": "Base move affects power. Foes: Steel hazard.",
+      "G-Max Stonesurge": "Base move affects power. Foes: Stealth Rock.",
+      "G-Max Stun Shock": "Base move affects power. Foes: psn or par.",
+      "G-Max Sweetness": "Base move affects power. Allies: status cured.",
+      "G-Max Tartness": "Base move affects power. Foes: -1 evasiveness.",
+      "G-Max Terror": "Base move affects power. Foes: trapped.",
+      "G-Max Vine Lash": "Base move affects power. Foes: -1/6 HP, 4 turns.",
+      "G-Max Volcalith": "Base move affects power. Foes: -1/6 HP, 4 turns.",
+      "G-Max Volt Crash": "Base move affects power. Foes: paralyzed.",
+      "G-Max Wildfire": "Base move affects power. Foes: -1/6 HP, 4 turns.",
+      "G-Max Wind Rage": "Base move affects power. Ends Terrain, hazards.",
+      "Gastro Acid": "Nullifies the target's Ability.",
+      "Gear Grind": "Hits 2 times in one turn.",
+      "Gear Up": "Raises Atk, Sp. Atk of allies with Plus/Minus by 1.",
+      "Genesis Supernova": "Summons Psychic Terrain.",
+      "Geomancy": "Charges, then raises SpA, SpD, Spe by 2 turn 2.",
+      "Giga Drain": "User recovers 50% of the damage dealt.",
+      "Giga Impact": "User cannot move next turn.",
+      "Gigaton Hammer": "Cannot be selected the turn after it's used.",
+      "Gigavolt Havoc": "Power is equal to the base move's Z-Power.",
+      "Glacial Lance": "No additional effect. Hits adjacent foes.",
+      "Glaciate": "100% chance to lower the foe(s) Speed by 1.",
+      "Glaive Rush": "User takes sure-hit 2x damage until its next turn.",
+      "Glare": "Paralyzes the target.",
+      "Glitzy Glow": "Summons Light Screen.",
+      "Grass Knot": "More power the heavier the target.",
+      "Grass Pledge": "Use with Fire or Water Pledge for added effect.",
+      "Grass Whistle": "Causes the target to fall asleep.",
+      "Grassy Glide": "User on Grassy Terrain: +1 priority.",
+      "Grassy Terrain": "5 turns. Grounded: +Grass power, +1/16 max HP.",
+      "Grav Apple": "Target: 100% -1 Def. During Gravity: 1.5x power.",
+      "Gravity": "5 turns: no Ground immunities, 1.67x accuracy.",
+      "Growl": "Lowers the foe(s) Attack by 1.",
+      "Growth": "Raises user's Attack and Sp. Atk by 1; 2 in Sun.",
+      "Grudge": "If the user faints, the attack used loses all its PP.",
+      "Guard Split": "Averages Defense and Sp. Def stats with target.",
+      "Guard Swap": "Swaps Defense and Sp. Def changes with target.",
+      "Guardian of Alola": "Does damage equal to 3/4 target's current HP.",
+      "Guillotine": "OHKOs the target. Fails if user is a lower level.",
+      "Gunk Shot": "30% chance to poison the target.",
+      "Gust": "Power doubles during Bounce, Fly, and Sky Drop.",
+      "Gyro Ball": "More power the slower the user than the target.",
+      "Hail": "For 5 turns, hail crashes down.",
+      "Hammer Arm": "Lowers the user's Speed by 1.",
+      "Happy Hour": "No competitive use.",
+      "Hard Press": "More power the more HP the target has left.",
+      "Harden": "Raises the user's Defense by 1.",
+      "Haze": "Eliminates all stat changes.",
+      "Head Charge": "Has 1/4 recoil.",
+      "Head Smash": "Has 1/2 recoil.",
+      "Headbutt": "30% chance to make the target flinch.",
+      "Headlong Rush": "Lowers the user's Defense and Sp. Def by 1.",
+      "Heal Bell": "Cures the user's party of all status conditions.",
+      "Heal Block": "For 5 turns, the foe(s) is prevented from healing.",
+      "Heal Order": "Heals the user by 50% of its max HP.",
+      "Heal Pulse": "Heals the target by 50% of its max HP.",
+      "Healing Wish": "User faints. Next hurt Pokemon is fully healed.",
+      "Heart Stamp": "30% chance to make the target flinch.",
+      "Heart Swap": "Swaps all stat changes with target.",
+      "Heat Crash": "More power the heavier the user than the target.",
+      "Heat Wave": "10% chance to burn the foe(s).",
+      "Heavy Slam": "More power the heavier the user than the target.",
+      "Helping Hand": "One adjacent ally's move power is 1.5x this turn.",
+      "Hex": "Power doubles if the target has a status ailment.",
+      "Hidden Power": "Varies in type based on the user's IVs.",
+      "High Horsepower": "No additional effect.",
+      "High Jump Kick": "User is hurt by 50% of its max HP if it misses.",
+      "Hold Back": "Always leaves the target with at least 1 HP.",
+      "Hold Hands": "No competitive use.",
+      "Hone Claws": "Raises the user's Attack and accuracy by 1.",
+      "Horn Attack": "No additional effect.",
+      "Horn Drill": "OHKOs the target. Fails if user is a lower level.",
+      "Horn Leech": "User recovers 50% of the damage dealt.",
+      "Howl": "Raises the user's and ally's Attack by 1.",
+      "Hurricane": "30% chance to confuse target. Can't miss in rain.",
+      "Hydro Cannon": "User cannot move next turn.",
+      "Hydro Pump": "No additional effect.",
+      "Hydro Steam": "During Sunny Day: 1.5x damage instead of half.",
+      "Hydro Vortex": "Power is equal to the base move's Z-Power.",
+      "Hyper Beam": "User cannot move next turn.",
+      "Hyper Drill": "Bypasses protection without breaking it.",
+      "Hyper Fang": "10% chance to make the target flinch.",
+      "Hyper Voice": "No additional effect. Hits adjacent foes.",
+      "Hyperspace Fury": "Hoopa-U: Lowers user's Def by 1; breaks protect.",
+      "Hyperspace Hole": "Breaks the target's protection for this turn.",
+      "Hypnosis": "Causes the target to fall asleep.",
+      "Ice Ball": "Power doubles with each hit. Repeats for 5 turns.",
+      "Ice Beam": "10% chance to freeze the target.",
+      "Ice Burn": "Charges turn 1. Hits turn 2. 30% burn.",
+      "Ice Fang": "10% chance to freeze. 10% chance to flinch.",
+      "Ice Hammer": "Lowers the user's Speed by 1.",
+      "Ice Punch": "10% chance to freeze the target.",
+      "Ice Shard": "Usually goes first.",
+      "Ice Spinner": "Ends the effects of terrain.",
+      "Icicle Crash": "30% chance to make the target flinch.",
+      "Icicle Spear": "Hits 2-5 times in one turn.",
+      "Icy Wind": "100% chance to lower the foe(s) Speed by 1.",
+      "Imprison": "No foe can use any move known by the user.",
+      "Incinerate": "Destroys the foe(s) Berry/Gem.",
+      "Infernal Parade": "30% burn. 2x power if target is already statused.",
+      "Inferno": "100% chance to burn the target.",
+      "Inferno Overdrive": "Power is equal to the base move's Z-Power.",
+      "Infestation": "Traps and damages the target for 4-5 turns.",
+      "Ingrain": "Traps/grounds user; heals 1/16 max HP per turn.",
+      "Instruct": "The target immediately uses its last used move.",
+      "Ion Deluge": "Normal moves become Electric type this turn.",
+      "Iron Defense": "Raises the user's Defense by 2.",
+      "Iron Head": "30% chance to make the target flinch.",
+      "Iron Tail": "30% chance to lower the target's Defense by 1.",
+      "Ivy Cudgel": "High critical hit ratio. Type depends on user's form.",
+      "Jaw Lock": "Prevents both user and target from switching out.",
+      "Jet Punch": "Usually goes first.",
+      "Judgment": "Type varies based on the held Plate.",
+      "Jump Kick": "User is hurt by 50% of its max HP if it misses.",
+      "Jungle Healing": "User and allies: healed 1/4 max HP, status cured.",
+      "Karate Chop": "High critical hit ratio.",
+      "Kinesis": "Lowers the target's accuracy by 1.",
+      "King's Shield": "Protects from damaging attacks. Contact: -1 Atk.",
+      "Knock Off": "1.5x damage if foe holds an item. Removes item.",
+      "Kowtow Cleave": "This move does not check accuracy.",
+      "Land's Wrath": "No additional effect. Hits adjacent foes.",
+      "Laser Focus": "Until the end of the next turn, user's moves crit.",
+      "Lash Out": "2x power if the user had a stat lowered this turn.",
+      "Last Resort": "Fails unless each known move has been used.",
+      "Last Respects": "+50 power for each time a party member fainted.",
+      "Lava Plume": "30% chance to burn adjacent Pokemon.",
+      "Leaf Blade": "High critical hit ratio.",
+      "Leaf Storm": "Lowers the user's Sp. Atk by 2.",
+      "Leaf Tornado": "50% chance to lower the target's accuracy by 1.",
+      "Leafage": "No additional effect.",
+      "Leech Life": "User recovers 50% of the damage dealt.",
+      "Leech Seed": "1/8 of target's HP is restored to user every turn.",
+      "Leer": "Lowers the foe(s) Defense by 1.",
+      "Let's Snuggle Forever": "No additional effect.",
+      "Lick": "30% chance to paralyze the target.",
+      "Life Dew": "Heals the user and its allies by 1/4 their max HP.",
+      "Light of Ruin": "Has 1/2 recoil.",
+      "Light Screen": "For 5 turns, special damage to allies is halved.",
+      "Light That Burns the Sky": "Physical if user's Atk > Sp. Atk. Ignores Abilities.",
+      "Liquidation": "20% chance to lower the target's Defense by 1.",
+      "Lock-On": "User's next move will not miss the target.",
+      "Lovely Kiss": "Causes the target to fall asleep.",
+      "Low Kick": "More power the heavier the target.",
+      "Low Sweep": "100% chance to lower the target's Speed by 1.",
+      "Lucky Chant": "For 5 turns, shields user's party from critical hits.",
+      "Lumina Crash": "100% chance to lower the target's Sp. Def by 2.",
+      "Lunar Blessing": "User and allies: healed 1/4 max HP, status cured.",
+      "Lunar Dance": "User faints. Next hurt Pkmn is cured, max HP/PP.",
+      "Lunge": "100% chance to lower the target's Attack by 1.",
+      "Luster Purge": "50% chance to lower the target's Sp. Def by 1.",
+      "Mach Punch": "Usually goes first.",
+      "Magic Coat": "Bounces back certain non-damaging moves.",
+      "Magic Powder": "Changes the target's type to Psychic.",
+      "Magic Room": "For 5 turns, all held items have no effect.",
+      "Magical Leaf": "This move does not check accuracy.",
+      "Magical Torque": "30% chance to confuse the target.",
+      "Magma Storm": "Traps and damages the target for 4-5 turns.",
+      "Magnet Bomb": "This move does not check accuracy.",
+      "Magnet Rise": "For 5 turns, the user has immunity to Ground.",
+      "Magnetic Flux": "Raises Def, Sp. Def of allies with Plus/Minus by 1.",
+      "Magnitude": "Hits adjacent Pokemon. Power varies; 2x on Dig.",
+      "Make It Rain": "Lowers the user's Sp. Atk by 1. Hits foe(s).",
+      "Malicious Moonsault": "Damage doubles if the target used Minimize.",
+      "Malignant Chain": "50% chance to badly poison the target.",
+      "Mat Block": "Protects allies from damaging attacks. Turn 1 only.",
+      "Matcha Gotcha": "20% burn. Recovers 50% dmg dealt. Thaws foe(s).",
+      "Max Airstream": "Base move affects power. Allies: +1 Speed.",
+      "Max Darkness": "Base move affects power. Foes: -1 Sp. Def.",
+      "Max Flare": "Base move affects power. Starts Sunny Day.",
+      "Max Flutterby": "Base move affects power. Foes: -1 Sp. Atk.",
+      "Max Geyser": "Base move affects power. Starts Rain Dance.",
+      "Max Guard": "Protects user from moves & Max Moves this turn.",
+      "Max Hailstorm": "Base move affects power. Starts Hail.",
+      "Max Knuckle": "Base move affects power. Allies: +1 Attack.",
+      "Max Lightning": "Base move affects power. Starts Electric Terrain.",
+      "Max Mindstorm": "Base move affects power. Starts Psychic Terrain.",
+      "Max Ooze": "Base move affects power. Allies: +1 Sp. Atk.",
+      "Max Overgrowth": "Base move affects power. Starts Grassy Terrain.",
+      "Max Phantasm": "Base move affects power. Foes: -1 Defense.",
+      "Max Quake": "Base move affects power. Allies: +1 Sp. Def.",
+      "Max Rockfall": "Base move affects power. Starts Sandstorm.",
+      "Max Starfall": "Base move affects power. Starts Misty Terrain.",
+      "Max Steelspike": "Base move affects power. Allies: +1 Defense.",
+      "Max Strike": "Base move affects power. Foes: -1 Speed.",
+      "Max Wyrmwind": "Base move affects power. Foes: -1 Attack.",
+      "Me First": "Copies a foe at 1.5x power. User must be faster.",
+      "Mean Look": "Prevents the target from switching out.",
+      "Meditate": "Raises the user's Attack by 1.",
+      "Mega Drain": "User recovers 50% of the damage dealt.",
+      "Mega Kick": "No additional effect.",
+      "Mega Punch": "No additional effect.",
+      "Megahorn": "No additional effect.",
+      "Memento": "Lowers target's Attack, Sp. Atk by 2. User faints.",
+      "Menacing Moonraze Maelstrom": "Ignores the Abilities of other Pokemon.",
+      "Metal Burst": "If hit by an attack, returns 1.5x damage.",
+      "Metal Claw": "10% chance to raise the user's Attack by 1.",
+      "Metal Sound": "Lowers the target's Sp. Def by 2.",
+      "Meteor Assault": "User cannot move next turn.",
+      "Meteor Beam": "Raises user's Sp. Atk by 1 on turn 1. Hits turn 2.",
+      "Meteor Mash": "20% chance to raise the user's Attack by 1.",
+      "Metronome": "Picks a random move.",
+      "Mighty Cleave": "Bypasses protection without breaking it.",
+      "Milk Drink": "Heals the user by 50% of its max HP.",
+      "Mimic": "The last move the target used replaces this one.",
+      "Mind Blown": "User loses 50% max HP. Hits adjacent Pokemon.",
+      "Mind Reader": "User's next move will not miss the target.",
+      "Minimize": "Raises the user's evasiveness by 2.",
+      "Miracle Eye": "Psychic hits Dark. Evasiveness ignored.",
+      "Mirror Coat": "If hit by special attack, returns double damage.",
+      "Mirror Move": "User uses the target's last used move against it.",
+      "Mirror Shot": "30% chance to lower the target's accuracy by 1.",
+      "Mist": "For 5 turns, protects user's party from stat drops.",
+      "Mist Ball": "50% chance to lower the target's Sp. Atk by 1.",
+      "Misty Explosion": "User faints. User on Misty Terrain: 1.5x power.",
+      "Misty Terrain": "5 turns. Can't status,-Dragon power vs grounded.",
+      "Moonblast": "30% chance to lower the target's Sp. Atk by 1.",
+      "Moongeist Beam": "Ignores the Abilities of other Pokemon.",
+      "Moonlight": "Heals the user by a weather-dependent amount.",
+      "Morning Sun": "Heals the user by a weather-dependent amount.",
+      "Mortal Spin": "Poisons foes, frees user from hazards/bind/leech.",
+      "Mountain Gale": "30% chance to make the target flinch.",
+      "Mud Bomb": "30% chance to lower the target's accuracy by 1.",
+      "Mud Shot": "100% chance to lower the target's Speed by 1.",
+      "Mud Sport": "For 5 turns, Electric-type attacks have 1/3 power.",
+      "Mud-Slap": "100% chance to lower the target's accuracy by 1.",
+      "Muddy Water": "30% chance to lower the foe(s) accuracy by 1.",
+      "Multi-Attack": "Type varies based on the held Memory.",
+      "Mystical Fire": "100% chance to lower the target's Sp. Atk by 1.",
+      "Mystical Power": "100% chance to raise the user's Sp. Atk by 1.",
+      "Nasty Plot": "Raises the user's Sp. Atk by 2.",
+      "Natural Gift": "Power and type depends on the user's Berry.",
+      "Nature Power": "Attack depends on terrain (default Tri Attack).",
+      "Nature's Madness": "Does damage equal to 1/2 target's current HP.",
+      "Needle Arm": "30% chance to make the target flinch.",
+      "Never-Ending Nightmare": "Power is equal to the base move's Z-Power.",
+      "Night Daze": "40% chance to lower the target's accuracy by 1.",
+      "Night Shade": "Does damage equal to the user's level.",
+      "Night Slash": "High critical hit ratio.",
+      "Nightmare": "A sleeping target is hurt by 1/4 max HP per turn.",
+      "No Retreat": "Raises all stats by 1 (not acc/eva). Traps user.",
+      "Noble Roar": "Lowers the target's Attack and Sp. Atk by 1.",
+      "Noxious Torque": "30% chance to poison the target.",
+      "Nuzzle": "100% chance to paralyze the target.",
+      "Oblivion Wing": "User recovers 75% of the damage dealt.",
+      "Obstruct": "Protects from damaging attacks. Contact: -2 Def.",
+      "Oceanic Operetta": "No additional effect.",
+      "Octazooka": "50% chance to lower the target's accuracy by 1.",
+      "Octolock": "Traps target, lowers Def and SpD by 1 each turn.",
+      "Odor Sleuth": "Fighting, Normal hit Ghost. Evasiveness ignored.",
+      "Ominous Wind": "10% chance to raise all stats by 1 (not acc/eva).",
+      "Order Up": "Curly|Droopy|Stretchy eaten: +1 Atk|Def|Spe.",
+      "Origin Pulse": "No additional effect. Hits adjacent foes.",
+      "Outrage": "Lasts 2-3 turns. Confuses the user afterwards.",
+      "Overdrive": "No additional effect. Hits foe(s).",
+      "Overheat": "Lowers the user's Sp. Atk by 2.",
+      "Pain Split": "Shares HP of user and target equally.",
+      "Paleo Wave": "20% chance to lower the target's Attack by 1.",
+      "Parabolic Charge": "User recovers 50% of the damage dealt.",
+      "Parting Shot": "Lowers target's Atk, Sp. Atk by 1. User switches.",
+      "Pay Day": "Scatters coins.",
+      "Payback": "Power doubles if the user moves after the target.",
+      "Peck": "No additional effect.",
+      "Perish Song": "All active Pokemon will faint in 3 turns.",
+      "Petal Blizzard": "No additional effect. Hits adjacent Pokemon.",
+      "Petal Dance": "Lasts 2-3 turns. Confuses the user afterwards.",
+      "Phantom Force": "Disappears turn 1. Hits turn 2. Breaks protection.",
+      "Photon Geyser": "Physical if user's Atk > Sp. Atk. Ignores Abilities.",
+      "Pika Papow": "Max happiness: 102 power. Can't miss.",
+      "Pin Missile": "Hits 2-5 times in one turn.",
+      "Plasma Fists": "Normal moves become Electric type this turn.",
+      "Play Nice": "Lowers the target's Attack by 1.",
+      "Play Rough": "10% chance to lower the target's Attack by 1.",
+      "Pluck": "User steals and eats the target's Berry.",
+      "Poison Fang": "50% chance to badly poison the target.",
+      "Poison Gas": "Poisons the foe(s).",
+      "Poison Jab": "30% chance to poison the target.",
+      "Poison Powder": "Poisons the target.",
+      "Poison Sting": "30% chance to poison the target.",
+      "Poison Tail": "High critical hit ratio. 10% chance to poison.",
+      "Polar Flare": "10% chance to frz foe(s). Ramnarok transforms.",
+      "Pollen Puff": "If the target is an ally, heals 50% of its max HP.",
+      "Poltergeist": "Fails if the target has no held item.",
+      "Population Bomb": "Hits 10 times. Each hit can miss.",
+      "Pounce": "100% chance to lower the target's Speed by 1.",
+      "Pound": "No additional effect.",
+      "Powder": "If using a Fire move, target loses 1/4 max HP.",
+      "Powder Snow": "10% chance to freeze the foe(s).",
+      "Power Gem": "No additional effect.",
+      "Power Shift": "Switches user's Attack and Defense stats.",
+      "Power Split": "Averages Attack and Sp. Atk stats with target.",
+      "Power Swap": "Swaps Attack and Sp. Atk stat stages with target.",
+      "Power Trick": "Switches user's Attack and Defense stats.",
+      "Power Trip": " + 20 power for each of the user's stat boosts.",
+      "Power Whip": "No additional effect.",
+      "Power-Up Punch": "100% chance to raise the user's Attack by 1.",
+      "Precipice Blades": "No additional effect. Hits adjacent foes.",
+      "Present": "40, 80, 120 power, or heals target 1/4 max HP.",
+      "Prismatic Laser": "User cannot move next turn.",
+      "Protect": "Prevents moves from affecting the user this turn.",
+      "Psybeam": "10% chance to confuse the target.",
+      "Psyblade": "During Electric Terrain: 1.5x power.",
+      "Psych Up": "Copies the target's current stat stages.",
+      "Psychic": "10% chance to lower the target's Sp. Def by 1.",
+      "Psychic Fangs": "Destroys screens, unless the target is immune.",
+      "Psychic Noise": "For 2 turns, the target is prevented from healing.",
+      "Psychic Terrain": "5 turns. Grounded: +Psychic power, priority-safe.",
+      "Psycho Boost": "Lowers the user's Sp. Atk by 2.",
+      "Psycho Cut": "High critical hit ratio.",
+      "Psycho Shift": "Transfers the user's status ailment to the target.",
+      "Psyshield Bash": "100% chance to raise the user's Defense by 1.",
+      "Psyshock": "Damages target based on Defense, not Sp. Def.",
+      "Psystrike": "Damages target based on Defense, not Sp. Def.",
+      "Psywave": "Random damage equal to 0.5x-1.5x user's level.",
+      "Pulverizing Pancake": "No additional effect.",
+      "Punishment": "60 power +20 for each of the target's stat boosts.",
+      "Purify": "Cures target's status; heals user 1/2 max HP if so.",
+      "Pursuit": "If a foe is switching out, hits it at 2x power.",
+      "Pyro Ball": "10% chance to burn the target. Thaws user.",
+      "Quash": "Forces the target to move last this turn.",
+      "Quick Attack": "Usually goes first.",
+      "Quick Guard": "Protects allies from priority attacks this turn.",
+      "Quiver Dance": "Raises the user's Sp. Atk, Sp. Def, Speed by 1.",
+      "Rage": "Raises the user's Attack by 1 if hit during use.",
+      "Rage Fist": "+50 power for each time user was hit. Max 6 hits.",
+      "Rage Powder": "The foes' moves target the user on the turn used.",
+      "Raging Bull": "Destroys screens. Type depends on user's form.",
+      "Raging Fury": "Lasts 2-3 turns. Confuses the user afterwards.",
+      "Rain Dance": "For 5 turns, heavy rain powers Water moves.",
+      "Rapid Spin": "Free user from hazards/bind/Leech Seed; +1 Spe.",
+      "Razor Leaf": "High critical hit ratio. Hits adjacent foes.",
+      "Razor Shell": "50% chance to lower the target's Defense by 1.",
+      "Razor Wind": "Charges, then hits foe(s) turn 2. High crit ratio.",
+      "Recover": "Heals the user by 50% of its max HP.",
+      "Recycle": "Restores the item the user last used.",
+      "Reflect": "For 5 turns, physical damage to allies is halved.",
+      "Reflect Type": "User becomes the same type as the target.",
+      "Refresh": "User cures its burn, poison, or paralysis.",
+      "Relic Song": "10% chance to sleep foe(s). Meloetta transforms.",
+      "Rest": "User sleeps 2 turns and restores HP and status.",
+      "Retaliate": "Power doubles if an ally fainted last turn.",
+      "Return": "Max 102 power at maximum Happiness.",
+      "Revelation Dance": "Type varies based on the user's primary type.",
+      "Revenge": "Power doubles if user is damaged by the target.",
+      "Reversal": "More power the less HP the user has left.",
+      "Revival Blessing": "Revives a fainted Pokemon to 50% HP.",
+      "Rising Voltage": "2x power if target is grounded in Electric Terrain.",
+      "Roar": "Forces the target to switch to a random ally.",
+      "Roar of Time": "User cannot move next turn.",
+      "Rock Blast": "Hits 2-5 times in one turn.",
+      "Rock Climb": "20% chance to confuse the target.",
+      "Rock Polish": "Raises the user's Speed by 2.",
+      "Rock Slide": "30% chance to make the foe(s) flinch.",
+      "Rock Smash": "50% chance to lower the target's Defense by 1.",
+      "Rock Throw": "No additional effect.",
+      "Rock Tomb": "100% chance to lower the target's Speed by 1.",
+      "Rock Wrecker": "User cannot move next turn.",
+      "Role Play": "User replaces its Ability with the target's.",
+      "Rolling Kick": "30% chance to make the target flinch.",
+      "Rollout": "Power doubles with each hit. Repeats for 5 turns.",
+      "Roost": "Heals 50% HP. Flying-type removed 'til turn ends.",
+      "Rototiller": "Raises Atk/Sp. Atk of grounded Grass types by 1.",
+      "Round": "Power doubles if others used Round this turn.",
+      "Ruination": "Does damage equal to 1/2 target's current HP.",
+      "Sacred Fire": "50% chance to burn the target. Thaws user.",
+      "Sacred Sword": "Ignores the target's stat stage changes.",
+      "Safeguard": "For 5 turns, protects user's party from status.",
+      "Salt Cure": "Deals 1/8 max HP each turn; 1/4 on Steel, Water.",
+      "Sand Attack": "Lowers the target's accuracy by 1.",
+      "Sand Tomb": "Traps and damages the target for 4-5 turns.",
+      "Sandsear Storm": "20% chance to burn foe(s). Can't miss in rain.",
+      "Sandstorm": "For 5 turns, a sandstorm rages. Rock: 1.5x SpD.",
+      "Sappy Seed": "Summons Leech Seed.",
+      "Savage Spin-Out": "Power is equal to the base move's Z-Power.",
+      "Scald": "30% chance to burn the target. Thaws target.",
+      "Scale Shot": "Hits 2-5 times. User: -1 Def, +1 Spe after last hit.",
+      "Scary Face": "Lowers the target's Speed by 2.",
+      "Scorching Sands": "30% chance to burn the target. Thaws target.",
+      "Scratch": "No additional effect.",
+      "Screech": "Lowers the target's Defense by 2.",
+      "Searing Shot": "30% chance to burn adjacent Pokemon.",
+      "Searing Sunraze Smash": "Ignores the Abilities of other Pokemon.",
+      "Secret Power": "Effect varies with terrain. (30% paralysis chance)",
+      "Secret Sword": "Damages target based on Defense, not Sp. Def.",
+      "Seed Bomb": "No additional effect.",
+      "Seed Flare": "40% chance to lower the target's Sp. Def by 2.",
+      "Seismic Toss": "Does damage equal to the user's level.",
+      "Self-Destruct": "Hits adjacent Pokemon. The user faints.",
+      "Shadow Ball": "20% chance to lower the target's Sp. Def by 1.",
+      "Shadow Bone": "20% chance to lower the target's Defense by 1.",
+      "Shadow Claw": "High critical hit ratio.",
+      "Shadow Force": "Disappears turn 1. Hits turn 2. Breaks protection.",
+      "Shadow Punch": "This move does not check accuracy.",
+      "Shadow Sneak": "Usually goes first.",
+      "Shadow Strike": "50% chance to lower the target's Defense by 1.",
+      "Sharpen": "Raises the user's Attack by 1.",
+      "Shattered Psyche": "Power is equal to the base move's Z-Power.",
+      "Shed Tail": "User takes 1/2 its max HP to pass a substitute.",
+      "Sheer Cold": "OHKOs non-Ice targets. Fails if user's lower level.",
+      "Shell Side Arm": "20% psn. Physical+contact if it would be stronger.",
+      "Shell Smash": "Lowers Def, SpD by 1; raises Atk, SpA, Spe by 2.",
+      "Shell Trap": "User must take physical damage before moving.",
+      "Shelter": "Raises the user's Defense by 2.",
+      "Shift Gear": "Raises the user's Speed by 2 and Attack by 1.",
+      "Shock Wave": "This move does not check accuracy.",
+      "Shore Up": "User restores 1/2 its max HP; 2/3 in Sandstorm.",
+      "Signal Beam": "10% chance to confuse the target.",
+      "Silk Trap": "Protects from damaging attacks. Contact: -1 Spe.",
+      "Silver Wind": "10% chance to raise all stats by 1 (not acc/eva).",
+      "Simple Beam": "The target's Ability becomes Simple.",
+      "Sing": "Causes the target to fall asleep.",
+      "Sinister Arrow Raid": "No additional effect.",
+      "Sizzly Slide": "100% chance to burn the foe.",
+      "Sketch": "Permanently copies the last move target used.",
+      "Skill Swap": "The user and the target trade Abilities.",
+      "Skitter Smack": "100% chance to lower target's Sp. Atk by 1.",
+      "Skull Bash": "Raises user's Defense by 1 on turn 1. Hits turn 2.",
+      "Sky Attack": "Charges, then hits turn 2. 30% flinch. High crit.",
+      "Sky Drop": "User and foe fly up turn 1. Damages on turn 2.",
+      "Sky Uppercut": "Can hit Pokemon using Bounce, Fly, or Sky Drop.",
+      "Slack Off": "Heals the user by 50% of its max HP.",
+      "Slam": "No additional effect.",
+      "Slash": "High critical hit ratio.",
+      "Sleep Powder": "Causes the target to fall asleep.",
+      "Sleep Talk": "User must be asleep. Uses another known move.",
+      "Sludge": "30% chance to poison the target.",
+      "Sludge Bomb": "30% chance to poison the target.",
+      "Sludge Wave": "10% chance to poison adjacent Pokemon.",
+      "Smack Down": "Removes the target's Ground immunity.",
+      "Smart Strike": "This move does not check accuracy.",
+      "Smelling Salts": "Power doubles if target is paralyzed, and cures it.",
+      "Smog": "40% chance to poison the target.",
+      "Smokescreen": "Lowers the target's accuracy by 1.",
+      "Snap Trap": "Traps and damages the target for 4-5 turns.",
+      "Snarl": "100% chance to lower the foe(s) Sp. Atk by 1.",
+      "Snatch": "User steals certain support moves to use itself.",
+      "Snipe Shot": "High critical hit ratio. Cannot be redirected.",
+      "Snore": "User must be asleep. 30% chance to flinch target.",
+      "Snowscape": "For 5 turns, snow falls. Ice: 1.5x Def.",
+      "Soak": "Changes the target's type to Water.",
+      "Soft-Boiled": "Heals the user by 50% of its max HP.",
+      "Solar Beam": "Charges turn 1. Hits turn 2. No charge in sunlight.",
+      "Solar Blade": "Charges turn 1. Hits turn 2. No charge in sunlight.",
+      "Sonic Boom": "Always does 20 HP of damage.",
+      "Soul-Stealing 7-Star Strike": "No additional effect.",
+      "Spacial Rend": "High critical hit ratio.",
+      "Spark": "30% chance to paralyze the target.",
+      "Sparkling Aria": "The target is cured of its burn.",
+      "Sparkly Swirl": "Cures the user's party of all status conditions.",
+      "Spectral Thief": "Steals target's boosts before dealing damage.",
+      "Speed Swap": "Swaps Speed stat with target.",
+      "Spicy Extract": "Raises target's Atk by 2 and lowers its Def by 2.",
+      "Spider Web": "Prevents the target from switching out.",
+      "Spike Cannon": "Hits 2-5 times in one turn.",
+      "Spikes": "Hurts grounded foes on switch-in. Max 3 layers.",
+      "Spiky Shield": "Protects from moves. Contact: loses 1/8 max HP.",
+      "Spin Out": "Lowers the user's Speed by 2.",
+      "Spirit Break": "100% chance to lower the target's Sp. Atk by 1.",
+      "Spirit Shackle": "Prevents the target from switching out.",
+      "Spit Up": "More power with more uses of Stockpile.",
+      "Spite": "Lowers the PP of the target's last move by 4.",
+      "Splash": "No competitive use.",
+      "Splintered Stormshards": "Ends the effects of terrain.",
+      "Splishy Splash": "30% chance to paralyze the target.",
+      "Spore": "Causes the target to fall asleep.",
+      "Spotlight": "Target's foes' moves are redirected to it this turn.",
+      "Springtide Storm": "30% chance to lower the foe(s) Attack by 1.",
+      "Stealth Rock": "Hurts foes on switch-in. Factors Rock weakness.",
+      "Steam Eruption": "30% chance to burn the target. Thaws target.",
+      "Steamroller": "30% chance to make the target flinch.",
+      "Steel Beam": "User loses 50% max HP.",
+      "Steel Roller": "Fails if there is no terrain active. Ends the terrain.",
+      "Steel Wing": "10% chance to raise the user's Defense by 1.",
+      "Sticky Web": "Lowers Speed of grounded foes by 1 on switch-in.",
+      "Stockpile": "Raises user's Defense, Sp. Def by 1. Max 3 uses.",
+      "Stoked Sparksurfer": "100% chance to paralyze the target.",
+      "Stomp": "30% chance to make the target flinch.",
+      "Stomping Tantrum": "Power doubles if the user's last move failed.",
+      "Stone Axe": "Sets Stealth Rock on the target's side.",
+      "Stone Edge": "High critical hit ratio.",
+      "Stored Power": " + 20 power for each of the user's stat boosts.",
+      "Storm Throw": "Always results in a critical hit.",
+      "Strange Steam": "20% chance to confuse the target.",
+      "Strength": "No additional effect.",
+      "Strength Sap": "User heals HP=target's Atk stat. Lowers Atk by 1.",
+      "String Shot": "Lowers the foe(s) Speed by 2.",
+      "Struggle": "User loses 1/4 of its max HP.",
+      "Struggle Bug": "100% chance to lower the foe(s) Sp. Atk by 1.",
+      "Stuff Cheeks": "Must hold Berry to use. User eats Berry, Def +2.",
+      "Stun Spore": "Paralyzes the target.",
+      "Submission": "Has 1/4 recoil.",
+      "Substitute": "User takes 1/4 its max HP to put in a substitute.",
+      "Subzero Slammer": "Power is equal to the base move's Z-Power.",
+      "Sucker Punch": "Usually goes first. Fails if target is not attacking.",
+      "Sunny Day": "For 5 turns, intense sunlight powers Fire moves.",
+      "Sunsteel Strike": "Ignores the Abilities of other Pokemon.",
+      "Super Fang": "Does damage equal to 1/2 target's current HP.",
+      "Supercell Slam": "User is hurt by 50% of its max HP if it misses.",
+      "Superpower": "Lowers the user's Attack and Defense by 1.",
+      "Supersonic": "Causes the target to become confused.",
+      "Supersonic Skystrike": "Power is equal to the base move's Z-Power.",
+      "Surf": "Hits adjacent Pokemon. Double damage on Dive.",
+      "Surging Strikes": "Always results in a critical hit. Hits 3 times.",
+      "Swagger": "Raises the target's Attack by 2 and confuses it.",
+      "Swallow": "Heals the user based on uses of Stockpile.",
+      "Sweet Kiss": "Causes the target to become confused.",
+      "Sweet Scent": "Lowers the foe(s) evasiveness by 2.",
+      "Swift": "This move does not check accuracy. Hits foes.",
+      "Switcheroo": "User switches its held item with the target's.",
+      "Swords Dance": "Raises the user's Attack by 2.",
+      "Synchronoise": "Hits adjacent Pokemon sharing the user's type.",
+      "Synthesis": "Heals the user by a weather-dependent amount.",
+      "Syrup Bomb": "Target's Speed is lowered by 1 stage for 3 turns.",
+      "Tachyon Cutter": "Hits twice. This move does not check accuracy.",
+      "Tackle": "No additional effect.",
+      "Tail Glow": "Raises the user's Sp. Atk by 3.",
+      "Tail Slap": "Hits 2-5 times in one turn.",
+      "Tail Whip": "Lowers the foe(s) Defense by 1.",
+      "Tailwind": "For 4 turns, allies' Speed is doubled.",
+      "Take Down": "Has 1/4 recoil.",
+      "Take Heart": "Cures user's status, raises Sp. Atk, Sp. Def by 1.",
+      "Tar Shot": "Target gets -1 Spe and becomes weaker to Fire.",
+      "Taunt": "Target can't use status moves its next 3 turns.",
+      "Tearful Look": "Lowers the target's Attack and Sp. Atk by 1.",
+      "Teatime": "All active Pokemon consume held Berries.",
+      "Techno Blast": "Type varies based on the held Drive.",
+      "Tectonic Rage": "Power is equal to the base move's Z-Power.",
+      "Teeter Dance": "Confuses adjacent Pokemon.",
+      "Telekinesis": "For 3 turns, target floats but moves can't miss it.",
+      "Teleport": "User switches out.",
+      "Temper Flare": "Power doubles if the user's last move failed.",
+      "Tera Blast": "If Terastallized: Phys. if Atk > SpA, type = Tera.",
+      "Tera Starstorm": "Terapagos-Stellar: Stellar type, hits both foes.",
+      "Terrain Pulse": "User on terrain: power doubles, type varies.",
+      "Thief": "If the user has no item, it steals the target's.",
+      "Thousand Arrows": "Grounds adjacent foes. First hit neutral on Flying.",
+      "Thousand Waves": "Hits adjacent foes. Prevents them from switching.",
+      "Thrash": "Lasts 2-3 turns. Confuses the user afterwards.",
+      "Throat Chop": "For 2 turns, the target cannot use sound moves.",
+      "Thunder": "30% chance to paralyze. Can't miss in rain.",
+      "Thunder Cage": "Traps and damages the target for 4-5 turns.",
+      "Thunder Fang": "10% chance to paralyze. 10% chance to flinch.",
+      "Thunder Punch": "10% chance to paralyze the target.",
+      "Thunder Shock": "10% chance to paralyze the target.",
+      "Thunder Wave": "Paralyzes the target.",
+      "Thunderbolt": "10% chance to paralyze the target.",
+      "Thunderclap": "Usually goes first. Fails if target is not attacking.",
+      "Thunderous Kick": "100% chance to lower the target's Defense by 1.",
+      "Tickle": "Lowers the target's Attack and Defense by 1.",
+      "Tidy Up": "User +1 Atk, Spe. Clears all substitutes/hazards.",
+      "Topsy-Turvy": "Inverts the target's stat stages.",
+      "Torch Song": "100% chance to raise the user's Sp. Atk by 1.",
+      "Torment": "Target can't select the same move twice in a row.",
+      "Toxic": "Badly poisons the target. Poison types can't miss.",
+      "Toxic Spikes": "Poisons grounded foes on switch-in. Max 2 layers.",
+      "Toxic Thread": "Lowers the target's Speed by 1 and poisons it.",
+      "Trailblaze": "100% chance to raise the user's Speed by 1.",
+      "Transform": "Copies target's stats, moves, types, and Ability.",
+      "Tri Attack": "20% chance to paralyze or burn or freeze target.",
+      "Trick": "User switches its held item with the target's.",
+      "Trick Room": "Goes last. For 5 turns, turn order is reversed.",
+      "Trick-or-Treat": "Adds Ghost to the target's type(s).",
+      "Triple Arrows": "High crit. Target: 50% -1 Defense, 30% flinch.",
+      "Triple Axel": "Hits 3 times. Each hit can miss, but power rises.",
+      "Triple Dive": "Hits 3 times.",
+      "Triple Kick": "Hits 3 times. Each hit can miss, but power rises.",
+      "Trop Kick": "100% chance to lower the target's Attack by 1.",
+      "Trump Card": "More power the fewer PP this move has left.",
+      "Twin Beam": "Hits 2 times in one turn.",
+      "Twineedle": "Hits 2 times. Each hit has 20% chance to poison.",
+      "Twinkle Tackle": "Power is equal to the base move's Z-Power.",
+      "Twister": "20% chance to make the foe(s) flinch.",
+      "U-turn": "User switches out after damaging the target.",
+      "Upper Hand": "100% flinch. Fails unless target using priority attack.",
+      "Uproar": "Lasts 3 turns. Active Pokemon cannot fall asleep.",
+      "V-create": "Lowers the user's Defense, Sp. Def, Speed by 1.",
+      "Vacuum Wave": "Usually goes first.",
+      "Veevee Volley": "Max happiness: 102 power. Can't miss.",
+      "Venom Drench": "Lowers Atk/Sp. Atk/Speed of poisoned foes by 1.",
+      "Venoshock": "Power doubles if the target is poisoned.",
+      "Victory Dance": "Raises the user's Attack, Defense, Speed by 1.",
+      "Vine Whip": "No additional effect.",
+      "Vise Grip": "No additional effect.",
+      "Vital Throw": "This move does not check accuracy. Goes last.",
+      "Volt Switch": "User switches out after damaging the target.",
+      "Volt Tackle": "Has 33% recoil. 10% chance to paralyze target.",
+      "Wake-Up Slap": "Power doubles if target is asleep, and wakes it.",
+      "Water Gun": "No additional effect.",
+      "Water Pledge": "Use with Grass or Fire Pledge for added effect.",
+      "Water Pulse": "20% chance to confuse the target.",
+      "Water Shuriken": "Usually goes first. Hits 2-5 times in one turn.",
+      "Water Sport": "For 5 turns, Fire-type attacks have 1/3 power.",
+      "Water Spout": "Less power as user's HP decreases. Hits foe(s).",
+      "Waterfall": "20% chance to make the target flinch.",
+      "Wave Crash": "Has 33% recoil.",
+      "Weather Ball": "Power doubles and type varies in each weather.",
+      "Whirlpool": "Traps and damages the target for 4-5 turns.",
+      "Whirlwind": "Forces the target to switch to a random ally.",
+      "Wicked Blow": "Always results in a critical hit.",
+      "Wicked Torque": "10% chance to cause the target to fall asleep.",
+      "Wide Guard": "Protects allies from multi-target moves this turn.",
+      "Wild Charge": "Has 1/4 recoil.",
+      "Wildbolt Storm": "20% chance to paralyze foe(s). Rain: can't miss.",
+      "Will-O-Wisp": "Burns the target.",
+      "Wing Attack": "No additional effect.",
+      "Wish": "Next turn, 50% of the user's max HP is restored.",
+      "Withdraw": "Raises the user's Defense by 1.",
+      "Wonder Room": "For 5 turns, all Defense and Sp. Def stats switch.",
+      "Wood Hammer": "Has 33% recoil.",
+      "Work Up": "Raises the user's Attack and Sp. Atk by 1.",
+      "Worry Seed": "The target's Ability becomes Insomnia.",
+      "Wrap": "Traps and damages the target for 4-5 turns.",
+      "Wring Out": "More power the more HP the target has left.",
+      "X-Scissor": "No additional effect.",
+      "Yawn": "Puts the target to sleep after 1 turn.",
+      "Zap Cannon": "100% chance to paralyze the target.",
+      "Zen Headbutt": "20% chance to make the target flinch.",
+      "Zing Zap": "30% chance to make the target flinch.",
+      "Zippy Zap": "Goes first. Raises user's evasion by 1."
+    },
   "pokemon": [
     {
       "id": "052-g",
@@ -167,7 +1106,7 @@
         "Rain Dance",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -2276,7 +3215,7 @@
         "Struggle Bug",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Vacuum Wave"
       ],
       "fullLearnset": [
@@ -4033,7 +4972,7 @@
         "Snowscape",
         "Sunny Day",
         "Tailwind",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -4116,7 +5055,7 @@
         "Sunny Day",
         "Tailwind",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Volt Switch"
       ],
       "fullLearnset": [
@@ -4198,7 +5137,7 @@
         "Sandstorm",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Will-O-Wisp"
       ],
       "fullLearnset": [
@@ -5044,7 +5983,7 @@
         "Thunder Wave",
         "Trick",
         "Trick Room",
-        "U-Turn",
+        "U-turn",
         "Upper Hand",
         "Vacuum Wave",
         "Volt Switch",
@@ -6130,7 +7069,7 @@
         "Sucker Punch",
         "Sunny Day",
         "Trick",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "amnesia",
@@ -6226,7 +7165,7 @@
         "Sucker Punch",
         "Sunny Day",
         "Trick",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "agility",
@@ -8196,7 +9135,7 @@
         "Sunny Day",
         "Switcheroo",
         "Tailwind",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "absorb",
@@ -8293,7 +9232,7 @@
         "Sunny Day",
         "Switcheroo",
         "Tailwind",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "absorb",
@@ -8391,7 +9330,7 @@
         "Sunny Day",
         "Switcheroo",
         "Tailwind",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "absorb",
@@ -8485,7 +9424,7 @@
         "Switcheroo",
         "Taunt",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Upper Hand"
       ],
       "fullLearnset": [
@@ -8735,7 +9674,7 @@
         "Struggle Bug",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -9231,7 +10170,7 @@
         "Tailwind",
         "Taunt",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -10024,7 +10963,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -10662,7 +11601,7 @@
         "Struggle Bug",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Vacuum Wave"
       ],
       "fullLearnset": [
@@ -10764,7 +11703,7 @@
         "Struggle Bug",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Vacuum Wave"
       ],
       "fullLearnset": [
@@ -14880,7 +15819,7 @@
         "Quick Attack",
         "Roar",
         "Sunny Day",
-        "U-Turn",
+        "U-turn",
         "Upper Hand",
         "Vacuum Wave",
         "Will-O-Wisp"
@@ -14994,7 +15933,7 @@
         "Quick Attack",
         "Roar",
         "Sunny Day",
-        "U-Turn",
+        "U-turn",
         "Upper Hand",
         "Vacuum Wave",
         "Will-O-Wisp"
@@ -16538,7 +17477,7 @@
         "Rain Dance",
         "Snowscape",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Wide Guard"
       ],
       "fullLearnset": [
@@ -16622,7 +17561,7 @@
         "Rain Dance",
         "Snowscape",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Wide Guard"
       ],
       "fullLearnset": [
@@ -17278,7 +18217,7 @@
         "Struggle Bug",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -19946,7 +20885,7 @@
         "Taunt",
         "Thunder Wave",
         "Trick",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -20046,7 +20985,7 @@
         "Tailwind",
         "Thunder Wave",
         "Trick",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -21315,7 +22254,7 @@
         "Struggle Bug",
         "Sunny Day",
         "Tailwind",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -21414,7 +22353,7 @@
         "Struggle Bug",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Vacuum Wave"
       ],
       "fullLearnset": [
@@ -23532,7 +24471,7 @@
         "Roar",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Whirlwind",
         "Wide Guard"
       ],
@@ -26217,7 +27156,7 @@
         "Sunny Day",
         "Tailwind",
         "Thunder Wave",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -26329,7 +27268,7 @@
         "Sunny Day",
         "Tailwind",
         "Thunder Wave",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -26439,7 +27378,7 @@
         "Thunder Wave",
         "Trick",
         "Trick Room",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "amnesia",
@@ -26948,7 +27887,7 @@
         "Sunny Day",
         "Switcheroo",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Vacuum Wave",
         "Will-O-Wisp"
       ],
@@ -27052,7 +27991,7 @@
         "Sunny Day",
         "Switcheroo",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Upper Hand",
         "Vacuum Wave",
         "Will-O-Wisp"
@@ -27170,7 +28109,7 @@
         "Sunny Day",
         "Switcheroo",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Upper Hand",
         "Vacuum Wave",
         "Will-O-Wisp"
@@ -27579,7 +28518,7 @@
         "Rain Dance",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -27650,7 +28589,7 @@
         "Rain Dance",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -27722,7 +28661,7 @@
         "Rain Dance",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -28824,7 +29763,7 @@
         "Struggle Bug",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -28921,7 +29860,7 @@
         "Rain Dance",
         "Sunny Day",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Volt Switch"
       ],
       "fullLearnset": [
@@ -29448,7 +30387,7 @@
         "Switcheroo",
         "Taunt",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Upper Hand"
       ],
       "fullLearnset": [
@@ -29788,7 +30727,7 @@
         "Sunny Day",
         "Switcheroo",
         "Thunder Wave",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -29901,7 +30840,7 @@
         "Sunny Day",
         "Switcheroo",
         "Thunder Wave",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -30122,7 +31061,7 @@
         "Tailwind",
         "Taunt",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -32313,7 +33252,7 @@
         "Icy Wind",
         "Rain Dance",
         "Tailwind",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -32391,7 +33330,7 @@
         "Icy Wind",
         "Rain Dance",
         "Tailwind",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -33375,7 +34314,7 @@
         "Struggle Bug",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -33649,7 +34588,7 @@
         "Struggle Bug",
         "Sunny Day",
         "Tailwind",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -34644,7 +35583,7 @@
         "Thunder Wave",
         "Trick",
         "Trick Room",
-        "U-Turn",
+        "U-turn",
         "Yawn"
       ],
       "fullLearnset": [
@@ -34758,7 +35697,7 @@
         "Thunder Wave",
         "Trick",
         "Trick Room",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -34870,7 +35809,7 @@
         "Thunder Wave",
         "Trick",
         "Trick Room",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -35537,7 +36476,7 @@
         "Icy Wind",
         "Knock Off",
         "Rain Dance",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acidarmor",
@@ -35612,7 +36551,7 @@
         "Light Screen",
         "Rain Dance",
         "Reflect",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acidarmor",
@@ -37117,7 +38056,7 @@
         "Taunt",
         "Thunder Wave",
         "Trick",
-        "U-Turn",
+        "U-turn",
         "Yawn"
       ],
       "fullLearnset": [
@@ -39222,7 +40161,7 @@
         "Tailwind",
         "Taunt",
         "Trick Room",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "attract",
@@ -40619,7 +41558,7 @@
         "Sunny Day",
         "Taunt",
         "Trick",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "agility",
@@ -40711,7 +41650,7 @@
         "Sunny Day",
         "Taunt",
         "Trick",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -40816,7 +41755,7 @@
         "Sing",
         "Sunny Day",
         "Thunder Wave",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "afteryou",
@@ -40904,7 +41843,7 @@
         "Sing",
         "Sunny Day",
         "Thunder Wave",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "afteryou",
@@ -42011,7 +42950,7 @@
         "Speed Swap",
         "Taunt",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Volt Switch"
       ],
       "fullLearnset": [
@@ -42723,7 +43662,7 @@
         "Light Screen",
         "Rain Dance",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Volt Switch"
       ],
       "fullLearnset": [
@@ -42803,7 +43742,7 @@
         "Rain Dance",
         "Sunny Day",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Volt Switch"
       ],
       "fullLearnset": [
@@ -43986,7 +44925,7 @@
         "Rain Dance",
         "Sunny Day",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Upper Hand"
       ],
       "fullLearnset": [
@@ -44073,7 +45012,7 @@
         "Rain Dance",
         "Sunny Day",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Upper Hand",
         "Vacuum Wave",
         "Wide Guard"
@@ -44598,7 +45537,7 @@
         "Rain Dance",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -44674,7 +45613,7 @@
         "Rain Dance",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -44759,7 +45698,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -44841,7 +45780,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -45142,7 +46081,7 @@
         "Tailwind",
         "Taunt",
         "Thunder Wave",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -45249,7 +46188,7 @@
         "String Shot",
         "Struggle Bug",
         "Sunny Day",
-        "U-Turn",
+        "U-turn",
         "Will-O-Wisp"
       ],
       "fullLearnset": [
@@ -45328,7 +46267,7 @@
         "Struggle Bug",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Whirlwind",
         "Will-O-Wisp"
       ],
@@ -45696,7 +46635,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -45785,7 +46724,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -45876,7 +46815,7 @@
         "Sunny Day",
         "Taunt",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Volt Switch"
       ],
       "fullLearnset": [
@@ -45974,7 +46913,7 @@
         "Sunny Day",
         "Taunt",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Volt Switch"
       ],
       "fullLearnset": [
@@ -46278,7 +47217,7 @@
         "Sandstorm",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "block",
@@ -46361,7 +47300,7 @@
         "Sandstorm",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "block",
@@ -46840,7 +47779,7 @@
         "Thunder Wave",
         "Trick",
         "Trick Room",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -46960,7 +47899,7 @@
         "Thunder Wave",
         "Trick",
         "Trick Room",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -47692,7 +48631,7 @@
         "Snowscape",
         "Switcheroo",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -47775,7 +48714,7 @@
         "Snowscape",
         "Switcheroo",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -47866,7 +48805,7 @@
         "Snowscape",
         "Switcheroo",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Upper Hand",
         "Water Shuriken"
       ],
@@ -47967,7 +48906,7 @@
         "Snowscape",
         "Switcheroo",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Upper Hand",
         "Water Shuriken"
       ],
@@ -48087,7 +49026,7 @@
         "Bulldoze",
         "Quick Attack",
         "Sandstorm",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "agility",
@@ -48176,7 +49115,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -48248,7 +49187,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Will-O-Wisp"
       ],
       "fullLearnset": [
@@ -48328,7 +49267,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Upper Hand",
         "Whirlwind",
         "Will-O-Wisp"
@@ -48493,7 +49432,7 @@
         "Struggle Bug",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -49379,7 +50318,7 @@
         "Sucker Punch",
         "Sunny Day",
         "Thunder Wave",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "attract",
@@ -50458,7 +51397,7 @@
         "Helping Hand",
         "Icy Wind",
         "Rain Dance",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aquajet",
@@ -50536,7 +51475,7 @@
         "Helping Hand",
         "Icy Wind",
         "Rain Dance",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aquajet",
@@ -50653,7 +51592,7 @@
         "Sandstorm",
         "Sunny Day",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Volt Switch"
       ],
       "fullLearnset": [
@@ -51077,7 +52016,7 @@
         "Rain Dance",
         "Sunny Day",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Upper Hand"
       ],
       "fullLearnset": [
@@ -51190,7 +52129,7 @@
         "Rain Dance",
         "Sunny Day",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Volt Switch"
       ],
       "fullLearnset": [
@@ -52146,7 +53085,7 @@
         "Switcheroo",
         "Tailwind",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -52233,7 +53172,7 @@
         "Switcheroo",
         "Tailwind",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -53066,7 +54005,7 @@
         "Sucker Punch",
         "Sunny Day",
         "Tailwind",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -53162,7 +54101,7 @@
         "Roar",
         "Sunny Day",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Will-O-Wisp"
       ],
       "fullLearnset": [
@@ -53242,7 +54181,7 @@
         "Roar",
         "Sunny Day",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Will-O-Wisp"
       ],
       "fullLearnset": [
@@ -53692,7 +54631,7 @@
         "Knock Off",
         "Sunny Day",
         "Tailwind",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -53766,7 +54705,7 @@
         "Knock Off",
         "Sunny Day",
         "Tailwind",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -53844,7 +54783,7 @@
         "Knock Off",
         "Sunny Day",
         "Tailwind",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -53929,7 +54868,7 @@
         "Sandstorm",
         "Sunny Day",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Yawn"
       ],
       "fullLearnset": [
@@ -54009,7 +54948,7 @@
         "Sandstorm",
         "Sunny Day",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Yawn"
       ],
       "fullLearnset": [
@@ -54517,7 +55456,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -54595,7 +55534,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -54673,7 +55612,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -54751,7 +55690,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -54833,7 +55772,7 @@
         "Switcheroo",
         "Tailwind",
         "Trick",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "absorb",
@@ -54918,7 +55857,7 @@
         "Switcheroo",
         "Tailwind",
         "Trick",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "absorb",
@@ -56462,7 +57401,7 @@
         "Reflect",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -56555,7 +57494,7 @@
         "Taunt",
         "Trick",
         "Trick Room",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -56752,7 +57691,7 @@
         "Rain Dance",
         "Sunny Day",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Upper Hand",
         "Vacuum Wave"
       ],
@@ -57150,7 +58089,7 @@
         "Light Screen",
         "Reflect",
         "Sandstorm",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -57255,7 +58194,7 @@
         "Sing",
         "Sucker Punch",
         "Sunny Day",
-        "U-Turn",
+        "U-turn",
         "Yawn"
       ],
       "fullLearnset": [
@@ -58958,7 +59897,7 @@
         "Knock Off",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -59037,7 +59976,7 @@
         "Knock Off",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -59121,7 +60060,7 @@
         "Snarl",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -59223,7 +60162,7 @@
         "Sucker Punch",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -59299,7 +60238,7 @@
         "Sucker Punch",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -59382,7 +60321,7 @@
         "Sucker Punch",
         "Sunny Day",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Will-O-Wisp"
       ],
       "fullLearnset": [
@@ -59483,7 +60422,7 @@
         "Rain Dance",
         "Reflect",
         "Sucker Punch",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aquajet",
@@ -59553,7 +60492,7 @@
         "Rain Dance",
         "Reflect",
         "Sucker Punch",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aquajet",
@@ -59630,7 +60569,7 @@
         "Snowscape",
         "Sucker Punch",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Vacuum Wave"
       ],
       "fullLearnset": [
@@ -59868,7 +60807,7 @@
       "moves": [
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -59935,7 +60874,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -60008,7 +60947,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -60780,7 +61719,7 @@
         "Grassy Terrain",
         "Sucker Punch",
         "Sunny Day",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acidspray",
@@ -62384,7 +63323,7 @@
         "Rain Dance",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -63124,7 +64063,7 @@
         "Snowscape",
         "Struggle Bug",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Wide Guard"
       ],
       "fullLearnset": [
@@ -64129,7 +65068,7 @@
         "Sucker Punch",
         "Sunny Day",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Will-O-Wisp"
       ],
       "fullLearnset": [
@@ -64222,7 +65161,7 @@
         "Sucker Punch",
         "Sunny Day",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Will-O-Wisp"
       ],
       "fullLearnset": [
@@ -64857,7 +65796,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -64941,7 +65880,7 @@
         "Tailwind",
         "Trick",
         "Trick Room",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "agility",
@@ -65025,7 +65964,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -65515,7 +66454,7 @@
         "Snarl",
         "Sucker Punch",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -66315,7 +67254,7 @@
         "Struggle Bug",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Vacuum Wave"
       ],
       "fullLearnset": [
@@ -66683,7 +67622,7 @@
         "Sunny Day",
         "Switcheroo",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Upper Hand",
         "Vacuum Wave"
       ],
@@ -67881,7 +68820,7 @@
         "Snowscape",
         "Taunt",
         "Trick",
-        "U-Turn",
+        "U-turn",
         "Will-O-Wisp"
       ],
       "fullLearnset": [
@@ -67973,7 +68912,7 @@
         "Snowscape",
         "Taunt",
         "Trick",
-        "U-Turn",
+        "U-turn",
         "Will-O-Wisp"
       ],
       "fullLearnset": [
@@ -68080,7 +69019,7 @@
         "Snarl",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Vacuum Wave",
         "Whirlwind"
       ],
@@ -68448,7 +69387,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Upper Hand"
       ],
       "fullLearnset": [
@@ -68547,7 +69486,7 @@
         "Quick Attack",
         "Sucker Punch",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -68625,7 +69564,7 @@
         "Quick Attack",
         "Sucker Punch",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -68713,7 +69652,7 @@
         "Taunt",
         "Trick",
         "Trick Room",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -69202,7 +70141,7 @@
         "Misty Terrain",
         "Rain Dance",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Upper Hand"
       ],
       "fullLearnset": [
@@ -69738,7 +70677,7 @@
         "Sucker Punch",
         "Sunny Day",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Upper Hand"
       ],
       "fullLearnset": [
@@ -69828,7 +70767,7 @@
         "Struggle Bug",
         "Sucker Punch",
         "Sunny Day",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "agility",
@@ -69892,7 +70831,7 @@
         "Sucker Punch",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -70324,7 +71263,7 @@
         "Sunny Day",
         "Trick",
         "Trick Room",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "agility",
@@ -70408,7 +71347,7 @@
         "Sunny Day",
         "Trick",
         "Trick Room",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -71926,7 +72865,7 @@
         "Switcheroo",
         "Taunt",
         "Thunder Wave",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -72014,7 +72953,7 @@
         "Switcheroo",
         "Taunt",
         "Thunder Wave",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -72557,7 +73496,7 @@
         "Rain Dance",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -72952,7 +73891,7 @@
         "Quick Attack",
         "Tailwind",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Volt Switch"
       ],
       "fullLearnset": [
@@ -73031,7 +73970,7 @@
         "Quick Attack",
         "Tailwind",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Volt Switch"
       ],
       "fullLearnset": [
@@ -73117,7 +74056,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -73211,7 +74150,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -73293,7 +74232,7 @@
         "Quick Guard",
         "Tailwind",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Upper Hand",
         "Wide Guard"
       ],
@@ -73843,7 +74782,7 @@
         "Sunny Day",
         "Switcheroo",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acidspray",
@@ -73929,7 +74868,7 @@
         "Sunny Day",
         "Switcheroo",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acidspray",
@@ -75058,7 +75997,7 @@
         "Rain Dance",
         "Sandstorm",
         "Sunny Day",
-        "U-Turn",
+        "U-turn",
         "Whirlwind",
         "Will-O-Wisp"
       ],
@@ -75150,7 +76089,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -75327,7 +76266,7 @@
         "Light Screen",
         "Struggle Bug",
         "Sunny Day",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -75498,7 +76437,7 @@
         "Sunny Day",
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -75699,7 +76638,7 @@
         "Rain Dance",
         "Snowscape",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -76208,7 +77147,7 @@
         "Snarl",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -76315,7 +77254,7 @@
         "Snarl",
         "Taunt",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Volt Switch"
       ],
       "fullLearnset": [
@@ -77262,7 +78201,7 @@
         "Rain Dance",
         "Sunny Day",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Vacuum Wave"
       ],
       "fullLearnset": [
@@ -77705,7 +78644,7 @@
         "Snarl",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -78295,7 +79234,7 @@
         "Psychic Terrain",
         "Taunt",
         "Trick",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acidspray",
@@ -78382,7 +79321,7 @@
         "Quick Attack",
         "Tailwind",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acidspray",
@@ -78480,7 +79419,7 @@
         "Sandstorm",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "brickbreak",
@@ -79323,7 +80262,7 @@
       "legal": false,
       "moves": [
         "Helping Hand",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -80785,7 +81724,7 @@
         "Pollen Puff",
         "String Shot",
         "Sunny Day",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -80868,7 +81807,7 @@
         "Pollen Puff",
         "String Shot",
         "Sunny Day",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -80999,7 +81938,7 @@
         "Rain Dance",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -81060,7 +81999,7 @@
         "Rain Dance",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -83650,7 +84589,7 @@
         "Sleep Powder",
         "Struggle Bug",
         "Sunny Day",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acidspray",
@@ -84098,7 +85037,7 @@
         "Sunny Day",
         "Taunt",
         "Thunder Wave",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -84200,7 +85139,7 @@
         "Sunny Day",
         "Taunt",
         "Thunder Wave",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -84304,7 +85243,7 @@
         "Switcheroo",
         "Taunt",
         "Thunder Wave",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -84414,7 +85353,7 @@
         "Switcheroo",
         "Taunt",
         "Thunder Wave",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "aerialace",
@@ -84743,7 +85682,7 @@
         "Rain Dance",
         "Sunny Day",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -84845,7 +85784,7 @@
         "Rain Dance",
         "Sunny Day",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Vacuum Wave"
       ],
       "fullLearnset": [
@@ -89579,7 +90518,7 @@
         "Helping Hand",
         "Rain Dance",
         "Taunt",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -89813,7 +90752,7 @@
         "Light Screen",
         "Reflect",
         "Sandstorm",
-        "U-Turn"
+        "U-turn"
       ],
       "fullLearnset": [
         "acrobatics",
@@ -91563,7 +92502,7 @@
         "Rain Dance",
         "Sunny Day",
         "Tailwind",
-        "U-Turn",
+        "U-turn",
         "Whirlwind"
       ],
       "fullLearnset": [
@@ -92538,7 +93477,7 @@
         "Rain Dance",
         "Sunny Day",
         "Thunder Wave",
-        "U-Turn",
+        "U-turn",
         "Volt Switch"
       ],
       "fullLearnset": [
@@ -93082,7 +94021,7 @@
         "Snowscape",
         "Switcheroo",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Upper Hand",
         "Water Shuriken"
       ],
@@ -93824,7 +94763,7 @@
         "Rain Dance",
         "Sunny Day",
         "Taunt",
-        "U-Turn",
+        "U-turn",
         "Upper Hand"
       ],
       "fullLearnset": [

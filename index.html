@@ -817,6 +817,7 @@ select.fi option{background:var(--bg2);}
 <script>
 let POKEMON_DATA = [];
 let UG = [];
+let MOVE_DESC = {};
 
 // ── SPRITES ───────────────────────────────────────────────────────────────────
 // Draft Builder: ./sprites/ (Home-style art) primary → ./icons/ fallback
@@ -1281,6 +1282,7 @@ async function loadPokemonData() {
   const data = await response.json();
   POKEMON_DATA = data.pokemon;
   UG = data.utilityGroups;
+  MOVE_DESC = data.moveDescriptions || {};
   buildMoveCategory();
   loadMoveFilter();
   initApp();
@@ -1576,7 +1578,9 @@ function renderTeam(){
       const tag=m=>{
         const c=CATEGORY_COLOR[MOVE_CATEGORY[m]];
         const sty=c?` style="background:${c};border-color:${c};color:${contrastText(c)}"`:"";
-        return `<span class="move-tag"${sty}>${m}</span>`;
+        const desc=MOVE_DESC[m];
+        const tip=desc?` data-tip-title="${m}" data-tip="${desc.replace(/"/g,"&quot;")}" tabindex="0"`:"";
+        return `<span class="move-tag"${sty}${tip}>${m}</span>`;
       };
       const PRIMARY_CAP=5;
       const primaryMoves=sortedVisible.slice(0,PRIMARY_CAP);
@@ -1872,7 +1876,7 @@ const CATEGORY_COLOR = {
   "Status":        "#911eb4",
   "Phasing":       "#46f0f0",
   "Pivot":         "#f032e6",
-  "Power Nerfs":   "#9a6324",
+  "Damage Mitigation":   "#9a6324",
   "Weather":       "#008080",
   "Terrain":       "#bcf60c",
   "Misc":          "#808080",
@@ -2129,9 +2133,11 @@ function renderUtility(){
       });
       const mnCls=hav.length?"util-mn":"util-mn util-mn-none";
       const mvState = hiddenMoves.has(mv) ? "unchecked" : "checked";
+      const mvDesc=MOVE_DESC[mv];
+      const mvTip=mvDesc?' data-tip-title="'+mv+'" data-tip="'+mvDesc.replace(/"/g,"&quot;")+'" tabindex="0"':'';
       rows+='<div class="util-row">'
         + checkboxHTML(mvState, "toggleMove('"+mv.replace(/'/g,"\\'")+"')")
-        +'<span class="'+mnCls+'">'+mv+'</span>'
+        +'<span class="'+mnCls+'"'+mvTip+'>'+mv+'</span>'
         +'<div class="util-icons">'+icons+'</div>'
         +'</div>';
     });
@@ -2147,6 +2153,7 @@ function renderUtility(){
   });
   out+='</div>';
   document.getElementById("util-tracker").innerHTML=out;
+  if (window.SBLTooltip) window.SBLTooltip.refresh();
 }
 // Small custom checkbox markup (checked / unchecked / dash indeterminate).
 function checkboxHTML(state, onclick){
@@ -2512,7 +2519,11 @@ function buildIdxExpanded(baseMon){
 
   // Utility moves
   const movesHTML = (p.moves||[]).length
-    ? (p.moves||[]).map(function(m){return '<span class="move-tag">'+m+'</span>';}).join('')
+    ? (p.moves||[]).map(function(m){
+        const desc=MOVE_DESC[m];
+        const tip=desc?' data-tip-title="'+m+'" data-tip="'+desc.replace(/"/g,"&quot;")+'" tabindex="0"':'';
+        return '<span class="move-tag"'+tip+'>'+m+'</span>';
+      }).join('')
     : '<span style="color:var(--text3);font-size:11px">None</span>';
 
   return '<td colspan="13">'
@@ -2612,6 +2623,8 @@ function renderIdx(){
   // Lazy load icons that don't yet have a src
   if(lazyObs)lazyObs.disconnect();
   lazyObs = createLazyObserver("#idx-body", "400px");
+
+  if (window.SBLTooltip) window.SBLTooltip.refresh();
 }
 
 // ── POOL ───────────────────────────────────────────────────────────────────────
