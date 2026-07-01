@@ -70,6 +70,8 @@ nav a.nav-tab:hover{color:var(--text);}
 .toolbar-btn:hover{color:var(--text);border-color:var(--accent);}
 .toolbar-btn.toolbar-btn-accent{border-color:rgba(124,111,247,0.4);color:var(--accent);}
 .toolbar-btn.toolbar-btn-accent:hover{background:rgba(124,111,247,0.12);}
+.toolbar-btn.toolbar-btn-danger{border-color:rgba(224,85,85,0.4);color:var(--red);}
+.toolbar-btn.toolbar-btn-danger:hover{background:rgba(224,85,85,0.12);border-color:var(--red);}
 .toolbar-spacer{flex:1;}
 /* Modal overlay */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;display:flex;align-items:center;justify-content:center;padding:16px;}
@@ -608,8 +610,11 @@ select.fi option{background:var(--bg2);}
         <label class="search-legal-label">
           <input type="checkbox" id="draft-legal-only" style="accent-color:var(--accent)" checked> Legal only
         </label>
-        <button class="toolbar-btn toolbar-btn-accent desktop-only" onclick="openPasteModal()">Import / Export</button>
-        <button class="toolbar-btn desktop-only" onclick="openSaveLoadModal()">Save / Load</button>
+      </div>
+      <div class="draft-toolbar desktop-only">
+        <button class="toolbar-btn toolbar-btn-accent" onclick="openPasteModal()">Import / Export</button>
+        <button class="toolbar-btn" onclick="openSaveLoadModal()">Save / Load</button>
+        <button class="toolbar-btn toolbar-btn-danger" onclick="clearAllTeam()">Clear All</button>
       </div>
       <div class="draft-toolbar mobile-only">
         <button class="toolbar-btn" onclick="expandAll()">▼ Expand all</button>
@@ -617,6 +622,7 @@ select.fi option{background:var(--bg2);}
         <div class="toolbar-spacer"></div>
         <button class="toolbar-btn toolbar-btn-accent" onclick="openPasteModal()">Import / Export</button>
         <button class="toolbar-btn" onclick="openSaveLoadModal()">Save / Load</button>
+        <button class="toolbar-btn toolbar-btn-danger" onclick="clearAllTeam()">Clear All</button>
       </div>
 
       <!-- Combined Save/Load modal -->
@@ -1545,6 +1551,17 @@ function undoRemove(i){
   renderTeam();renderSidebar();
   if(pinnedType) applyMatchupHighlight(pinnedType);
   saveSession();
+}
+function clearAllTeam(){
+  if(team.every(m=>!m)) return;
+  if(!confirm('Clear all Pokémon from your draft? This cannot be undone.')) return;
+  team=new Array(TS).fill(null);
+  slotHistory=new Array(TS).fill(null);
+  expanded.clear();
+  renderTeam();renderSidebar();
+  if(pinnedType) applyMatchupHighlight(pinnedType);
+  saveSession();
+  showToast('Draft cleared.', 'ok');
 }
 function toggleExpand(i){expanded.has(i)?expanded.delete(i):expanded.add(i);renderTeam();}
 function toggleChart(i){showBars.has(i)?showBars.delete(i):showBars.add(i);renderTeam();}
