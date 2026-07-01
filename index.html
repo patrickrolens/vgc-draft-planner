@@ -409,8 +409,11 @@ select.fi option{background:var(--bg2);}
 .pool-tier-lbl{font-size:12px;color:var(--text3);}
 .pool-tier-cnt{font-size:12px;color:var(--text3);margin-left:auto;}
 .pool-pokemon{display:flex;flex-wrap:wrap;gap:8px;}
-.pool-mon{display:flex;flex-direction:column;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:5px;width:68px;cursor:pointer;transition:border-color 0.15s;}
+.pool-mon{display:flex;flex-direction:column;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:5px;width:68px;cursor:pointer;transition:border-color 0.15s,background 0.15s;}
 .pool-mon:hover{border-color:var(--accent);}
+.pool-mon.in-team{border-color:var(--green);background:rgba(96,165,250,0.14);}
+.pool-mon.in-team:hover{border-color:var(--green);}
+.pool-mon.in-team .pool-mon-name{color:var(--green);}
 .pool-mon img{width:40px;height:40px;image-rendering:pixelated;}
 .pool-mon-name{font-size:9px;color:var(--text2);text-align:center;margin-top:3px;line-height:1.2;word-break:break-word;}
 
@@ -1034,6 +1037,7 @@ function loadTeam(i){
   refreshTeamList();
   closeModal('saveload-modal');
   renderTeam(); renderSidebar(); saveSession();
+  refreshPoolHighlights();
   showToast('Team "' + entry.name + '" loaded.', 'ok');
 }
 
@@ -1244,6 +1248,7 @@ function applyPaste(){
 
   closeModal('paste-modal');
   renderTeam(); renderSidebar(); saveSession();
+  refreshPoolHighlights();
 
   if(excess) showToast('More than 10 entries detected. Excess entries discarded.', 'warn');
   if(unrecognized) showToast(unrecognized + ' unrecognized Pokémon failed to import.', 'warn');
@@ -1539,12 +1544,14 @@ function addToTeam(mon){
   document.getElementById("draft-search").value="";
   if(pinnedType) applyMatchupHighlight(pinnedType);
   saveSession();
+  refreshPoolHighlights();
 }
 function removeFromTeam(i){
   slotHistory[i]=team[i]; // save for undo
   team[i]=null;expanded.delete(i);renderTeam();renderSidebar();
   if(pinnedType) applyMatchupHighlight(pinnedType);
   saveSession();
+  refreshPoolHighlights();
 }
 function undoRemove(i){
   if(!slotHistory[i]) return;
@@ -1553,6 +1560,7 @@ function undoRemove(i){
   renderTeam();renderSidebar();
   if(pinnedType) applyMatchupHighlight(pinnedType);
   saveSession();
+  refreshPoolHighlights();
 }
 function clearAllTeam(){
   if(team.every(m=>!m)) return;
@@ -1563,6 +1571,7 @@ function clearAllTeam(){
   renderTeam();renderSidebar();
   if(pinnedType) applyMatchupHighlight(pinnedType);
   saveSession();
+  refreshPoolHighlights();
   showToast('Draft cleared.', 'ok');
 }
 function toggleExpand(i){expanded.has(i)?expanded.delete(i):expanded.add(i);renderTeam();}
@@ -2672,7 +2681,7 @@ function renderPool(filter){
   document.getElementById("pool-count").textContent=legal.length+" legal Pokémon";
   document.getElementById("pool-grid").innerHTML=tiers.map(function(pts){
     const mons=byPts[pts].map(function(p){
-      return '<div class="pool-mon" data-name="'+p.name+'">'
+      return '<div class="pool-mon" data-name="'+p.name+'" data-id="'+p.id+'" title="Click to add to your draft">'
         +'<img data-src="'+iconUrl(p)+'" alt="'+p.name+'" style="width:40px;height:40px;image-rendering:pixelated">'
         +'<div class="pool-mon-name">'+p.name+'</div>'
         +'</div>';
@@ -2691,9 +2700,11 @@ function renderPool(filter){
       const name = this.dataset.name;
       const mon = POKEMON_DATA.find(function(p){ return p.name === name; });
       if(!mon) return;
-      // Check if already on team
-      if(team.some(function(m){ return m && m.id === mon.id; })){
-        showToast(mon.name + ' is already on your team.', 'warn');
+      // Already on team - clicking again deselects (removes) it
+      const existingIdx = team.findIndex(function(m){ return m && m.id === mon.id; });
+      if(existingIdx !== -1){
+        removeFromTeam(existingIdx);
+        showToast(mon.name + ' removed from your draft.', 'ok');
         return;
       }
       // Check if team is full
@@ -2705,11 +2716,22 @@ function renderPool(filter){
       team[slot] = mon;
       slotHistory[slot] = null;
       renderTeam(); renderSidebar(); saveSession();
+      refreshPoolHighlights();
       showToast(mon.name + ' added to slot ' + (slot + 1) + '.', 'ok');
     });
   });
   if(poolObs) poolObs.disconnect();
   poolObs = createLazyObserver("#pool-grid", "400px");
+  refreshPoolHighlights();
+}
+// Highlights Pokémon already in the user's draft within the Draft Pool grid.
+function refreshPoolHighlights(){
+  const inTeamIds = new Set(team.filter(Boolean).map(m=>m.id));
+  document.querySelectorAll('#pool-grid .pool-mon').forEach(function(el){
+    const inTeam = inTeamIds.has(el.dataset.id);
+    el.classList.toggle('in-team', inTeam);
+    el.title = inTeam ? 'Click to remove from your draft' : 'Click to add to your draft';
+  });
 }
 document.getElementById("pool-search").addEventListener("input",e=>renderPool(e.target.value));
 
@@ -2819,6 +2841,7 @@ function addToSlot(slotIdx, mon){
   closeSlotPopover();
   renderTeam(); renderSidebar();
   saveSession();
+  refreshPoolHighlights();
 }
 
 function initSlotPopover(){
