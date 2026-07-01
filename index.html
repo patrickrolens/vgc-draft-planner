@@ -820,6 +820,7 @@ select.fi option{background:var(--bg2);}
 <script>
 let POKEMON_DATA = [];
 let UG = [];
+let ABILITY_DESC = {};
 
 // ── SPRITES ───────────────────────────────────────────────────────────────────
 // Draft Builder: ./sprites/ (Home-style art) primary → ./icons/ fallback
@@ -1284,6 +1285,7 @@ async function loadPokemonData() {
   const data = await response.json();
   POKEMON_DATA = data.pokemon;
   UG = data.utilityGroups;
+  ABILITY_DESC = data.abilityDescriptions || {};
   buildMoveCategory();
   loadMoveFilter();
   initApp();
@@ -1335,6 +1337,13 @@ const TC={
   Steel:{Fire:0.5,Water:0.5,Electric:0.5,Ice:2,Rock:2,Steel:0.5,Fairy:2},
   Fairy:{Fire:0.5,Fighting:2,Poison:0.5,Dragon:2,Dark:2,Steel:0.5},
 };
+
+function abilityTag(name){
+  const desc=ABILITY_DESC[name];
+  return desc
+    ? `<span class="ability-tag" data-tip-title="${name}" data-tip="${desc.replace(/"/g,"&quot;")}" tabindex="0">${name}</span>`
+    : `<span class="ability-tag">${name}</span>`;
+}
 
 function abilityMods(ab){
   switch(ab){
@@ -1598,7 +1607,7 @@ function renderTeam(){
       const movesPrimary=primaryMoves.map(tag).join("")
         + (nMore>0?`<span class="move-more" data-tip-title="Utility Moves" data-tip="${tipHTML}" tabindex="0">+${nMore} more</span>`:"");
       const movesOverflow=overflowMoves.map(tag).join("");
-      const abilities=(disp.abilities||[]).map(a=>`<span class="ability-tag">${a}</span>`).join("");
+      const abilities=(disp.abilities||[]).map(a=>abilityTag(a)).join("");
       const ptsDisp=mon.legal
         ?`<div class="slot-pts-display">${mon.points}</div>`
         :`<div class="slot-pts-display illegal-pts">Illegal</div>`;
@@ -2580,7 +2589,10 @@ function renderIdx(){
       +'<td>'+p.stats.hp+'</td><td>'+p.stats.atk+'</td><td>'+p.stats.def+'</td>'
       +'<td>'+p.stats.spa+'</td><td>'+p.stats.spd+'</td><td>'+p.stats.spe+'</td>'
       +'<td style="font-weight:600">'+p.stats.bst+'</td>'
-      +'<td style="color:var(--text2);font-size:12px">'+p.abilities.join(", ")+'</td>'
+      +'<td style="color:var(--text2);font-size:12px">'+p.abilities.map(function(a){
+        const desc=ABILITY_DESC[a];
+        return desc?'<span data-tip-title="'+a+'" data-tip="'+desc.replace(/"/g,"&quot;")+'" tabindex="0" style="cursor:pointer;border-bottom:1px dotted var(--text3)">'+a+'</span>':a;
+      }).join(", ")+'</td>'
       +'</tr>';
     if(isExp){
       rows += '<tr class="idx-exp-row">'+buildIdxExpanded(p)+'</tr>';
@@ -2615,6 +2627,8 @@ function renderIdx(){
   // Lazy load icons that don't yet have a src
   if(lazyObs)lazyObs.disconnect();
   lazyObs = createLazyObserver("#idx-body", "400px");
+
+  if (window.SBLTooltip) window.SBLTooltip.refresh();
 }
 
 // ── POOL ───────────────────────────────────────────────────────────────────────
@@ -2927,7 +2941,7 @@ loadPokemonData();
       const mon=slot.mon;
       const isLead=leads[key].includes(i);
       const types=[mon.type1,mon.type2].filter(Boolean).map(t=>'<span class="type-badge t-'+t+'">'+t+'</span>').join('');
-      const abilities=(mon.abilities||[]).map(a=>'<span class="ability-tag">'+a+'</span>').join('');
+      const abilities=(mon.abilities||[]).map(a=>abilityTag(a)).join('');
       const eff=effSpeed(slot);
       const modtag=(slot.mod&&slot.mod!==1)?'<span class="mu-modtag">×'+slot.mod+'</span>':'';
       html+='<div class="mu-row'+(isLead?' mu-lead':'')+'" data-key="'+key+'" data-i="'+i+'">'
@@ -2948,6 +2962,7 @@ loadPokemonData();
       if(r.classList.contains('mu-empty'))return;
       r.addEventListener('click',()=>toggleLead(r.dataset.key,+r.dataset.i));
     });
+    if (window.SBLTooltip) window.SBLTooltip.refresh();
   }
 
   // ── popovers ──
