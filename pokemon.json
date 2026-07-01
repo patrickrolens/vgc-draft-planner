@@ -2951,7 +2951,7 @@
         "spe": 90,
         "bst": 490
       },
-      "points": 6,
+      "points": 11,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -3052,7 +3052,7 @@
         "spe": 100,
         "bst": 590
       },
-      "points": 16,
+      "points": 17,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -3899,7 +3899,7 @@
         "spe": 105,
         "bst": 600
       },
-      "points": 11,
+      "points": 10,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -3986,7 +3986,7 @@
         "spe": 110,
         "bst": 490
       },
-      "points": 9,
+      "points": 7,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -4100,7 +4100,7 @@
         "spe": 81,
         "bst": 540
       },
-      "points": 15,
+      "points": 14,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -4202,7 +4202,7 @@
         "spe": 81,
         "bst": 640
       },
-      "points": 14,
+      "points": 15,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -4605,7 +4605,7 @@
         "spe": 130,
         "bst": 525
       },
-      "points": 6,
+      "points": 8,
       "legal": true,
       "moves": [
         "Charm",
@@ -5060,7 +5060,7 @@
         "spe": 150,
         "bst": 615
       },
-      "points": 16,
+      "points": 17,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -6970,7 +6970,7 @@
         "spe": 100,
         "bst": 534
       },
-      "points": 8,
+      "points": 7,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -7253,7 +7253,7 @@
         "spe": 78,
         "bst": 530
       },
-      "points": 8,
+      "points": 13,
       "legal": true,
       "moves": [
         "Aqua Jet",
@@ -8821,7 +8821,7 @@
         "spe": 45,
         "bst": 610
       },
-      "points": 8,
+      "points": 7,
       "legal": true,
       "moves": [
         "After You",
@@ -10569,7 +10569,7 @@
         "spe": 30,
         "bst": 490
       },
-      "points": 13,
+      "points": 11,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -11803,7 +11803,7 @@
         "spe": 85,
         "bst": 440
       },
-      "points": 0,
+      "points": 5,
       "legal": true,
       "moves": [
         "Aqua Jet",
@@ -12231,7 +12231,7 @@
         "spe": 75,
         "bst": 600
       },
-      "points": 11,
+      "points": 10,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -15035,7 +15035,7 @@
         "spe": 61,
         "bst": 600
       },
-      "points": 19,
+      "points": 16,
       "legal": true,
       "moves": [
         "Breaking Swipe",
@@ -15164,7 +15164,7 @@
         "spe": 71,
         "bst": 700
       },
-      "points": 18,
+      "points": 17,
       "legal": true,
       "moves": [
         "Breaking Swipe",
@@ -15716,7 +15716,7 @@
         "spe": 120,
         "bst": 530
       },
-      "points": 0,
+      "points": 6,
       "legal": true,
       "moves": [
         "Breaking Swipe",
@@ -15829,7 +15829,7 @@
         "spe": 145,
         "bst": 630
       },
-      "points": 0,
+      "points": 12,
       "legal": true,
       "moves": [
         "Breaking Swipe",
@@ -16121,7 +16121,7 @@
         "spe": 80,
         "bst": 530
       },
-      "points": 0,
+      "points": 11,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -16235,7 +16235,7 @@
         "spe": 100,
         "bst": 630
       },
-      "points": 0,
+      "points": 16,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -16524,7 +16524,7 @@
         "spe": 60,
         "bst": 535
       },
-      "points": 0,
+      "points": 8,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -16634,7 +16634,7 @@
         "spe": 70,
         "bst": 635
       },
-      "points": 0,
+      "points": 14,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -17864,7 +17864,7 @@
         "spe": 65,
         "bst": 440
       },
-      "points": 18,
+      "points": 17,
       "legal": true,
       "moves": [
         "Helping Hand",
@@ -18310,7 +18310,7 @@
         "spe": 100,
         "bst": 618
       },
-      "points": 16,
+      "points": 17,
       "legal": true,
       "moves": [
         "Charm",
@@ -19710,7 +19710,7 @@
         "spe": 50,
         "bst": 380
       },
-      "points": 16,
+      "points": 15,
       "legal": true,
       "moves": [
         "Disable",
@@ -19841,7 +19841,7 @@
         "spe": 20,
         "bst": 480
       },
-      "points": 12,
+      "points": 14,
       "legal": true,
       "moves": [
         "Disable",
@@ -19975,7 +19975,7 @@
         "spe": 50,
         "bst": 380
       },
-      "points": 0,
+      "points": 4,
       "legal": true,
       "moves": [
         "Charm",
@@ -20080,7 +20080,7 @@
         "spe": 50,
         "bst": 480
       },
-      "points": 0,
+      "points": 16,
       "legal": true,
       "moves": [
         "Charm",
@@ -20351,7 +20351,7 @@
         "spe": 50,
         "bst": 630
       },
-      "points": 15,
+      "points": 14,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -20922,7 +20922,7 @@
         "spe": 135,
         "bst": 575
       },
-      "points": 14,
+      "points": 13,
       "legal": true,
       "moves": [
         "Eerie Impulse",
@@ -21704,7 +21704,7 @@
         "spe": 105,
         "bst": 560
       },
-      "points": 11,
+      "points": 10,
       "legal": true,
       "moves": [
         "Aqua Jet",
@@ -22146,7 +22146,7 @@
         "spe": 20,
         "bst": 470
       },
-      "points": 17,
+      "points": 16,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -23173,7 +23173,7 @@
         "spe": 80,
         "bst": 590
       },
-      "points": 11,
+      "points": 10,
       "legal": true,
       "moves": [
         "Breaking Swipe",
@@ -24492,7 +24492,7 @@
         "spe": 75,
         "bst": 555
       },
-      "points": 10,
+      "points": 8,
       "legal": true,
       "moves": [
         "Disable",
@@ -25088,7 +25088,7 @@
         "spe": 115,
         "bst": 565
       },
-      "points": 8,
+      "points": 6,
       "legal": true,
       "moves": [
         "Feint",
@@ -26187,7 +26187,7 @@
         "spe": 70,
         "bst": 600
       },
-      "points": 0,
+      "points": 13,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -26288,7 +26288,7 @@
         "spe": 110,
         "bst": 700
       },
-      "points": 0,
+      "points": 20,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -28711,7 +28711,7 @@
         "spe": 60,
         "bst": 530
       },
-      "points": 11,
+      "points": 10,
       "legal": true,
       "moves": [
         "Aqua Jet",
@@ -28965,7 +28965,7 @@
         "spe": 100,
         "bst": 485
       },
-      "points": 0,
+      "points": 9,
       "legal": true,
       "moves": [
         "Final Gambit",
@@ -29491,7 +29491,7 @@
         "spe": 90,
         "bst": 515
       },
-      "points": 8,
+      "points": 6,
       "legal": true,
       "moves": [
         "Charm",
@@ -31138,7 +31138,7 @@
         "spe": 135,
         "bst": 580
       },
-      "points": 14,
+      "points": 15,
       "legal": true,
       "moves": [
         "After You",
@@ -32200,7 +32200,7 @@
         "spe": 35,
         "bst": 485
       },
-      "points": 9,
+      "points": 7,
       "legal": true,
       "moves": [
         "Ally Switch",
@@ -32462,7 +32462,7 @@
         "spe": 102,
         "bst": 600
       },
-      "points": 20,
+      "points": 18,
       "legal": true,
       "moves": [
         "Breaking Swipe",
@@ -33169,7 +33169,7 @@
         "spe": 47,
         "bst": 525
       },
-      "points": 11,
+      "points": 7,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -33412,7 +33412,7 @@
         "spe": 85,
         "bst": 490
       },
-      "points": 4,
+      "points": 6,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -33818,7 +33818,7 @@
         "spe": 60,
         "bst": 494
       },
-      "points": 10,
+      "points": 9,
       "legal": true,
       "moves": [
         "Aurora Veil",
@@ -33914,7 +33914,7 @@
         "spe": 30,
         "bst": 594
       },
-      "points": 10,
+      "points": 9,
       "legal": true,
       "moves": [
         "Aurora Veil",
@@ -34012,7 +34012,7 @@
         "spe": 125,
         "bst": 510
       },
-      "points": 13,
+      "points": 12,
       "legal": true,
       "moves": [
         "Fake Out",
@@ -34793,7 +34793,7 @@
         "spe": 65,
         "bst": 525
       },
-      "points": 6,
+      "points": 5,
       "legal": true,
       "moves": [
         "Charm",
@@ -35183,7 +35183,7 @@
         "spe": 80,
         "bst": 518
       },
-      "points": 14,
+      "points": 13,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -35340,7 +35340,7 @@
         "spe": 110,
         "bst": 618
       },
-      "points": 11,
+      "points": 12,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -35696,7 +35696,7 @@
         "spe": 110,
         "bst": 480
       },
-      "points": 5,
+      "points": 6,
       "legal": true,
       "moves": [
         "Aurora Veil",
@@ -35804,7 +35804,7 @@
         "spe": 91,
         "bst": 440
       },
-      "points": 6,
+      "points": 3,
       "legal": true,
       "moves": [
         "Eerie Impulse",
@@ -37761,7 +37761,7 @@
         "spe": 65,
         "bst": 528
       },
-      "points": 5,
+      "points": 4,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -38795,7 +38795,7 @@
         "spe": 29,
         "bst": 487
       },
-      "points": 0,
+      "points": 4,
       "legal": true,
       "moves": [
         "Ally Switch",
@@ -39322,7 +39322,7 @@
         "spe": 88,
         "bst": 508
       },
-      "points": 17,
+      "points": 14,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -39793,7 +39793,7 @@
         "spe": 45,
         "bst": 505
       },
-      "points": 9,
+      "points": 8,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -40305,7 +40305,7 @@
         "spe": 112,
         "bst": 485
       },
-      "points": 0,
+      "points": 6,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -41389,7 +41389,7 @@
         "spe": 58,
         "bst": 488
       },
-      "points": 0,
+      "points": 11,
       "legal": true,
       "moves": [
         "Coaching",
@@ -41576,7 +41576,7 @@
         "spe": 30,
         "bst": 483
       },
-      "points": 10,
+      "points": 7,
       "legal": true,
       "moves": [
         "Ally Switch",
@@ -41950,7 +41950,7 @@
         "spe": 105,
         "bst": 510
       },
-      "points": 9,
+      "points": 7,
       "legal": true,
       "moves": [
         "Encore",
@@ -42699,7 +42699,7 @@
         "spe": 30,
         "bst": 490
       },
-      "points": 10,
+      "points": 9,
       "legal": true,
       "moves": [
         "Ally Switch",
@@ -43002,7 +43002,7 @@
         "spe": 79,
         "bst": 535
       },
-      "points": 10,
+      "points": 9,
       "legal": true,
       "moves": [
         "Ally Switch",
@@ -44042,7 +44042,7 @@
         "spe": 50,
         "bst": 515
       },
-      "points": 0,
+      "points": 6,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -44824,7 +44824,7 @@
         "spe": 50,
         "bst": 505
       },
-      "points": 7,
+      "points": 5,
       "legal": true,
       "moves": [
         "Aqua Jet",
@@ -45529,7 +45529,7 @@
         "spe": 55,
         "bst": 483
       },
-      "points": 5,
+      "points": 4,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -46378,7 +46378,7 @@
         "spe": 98,
         "bst": 600
       },
-      "points": 16,
+      "points": 15,
       "legal": true,
       "moves": [
         "Breaking Swipe",
@@ -46570,7 +46570,7 @@
         "spe": 100,
         "bst": 550
       },
-      "points": 17,
+      "points": 16,
       "legal": true,
       "moves": [
         "Light Screen",
@@ -49570,7 +49570,7 @@
         "spe": 126,
         "bst": 499
       },
-      "points": 18,
+      "points": 17,
       "legal": true,
       "moves": [
         "Feint",
@@ -49733,7 +49733,7 @@
         "spe": 89,
         "bst": 411
       },
-      "points": 15,
+      "points": 13,
       "legal": true,
       "moves": [
         "Light Screen",
@@ -49917,7 +49917,7 @@
         "spe": 106,
         "bst": 507
       },
-      "points": 0,
+      "points": 6,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -50155,7 +50155,7 @@
         "spe": 92,
         "bst": 551
       },
-      "points": 12,
+      "points": 13,
       "legal": true,
       "moves": [
         "Charm",
@@ -50230,7 +50230,7 @@
         "spe": 75,
         "bst": 552
       },
-      "points": 7,
+      "points": 8,
       "legal": true,
       "moves": [
         "Charm",
@@ -50774,7 +50774,7 @@
         "spe": 104,
         "bst": 466
       },
-      "points": 15,
+      "points": 13,
       "legal": true,
       "moves": [
         "Charm",
@@ -51024,7 +51024,7 @@
         "spe": 29,
         "bst": 462
       },
-      "points": 4,
+      "points": 6,
       "legal": true,
       "moves": [
         "After You",
@@ -51306,7 +51306,7 @@
         "spe": 73,
         "bst": 482
       },
-      "points": 0,
+      "points": 5,
       "legal": true,
       "moves": [
         "Disable",
@@ -51436,7 +51436,7 @@
         "spe": 68,
         "bst": 500
       },
-      "points": 0,
+      "points": 5,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -51621,7 +51621,7 @@
         "spe": 44,
         "bst": 494
       },
-      "points": 0,
+      "points": 8,
       "legal": true,
       "moves": [
         "Dragon Tail",
@@ -52135,7 +52135,7 @@
         "spe": 58,
         "bst": 521
       },
-      "points": 7,
+      "points": 4,
       "legal": true,
       "moves": [
         "Aurora Veil",
@@ -52730,7 +52730,7 @@
         "spe": 80,
         "bst": 600
       },
-      "points": 9,
+      "points": 7,
       "legal": true,
       "moves": [
         "Breaking Swipe",
@@ -52830,7 +52830,7 @@
         "spe": 75,
         "bst": 470
       },
-      "points": 15,
+      "points": 14,
       "legal": true,
       "moves": [
         "Light Screen",
@@ -55661,7 +55661,7 @@
         "spe": 43,
         "bst": 478
       },
-      "points": 6,
+      "points": 4,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -56526,7 +56526,7 @@
         "spe": 82,
         "bst": 487
       },
-      "points": 4,
+      "points": 3,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -56739,7 +56739,7 @@
         "spe": 35,
         "bst": 495
       },
-      "points": 3,
+      "points": 5,
       "legal": true,
       "moves": [
         "Haze",
@@ -56891,7 +56891,7 @@
         "spe": 35,
         "bst": 500
       },
-      "points": 7,
+      "points": 9,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -58822,7 +58822,7 @@
         "spe": 36,
         "bst": 485
       },
-      "points": 12,
+      "points": 6,
       "legal": true,
       "moves": [
         "Breaking Swipe",
@@ -63505,7 +63505,7 @@
         "spe": 60,
         "bst": 510
       },
-      "points": 0,
+      "points": 17,
       "legal": true,
       "moves": [
         "Fake Out",
@@ -63919,7 +63919,7 @@
         "spe": 35,
         "bst": 488
       },
-      "points": 9,
+      "points": 7,
       "legal": true,
       "moves": [
         "Ally Switch",
@@ -64161,7 +64161,7 @@
         "spe": 75,
         "bst": 470
       },
-      "points": 0,
+      "points": 5,
       "legal": true,
       "moves": [
         "Coaching",
@@ -65460,7 +65460,7 @@
         "spe": 142,
         "bst": 600
       },
-      "points": 17,
+      "points": 16,
       "legal": true,
       "moves": [
         "Breaking Swipe",
@@ -66489,7 +66489,7 @@
         "spe": 30,
         "bst": 490
       },
-      "points": 12,
+      "points": 11,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -66627,7 +66627,7 @@
         "spe": 30,
         "bst": 490
       },
-      "points": 10,
+      "points": 7,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -67554,7 +67554,7 @@
         "spe": 85,
         "bst": 500
       },
-      "points": 11,
+      "points": 10,
       "legal": true,
       "moves": [
         "Feint",
@@ -67763,7 +67763,7 @@
         "spe": 78,
         "bst": 530
       },
-      "points": 17,
+      "points": 18,
       "legal": true,
       "moves": [
         "Aqua Jet",
@@ -67843,7 +67843,7 @@
         "spe": 78,
         "bst": 530
       },
-      "points": 16,
+      "points": 15,
       "legal": true,
       "moves": [
         "Aqua Jet",
@@ -67923,7 +67923,7 @@
         "spe": 120,
         "bst": 510
       },
-      "points": 20,
+      "points": 19,
       "legal": true,
       "moves": [
         "Coaching",
@@ -68022,7 +68022,7 @@
         "spe": 85,
         "bst": 510
       },
-      "points": 0,
+      "points": 10,
       "legal": true,
       "moves": [
         "Aqua Jet",
@@ -69212,7 +69212,7 @@
         "spe": 110,
         "bst": 515
       },
-      "points": 12,
+      "points": 11,
       "legal": true,
       "moves": [
         "Helping Hand",
@@ -69504,7 +69504,7 @@
         "spe": 60,
         "bst": 600
       },
-      "points": 12,
+      "points": 11,
       "legal": true,
       "moves": [
         "Breaking Swipe",
@@ -69604,7 +69604,7 @@
         "spe": 38,
         "bst": 514
       },
-      "points": 2,
+      "points": 4,
       "legal": true,
       "moves": [
         "Aurora Veil",
@@ -69951,7 +69951,7 @@
         "spe": 123,
         "bst": 530
       },
-      "points": 15,
+      "points": 14,
       "legal": true,
       "moves": [
         "Ally Switch",
@@ -70441,7 +70441,7 @@
         "spe": 85,
         "bst": 530
       },
-      "points": 11,
+      "points": 9,
       "legal": true,
       "moves": [
         "Aqua Jet",
@@ -71470,7 +71470,7 @@
         "spe": 68,
         "bst": 488
       },
-      "points": 0,
+      "points": 7,
       "legal": true,
       "moves": [
         "Ally Switch",
@@ -71741,7 +71741,7 @@
         "spe": 60,
         "bst": 520
       },
-      "points": 18,
+      "points": 17,
       "legal": true,
       "moves": [
         "Ally Switch",
@@ -72220,7 +72220,7 @@
         "spe": 100,
         "bst": 457
       },
-      "points": 16,
+      "points": 15,
       "legal": true,
       "moves": [
         "Aqua Jet",
@@ -73097,7 +73097,7 @@
         "spe": 65,
         "bst": 480
       },
-      "points": 11,
+      "points": 8,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -74854,7 +74854,7 @@
         "spe": 35,
         "bst": 500
       },
-      "points": 12,
+      "points": 8,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -75009,7 +75009,7 @@
         "spe": 86,
         "bst": 525
       },
-      "points": 13,
+      "points": 14,
       "legal": true,
       "moves": [
         "Light Screen",
@@ -75780,7 +75780,7 @@
         "spe": 84,
         "bst": 550
       },
-      "points": 0,
+      "points": 16,
       "legal": true,
       "moves": [
         "Light Screen",
@@ -78041,7 +78041,7 @@
         "spe": 85,
         "bst": 525
       },
-      "points": 12,
+      "points": 13,
       "legal": true,
       "moves": [
         "Ally Switch",
@@ -78319,7 +78319,7 @@
         "spe": 50,
         "bst": 550
       },
-      "points": 19,
+      "points": 18,
       "legal": true,
       "moves": [
         "Quick Guard",
@@ -78504,7 +78504,7 @@
         "spe": 90,
         "bst": 535
       },
-      "points": 0,
+      "points": 15,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -78705,7 +78705,7 @@
         "spe": 100,
         "bst": 490
       },
-      "points": 11,
+      "points": 8,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -78783,7 +78783,7 @@
         "spe": 100,
         "bst": 490
       },
-      "points": 14,
+      "points": 13,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -78867,7 +78867,7 @@
         "spe": 100,
         "bst": 490
       },
-      "points": 15,
+      "points": 14,
       "legal": true,
       "moves": [
         "Aqua Jet",
@@ -79881,7 +79881,7 @@
         "spe": 85,
         "bst": 600
       },
-      "points": 18,
+      "points": 19,
       "legal": true,
       "moves": [
         "Breaking Swipe",
@@ -79966,7 +79966,7 @@
         "spe": 44,
         "bst": 540
       },
-      "points": 13,
+      "points": 9,
       "legal": true,
       "moves": [
         "Breaking Swipe",
@@ -80851,7 +80851,7 @@
         "spe": 80,
         "bst": 525
       },
-      "points": 16,
+      "points": 15,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -81422,7 +81422,7 @@
         "spe": 100,
         "bst": 634
       },
-      "points": 21,
+      "points": 20,
       "legal": true,
       "moves": [
         "Breaking Swipe",
@@ -82112,7 +82112,7 @@
         "spe": 145,
         "bst": 495
       },
-      "points": 8,
+      "points": 5,
       "legal": true,
       "moves": [
         "Electroweb",
@@ -82305,7 +82305,7 @@
         "spe": 121,
         "bst": 579
       },
-      "points": 10,
+      "points": 9,
       "legal": true,
       "moves": [
         "Quick Attack",
@@ -82805,7 +82805,7 @@
         "spe": 110,
         "bst": 485
       },
-      "points": 8,
+      "points": 10,
       "legal": true,
       "moves": [
         "Charm",
@@ -83687,7 +83687,7 @@
         "spe": 60,
         "bst": 483
       },
-      "points": 17,
+      "points": 15,
       "legal": true,
       "moves": [
         "After You",
@@ -84002,7 +84002,7 @@
         "spe": 100,
         "bst": 505
       },
-      "points": 15,
+      "points": 14,
       "legal": true,
       "moves": [
         "Charm",
@@ -84684,7 +84684,7 @@
         "spe": 50,
         "bst": 490
       },
-      "points": 0,
+      "points": 5,
       "legal": true,
       "moves": [
         "After You",
@@ -86279,7 +86279,7 @@
         "spe": 95,
         "bst": 555
       },
-      "points": 13,
+      "points": 14,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -86688,7 +86688,7 @@
         "spe": 120,
         "bst": 500
       },
-      "points": 6,
+      "points": 7,
       "legal": true,
       "moves": [
         "Ally Switch",
@@ -88170,7 +88170,7 @@
         "spe": 30,
         "bst": 490
       },
-      "points": 13,
+      "points": 11,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -89845,7 +89845,7 @@
         "spe": 130,
         "bst": 600
       },
-      "points": 21,
+      "points": 20,
       "legal": true,
       "moves": [
         "Disable",
@@ -90524,7 +90524,7 @@
         "spe": 86,
         "bst": 520
       },
-      "points": 7,
+      "points": 6,
       "legal": true,
       "moves": [
         "Eerie Impulse",
@@ -90682,7 +90682,7 @@
         "spe": 86,
         "bst": 520
       },
-      "points": 10,
+      "points": 11,
       "legal": true,
       "moves": [
         "Eerie Impulse",
@@ -91628,7 +91628,7 @@
         "spe": 110,
         "bst": 585
       },
-      "points": 0,
+      "points": 12,
       "legal": true,
       "moves": [
         "Charm",
@@ -91736,7 +91736,7 @@
         "spe": 130,
         "bst": 585
       },
-      "points": 0,
+      "points": 13,
       "legal": true,
       "moves": [
         "Charm",
@@ -91844,7 +91844,7 @@
         "spe": 70,
         "bst": 583
       },
-      "points": 16,
+      "points": 14,
       "legal": true,
       "moves": [
         "After You",
@@ -92166,7 +92166,7 @@
         "spe": 100,
         "bst": 700
       },
-      "points": 17,
+      "points": 16,
       "legal": true,
       "moves": [
         "Aqua Jet",
@@ -92292,7 +92292,7 @@
         "spe": 80,
         "bst": 625
       },
-      "points": 16,
+      "points": 15,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -92390,7 +92390,7 @@
         "spe": 78,
         "bst": 630
       },
-      "points": 14,
+      "points": 13,
       "legal": true,
       "moves": [
         "Aqua Jet",
@@ -92591,7 +92591,7 @@
         "spe": 65,
         "bst": 555
       },
-      "points": 12,
+      "points": 11,
       "legal": true,
       "moves": [
         "Ally Switch",
@@ -92806,7 +92806,7 @@
         "spe": 110,
         "bst": 585
       },
-      "points": 0,
+      "points": 17,
       "legal": true,
       "moves": [
         "Final Gambit",
@@ -93381,7 +93381,7 @@
         "spe": 75,
         "bst": 628
       },
-      "points": 11,
+      "points": 10,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -93577,7 +93577,7 @@
         "spe": 62,
         "bst": 585
       },
-      "points": 0,
+      "points": 8,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -93657,7 +93657,7 @@
         "spe": 68,
         "bst": 588
       },
-      "points": 0,
+      "points": 12,
       "legal": true,
       "moves": [
         "Coaching",
@@ -93777,7 +93777,7 @@
         "spe": 80,
         "bst": 615
       },
-      "points": 0,
+      "points": 15,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -93974,7 +93974,7 @@
         "spe": 55,
         "bst": 583
       },
-      "points": 15,
+      "points": 14,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -94086,7 +94086,7 @@
         "spe": 44,
         "bst": 630
       },
-      "points": 13,
+      "points": 12,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -94211,7 +94211,7 @@
         "spe": 134,
         "bst": 634
       },
-      "points": 19,
+      "points": 17,
       "legal": true,
       "moves": [
         "Charm",
@@ -94423,7 +94423,7 @@
         "spe": 126,
         "bst": 607
       },
-      "points": 0,
+      "points": 13,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -94506,7 +94506,7 @@
         "spe": 102,
         "bst": 651
       },
-      "points": 21,
+      "points": 20,
       "legal": true,
       "moves": [
         "Charm",
@@ -94586,7 +94586,7 @@
         "spe": 124,
         "bst": 566
       },
-      "points": 14,
+      "points": 13,
       "legal": true,
       "moves": [
         "Charm",
@@ -94774,7 +94774,7 @@
         "spe": 88,
         "bst": 582
       },
-      "points": 0,
+      "points": 9,
       "legal": true,
       "moves": [
         "Disable",
@@ -94879,7 +94879,7 @@
         "spe": 88,
         "bst": 600
       },
-      "points": 0,
+      "points": 11,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -94982,7 +94982,7 @@
         "spe": 44,
         "bst": 594
       },
-      "points": 0,
+      "points": 8,
       "legal": true,
       "moves": [
         "Dragon Tail",
@@ -95065,7 +95065,7 @@
         "spe": 118,
         "bst": 600
       },
-      "points": 14,
+      "points": 13,
       "legal": true,
       "moves": [
         "Coaching",
@@ -95194,7 +95194,7 @@
         "spe": 33,
         "bst": 578
       },
-      "points": 13,
+      "points": 11,
       "legal": true,
       "moves": [
         "Bulldoze",
@@ -95313,7 +95313,7 @@
         "spe": 36,
         "bst": 585
       },
-      "points": 13,
+      "points": 11,
       "legal": true,
       "moves": [
         "Breaking Swipe",
@@ -95543,7 +95543,7 @@
         "spe": 100,
         "bst": 570
       },
-      "points": 0,
+      "points": 9,
       "legal": true,
       "moves": [
         "Coaching",
@@ -95705,7 +95705,7 @@
         "spe": 101,
         "bst": 625
       },
-      "points": 16,
+      "points": 15,
       "legal": true,
       "moves": [
         "Light Screen",
