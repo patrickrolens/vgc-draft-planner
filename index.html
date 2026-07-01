@@ -1571,13 +1571,13 @@ function expandAll(){team.forEach((_,i)=>{if(team[i])expanded.add(i);});renderTe
 function collapseAll(){expanded.clear();renderTeam();}
 
 const SPEED_TIERS=[
-    {l:"≤30",    a:0,   b:30,   col:"#7c4dff"},
-    {l:"31–50",  a:31,  b:50,   col:"#2979ff"},
-    {l:"51–70",  a:51,  b:70,   col:"#00bcd4"},
-    {l:"71–90",  a:71,  b:90,   col:"#4caf50"},
-    {l:"91–110", a:91,  b:110,  col:"#ffeb3b"},
-    {l:"111–130",a:111, b:130,  col:"#ff9800"},
     {l:">130",   a:131, b:9999, col:"#f44336"},
+    {l:"111–130",a:111, b:130,  col:"#ff9800"},
+    {l:"91–110", a:91,  b:110,  col:"#ffeb3b"},
+    {l:"71–90",  a:71,  b:90,   col:"#4caf50"},
+    {l:"51–70",  a:51,  b:70,   col:"#00bcd4"},
+    {l:"31–50",  a:31,  b:50,   col:"#2979ff"},
+    {l:"≤30",    a:0,   b:30,   col:"#7c4dff"},
   ];
 
 function speedTierColor(spe){
