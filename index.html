@@ -26,6 +26,8 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;ali
 .nav-tab{padding:14px 16px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--text2);transition:all 0.15s;white-space:nowrap;}
 .nav-tab:hover{color:var(--text);}
 .nav-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+nav a.nav-tab{text-decoration:none;color:var(--text2);}
+nav a.nav-tab:hover{color:var(--text);}
 
 .view{display:none;padding:1.5rem;max-width:1400px;margin:0 auto;}
 /* Draft Builder spreads wider than the other views so the rails hug the edges
@@ -573,6 +575,7 @@ select.fi option{background:var(--bg2);}
   <div class="nav-tab" onclick="showView('matchup')">Matchup</div>
   <div class="nav-tab" onclick="showView('index')">Pokédex</div>
   <div class="nav-tab" onclick="showView('pool')">Draft Pool</div>
+  <a class="nav-tab" href="https://nerd-of-now.github.io/NCP-VGC-Damage-Calculator/" target="_blank" rel="noopener noreferrer">Damage Calc ↗</a>
 </nav>
 
 <div id="view-draft" class="view active">
