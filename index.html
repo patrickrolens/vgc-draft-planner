@@ -1100,7 +1100,7 @@ function teamToPaste(){
     if(pd.item)   firstLine += ' @ ' + pd.item;
     lines.push(firstLine);
     if(pd.ability) lines.push('Ability: ' + pd.ability);
-    if(pd.level)   lines.push('Level: ' + pd.level);
+    lines.push('Level: ' + (pd.level || 50));
     if(pd.tera)    lines.push('Tera Type: ' + pd.tera);
     if(pd.evs)     lines.push('EVs: ' + pd.evs);
     if(pd.ivs)     lines.push('IVs: ' + pd.ivs);
