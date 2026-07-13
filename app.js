@@ -1737,8 +1737,10 @@ function buildIdxExpanded(baseMon){
     : '<span style="color:var(--text3);font-size:11px">None</span>';
 
   const basePokemonName = getBasePokemonName(p.name);
-  const serebiiURL = p.legal ? `<div><a target="_blank" rel="noopener noreferrer" href="https://www.serebii.net/pokedex-champions/${encodeURIComponent(basePokemonName)}/"><img src="http://127.0.0.1:5500/icons/251.png"></a></div>` : '';
-
+  const serebiiURL = p.legal ? `<div style="width: fit-content;"><a class="mu-tb-btn mu-toolbar" target="_blank" rel="noopener noreferrer" href="https://www.serebii.net/pokedex-champions/${encodeURIComponent(basePokemonName)}/">
+                          <span style="vertical-align: middle;">Serebii</span><img src="http://127.0.0.1:5500/icons/251.png"></a>
+                        </div>` : '';
+  
   return '<td colspan="13">'
     +'<div class="idx-expanded">'
       +'<div class="idx-exp-radar"><canvas id="idx-radar-'+p.id.replace(/[^a-z0-9]/gi,'_')+'" width="160" height="160"></canvas></div>'
