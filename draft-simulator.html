@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SBL Hub - Draft Simulator</title>
+<style>
+/* Standalone tool: palette mirrors the :root tokens in styles.css, inlined so
+   this page carries no stylesheet dependency. */
+:root {
+  --bg:#0f1117; --bg2:#1a1d27; --bg3:#22263a; --border:#2e3248;
+  --text:#e8eaf6; --text2:#9095b8; --text3:#5a5f80;
+  --accent:#7c6ff7; --red:#e05555; --green:#4caf7d; --blue:#60a5fa; --yellow:#f0c060;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 13px; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 24px 20px 60px; }
+h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.sub { color: var(--text2); margin-bottom: 20px; }
+
+/* controls */
+.controls { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-bottom: 20px; }
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field label { font-size: 11px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: var(--text3); }
+.field input[type=number], .field input[type=text] {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 7px;
+  color: var(--text); font-size: 13px; padding: 7px 10px; width: 120px; font-family: inherit;
+}
+.field input:focus { outline: none; border-color: var(--accent); }
+.btn {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 7px;
+  color: var(--text); font-size: 12px; font-weight: 600; padding: 8px 16px; cursor: pointer;
+  font-family: inherit; transition: border-color .15s, background .15s;
+}
+.btn:hover { border-color: var(--accent); }
+.btn-accent { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-accent:hover { filter: brightness(1.08); }
+.pool-note { font-size: 11px; color: var(--text3); margin-left: auto; align-self: center; text-align: right; }
+
+/* drafter tendency weights */
+.dists { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; margin: -8px 0 20px; }
+.dists summary { cursor: pointer; padding: 10px 16px; font-size: 11px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: var(--text3); user-select: none; }
+.dists summary:hover { color: var(--text); }
+.dist-groups { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 24px; padding: 4px 16px 14px; }
+.dist-group .dist-title { font-size: 11px; font-weight: 700; color: var(--text2); margin-bottom: 8px; }
+.dist-fields { display: flex; gap: 10px; }
+.dist-fields label { display: flex; flex-direction: column; gap: 3px; font-size: 10px; color: var(--text3); font-weight: 600; }
+.dist-fields input { width: 60px; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 12px; padding: 5px 7px; font-family: inherit; }
+.dist-fields input:focus { outline: none; border-color: var(--accent); }
+.dist-hint { flex-basis: 100%; font-size: 10px; color: var(--text3); }
+
+.warn { color: var(--yellow); font-weight: 600; margin-bottom: 14px; }
+.err  { color: var(--red);    font-weight: 600; margin-bottom: 14px; }
+
+/* sprite icons (PC icons from ./icons, same source as the rest of the site) */
+.icn { width: 22px; height: 22px; object-fit: contain; flex-shrink: 0; display: inline-block; }
+
+/* your-pick panel (interactive seat) */
+#picker { background: var(--bg2); border: 1px solid var(--accent); border-radius: 10px; padding: 12px 14px; margin-bottom: 20px; }
+.picker-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px; }
+#pickTitle { font-weight: 700; }
+#pickTitle .salv { color: var(--yellow); font-weight: 600; font-size: 11px; margin-left: 8px; }
+#pickSearch { margin-left: auto; background: var(--bg3); border: 1px solid var(--border); border-radius: 7px; color: var(--text); font-size: 12px; padding: 6px 10px; width: 220px; font-family: inherit; }
+#pickSearch:focus { outline: none; border-color: var(--accent); }
+.pick-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 6px; max-height: 340px; overflow-y: auto; }
+button.pick { display: flex; align-items: center; gap: 7px; background: var(--bg3); border: 1px solid var(--border); border-radius: 7px; color: var(--text); font-size: 12px; padding: 4px 8px; cursor: pointer; text-align: left; font-family: inherit; }
+button.pick:hover { border-color: var(--accent); }
+button.pick.mega { color: var(--yellow); }
+.pick .ptype { color: var(--text3); font-size: 10px; }
+.pick .pcost { margin-left: auto; color: var(--blue); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.team.you { border-color: var(--accent); }
+
+/* teams grid */
+.teams { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin-bottom: 26px; }
+.team { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.team-head { display: flex; flex-wrap: wrap; align-items: baseline; row-gap: 6px; padding: 9px 12px; background: var(--bg3); border-bottom: 1px solid var(--border); }
+.team-head .tname { font-weight: 700; font-size: 13px; }
+.team-head .tspend { margin-left: auto; font-size: 11px; color: var(--text2); font-variant-numeric: tabular-nums; }
+.team-head .tbadges { flex-basis: 100%; display: flex; gap: 5px; }
+.team-head .tstrat { font-size: 10px; font-weight: 600; color: var(--accent); background: var(--bg2); border: 1px solid var(--border); border-radius: 999px; padding: 1px 8px; white-space: nowrap; }
+.team-head .tsyn { color: var(--blue); }
+.team ul { list-style: none; padding: 6px 0; }
+.team li { display: flex; align-items: center; gap: 8px; padding: 3px 12px; font-size: 12px; }
+.team li.mega { color: var(--yellow); }
+.team li .rd { color: var(--text3); font-size: 10px; width: 20px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+.team li .cost { margin-left: auto; color: var(--blue); font-weight: 600; font-variant-numeric: tabular-nums; }
+.team li.missed { color: var(--red); font-style: italic; }
+.team-foot { padding: 7px 12px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text2); display: flex; }
+.team-foot .left { margin-left: auto; color: var(--green); font-weight: 600; }
+
+/* pick log */
+#logSec summary { font-size: 14px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: var(--text2); margin-bottom: 10px; cursor: pointer; user-select: none; }
+#logSec summary:hover { color: var(--text); }
+#logSec summary::marker { color: var(--text3); }
+.log-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; background: var(--bg2); }
+th, td { padding: 6px 12px; text-align: left; font-size: 12px; white-space: nowrap; }
+th { background: var(--bg3); color: var(--text3); font-size: 10px; text-transform: uppercase; letter-spacing: .5px; position: sticky; top: 0; }
+tr + tr td { border-top: 1px solid var(--border); }
+td.num { font-variant-numeric: tabular-nums; color: var(--text2); }
+tr.round-start td { border-top: 2px solid var(--accent); }
+td .dir { color: var(--text3); font-size: 10px; margin-left: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Draft Simulator</h1>
+  <p class="sub">Simulates a snake-style draft against the tier list. Each player is randomly assigned a drafting pattern &mdash; <b>Top-heavy</b> (splurge on top tiers, fill with scraps), <b>Middle-heavy</b> (spend evenly on mid tiers), <b>Wildcard</b> (grabs from a random tier every round) or <b>Anchor</b> (one marquee pick, then balanced) &mdash; plus a mega appetite of 1&ndash;2 (occasionally 3) and a type-synergy habit (<b>strict</b> drafters always take the best type fit at their chosen price, <b>loose</b> ones about half the time, <b>off</b> never) &mdash; avoiding stacked weaknesses and duplicate types and patching weaknesses they've already stacked. The odds of all three traits are adjustable under <b>Drafter tendencies</b>. Everyone always keeps enough budget back to fill their remaining slots. Megas are shown in <span style="color:var(--yellow)">yellow</span>. Enter <b>Your seat</b> to take one of the chairs yourself and make that team's picks.</p>
+
+  <div class="controls">
+    <div class="field">
+      <label for="budget">Point total / team</label>
+      <input type="number" id="budget" value="100" min="1">
+    </div>
+    <div class="field">
+      <label for="perTeam">Pok&eacute;mon / team</label>
+      <input type="number" id="perTeam" value="10" min="1">
+    </div>
+    <div class="field">
+      <label for="players">Players</label>
+      <input type="number" id="players" value="20" min="2">
+    </div>
+    <div class="field">
+      <label for="seed">Seed (optional)</label>
+      <input type="text" id="seed" placeholder="random">
+    </div>
+    <div class="field">
+      <label for="humanSeat">Your seat</label>
+      <input type="number" id="humanSeat" min="1" placeholder="AI only">
+    </div>
+    <button class="btn btn-accent" id="go">Simulate draft</button>
+    <button class="btn" id="csvBtn">Load tier CSV&hellip;</button>
+    <input type="file" id="csvFile" accept=".csv" hidden>
+    <div class="pool-note" id="poolNote"></div>
+  </div>
+
+  <details class="dists">
+    <summary>Drafter tendencies</summary>
+    <div class="dist-groups">
+      <div class="dist-group">
+        <div class="dist-title">Drafting pattern</div>
+        <div class="dist-fields">
+          <label>Top-heavy<input type="number" id="w-top" min="0" value="25"></label>
+          <label>Middle-heavy<input type="number" id="w-middle" min="0" value="25"></label>
+          <label>Wildcard<input type="number" id="w-wild" min="0" value="25"></label>
+          <label>Anchor<input type="number" id="w-anchor" min="0" value="25"></label>
+        </div>
+      </div>
+      <div class="dist-group">
+        <div class="dist-title">Mega appetite</div>
+        <div class="dist-fields">
+          <label>1 mega<input type="number" id="w-mega1" min="0" value="45"></label>
+          <label>2 megas<input type="number" id="w-mega2" min="0" value="45"></label>
+          <label>3 megas<input type="number" id="w-mega3" min="0" value="10"></label>
+        </div>
+      </div>
+      <div class="dist-group">
+        <div class="dist-title">Type synergy</div>
+        <div class="dist-fields">
+          <label>Strict<input type="number" id="w-syn-strict" min="0" value="55"></label>
+          <label>Loose<input type="number" id="w-syn-loose" min="0" value="25"></label>
+          <label>Off<input type="number" id="w-syn-off" min="0" value="20"></label>
+        </div>
+      </div>
+      <div class="dist-group dist-actions">
+        <button class="btn" id="distReset">Reset defaults</button>
+      </div>
+      <div class="dist-hint">Relative weights per player &mdash; they don't need to add up to 100. A seed replays a draft only with the same weights.</div>
+    </div>
+  </details>
+
+  <div id="msg"></div>
+  <div id="picker" hidden>
+    <div class="picker-head">
+      <span id="pickTitle"></span>
+      <input type="text" id="pickSearch" placeholder="filter by name or type&hellip;">
+    </div>
+    <div class="pick-list" id="pickList"></div>
+  </div>
+  <div class="teams" id="teams"></div>
+  <details id="logSec" hidden open>
+    <summary>Pick log</summary>
+    <div class="log-wrap"><table id="log"></table></div>
+  </details>
+</div>
+
+<script>
+"use strict";
+
+// name → "Type1" or "Type1/Type2", filled from pokemon.json at load.
+let TYPES = {};
+// name → id (e.g. "052-g"), for sprite icons; also filled from pokemon.json.
+let ICON_ID = {};
+
+// Same id → filename normalization as app.js: pad the dex number to 3 digits,
+// keep any form suffix ("52-g" → "052-g").
+function localId(id) {
+  const m = String(id).match(/^(\d+)(.*)$/);
+  if (!m) return id;
+  const num = parseInt(m[1], 10);
+  return (num >= 1000 ? String(num) : String(num).padStart(3, "0")) + m[2];
+}
+
+// Names the planner doesn't know (e.g. from a loaded CSV) get an empty spacer
+// so rows stay aligned; missing icon files hide themselves.
+function iconImg(name) {
+  const id = ICON_ID[name];
+  return id
+    ? '<img class="icn" src="icons/' + localId(id) + '.png" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'">'
+    : '<span class="icn"></span>';
+}
+
+/* ── type chart (attacker → [super-effective, resisted, immune]) ── */
+const CHART = {
+  Normal:  [[], ["Rock","Steel"], ["Ghost"]],
+  Fire:    [["Grass","Ice","Bug","Steel"], ["Fire","Water","Rock","Dragon"], []],
+  Water:   [["Fire","Ground","Rock"], ["Water","Grass","Dragon"], []],
+  Electric:[["Water","Flying"], ["Electric","Grass","Dragon"], ["Ground"]],
+  Grass:   [["Water","Ground","Rock"], ["Fire","Grass","Poison","Flying","Bug","Dragon","Steel"], []],
+  Ice:     [["Grass","Ground","Flying","Dragon"], ["Fire","Water","Ice","Steel"], []],
+  Fighting:[["Normal","Ice","Rock","Dark","Steel"], ["Poison","Flying","Psychic","Bug","Fairy"], ["Ghost"]],
+  Poison:  [["Grass","Fairy"], ["Poison","Ground","Rock","Ghost"], ["Steel"]],
+  Ground:  [["Fire","Electric","Poison","Rock","Steel"], ["Grass","Bug"], ["Flying"]],
+  Flying:  [["Grass","Fighting","Bug"], ["Electric","Rock","Steel"], []],
+  Psychic: [["Fighting","Poison"], ["Psychic","Steel"], ["Dark"]],
+  Bug:     [["Grass","Psychic","Dark"], ["Fire","Fighting","Poison","Flying","Ghost","Steel","Fairy"], []],
+  Rock:    [["Fire","Ice","Flying","Bug"], ["Fighting","Ground","Steel"], []],
+  Ghost:   [["Psychic","Ghost"], ["Dark"], ["Normal"]],
+  Dragon:  [["Dragon"], ["Steel"], ["Fairy"]],
+  Dark:    [["Psychic","Ghost"], ["Fighting","Dark","Fairy"], []],
+  Steel:   [["Ice","Rock","Fairy"], ["Fire","Water","Electric","Steel"], []],
+  Fairy:   [["Fighting","Dragon","Dark"], ["Fire","Poison","Steel"], []],
+};
+const ALL_TYPES = Object.keys(CHART);
+
+const typesOf = p => TYPES[p.name] ? TYPES[p.name].split("/") : null;
+
+function defMult(defTypes, atk) {
+  let m = 1;
+  const [sup, res, imm] = CHART[atk];
+  for (const t of defTypes) {
+    if (sup.includes(t)) m *= 2;
+    else if (res.includes(t)) m *= 0.5;
+    else if (imm.includes(t)) m *= 0;
+  }
+  return m;
+}
+
+// How well a candidate fits the roster drafted so far: punished for piling
+// onto weaknesses the team already stacks and for duplicate typings, rewarded
+// for patching stacked weaknesses and bringing a new type. Unknown names
+// (e.g. from a loaded CSV the planner doesn't know) score neutral 0.
+function synergyScore(cand, team) {
+  const ct = typesOf(cand);
+  if (!ct) return 0;
+  const members = team.picks.filter(Boolean).map(typesOf).filter(Boolean);
+  let s = 0;
+  for (const atk of ALL_TYPES) {
+    const w = members.filter(mt => defMult(mt, atk) > 1).length;
+    const m = defMult(ct, atk);
+    if (m > 1) s -= w;
+    else if (m < 1 && w >= 2) s += 0.5 * (w - 1);
+  }
+  for (const ty of ct) {
+    const cnt = members.filter(mt => mt.includes(ty)).length;
+    if (cnt === 0) s += 0.75;
+    else if (cnt >= 2) s -= 1.5 * (cnt - 1);
+  }
+  return s;
+}
+
+let pool = null; // filled by loadPlannerData() or a loaded CSV
+let poolLabel = "";
+
+/* ── seeded RNG (mulberry32) so a draft can be replayed ── */
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function hashSeed(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return h >>> 0;
+}
+
+/* ── drafting personas: how a player decides between affordable picks ── */
+const PERSONAS = [
+  { key: "top",    label: "Top-heavy" },    // splurge on top tiers, fill with scraps
+  { key: "middle", label: "Middle-heavy" }, // spend evenly on mid tiers
+  { key: "wild",   label: "Wildcard" },     // grabs from a random tier every round
+  { key: "anchor", label: "Anchor" },       // one marquee pick, then balanced
+];
+const isMega = p => /^Mega /.test(p.name);
+// Strip "Mega " and any trailing form letter (Charizard X/Y, Absol Z, ...) so a
+// mega and its base species (or another mega of that species) compare equal —
+// a team can only ever field one form of a given Pokémon.
+const baseName = p => p.name.replace(/^Mega /, "").replace(/ [XYZ]$/, "");
+const formBlocked = (team, p) => team.picks.some(pick => pick && baseName(pick) === baseName(p) && pick.name !== p.name);
+
+// Once the persona has landed on a cost tier, pick the actual mon: synergy-aware
+// drafters take the best type fit at that price, others grab at random. "Loose"
+// drafters only think about types on about half their picks.
+function chooseTied(tied, team, rng) {
+  const apply = team.synergy >= 1 || (team.synergy > 0 && rng() < team.synergy);
+  if (!apply || tied.length === 1) return tied[Math.floor(rng() * tied.length)];
+  let best = [], bs = -Infinity;
+  for (const c of tied) {
+    const s = synergyScore(c, team);
+    if (s > bs + 1e-9) { bs = s; best = [c]; }
+    else if (s > bs - 1e-9) best.push(c);
+  }
+  return best[Math.floor(rng() * best.length)];
+}
+
+// Walk down a preference-sorted list geometrically (chance p of stepping to the
+// next-best cost tier), then choose among mons at the tier landed on.
+// Stepping tiers rather than entries matters: the top of a 300-mon list is
+// dozens of near-identical costs, so entry-steps would never leave the top.
+function walk(cands, p, rng, team) {
+  const tiers = [...new Set(cands.map(c => c.cost))]; // preserves cands' order
+  const K = Math.min(tiers.length, 8);
+  let idx = 0;
+  while (idx < K - 1 && rng() < p) idx++;
+  return chooseTied(cands.filter(c => c.cost === tiers[idx]), team, rng);
+}
+
+// Draw an index from normalized weights (they sum to 1). One rng call per draw.
+function sampleIdx(weights, rng) {
+  let r = rng();
+  for (let i = 0; i < weights.length; i++) { r -= weights[i]; if (r < 0) return i; }
+  return weights.length - 1;
+}
+
+/* ── the draft itself ── */
+// A generator so a human seat can take part: at that seat's turns it yields the
+// affordable candidates (plus board state for rendering) and resumes with
+// whatever pick the UI sends back via gen.next(pick). With no human seat it
+// never yields and the first next() runs the whole draft.
+function* draftGen(players, perTeam, budget, rng, dists, humanSeat) {
+  const avail = pool.slice();
+  const teams = Array.from({ length: players }, (_, i) => {
+    const human = i === humanSeat - 1;
+    // The human's persona/synergy draws are unused but still made, so a seed
+    // produces the same AI teams whichever seat you sit in.
+    const persona = PERSONAS[sampleIdx(dists.persona, rng)];
+    const megaCap = 1 + sampleIdx(dists.mega, rng);
+    // How much this drafter cares about type synergy (probability per pick).
+    const synergy = [1, 0.5, 0][sampleIdx(dists.syn, rng)];
+    return { name: human ? "You" : "Player " + (i + 1), human, persona, megaCap, megas: 0, synergy, picks: [], spent: 0 };
+  });
+  const log = [];
+  let overall = 0;
+
+  for (let round = 1; round <= perTeam; round++) {
+    const order = [...teams.keys()];
+    if (round % 2 === 0) order.reverse();          // snake
+
+    for (const ti of order) {
+      overall++;
+      const t = teams[ti];
+      const slotsAfter = perTeam - t.picks.length - 1;
+      const budgetLeft = budget - t.spent;
+
+      // Reserve budget for the remaining slots, assuming the worst: every other
+      // player also grabs from the cheap end of the pool between this team's
+      // picks. An edge seat in a snake waits through 2*(players-1) picks every
+      // other turn, so the j-th future pick reserves the cost at index
+      // j*(players-1) + (players-1 on odd gaps) + own picks — not index j.
+      // Pessimistic, but it's what stops teams splurging early and getting
+      // stranded once the 1-pointers dry up.
+      const cheapest = avail.map(p => p.cost).sort((a, b) => a - b);
+      let reserve = 0;
+      for (let j = 1; j <= slotsAfter; j++) {
+        const idx = j * (players - 1) + (j % 2 ? players - 1 : 0) + (j - 1);
+        reserve += cheapest[Math.min(idx, cheapest.length - 1)] || 0;
+      }
+
+      // AI drafters won't double up on a species' forms; the human is free to.
+      const legal = t.human ? avail : avail.filter(p => !formBlocked(t, p));
+      let cands = legal.filter(p => p.cost <= budgetLeft - reserve), salvage = false;
+      if (!cands.length) { cands = legal.filter(p => p.cost <= budgetLeft); salvage = true; }
+
+      if (!cands.length) {
+        t.picks.push(null);
+        log.push({ overall, round, player: t.name, mon: null, cost: 0, left: budgetLeft, dir: round % 2 === 0 });
+        continue;
+      }
+
+      let chosen;
+      if (t.human) {
+        // Hand the turn to the UI. No mega cap or persona for the human —
+        // anything affordable is theirs to take.
+        chosen = yield { teams, log, team: t, cands, round, budgetLeft, salvage };
+      } else if (salvage) {
+        // Budget already tighter than the reserve allows — grab the cheapest thing left.
+        chosen = cands.reduce((a, b) => (a.cost <= b.cost ? a : b));
+      } else {
+        // Mega cap is behavioural: once a team has its fill of megas it stops
+        // considering them (unless megas are literally all that's affordable).
+        if (t.megas >= t.megaCap) {
+          const nonMega = cands.filter(p => !isMega(p));
+          if (nonMega.length) cands = nonMega;
+        }
+        const strat = t.persona.key;
+        if (strat === "top" || (strat === "anchor" && t.picks.length === 0)) {
+          // Chase the expensive end, barely deviating from the most expensive.
+          // The budget reserve then forces the cheap fillers late, which is
+          // what makes top-heavy rosters stars-and-scrubs.
+          cands.sort((a, b) => b.cost - a.cost);
+          chosen = walk(cands, 0.2, rng, t);
+        } else if (strat === "wild") {
+          // Uniformly random affordable cost tier each round: mixed rosters.
+          const tiers = [...new Set(cands.map(p => p.cost))];
+          const tier = tiers[Math.floor(rng() * tiers.length)];
+          chosen = chooseTied(cands.filter(p => p.cost === tier), t, rng);
+        } else {
+          // Middle-heavy (and anchor after its marquee pick): aim each pick at
+          // an even share of what's left in the budget.
+          const target = budgetLeft / (slotsAfter + 1);
+          cands.sort((a, b) => Math.abs(a.cost - target) - Math.abs(b.cost - target));
+          chosen = walk(cands, 0.5, rng, t);
+        }
+      }
+      if (isMega(chosen)) t.megas++;
+
+      avail.splice(avail.indexOf(chosen), 1);
+      t.picks.push(chosen);
+      t.spent += chosen.cost;
+      log.push({ overall, round, player: t.name, mon: chosen.name, cost: chosen.cost, left: budget - t.spent, dir: round % 2 === 0 });
+    }
+  }
+  return { teams, log };
+}
+
+/* ── rendering ── */
+const $ = id => document.getElementById(id);
+
+function render(teams, log, budget, seedUsed, seedNote) {
+  $("msg").innerHTML = '<p class="sub">Seed: <b>' + seedUsed + '</b> &mdash; enter it above to replay this exact draft.' + (seedNote || "") + '</p>';
+
+  $("teams").innerHTML = teams.map(t => {
+    const rows = t.picks.map((p, i) => p
+      ? '<li' + (isMega(p) ? ' class="mega"' : '') + '><span class="rd">R' + (i + 1) + '</span>' + iconImg(p.name) + p.name + '<span class="cost">' + p.cost + '</span></li>'
+      : '<li class="missed"><span class="rd">R' + (i + 1) + '</span><span class="icn"></span>no affordable pick</li>'
+    ).join("");
+    const synLabel = t.synergy >= 1 ? "types: strict" : t.synergy > 0 ? "types: loose" : "types: off";
+    const badges = t.human
+      ? '<span class="tstrat">Your picks</span>'
+      : '<span class="tstrat">' + t.persona.label + '</span><span class="tstrat tsyn">' + synLabel + '</span>';
+    return '<div class="team' + (t.human ? ' you' : '') + '"><div class="team-head"><span class="tname">' + t.name +
+      '</span><span class="tspend">' + t.spent + ' / ' + budget + ' pts</span>' +
+      '<span class="tbadges">' + badges + '</span></div><ul>' + rows +
+      '</ul><div class="team-foot">' + t.megas + (t.human ? '' : '/' + t.megaCap) + ' megas' +
+      '<span class="left">' + (budget - t.spent) + ' pts left</span></div></div>';
+  }).join("");
+
+  $("logSec").hidden = false;
+  $("log").innerHTML =
+    "<tr><th>#</th><th>Round</th><th>Player</th><th>Pick</th><th>Cost</th><th>Budget left</th></tr>" +
+    log.map(e =>
+      '<tr' + (e.overall % teams.length === 1 ? ' class="round-start"' : '') + '>' +
+      '<td class="num">' + e.overall + '</td>' +
+      '<td class="num">' + e.round + '<span class="dir">' + (e.dir ? "&larr;" : "&rarr;") + '</span></td>' +
+      '<td>' + e.player + '</td>' +
+      '<td>' + (e.mon ? e.mon : '<span style="color:var(--red)">&mdash; no affordable pick</span>') + '</td>' +
+      '<td class="num">' + (e.mon ? e.cost : "") + '</td>' +
+      '<td class="num">' + e.left + '</td></tr>'
+    ).join("");
+}
+
+function updatePoolNote() {
+  const costs = pool.map(p => p.cost);
+  $("poolNote").textContent = pool.length + " draftable Pokémon (" + Math.min(...costs) +
+    "–" + Math.max(...costs) + " pts) — " + poolLabel;
+}
+
+/* ── controls ── */
+const DIST_FIELDS = {
+  persona: ["w-top", "w-middle", "w-wild", "w-anchor"],
+  mega:    ["w-mega1", "w-mega2", "w-mega3"],
+  syn:     ["w-syn-strict", "w-syn-loose", "w-syn-off"],
+};
+const DIST_DEFAULTS = { "w-top":25, "w-middle":25, "w-wild":25, "w-anchor":25,
+  "w-mega1":45, "w-mega2":45, "w-mega3":10, "w-syn-strict":55, "w-syn-loose":25, "w-syn-off":20 };
+
+// Read a weight group and normalize to probabilities; null if every weight is 0.
+function readWeights(ids) {
+  const w = ids.map(id => Math.max(0, parseFloat($(id).value) || 0));
+  const sum = w.reduce((a, b) => a + b, 0);
+  return sum > 0 ? w.map(x => x / sum) : null;
+}
+
+$("distReset").addEventListener("click", () => {
+  for (const [id, v] of Object.entries(DIST_DEFAULTS)) $(id).value = v;
+});
+
+$("go").addEventListener("click", () => {
+  const budget  = parseInt($("budget").value, 10);
+  const perTeam = parseInt($("perTeam").value, 10);
+  const players = parseInt($("players").value, 10);
+  const msg = $("msg");
+
+  if (!pool) {
+    msg.innerHTML = '<p class="err">Tier list not loaded yet — wait a moment or load a tier CSV.</p>'; return;
+  }
+  if (!(budget > 0 && perTeam > 0 && players > 1)) {
+    msg.innerHTML = '<p class="err">Enter a positive point total and team size, and at least 2 players.</p>'; return;
+  }
+  const dists = {}, groupNames = { persona: "Drafting pattern", mega: "Mega appetite", syn: "Type synergy" };
+  for (const [key, ids] of Object.entries(DIST_FIELDS)) {
+    dists[key] = readWeights(ids);
+    if (!dists[key]) {
+      msg.innerHTML = '<p class="err">All ' + groupNames[key] + ' weights are 0 — give at least one option a weight.</p>'; return;
+    }
+  }
+  const seatRaw = $("humanSeat").value.trim();
+  const humanSeat = seatRaw === "" ? 0 : parseInt(seatRaw, 10);
+  if (seatRaw !== "" && !(humanSeat >= 1 && humanSeat <= players)) {
+    msg.innerHTML = '<p class="err">Your seat must be between 1 and ' + players + ' — leave it blank for an all-AI draft.</p>'; return;
+  }
+
+  const minCost = Math.min(...pool.map(p => p.cost));
+  let warn = "";
+  if (budget < perTeam * minCost)
+    warn += '<p class="warn">Point total ' + budget + ' can’t fund ' + perTeam +
+            ' picks (cheapest Pokémon costs ' + minCost + ') — some slots will go unfilled.</p>';
+  if (players * perTeam > pool.length)
+    warn += '<p class="warn">' + players + ' teams &times; ' + perTeam + ' picks = ' + (players * perTeam) +
+            ' Pokémon, but the pool only has ' + pool.length + ' — the pool will run dry.</p>';
+
+  const seedStr = $("seed").value.trim() || String(Math.floor(Math.random() * 1e9));
+  activeDraft = {
+    gen: draftGen(players, perTeam, budget, mulberry32(hashSeed(seedStr)), dists, humanSeat),
+    budget, seedStr, warn, pending: null,
+    seedNote: humanSeat ? " AI picks replay only alongside the same manual picks." : "",
+  };
+  stepDraft(activeDraft.gen.next());
+});
+
+/* ── interactive seat: run the draft until it's the human's turn, show the
+      affordable picks, resume with the clicked one ── */
+let activeDraft = null;
+
+function stepDraft(res) {
+  const d = activeDraft;
+  if (res.done) {
+    $("picker").hidden = true;
+    render(res.value.teams, res.value.log, d.budget, d.seedStr, d.seedNote);
+  } else {
+    d.pending = res.value;
+    render(res.value.teams, res.value.log, d.budget, d.seedStr, d.seedNote);
+    showPicker(res.value);
+  }
+  $("msg").innerHTML = d.warn + $("msg").innerHTML;
+}
+
+function showPicker(s) {
+  $("picker").hidden = false;
+  $("pickTitle").innerHTML = 'Round ' + s.round + ' &mdash; your pick &middot; <b>' + s.budgetLeft + '</b> pts left' +
+    (s.salvage ? '<span class="salv">budget is below the safe reserve — only cheap picks are left</span>' : '');
+  $("pickSearch").value = "";
+  renderPickList();
+  $("pickSearch").focus();
+  $("picker").scrollIntoView({ block: "nearest" });
+}
+
+function renderPickList() {
+  const s = activeDraft && activeDraft.pending;
+  if (!s) return;
+  const q = $("pickSearch").value.trim().toLowerCase();
+  const cands = s.cands
+    .map((c, i) => ({ c, i }))   // i indexes s.cands, stable across filtering
+    .filter(({ c }) => !q || c.name.toLowerCase().includes(q) || (TYPES[c.name] || "").toLowerCase().includes(q))
+    .sort((a, b) => b.c.cost - a.c.cost || a.c.name.localeCompare(b.c.name));
+  $("pickList").innerHTML = cands.map(({ c, i }) =>
+    '<button class="pick' + (isMega(c) ? ' mega' : '') + '" data-i="' + i + '">' + iconImg(c.name) + c.name +
+    (TYPES[c.name] ? '<span class="ptype">' + TYPES[c.name] + '</span>' : '') +
+    '<span class="pcost">' + c.cost + '</span></button>'
+  ).join("") || '<p class="sub">No affordable Pokémon match that filter.</p>';
+}
+
+$("pickSearch").addEventListener("input", renderPickList);
+$("pickList").addEventListener("click", e => {
+  const btn = e.target.closest("button.pick");
+  if (!btn || !activeDraft || !activeDraft.pending) return;
+  const pick = activeDraft.pending.cands[+btn.dataset.i];
+  activeDraft.pending = null;
+  stepDraft(activeDraft.gen.next(pick));
+});
+
+/* ── optional: load a different tier export (same format: "#","Pokémon","Points") ── */
+$("csvBtn").addEventListener("click", () => $("csvFile").click());
+$("csvFile").addEventListener("change", async e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const rows = parseCSV(await file.text());
+  const loaded = rows.slice(1)                                  // skip header
+    .filter(r => r.length >= 3 && r[2].trim().toUpperCase() !== "N/A" && !isNaN(parseInt(r[2], 10)))
+    .map(r => ({ name: r[1], cost: parseInt(r[2], 10) }));
+  if (!loaded.length) {
+    $("msg").innerHTML = '<p class="err">Couldn’t read any priced Pokémon from ' + file.name +
+      ' — expected columns #, Pokémon, Points.</p>';
+  } else {
+    pool = loaded; poolLabel = file.name;
+    updatePoolNote();
+    $("go").disabled = false;
+    $("msg").innerHTML = '<p class="sub">Loaded ' + loaded.length + ' draftable Pokémon from ' + file.name + '.</p>';
+  }
+  e.target.value = "";
+});
+
+function parseCSV(text) {
+  const rows = [[""]];
+  let inQ = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i], row = rows[rows.length - 1];
+    if (inQ) {
+      if (c === '"' && text[i + 1] === '"') { row[row.length - 1] += '"'; i++; }
+      else if (c === '"') inQ = false;
+      else row[row.length - 1] += c;
+    } else if (c === '"') inQ = true;
+    else if (c === ",") row.push("");
+    else if (c === "\n" || c === "\r") { if (row.length > 1 || row[0] !== "") rows.push([""]); if (c === "\r" && text[i + 1] === "\n") i++; }
+    else row[row.length - 1] += c;
+  }
+  const last = rows[rows.length - 1];
+  if (last.length === 1 && last[0] === "") rows.pop();
+  return rows;
+}
+
+/* ── data: everything (names, points, typings) comes from the planner's pokemon.json ── */
+const PLANNER_JSON = "./pokemon.json";
+async function loadPlannerData() {
+  $("go").disabled = true;
+  $("poolNote").textContent = "loading tier list from pokemon.json…";
+  try {
+    const res = await fetch(PLANNER_JSON);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    for (const p of data.pokemon) {
+      TYPES[p.name] = p.type1 + (p.type2 ? "/" + p.type2 : "");
+      if (p.id) ICON_ID[p.name] = p.id;
+    }
+    pool = data.pokemon
+      .filter(p => typeof p.points === "number" && p.points > 0 && p.legal !== false)
+      .map(p => ({ name: p.name, cost: p.points }));
+    poolLabel = "pokemon.json";
+    updatePoolNote();
+    $("go").disabled = false;
+  } catch (err) {
+    $("poolNote").textContent = "couldn't load pokemon.json";
+    $("msg").innerHTML = '<p class="err">Couldn’t load the tier list from pokemon.json (' + err.message +
+      '). You can still load a tier CSV — but without typings, type synergy will be neutral.</p>';
+  }
+}
+loadPlannerData();
+</script>
+</body>
+</html>
