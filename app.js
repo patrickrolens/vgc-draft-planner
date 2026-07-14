@@ -1738,7 +1738,7 @@ function buildIdxExpanded(baseMon){
 
   const basePokemonName = getBasePokemonName(p.name);
   const serebiiURL = p.legal ? `<div style="width: fit-content;"><a class="mu-tb-btn mu-toolbar" target="_blank" rel="noopener noreferrer" href="https://www.serebii.net/pokedex-champions/${encodeURIComponent(basePokemonName)}/">
-                          <span style="vertical-align: middle;">Serebii</span><img src="http://127.0.0.1:5500/icons/251.png"></a>
+                          <span style="vertical-align: middle;">Serebii</span><img src="./icons/251.png"></a>
                         </div>` : '';
   
   return '<td colspan="13">'
