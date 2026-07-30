@@ -2121,10 +2121,10 @@ loadPokemonData();
   // Level-50 speed benchmark formula (final nature floor keeps whole numbers):
   // Speed = floor( ( floor( (2*base + IV + floor(EV/4)) * 50/100 ) + 5 ) * nature )
   const BENCHMARKS=[
-    {key:'max+',label:'Max EVs + positive nature',ev:252,iv:31,nat:1.1},
-    {key:'max', label:'Max EVs + neutral nature', ev:252,iv:31,nat:1.0},
-    {key:'0',   label:'0 EVs + neutral nature',   ev:0,  iv:31,nat:1.0},
-    {key:'min', label:'0 EVs + negative nature',  ev:0,  iv:0, nat:0.9},
+    {key:'max+',label:'Max SPs + positive nature',ev:252,iv:31,nat:1.1},
+    {key:'max', label:'Max SPs + neutral nature', ev:252,iv:31,nat:1.0},
+    {key:'0',   label:'0 SPs + neutral nature',   ev:0,  iv:31,nat:1.0},
+    {key:'min', label:'0 SPs + negative nature',  ev:0,  iv:0, nat:0.9},
   ];
   const BM_SHORT=['Max+','Max','0','Min'];
   const DEFAULT_BM=2;

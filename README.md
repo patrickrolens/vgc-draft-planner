@@ -28,7 +28,7 @@ The center of the three-panel structure is the main interactive feature of the e
 - It also features a **random button** that can be clicked to add a randomly selected Pokemon to the user's draft.
 - The **Legal only** toggle will allow/restrict illegal Pokemon in search results or random selections. This allows users to de-clutter search results if they are only interested in Pokemon that are legally available for the current SBL season.
 - **Import/Export** can be used to import Pokemon from Pokepaste or export the current draft in the Pokepaste format.
-  - Pokemon imported from Pokepaste will have their unused attributes (EVs, nicknames, held items, etc.) preserved in the import/export feature, making jumping back and forth between Pokemon Showdown and the Planner as seamless as possible
+  - Pokemon imported from Pokepaste will have their unused attributes (EVs/SPs, nicknames, held items, etc.) preserved in the import/export feature, making jumping back and forth between Pokemon Showdown and the Planner as seamless as possible
   - *A helpful note for anyone trying to import from a Pokepaste link:* Add "/raw" to the end of a Pokepaste url to get an easily copy/paste-able format
 - Users can also **Save/Load** teams. Note that this uses LocalStorage, so teams are saved to the user's device in their browser's files. Incognito/Private mode browsing or deleting temporary internet files will make saved teams disappear. There is no cross-device saving, so users will need to manage this themselves
 - **Clear All** will remove all currently selected Pokemon from the user's draft.
